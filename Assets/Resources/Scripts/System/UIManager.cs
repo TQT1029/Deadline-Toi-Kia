@@ -56,7 +56,7 @@ public class UIManager : Singleton<UIManager>
 
         // Mở rộng: Nếu vào Scene Gameplay thì tìm HUD
 
-        else if (scene.name == "Gameplay") // Hoặc tên scene game của bạn
+        else if (scene.name == "Characters") // Hoặc tên scene game của bạn
         {
             HUDPanel = GameObject.Find("HUDPanel");
             PausePanel = GameObject.Find("PausePanel");

@@ -119,9 +119,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
-<<<<<<< Updated upstream:Assets/Scenes/GamePlay.unity
---- !u!1 &983489967
-=======
 --- !u!1 &335606028
 GameObject:
   m_ObjectHideFlags: 0
@@ -136,7 +133,7 @@ GameObject:
   - component: {fileID: 335606029}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -268,14 +265,13 @@ Transform:
   m_GameObject: {fileID: 335606028}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.5229456, y: -0.8314326, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2037063331
->>>>>>> Stashed changes:Assets/Scenes/MapCafe.unity
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -283,16 +279,10 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-<<<<<<< Updated upstream:Assets/Scenes/GamePlay.unity
-  - component: {fileID: 983489970}
-  - component: {fileID: 983489969}
-  - component: {fileID: 983489968}
-=======
   - component: {fileID: 2037063334}
   - component: {fileID: 2037063333}
   - component: {fileID: 2037063332}
   - component: {fileID: 2037063335}
->>>>>>> Stashed changes:Assets/Scenes/MapCafe.unity
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -300,21 +290,21 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!81 &983489968
+--- !u!81 &2037063332
 AudioListener:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 983489967}
+  m_GameObject: {fileID: 2037063331}
   m_Enabled: 1
---- !u!20 &983489969
+--- !u!20 &2037063333
 Camera:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 983489967}
+  m_GameObject: {fileID: 2037063331}
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
@@ -359,13 +349,13 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
---- !u!4 &983489970
+--- !u!4 &2037063334
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 983489967}
+  m_GameObject: {fileID: 2037063331}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -10}
@@ -422,9 +412,5 @@ MonoBehaviour:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
-<<<<<<< Updated upstream:Assets/Scenes/GamePlay.unity
-  - {fileID: 983489970}
-=======
   - {fileID: 2037063334}
   - {fileID: 335606032}
->>>>>>> Stashed changes:Assets/Scenes/MapCafe.unity

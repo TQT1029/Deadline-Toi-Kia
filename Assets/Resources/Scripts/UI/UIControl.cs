@@ -11,8 +11,16 @@ public class UIControl : MonoBehaviour
     [SerializeField] private GameObject pausePanel;
 
     [Header("Scene Names")]
-    [SerializeField] private string gameplaySceneName = "SelectCharacter"; // Tên scene muốn load khi Play
-    [SerializeField] private string mainMenuSceneName = "MainMenu";        // Tên scene Main Menu
+    private string gameplaySceneName = "GamePlay"; // Tên scene muốn load khi Play
+    private string mainMenuSceneName = "MainMenu";        // Tên scene Main Menu
+
+
+    private void Awake()
+    {
+        if(settingPanel==null) settingPanel = UIManager.Instance.SettingPanel;
+        if(pausePanel==null) pausePanel = UIManager.Instance.PausePanel;
+
+    }
 
     // ====================================================
     // 1. SETTINGS LOGIC

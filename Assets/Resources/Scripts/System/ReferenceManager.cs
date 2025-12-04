@@ -9,6 +9,7 @@ public class ReferenceManager : Singleton<ReferenceManager>
     [Header("Global References")]
     public Camera MainCamera;
     public Transform PlayerTransform;
+    public CharactersData CharacterData;
 
     private void OnEnable() => SceneManager.sceneLoaded += OnSceneLoaded;
     private void OnDisable() => SceneManager.sceneLoaded -= OnSceneLoaded;
@@ -47,12 +48,12 @@ public class ReferenceManager : Singleton<ReferenceManager>
 
         string path = $"Data/Characters/{currentCharacter.ToString()}";
 
-        CharactersData characterData = Resources.Load<CharactersData>(path);
-        if (characterData != null && PlayerTransform != null)
+        CharacterData = Resources.Load<CharactersData>(path);
+        if (CharacterData != null && PlayerTransform != null)
         {
             Debug.Log($"[ReferenceManager] Tải thành công dữ liệu cho {currentCharacter}");
         }
-        else if (characterData == null)
+        else if (CharacterData == null)
         {
             Debug.LogError($"[ReferenceManager] Không có dữ liệu tại đường dẫn: {path}");
         }

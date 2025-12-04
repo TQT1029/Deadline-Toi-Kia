@@ -1,14 +1,15 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public enum Characters
 {
-    A,
-    B,
-    C,
-    D,
-    E,
-    F,
+    HQ,
+    LA,
+    LN,
+    MK,
+    NE,
+    TT,
 }
 
 
@@ -16,13 +17,16 @@ public enum Characters
 public class UIManager : Singleton<UIManager>
 {
     // Character Mặc định
-    public Characters CurrentCharacter = Characters.A;
+    public Characters CurrentCharacter = Characters.HQ;
 
     [Header("Panels")]
     // Các biến này sẽ tự động được gán khi vào scene MainMenu
     public GameObject MainMenuPanel;
     public GameObject SettingPanel;
     public GameObject TutorialPanel;
+
+    [Header("Fields")]
+    private Image characterPreview;
 
     // Các biến này dành cho Scene Gameplay (có thể mở comment khi cần)
     public GameObject HUDPanel;
@@ -72,10 +76,11 @@ public class UIManager : Singleton<UIManager>
         else if (scene.name == "CharacterSelection")
         {
             SettingPanel = GameObject.Find("SettingPanel");
+            characterPreview = GameObject.Find("CharacterPreview").GetComponent<Image>();
         }
         // Mở rộng: Nếu vào Scene Gameplay thì tìm HUD
 
-        else if (scene.name == "Characters") // Hoặc tên scene game của bạn
+        else if (scene.name == "") // Hoặc tên scene game của bạn
         {
             HUDPanel = GameObject.Find("HUDPanel");
             PausePanel = GameObject.Find("PausePanel");
@@ -83,6 +88,8 @@ public class UIManager : Singleton<UIManager>
 
             GameManager.Instance.ChangeState(GameState.Gameplay);
         }
+
+        HideAllPanels();
 
     }
 

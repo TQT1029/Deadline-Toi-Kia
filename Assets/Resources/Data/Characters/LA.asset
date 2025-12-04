@@ -10,10 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1e0369e7474165e43a7b86f5b9650d8c, type: 3}
-  m_Name: A
+  m_Name: LA
   m_EditorClassIdentifier: 
-  characterNames: A
+  characterNames: LA
   characterDescriptions: 
+  characterSprite:
+  - {fileID: 5302855978004974855, guid: 443a33d283550064ca3445368f9fccde, type: 3}
+  - {fileID: -5377472139892819932, guid: 44d6956d0e37a6b4eafbfe6ca39bd296, type: 3}
+  - {fileID: -1318602564601608021, guid: fb8ae31072281a047b6c9ddfd4463fe7, type: 3}
   characterHealth: 100
   characterEnergy: 10
   characterSpeed: 5

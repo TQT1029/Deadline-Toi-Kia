@@ -3,6 +3,11 @@ using UnityEngine.SceneManagement;
 
 public class UIControl : MonoBehaviour
 {
+    [Header("Selection Zone")]
+    [Tooltip("Kéo vùng chọn nhân vật vào đây")]
+    [SerializeField] private GameObject characterSelectionZone;
+    [SerializeField] private GameObject MapsSelectionZone;
+
     [Header("UI Panels")]
     [Tooltip("Kéo Panel Setting vào đây")]
     [SerializeField] private GameObject settingPanel;
@@ -14,8 +19,8 @@ public class UIControl : MonoBehaviour
     private bool isPopupOpen = false;
 
     [Header("Scene Names")]
-    private string selectedCharacterSceneName = "CharacterSelection"; // Tên scene chọn nhân vật
-    private string gameplaySceneName = "MapCafe"; // Tên scene muốn load khi Play
+    private string selectedCharacterSceneName = "SelectionScene"; // Tên scene chọn nhân vật
+    private string gameplaySceneName = "Map0"; // Tên scene muốn load khi Play
     private string mainMenuSceneName = "MainMenu";        // Tên scene Main Menu
 
 
@@ -76,6 +81,12 @@ public class UIControl : MonoBehaviour
     {
 
     }
+
+    public void SwitchZone()
+    {
+
+    }
+
 
     // ====================================================
     // 2. PAUSE / RESUME LOGIC

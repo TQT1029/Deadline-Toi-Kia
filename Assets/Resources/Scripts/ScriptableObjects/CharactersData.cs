@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 [CreateAssetMenu(fileName = "NewDataCharacters", menuName = "Data/NewCharacters")]
 public class CharactersData : ScriptableObject
@@ -6,6 +6,7 @@ public class CharactersData : ScriptableObject
     [Header("Character Info")]
     [Tooltip("Character name")] public string characterNames = "";
     [Tooltip("Character Description")] public string characterDescriptions = "";
+    [Tooltip("Character Sprite")] public Sprite[] characterSprite;
 
     [Header("Character Stats")]
     public float characterHealth = 100f;

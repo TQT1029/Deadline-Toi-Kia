@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
+
+
 [DefaultExecutionOrder(-9)]
 public class ReferenceManager : Singleton<ReferenceManager>
 {
@@ -14,10 +16,12 @@ public class ReferenceManager : Singleton<ReferenceManager>
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         RefreshReferences();
+
+        LoadCharacterData();
     }
 
     /// <summary>
-    /// Gọi hàm này khi Player respawn hoặc Scene mới load
+    /// Gọi hàm này khi Player spawn hoặc Scene mới load
     /// </summary>
     public void RefreshReferences()
     {
@@ -35,5 +39,22 @@ public class ReferenceManager : Singleton<ReferenceManager>
         }
 
         Debug.Log($"[ReferenceManager] Refs Refreshed. Player found: {PlayerTransform != null}");
+    }
+
+    private void LoadCharacterData()
+    {
+        Characters currentCharacter = UIManager.Instance.CurrentCharacter;
+
+        string path = $"Data/Characters/{currentCharacter.ToString()}";
+
+        CharactersData characterData = Resources.Load<CharactersData>(path);
+        if (characterData != null && PlayerTransform != null)
+        {
+            Debug.Log($"[ReferenceManager] Tải thành công dữ liệu cho {currentCharacter}");
+        }
+        else
+        {
+            Debug.LogError($"[ReferenceManager] Không có dữ liệu tại đường dẫn: {path}");
+        }
     }
 }

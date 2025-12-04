@@ -3,9 +3,11 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "NewDataCharacters", menuName = "Data/NewCharacters")]
 public class CharactersData : ScriptableObject
 {
-    public string characterNames = "";
-    public string characterDescriptions = "";
+    [Header("Character Info")]
+    [Tooltip("Character name")] public string characterNames = "";
+    [Tooltip("Character Description")] public string characterDescriptions = "";
 
+    [Header("Character Stats")]
     public float characterHealth = 100f;
     public float characterEnergy = 10f;
     public float characterSpeed = 5f;

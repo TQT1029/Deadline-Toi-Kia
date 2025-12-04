@@ -11,7 +11,8 @@ public class UIControl : MonoBehaviour
     [SerializeField] private GameObject pausePanel;
 
     [Header("Scene Names")]
-    private string gameplaySceneName = "GamePlay"; // Tên scene muốn load khi Play
+    private string selectedCharacterSceneName = "CharacterSelection"; // Tên scene chọn nhân vật
+    private string gameplaySceneName = "MapCafe"; // Tên scene muốn load khi Play
     private string mainMenuSceneName = "MainMenu";        // Tên scene Main Menu
 
 
@@ -73,6 +74,12 @@ public class UIControl : MonoBehaviour
     public void PlayBtn()
     {
         Time.timeScale = 1f; // Luôn reset time scale khi load scene mới
+        SceneManager.LoadScene(selectedCharacterSceneName);
+    }
+
+    public void GoBtn()
+    {
+        Time.timeScale = 1f;
         SceneManager.LoadScene(gameplaySceneName);
     }
 
@@ -90,5 +97,14 @@ public class UIControl : MonoBehaviour
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
 #endif
+    }
+
+    // ====================================================
+    // 4. Character Selection LOGIC
+    // ====================================================
+
+    public void CurrentSelectedCharacter(int characterIndex)
+    {
+        UIManager.Instance.SelectedCharacter(characterIndex);
     }
 }

@@ -1,9 +1,23 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
+public enum Characters
+{
+    A,
+    B,
+    C,
+    D,
+    E,
+    F,
+}
+
+
 [DefaultExecutionOrder(-10)]
 public class UIManager : Singleton<UIManager>
 {
+    // Character Mặc định
+    public Characters CurrentCharacter = Characters.A;
+
     [Header("Panels")]
     // Các biến này sẽ tự động được gán khi vào scene MainMenu
     public GameObject MainMenuPanel;
@@ -103,5 +117,16 @@ public class UIManager : Singleton<UIManager>
         if (HUDPanel != null) HUDPanel.SetActive(false);
         if (PausePanel != null) PausePanel.SetActive(false);
         if (GameOverPanel != null) GameOverPanel.SetActive(false);
+    }
+        
+    /// <summary>
+    /// Hàm để đổi Character hiện tại
+    /// </summary>
+    /// <param name="characterIndex">Lưu trữ nhân vật được chọn</param>
+
+    public void SelectedCharacter(int characterIndex)
+    {
+        CurrentCharacter = (Characters)characterIndex;
+        Debug.Log($"[UIManager] Character hiện tại được đặt thành: {CurrentCharacter}");
     }
 }

@@ -22,6 +22,7 @@ public class UIManager : Singleton<UIManager>
     // Các biến này sẽ tự động được gán khi vào scene MainMenu
     public GameObject MainMenuPanel;
     public GameObject SettingPanel;
+    public GameObject TutorialPanel;
 
     // Các biến này dành cho Scene Gameplay (có thể mở comment khi cần)
     public GameObject HUDPanel;
@@ -63,11 +64,15 @@ public class UIManager : Singleton<UIManager>
             // Tìm MainMenuPanel (cần đảm bảo object này đang Active hoặc dùng transform.Find nếu nó là con của Canvas)
             MainMenuPanel = GameObject.Find("MainMenuPanel");
             SettingPanel = GameObject.Find("SettingPanel");
+            TutorialPanel = GameObject.Find("TutorialPanel");
 
             // Tự động chuyển State về MainMenu để kích hoạt UI
             GameManager.Instance.ChangeState(GameState.MainMenu);
         }
-
+        else if (scene.name == "CharacterSelection")
+        {
+            SettingPanel = GameObject.Find("SettingPanel");
+        }
         // Mở rộng: Nếu vào Scene Gameplay thì tìm HUD
 
         else if (scene.name == "Characters") // Hoặc tên scene game của bạn
@@ -114,11 +119,12 @@ public class UIManager : Singleton<UIManager>
     {
         if (MainMenuPanel != null) MainMenuPanel.SetActive(true);
         if (SettingPanel != null) SettingPanel.SetActive(false);
+        if (TutorialPanel != null) TutorialPanel.SetActive(false);
         if (HUDPanel != null) HUDPanel.SetActive(false);
         if (PausePanel != null) PausePanel.SetActive(false);
         if (GameOverPanel != null) GameOverPanel.SetActive(false);
     }
-        
+
     /// <summary>
     /// Hàm để đổi Character hiện tại
     /// </summary>

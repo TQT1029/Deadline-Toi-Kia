@@ -52,7 +52,7 @@ public class ReferenceManager : Singleton<ReferenceManager>
         {
             Debug.Log($"[ReferenceManager] Tải thành công dữ liệu cho {currentCharacter}");
         }
-        else
+        else if (characterData == null)
         {
             Debug.LogError($"[ReferenceManager] Không có dữ liệu tại đường dẫn: {path}");
         }

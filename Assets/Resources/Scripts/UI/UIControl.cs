@@ -1,13 +1,9 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class UIControl : MonoBehaviour
 {
-    [Header("Selection Zone")]
-    [Tooltip("Kéo vùng chọn nhân vật vào đây")]
-    [SerializeField] private GameObject characterSelectionZone;
-    [SerializeField] private GameObject MapsSelectionZone;
-
     [Header("UI Panels")]
     [Tooltip("Kéo Panel Setting vào đây")]
     [SerializeField] private GameObject settingPanel;
@@ -32,7 +28,7 @@ public class UIControl : MonoBehaviour
     }
 
     // ====================================================
-    // 1. PANEL LOGIC
+    // 1. Buttons Logic
     // ====================================================
 
     // Gán hàm này vào nút "Settings" (Hình bánh răng)
@@ -77,19 +73,17 @@ public class UIControl : MonoBehaviour
         isPopupOpen = false;
     }
 
-    public void LanguageUpdate(int languageIndex)
+    // ====================================================
+    // 2. Toggles Logic
+    // ====================================================
+
+    public void ToggleSound(bool isOn, Image backGround)
     {
-
+        
     }
-
-    public void SwitchZone()
-    {
-
-    }
-
 
     // ====================================================
-    // 2. PAUSE / RESUME LOGIC
+    // 3. PAUSE / RESUME LOGIC
     // ====================================================
 
     // Gán vào nút Pause trong game
@@ -109,7 +103,7 @@ public class UIControl : MonoBehaviour
     }
 
     // ====================================================
-    // 3. NAVIGATION (Chuyển Scene)
+    // 4. NAVIGATION (Chuyển Scene)
     // ====================================================
 
     public void PlayBtn()
@@ -141,7 +135,7 @@ public class UIControl : MonoBehaviour
     }
 
     // ====================================================
-    // 4. Character Selection LOGIC
+    // 5. Character Selection LOGIC
     // ====================================================
 
     public void CurrentSelectedCharacter(int characterIndex)

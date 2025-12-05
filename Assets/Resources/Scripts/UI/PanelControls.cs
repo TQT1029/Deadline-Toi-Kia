@@ -7,13 +7,21 @@ public class PanelControls : MonoBehaviour
     [SerializeField] private GameObject tutorialPanel;
     [SerializeField] private GameObject pausePanel;
 
+    [Header("Pages Characters And Maps")]
+    [SerializeField] private GameObject charactersPage;
+    [SerializeField] private GameObject mapsPage;
+
     private bool isPopupOpen = false;
 
     // Tự động tìm reference nếu quên kéo thả
-    private void Awake()
+    private void Start()
     {
         if (settingPanel == null && UIManager.Instance != null) settingPanel = UIManager.Instance.SettingPanel;
         if (pausePanel == null && UIManager.Instance != null) pausePanel = UIManager.Instance.PausePanel;
+    
+        if (charactersPage == null && UIManager.Instance != null) charactersPage = UIManager.Instance.CharactersPage;
+        if (mapsPage == null && UIManager.Instance != null) mapsPage = UIManager.Instance.MapsPage;
+
     }
 
     // --- Mở Panel ---
@@ -39,12 +47,22 @@ public class PanelControls : MonoBehaviour
         }
     }
 
+    // ---Swtich Panel ---
+    public void SwitchPanel(GameObject pagesToClose, GameObject pagesToOpen)
+    {
+        pagesToClose.SetActive(false);
+        pagesToOpen.SetActive(true);
+    }
+
     // --- Wrapper cho UI Buttons (Gán vào nút trong Inspector) ---
     public void OpenSettings() => OpenPanel(settingPanel);
     public void CloseSettings() => ClosePanel(settingPanel);
 
     public void OpenTutorial() => OpenPanel(tutorialPanel);
     public void CloseTutorial() => ClosePanel(tutorialPanel);
+
+    public void OpenCharactersPage() => SwitchPanel(mapsPage, charactersPage);
+    public void OpenMapsPage() => SwitchPanel(charactersPage, mapsPage);
 
     public void PauseGame()
     {

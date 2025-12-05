@@ -18,6 +18,8 @@ MonoBehaviour:
   - {fileID: 5302855978004974855, guid: 443a33d283550064ca3445368f9fccde, type: 3}
   - {fileID: -5377472139892819932, guid: 44d6956d0e37a6b4eafbfe6ca39bd296, type: 3}
   - {fileID: -1318602564601608021, guid: fb8ae31072281a047b6c9ddfd4463fe7, type: 3}
+  characterPreview: {fileID: -7153723979098260847, guid: 5ac8a4b7311d004409a626f8127ab55c, type: 3}
+  characterChecklist: {fileID: -7153723979098260847, guid: 71d7d5dc1e6718a459cae7eed120430a, type: 3}
   characterHealth: 100
   characterEnergy: 10
   characterSpeed: 5

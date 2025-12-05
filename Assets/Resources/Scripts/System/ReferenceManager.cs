@@ -11,6 +11,13 @@ public class ReferenceManager : Singleton<ReferenceManager>
     public Transform PlayerTransform;
     public CharactersData CharacterData;
 
+    [Header("Character Data Library")]
+    // Kéo 6 file CharacterProfile bạn vừa tạo vào list này theo đúng thứ tự Enum
+    public CharactersData[] allCharacters;
+
+    // Biến lưu nhân vật người chơi ĐÃ CHỌN để mang vào game
+    public CharactersData currentSelectedProfile;
+
     private void OnEnable() => SceneManager.sceneLoaded += OnSceneLoaded;
     private void OnDisable() => SceneManager.sceneLoaded -= OnSceneLoaded;
 

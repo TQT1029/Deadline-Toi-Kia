@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Linq;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -25,8 +26,12 @@ public class UIManager : Singleton<UIManager>
     public GameObject SettingPanel;
     public GameObject TutorialPanel;
 
-    [Header("Fields")]
-    private Image characterPreview;
+    [Header("Selection UI")] 
+    public GameObject CharactersPage;
+    public GameObject MapsPage;
+    public Image characterPreview;
+    public Image characterChecklist;
+
 
     // Các biến này dành cho Scene Gameplay (có thể mở comment khi cần)
     public GameObject HUDPanel;
@@ -73,10 +78,14 @@ public class UIManager : Singleton<UIManager>
             // Tự động chuyển State về MainMenu để kích hoạt UI
             GameManager.Instance.ChangeState(GameState.MainMenu);
         }
-        else if (scene.name == "CharacterSelection")
+        else if (scene.name == "SelectionScene")
         {
             SettingPanel = GameObject.Find("SettingPanel");
             characterPreview = GameObject.Find("CharacterPreview").GetComponent<Image>();
+            characterChecklist = GameObject.Find("Checklist").GetComponent<Image>();
+
+            CharactersPage = GameObject.Find("CharactersPage");
+            MapsPage = GameObject.Find("MapsPage");
         }
         // Mở rộng: Nếu vào Scene Gameplay thì tìm HUD
 
@@ -124,22 +133,63 @@ public class UIManager : Singleton<UIManager>
     // Hàm tiện ích để tắt hết (kèm kiểm tra null an toàn)
     private void HideAllPanels()
     {
+        //Panels
         if (MainMenuPanel != null) MainMenuPanel.SetActive(true);
         if (SettingPanel != null) SettingPanel.SetActive(false);
         if (TutorialPanel != null) TutorialPanel.SetActive(false);
         if (HUDPanel != null) HUDPanel.SetActive(false);
         if (PausePanel != null) PausePanel.SetActive(false);
         if (GameOverPanel != null) GameOverPanel.SetActive(false);
+
+        //Pages
+        if (CharactersPage != null) CharactersPage.SetActive(true);
+        if (MapsPage != null) MapsPage.SetActive(false);
     }
 
-    /// <summary>
-    /// Hàm để đổi Character hiện tại
-    /// </summary>
-    /// <param name="characterIndex">Lưu trữ nhân vật được chọn</param>
+    // --- FEATURE: SELECT CHARACTER & PREVIEW ---
 
+    /// <summary>
+    /// Hàm này gọi khi bấm vào nút/thẻ nhân vật
+    /// </summary>
+    /// <param name="characterIndex">0 đến 5 tương ứng với Enum</param>
     public void SelectedCharacter(int characterIndex)
     {
-        CurrentCharacter = (Characters)characterIndex;
-        Debug.Log($"[UIManager] Character hiện tại được đặt thành: {CurrentCharacter}");
+        // 1. Kiểm tra index hợp lệ
+        if (ReferenceManager.Instance.allCharacters == null ||
+            characterIndex < 0 ||
+            characterIndex >= ReferenceManager.Instance.allCharacters.Length)
+        {
+            Debug.LogError("[UIManager] Index nhân vật không hợp lệ hoặc chưa gán Data trong ReferenceManager!");
+            return;
+        }
+
+        // 2. Lấy dữ liệu từ thư viện trong ReferenceManager
+        CharactersData selectedData = ReferenceManager.Instance.allCharacters[characterIndex];
+
+        // 3. Lưu vào biến toàn cục để Scene sau dùng (Spawn nhân vật)
+        ReferenceManager.Instance.currentSelectedProfile = selectedData;
+
+        // 4. Cập nhật hình ảnh Preview
+        CharacterPreviewUpdate(selectedData.characterPreview, selectedData.characterChecklist);
+
+        Debug.Log($"[UIManager] Đã chọn: {selectedData.characterName} (Index: {characterIndex})");
+    }
+
+    private void CharacterPreviewUpdate(Sprite newSprite, Sprite newChecklist)
+    {
+        if (characterPreview != null && newSprite != null)
+        {
+            characterPreview.sprite = newSprite;
+
+            // Tùy chọn: SetNativeSize giúp ảnh không bị méo nếu tỉ lệ gốc khác khung hình
+            characterPreview.SetNativeSize();
+        }
+
+        if (characterChecklist!=null && newChecklist != null)
+        {
+            characterChecklist.sprite = newChecklist;
+
+            characterChecklist.SetNativeSize();
+        }
     }
 }

@@ -59,6 +59,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94b6e288ca6e2584a80fe136dc280e07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MoveInput: {x: 0, y: 0}
+  LookInput: {x: 0, y: 0}
 --- !u!114 &2534061678097985957
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -73,6 +75,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MainCamera: {fileID: 0}
   PlayerTransform: {fileID: 0}
+  CharacterData: {fileID: 0}
+  allCharacters:
+  - {fileID: 11400000, guid: 852f9a9523fbaaf429d0ddbb9c5337ad, type: 2}
+  - {fileID: 11400000, guid: 0091282184277724ba7c14a87a042393, type: 2}
+  - {fileID: 11400000, guid: 1b11e5dccf71969419f8e82f4333711e, type: 2}
+  - {fileID: 11400000, guid: 61c6229ee848fa249a2c0ab986ff3f94, type: 2}
+  - {fileID: 11400000, guid: 36d8557022a7e9142acc768f91c739bf, type: 2}
+  - {fileID: 11400000, guid: 2a966ac66603df74497a6b9af3db693f, type: 2}
+  currentSelectedProfile: {fileID: 11400000, guid: 852f9a9523fbaaf429d0ddbb9c5337ad, type: 2}
 --- !u!114 &9147186382378546997
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -85,8 +96,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e0bec42dcf3811948aea903bdac9a6bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CurrentCharacter: 0
   MainMenuPanel: {fileID: 0}
   SettingPanel: {fileID: 0}
+  TutorialPanel: {fileID: 0}
+  characterPreview: {fileID: 0}
+  CharactersPage: {fileID: 0}
+  MapsPage: {fileID: 0}
   HUDPanel: {fileID: 0}
   PausePanel: {fileID: 0}
   GameOverPanel: {fileID: 0}

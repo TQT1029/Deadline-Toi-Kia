@@ -4,9 +4,11 @@
 public class CharactersData : ScriptableObject
 {
     [Header("Character Info")]
-    [Tooltip("Character name")] public string characterNames = "";
+    [Tooltip("Character name")] public string characterName = "";
     [Tooltip("Character Description")] public string characterDescriptions = "";
     [Tooltip("Character Sprite")] public Sprite[] characterSprite;
+    [Tooltip("Character Preview")] public Sprite characterPreview;
+    [Tooltip("Character Checklist")] public Sprite characterChecklist;
 
     [Header("Character Stats")]
     public float characterHealth = 100f;

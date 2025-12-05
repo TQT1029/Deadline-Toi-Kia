@@ -1,0 +1,663 @@
+fileFormatVersion: 2
+guid: 454ff033d4d320441b3dc8ec395c4703
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 1291006466422436028
+    second: 03 - OFF_0
+  - first:
+      213: 6047784675476815663
+    second: 03 - OFF_1
+  - first:
+      213: -6072660576173068497
+    second: 03 - OFF_2
+  - first:
+      213: -5481571669803994417
+    second: 03 - OFF_3
+  - first:
+      213: -5240057354278011801
+    second: 03 - OFF_4
+  - first:
+      213: -1244519169372865031
+    second: 03 - OFF_5
+  - first:
+      213: 1937955597171255099
+    second: 03 - OFF_6
+  - first:
+      213: 842161784587791307
+    second: 03 - OFF_7
+  - first:
+      213: 7460929947061096260
+    second: 03 - OFF_8
+  - first:
+      213: 2545603771476819869
+    second: 03 - OFF_9
+  - first:
+      213: 7950163324915204702
+    second: 03 - OFF_10
+  - first:
+      213: -3092957409517385410
+    second: 03 - OFF_11
+  - first:
+      213: 6931763233731247081
+    second: 03 - OFF_12
+  - first:
+      213: -6907927097395081961
+    second: 03 - OFF_13
+  - first:
+      213: -6639035640985199439
+    second: 03 - OFF_14
+  - first:
+      213: 6563383667128223892
+    second: 03 - OFF_15
+  - first:
+      213: -2479820789048256428
+    second: 03 - OFF_16
+  - first:
+      213: -3032653690516417424
+    second: 03 - OFF_17
+  - first:
+      213: 4247830176760329416
+    second: 03 - OFF_18
+  - first:
+      213: -7872418649609435148
+    second: 03 - OFF_19
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: iOS
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: 03 - OFF_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 131
+        height: 120
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cb077d98a839ae110800000000000000
+      internalID: 1291006466422436028
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 03 - OFF_1
+      rect:
+        serializedVersion: 2
+        x: 165
+        y: 55
+        width: 44
+        height: 53
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f2fb8dbae1c0ee350800000000000000
+      internalID: 6047784675476815663
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 03 - OFF_2
+      rect:
+        serializedVersion: 2
+        x: 212
+        y: 55
+        width: 45
+        height: 53
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f2f6fab516399bba0800000000000000
+      internalID: -6072660576173068497
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 03 - OFF_3
+      rect:
+        serializedVersion: 2
+        x: 273
+        y: 56
+        width: 32
+        height: 51
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fc2fc72eb9b8de3b0800000000000000
+      internalID: -5481571669803994417
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 03 - OFF_4
+      rect:
+        serializedVersion: 2
+        x: 298
+        y: 42
+        width: 43
+        height: 52
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 76cf59b69939747b0800000000000000
+      internalID: -5240057354278011801
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 03 - OFF_5
+      rect:
+        serializedVersion: 2
+        x: 344
+        y: 55
+        width: 36
+        height: 39
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9fdbd51c8649abee0800000000000000
+      internalID: -1244519169372865031
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 03 - OFF_6
+      rect:
+        serializedVersion: 2
+        x: 158
+        y: 12
+        width: 20
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b376fdf095005ea10800000000000000
+      internalID: 1937955597171255099
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 03 - OFF_7
+      rect:
+        serializedVersion: 2
+        x: 173
+        y: 12
+        width: 21
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bcba3cd5ea5ffab00800000000000000
+      internalID: 842161784587791307
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 03 - OFF_8
+      rect:
+        serializedVersion: 2
+        x: 190
+        y: 12
+        width: 17
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 44f86a4d14c8a8760800000000000000
+      internalID: 7460929947061096260
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 03 - OFF_9
+      rect:
+        serializedVersion: 2
+        x: 212
+        y: 12
+        width: 21
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d9f35c9942dc35320800000000000000
+      internalID: 2545603771476819869
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 03 - OFF_10
+      rect:
+        serializedVersion: 2
+        x: 230
+        y: 7
+        width: 18
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e52c8e71c67a45e60800000000000000
+      internalID: 7950163324915204702
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 03 - OFF_11
+      rect:
+        serializedVersion: 2
+        x: 252
+        y: 12
+        width: 20
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e39cd4c8f9b9315d0800000000000000
+      internalID: -3092957409517385410
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 03 - OFF_12
+      rect:
+        serializedVersion: 2
+        x: 269
+        y: 12
+        width: 19
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9ebf9ad5fe1923060800000000000000
+      internalID: 6931763233731247081
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 03 - OFF_13
+      rect:
+        serializedVersion: 2
+        x: 287
+        y: 12
+        width: 18
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 71d887997ec1220a0800000000000000
+      internalID: -6907927097395081961
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 03 - OFF_14
+      rect:
+        serializedVersion: 2
+        x: 303
+        y: 12
+        width: 19
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1bc5be772486dd3a0800000000000000
+      internalID: -6639035640985199439
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 03 - OFF_15
+      rect:
+        serializedVersion: 2
+        x: 321
+        y: 6
+        width: 18
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 49847c3cba2d51b50800000000000000
+      internalID: 6563383667128223892
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 03 - OFF_16
+      rect:
+        serializedVersion: 2
+        x: 344
+        y: 12
+        width: 18
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 458562a8128e59dd0800000000000000
+      internalID: -2479820789048256428
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 03 - OFF_17
+      rect:
+        serializedVersion: 2
+        x: 361
+        y: 12
+        width: 11
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 074ddf14989d9e5d0800000000000000
+      internalID: -3032653690516417424
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 03 - OFF_18
+      rect:
+        serializedVersion: 2
+        x: 369
+        y: 12
+        width: 18
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8c4fbff2a0353fa30800000000000000
+      internalID: 4247830176760329416
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 03 - OFF_19
+      rect:
+        serializedVersion: 2
+        x: 386
+        y: 12
+        width: 19
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4f78ed2b2fc8fb290800000000000000
+      internalID: -7872418649609435148
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      03 - OFF_0: 1291006466422436028
+      03 - OFF_1: 6047784675476815663
+      03 - OFF_10: 7950163324915204702
+      03 - OFF_11: -3092957409517385410
+      03 - OFF_12: 6931763233731247081
+      03 - OFF_13: -6907927097395081961
+      03 - OFF_14: -6639035640985199439
+      03 - OFF_15: 6563383667128223892
+      03 - OFF_16: -2479820789048256428
+      03 - OFF_17: -3032653690516417424
+      03 - OFF_18: 4247830176760329416
+      03 - OFF_19: -7872418649609435148
+      03 - OFF_2: -6072660576173068497
+      03 - OFF_3: -5481571669803994417
+      03 - OFF_4: -5240057354278011801
+      03 - OFF_5: -1244519169372865031
+      03 - OFF_6: 1937955597171255099
+      03 - OFF_7: 842161784587791307
+      03 - OFF_8: 7460929947061096260
+      03 - OFF_9: 2545603771476819869
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

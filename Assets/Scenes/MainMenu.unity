@@ -1252,6 +1252,8 @@ MonoBehaviour:
   settingPanel: {fileID: 0}
   tutorialPanel: {fileID: 0}
   pausePanel: {fileID: 0}
+  charactersPage: {fileID: 0}
+  mapsPage: {fileID: 0}
 --- !u!114 &687845620
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1264,6 +1266,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7552995a042378749aa2f9d31c38798c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  selectionArrow: {fileID: 0}
+  characterTransforms: []
 --- !u!4 &687845621
 Transform:
   m_ObjectHideFlags: 0
@@ -2739,7 +2743,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1480579238
 RectTransform:
   m_ObjectHideFlags: 0

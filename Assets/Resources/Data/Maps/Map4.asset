@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Map4
   m_EditorClassIdentifier: 
   mapName: "QU\xC1N CAF\xC9 CH\u1EA0Y DEADLINE"
-  mapScene: Map4
+  targetSceneName: Map4
   mapIndex: 4

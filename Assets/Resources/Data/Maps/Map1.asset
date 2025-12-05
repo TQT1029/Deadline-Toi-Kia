@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Map1
   m_EditorClassIdentifier: 
   mapName: "H\xC0NH LANG"
-  mapScene: Map1
+  targetSceneName: Map1
   mapIndex: 1

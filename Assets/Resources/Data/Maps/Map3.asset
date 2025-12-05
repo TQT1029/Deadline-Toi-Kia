@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Map3
   m_EditorClassIdentifier: 
   mapName: "TH\u1EBE GI\u1EDAI GAME"
-  mapScene: Map3
+  targetSceneName: Map3
   mapIndex: 3

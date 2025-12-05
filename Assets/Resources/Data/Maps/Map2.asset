@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Map2
   m_EditorClassIdentifier: 
   mapName: "K\xDD T\xDAC X\xC1"
-  mapScene: Map2
+  targetSceneName: Map2
   mapIndex: 2

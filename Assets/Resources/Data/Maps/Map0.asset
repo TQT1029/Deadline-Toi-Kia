@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: Map0
   m_EditorClassIdentifier: 
   mapName: "PH\xD2NG M\xC1Y GI\u1EB6T"
-  mapScene: Map0
+  targetSceneName: Map0
+  mapIndex: 0

@@ -1,9 +1,11 @@
-using UnityEngine;
-using UnityEngine.SceneManagement;
+﻿using UnityEngine;
 
-[CreateAssetMenu(fileName = "newMapsData", menuName = "Data/NewMapsData")]
-public class MapsData : ScriptableObject
+[CreateAssetMenu(fileName = "NewMapProfile", menuName = "Data/Map Profile")]
+public class MapProfile : ScriptableObject
 {
     public string mapName;
-    public string mapScene;
+    [Tooltip("Tên Scene chính xác trong Build Settings")]
+    public string targetSceneName;
+    [Tooltip("Index dùng để xác định Skin nhân vật")]
+    public int mapIndex;
 }

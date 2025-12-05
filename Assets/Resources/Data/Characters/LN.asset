@@ -12,16 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e0369e7474165e43a7b86f5b9650d8c, type: 3}
   m_Name: LN
   m_EditorClassIdentifier: 
-  characterNames: LN
-  characterDescriptions: 
-  characterSprite:
+  characterName: LN
+  characterDescription: 
+  skinVariants:
   - {fileID: -4376275078091983983, guid: 1dde9d6b6f7bd47429e25ad944a5f7db, type: 3}
   - {fileID: 7152539464543926078, guid: a668df0d38bcf2747ba44d966e0daffa, type: 3}
   - {fileID: -4180642927845539637, guid: 159d80daa62b3a941a8b9e371682bc35, type: 3}
-  characterPreview: {fileID: 2166056730965598516, guid: d2381b17b2de02742a8f74eaaedd3761, type: 3}
-  characterChecklist: {fileID: 2166056730965598516, guid: 1e5fe27b2d0e4164e8ed5804f75441c3, type: 3}
-  characterHealth: 100
-  characterEnergy: 10
-  characterSpeed: 5
-  characterStrength: 15
-  characterMagnet: 8
+  previewImage: {fileID: 2166056730965598516, guid: 8f1b2abec90c49a4284b6181bb0b7718, type: 3}
+  checklistImage: {fileID: 2166056730965598516, guid: 63bc803fa6d8641498b0079a1edbaa1a, type: 3}
+  maxHealth: 100
+  moveSpeed: 5
+  strength: 15

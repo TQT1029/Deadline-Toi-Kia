@@ -1,7 +1,6 @@
 ﻿using System;
 using UnityEngine;
 
-// Các trạng thái cơ bản mà game nào cũng có
 public enum GameState
 {
     MainMenu,
@@ -15,13 +14,11 @@ public enum GameState
 public class GameManager : Singleton<GameManager>
 {
     public GameState CurrentState { get; private set; }
-
-    // Sự kiện để các Manager khác (UI, Audio) lắng nghe thay vì check liên tục
     public static event Action<GameState> OnStateChanged;
 
     protected override void OnAwake()
     {
-        // Mặc định ban đầu, có thể đổi tùy logic game
+        // Mặc định ban đầu
         ChangeState(GameState.MainMenu);
     }
 
@@ -29,19 +26,14 @@ public class GameManager : Singleton<GameManager>
     {
         CurrentState = newState;
 
+        // Tự động xử lý TimeScale
         switch (newState)
         {
-            case GameState.MainMenu:
-                Time.timeScale = 1f;
-                break;
-            case GameState.Gameplay:
-                Time.timeScale = 1f;
-                break;
             case GameState.Paused:
                 Time.timeScale = 0f;
                 break;
-            case GameState.GameOver:
-                Time.timeScale = 1f; // Thường để 1f để chạy animation thua
+            default:
+                Time.timeScale = 1f;
                 break;
         }
 
@@ -51,7 +43,7 @@ public class GameManager : Singleton<GameManager>
 
     public void QuitGame()
     {
-        Debug.Log("[GameManager] Quitting Game...");
+        Debug.Log("[GameManager] Quitting...");
         Application.Quit();
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;

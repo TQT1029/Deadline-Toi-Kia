@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 
-// Lớp cơ sở (Base class) cho mọi Manager
+/// <summary>
+/// Lớp cơ sở (Base class) cho mọi Manager, đảm bảo chỉ có 1 Instance tồn tại.
+/// </summary>
 public abstract class Singleton<T> : MonoBehaviour where T : Component
 {
     private static T _instance;
@@ -10,22 +12,14 @@ public abstract class Singleton<T> : MonoBehaviour where T : Component
     {
         get
         {
-            if (_isQuitting)
-            {
-                Debug.LogWarning($"[Singleton] Instance '{typeof(T)}' already destroyed on application quit. Won't create again - returning null.");
-                return null;
-            }
+            if (_isQuitting) return null;
 
             if (_instance == null)
             {
-                // Tìm kiếm object có sẵn trong scene
-                _instance = FindFirstObjectByType<T>();
-
+                _instance = FindFirstObjectByType<T>(); // Unity 2023+ dùng hàm này thay cho FindObjectOfType
                 if (_instance == null)
                 {
-                    // Nếu không tìm thấy, tạo mới (Trường hợp gọi Instance mà chưa có Bootstrapper)
-                    GameObject obj = new GameObject();
-                    obj.name = typeof(T).Name;
+                    GameObject obj = new GameObject(typeof(T).Name);
                     _instance = obj.AddComponent<T>();
                 }
             }
@@ -47,11 +41,7 @@ public abstract class Singleton<T> : MonoBehaviour where T : Component
         }
     }
 
-    // Hàm ảo để các lớp con override thay vì dùng Awake
     protected virtual void OnAwake() { }
 
-    protected virtual void OnApplicationQuit()
-    {
-        _isQuitting = true;
-    }
+    protected virtual void OnApplicationQuit() => _isQuitting = true;
 }

@@ -1,36 +1,31 @@
 ﻿using UnityEngine;
-using System.Collections.Generic; // Để dùng List
-using UnityEngine.UI;
+using System.Collections.Generic;
 
 public class CharacterSelectionUI : MonoBehaviour
 {
     [Header("References")]
-    public SelectionArrow selectionArrow; // Kéo script mũi tên vào đây
-    public List<Transform> characterTransforms; // Kéo tất cả Transform của các thẻ nhân vật vào đây theo đúng thứ tự (0, 1, 2...)
-    
+    public SelectionArrow selectionArrow;
+    public List<Transform> characterTransforms;
 
     private void Start()
     {
-        // Mặc định chọn nhân vật đầu tiên khi vào game (nếu muốn)
+        // Chọn nhân vật mặc định (index 0) khi vào scene
         SelectCharacter(0);
     }
 
-    // Hàm này được gọi từ các nút chọn nhân vật
+    // Gán hàm này vào Buttons chọn nhân vật: 0, 1, 2...
     public void SelectCharacter(int index)
     {
-        // Logic gửi data đi (giữ nguyên logic cũ của bạn)
+        // 1. Cập nhật Data
         if (UIManager.Instance != null)
         {
-            UIManager.Instance.SelectedCharacter(index);
+            UIManager.Instance.SelectCharacterByIndex(index);
         }
 
-        // --- PHẦN MỚI: Di chuyển mũi tên ---
-        if (index >= 0 && index < characterTransforms.Count)
+        // 2. Di chuyển mũi tên
+        if (selectionArrow != null && index >= 0 && index < characterTransforms.Count)
         {
-            // Gọi mũi tên bay đến vị trí nhân vật được chọn
             selectionArrow.MoveTo(characterTransforms[index]);
         }
     }
-
-
 }

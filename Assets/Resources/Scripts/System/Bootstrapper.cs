@@ -6,18 +6,16 @@ public static class Bootstrapper
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
     public static void Execute()
     {
-        // Đường dẫn: Resources/SystemPrefabs/SystemManagers.prefab
-        var systemPrefab = Resources.Load("SystemPrefabs/SystemManagers");
+        var systemPrefab = Resources.Load(GameConstants.PATH_SYSTEM_PREFABS);
 
         if (systemPrefab == null)
         {
-            Debug.LogError("[Bootstrapper] Không tìm thấy file 'SystemManagers' trong folder Resources/SystemPrefabs/.");
+            Debug.LogError($"[Bootstrapper] Không tìm thấy file tại Resources/{GameConstants.PATH_SYSTEM_PREFABS}");
             return;
         }
 
-        // Tạo object gốc chứa tất cả hệ thống và không bao giờ hủy nó
         GameObject systemObject = Object.Instantiate((GameObject)systemPrefab);
-        systemObject.name = "[System Managers]"; // Đặt tên cho dễ nhìn
+        systemObject.name = "[System Managers]";
         Object.DontDestroyOnLoad(systemObject);
     }
 }

@@ -1,19 +1,15 @@
 ﻿using UnityEngine;
 using UnityEngine.InputSystem;
 
-[DefaultExecutionOrder(-10)]
+[DefaultExecutionOrder(-11)]
 public class InputManager : Singleton<InputManager>
 {
     [Header("Values")]
     public Vector2 MoveInput;
-    public Vector2 LookInput; // Thường dùng cho mouse delta
-
-    // Các sự kiện để script khác đăng ký
+    public Vector2 LookInput;
     public bool IsJumpPressed { get; private set; }
 
-    //===== Unity Events Binding =====//
-    // Gán các hàm này vào PlayerInput Component (Invoke Unity Events)
-
+    // --- Unity Events Binding ---
     public void OnMove(InputAction.CallbackContext context)
     {
         MoveInput = context.ReadValue<Vector2>();
@@ -32,18 +28,18 @@ public class InputManager : Singleton<InputManager>
 
     public void OnPause(InputAction.CallbackContext context)
     {
-        if (context.performed)
+        if (context.performed && GameManager.Instance != null)
         {
             TogglePause();
         }
     }
 
-    // Logic toggle pause cơ bản
     private void TogglePause()
     {
-        if (GameManager.Instance.CurrentState == GameState.Gameplay)
+        var current = GameManager.Instance.CurrentState;
+        if (current == GameState.Gameplay)
             GameManager.Instance.ChangeState(GameState.Paused);
-        else if (GameManager.Instance.CurrentState == GameState.Paused)
+        else if (current == GameState.Paused)
             GameManager.Instance.ChangeState(GameState.Gameplay);
     }
 }

@@ -140,6 +140,6 @@ public class UIControl : MonoBehaviour
 
     public void CurrentSelectedCharacter(int characterIndex)
     {
-        UIManager.Instance.SelectedCharacter(characterIndex);
+        UIManager.Instance.SelectCharacterByIndex(characterIndex);
     }
 }

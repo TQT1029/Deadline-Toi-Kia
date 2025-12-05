@@ -12,16 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e0369e7474165e43a7b86f5b9650d8c, type: 3}
   m_Name: HQ
   m_EditorClassIdentifier: 
-  characterNames: HQ
-  characterDescriptions: 
-  characterSprite:
+  characterName: HQ
+  characterDescription: 
+  skinVariants:
   - {fileID: -3963990266487283547, guid: b07ba799e5a351141a74d60d4aa95306, type: 3}
   - {fileID: 5687059711130630309, guid: 8accb2d8241c16343a48d84406a74ee6, type: 3}
   - {fileID: 6250992763990314324, guid: ceacea37d3cef844f94c1606a49f6655, type: 3}
-  characterPreview: {fileID: -2673498809610610117, guid: b32af613e65d5b648b89682410100b87, type: 3}
-  characterChecklist: {fileID: -2673498809610610117, guid: b440ad5e6cf29b8469e055c899b88a03, type: 3}
-  characterHealth: 100
-  characterEnergy: 10
-  characterSpeed: 5
-  characterStrength: 15
-  characterMagnet: 8
+  previewImage: {fileID: -2673498809610610117, guid: 47a23d41e95fcdc4c90b6d0be3e01723, type: 3}
+  checklistImage: {fileID: -2673498809610610117, guid: 93fb1e64c963cb5408d2efcfcbce7881, type: 3}
+  maxHealth: 100
+  moveSpeed: 5
+  strength: 15

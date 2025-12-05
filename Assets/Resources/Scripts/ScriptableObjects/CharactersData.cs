@@ -1,19 +1,22 @@
 ﻿using UnityEngine;
 
-[CreateAssetMenu(fileName = "NewDataCharacters", menuName = "Data/NewCharacters")]
-public class CharactersData : ScriptableObject
+[CreateAssetMenu(fileName = "NewCharacterProfile", menuName = "Data/Character Profile")]
+public class CharacterProfile : ScriptableObject
 {
-    [Header("Character Info")]
-    [Tooltip("Character name")] public string characterName = "";
-    [Tooltip("Character Description")] public string characterDescriptions = "";
-    [Tooltip("Character Sprite")] public Sprite[] characterSprite;
-    [Tooltip("Character Preview")] public Sprite characterPreview;
-    [Tooltip("Character Checklist")] public Sprite characterChecklist;
+    [Header("Information")]
+    public string characterName = "";
+    [TextArea] public string characterDescription = "";
 
-    [Header("Character Stats")]
-    public float characterHealth = 100f;
-    public float characterEnergy = 10f;
-    public float characterSpeed = 5f;
-    public float characterStrength = 15f;
-    public float characterMagnet = 8f;
+    [Header("Visuals")]
+    [Tooltip("Danh sách Sprite theo Map Index (Map 0 dùng Element 0...)")]
+    public Sprite[] skinVariants;
+    [Tooltip("Ảnh hiển thị lớn ở màn chọn tướng")]
+    public Sprite previewImage;
+    [Tooltip("Ảnh hiển thị nhỏ (icon)")]
+    public Sprite checklistImage;
+
+    [Header("Stats")]
+    public float maxHealth = 100f;
+    public float moveSpeed = 5f;
+    public float strength = 15f;
 }

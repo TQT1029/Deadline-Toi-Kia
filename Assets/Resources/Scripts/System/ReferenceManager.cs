@@ -18,6 +18,11 @@ public class ReferenceManager : Singleton<ReferenceManager>
     // Biến lưu nhân vật người chơi ĐÃ CHỌN để mang vào game
     public CharactersData currentSelectedProfile;
 
+    [Header("Map Library")]
+    public MapsData[] allMaps;
+    // Biến lưu map người chơi ĐÃ CHỌN để mang vào game
+    public MapsData  currentSelectedMap;
+
     private void OnEnable() => SceneManager.sceneLoaded += OnSceneLoaded;
     private void OnDisable() => SceneManager.sceneLoaded -= OnSceneLoaded;
 

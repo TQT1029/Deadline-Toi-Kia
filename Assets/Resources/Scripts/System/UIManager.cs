@@ -13,6 +13,16 @@ public enum Characters
     TT,
 }
 
+public enum Maps
+{
+    Maps0,
+    Maps1,
+    Maps2,
+    Maps3,
+    Maps4,
+
+}
+
 
 [DefaultExecutionOrder(-10)]
 public class UIManager : Singleton<UIManager>
@@ -146,7 +156,7 @@ public class UIManager : Singleton<UIManager>
         if (MapsPage != null) MapsPage.SetActive(false);
     }
 
-    // --- FEATURE: SELECT CHARACTER & PREVIEW ---
+    // --- Chọn nhân vật từ UI Selection ---
 
     /// <summary>
     /// Hàm này gọi khi bấm vào nút/thẻ nhân vật
@@ -191,5 +201,23 @@ public class UIManager : Singleton<UIManager>
 
             characterChecklist.SetNativeSize();
         }
+    }
+
+    //------- Chọn map từ UI Selection -------
+    public void SelectedMap(int mapIndex)
+    {
+        // 1. Kiểm tra index hợp lệ
+        if (ReferenceManager.Instance.allMaps == null ||
+            mapIndex < 0 ||
+            mapIndex >= ReferenceManager.Instance.allMaps.Length)
+        {
+            Debug.LogError("[UIManager] Index bản đồ không hợp lệ hoặc chưa gán Data trong ReferenceManager!");
+            return;
+        }
+        // 2. Lấy dữ liệu từ thư viện trong ReferenceManager
+        MapsData selectedMap = ReferenceManager.Instance.allMaps[mapIndex];
+        // 3. Lưu vào biến toàn cục để Scene sau dùng (Load map)
+        ReferenceManager.Instance.currentSelectedMap = selectedMap;
+        Debug.Log($"[UIManager] Đã chọn bản đồ: {selectedMap.mapName} (Index: {mapIndex})");
     }
 }

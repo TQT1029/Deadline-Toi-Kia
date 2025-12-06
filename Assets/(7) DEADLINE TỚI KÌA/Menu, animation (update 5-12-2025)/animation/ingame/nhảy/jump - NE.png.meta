@@ -1,0 +1,470 @@
+fileFormatVersion: 2
+guid: 3cbba164f8e4243498741b3c235ee21c
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -6286892342853353911
+    second: jump - NE_0
+  - first:
+      213: -8010934097183591477
+    second: jump - NE_1
+  - first:
+      213: -5296464517314798409
+    second: jump - NE_2
+  - first:
+      213: 1017370120969898334
+    second: jump - NE_3
+  - first:
+      213: -4758780997545679301
+    second: jump - NE_4
+  - first:
+      213: -5329864010896858792
+    second: jump - NE_5
+  - first:
+      213: 866426591556512643
+    second: jump - NE_6
+  - first:
+      213: 2716452670759629116
+    second: jump - NE_7
+  - first:
+      213: 1607548452755275344
+    second: jump - NE_8
+  - first:
+      213: -111842306355391901
+    second: jump - NE_9
+  - first:
+      213: -8773929014229284717
+    second: jump - NE_10
+  - first:
+      213: 1174004291917418546
+    second: jump - NE_11
+  - first:
+      213: 5014332625740485869
+    second: jump - NE_12
+  - first:
+      213: 7066816662702932888
+    second: jump - NE_13
+  - first:
+      213: -9033940796259695215
+    second: jump - NE_14
+  - first:
+      213: 1626654561217824389
+    second: jump - NE_15
+  - first:
+      213: -2116132154307328244
+    second: jump - NE_16
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: iOS
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: jump - NE_0
+      rect:
+        serializedVersion: 2
+        x: 365
+        y: 802
+        width: 306
+        height: 495
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 94e3a1b39b870c8a0800000000000000
+      internalID: -6286892342853353911
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: jump - NE_1
+      rect:
+        serializedVersion: 2
+        x: 1025
+        y: 802
+        width: 304
+        height: 497
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bc3be42e1e173d090800000000000000
+      internalID: -8010934097183591477
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: jump - NE_2
+      rect:
+        serializedVersion: 2
+        x: 1600
+        y: 794
+        width: 352
+        height: 507
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7bc9df7559d2f76b0800000000000000
+      internalID: -5296464517314798409
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: jump - NE_3
+      rect:
+        serializedVersion: 2
+        x: 2213
+        y: 806
+        width: 449
+        height: 483
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e59c1891cbc6e1e00800000000000000
+      internalID: 1017370120969898334
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: jump - NE_4
+      rect:
+        serializedVersion: 2
+        x: 2904
+        y: 794
+        width: 478
+        height: 505
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b36296555e965fdb0800000000000000
+      internalID: -4758780997545679301
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: jump - NE_5
+      rect:
+        serializedVersion: 2
+        x: 3500
+        y: 845
+        width: 489
+        height: 425
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 851aa51cbe48806b0800000000000000
+      internalID: -5329864010896858792
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: jump - NE_6
+      rect:
+        serializedVersion: 2
+        x: 291
+        y: 144
+        width: 406
+        height: 488
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 38badadf46a260c00800000000000000
+      internalID: 866426591556512643
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: jump - NE_7
+      rect:
+        serializedVersion: 2
+        x: 900
+        y: 164
+        width: 497
+        height: 486
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c31f9c9cf47c2b520800000000000000
+      internalID: 2716452670759629116
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: jump - NE_8
+      rect:
+        serializedVersion: 2
+        x: 1624
+        y: 174
+        width: 349
+        height: 487
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 05ef4b5fcc82f4610800000000000000
+      internalID: 1607548452755275344
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: jump - NE_9
+      rect:
+        serializedVersion: 2
+        x: 2340
+        y: 164
+        width: 297
+        height: 501
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 36293d2d308a27ef0800000000000000
+      internalID: -111842306355391901
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: jump - NE_10
+      rect:
+        serializedVersion: 2
+        x: 3027
+        y: 162
+        width: 316
+        height: 501
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 398ce5e3c0ebc3680800000000000000
+      internalID: -8773929014229284717
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: jump - NE_11
+      rect:
+        serializedVersion: 2
+        x: 3583
+        y: 162
+        width: 311
+        height: 499
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2309580fea6ea4010800000000000000
+      internalID: 1174004291917418546
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 2892fe069b1ab5146860b2a53c9ee034
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      jump - NE_0: -6286892342853353911
+      jump - NE_1: -8010934097183591477
+      jump - NE_10: -8773929014229284717
+      jump - NE_11: 1174004291917418546
+      jump - NE_2: -5296464517314798409
+      jump - NE_3: 1017370120969898334
+      jump - NE_4: -4758780997545679301
+      jump - NE_5: -5329864010896858792
+      jump - NE_6: 866426591556512643
+      jump - NE_7: 2716452670759629116
+      jump - NE_8: 1607548452755275344
+      jump - NE_9: -111842306355391901
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

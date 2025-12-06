@@ -1,0 +1,350 @@
+fileFormatVersion: 2
+guid: 3d90631ec14bcdb4989e056c0d8901bf
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -5426889392868798152
+    second: Run TT_0
+  - first:
+      213: 664445506427153985
+    second: Run TT_1
+  - first:
+      213: 4810611375443519444
+    second: Run TT_2
+  - first:
+      213: 7873872283555604470
+    second: Run TT_3
+  - first:
+      213: -8881136073265384372
+    second: Run TT_4
+  - first:
+      213: -8830868709157692288
+    second: Run TT_5
+  - first:
+      213: 2378197677127799385
+    second: Run TT_6
+  - first:
+      213: -2202198466509682952
+    second: Run TT_7
+  - first:
+      213: 7446755782899248450
+    second: Run TT_8
+  - first:
+      213: 3085554254367719398
+    second: Run TT_9
+  - first:
+      213: -1596548031773522491
+    second: Run TT_10
+  - first:
+      213: -5033801257762767039
+    second: Run TT_11
+  - first:
+      213: 4413491726821161739
+    second: Run TT_12
+  - first:
+      213: 6766215751152538219
+    second: Run TT_13
+  - first:
+      213: -860655712003493744
+    second: Run TT_14
+  - first:
+      213: 1037221204441060781
+    second: Run TT_15
+  - first:
+      213: 2542001577544502328
+    second: Run TT_16
+  - first:
+      213: -3649214754494452790
+    second: Run TT_17
+  - first:
+      213: 724168585082987335
+    second: Run TT_18
+  - first:
+      213: 9027929849901716924
+    second: Run TT_19
+  - first:
+      213: 6373544436525587838
+    second: Run TT_20
+  - first:
+      213: 8347409229049091727
+    second: Run TT_21
+  - first:
+      213: 5944688235708954091
+    second: Run TT_22
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: iOS
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Run TT_0
+      rect:
+        serializedVersion: 2
+        x: 335
+        y: 132
+        width: 332
+        height: 524
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 83158be99d0dfa4b0800000000000000
+      internalID: -5426889392868798152
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Run TT_1
+      rect:
+        serializedVersion: 2
+        x: 981
+        y: 132
+        width: 334
+        height: 522
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 14ee13feaa5983900800000000000000
+      internalID: 664445506427153985
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Run TT_2
+      rect:
+        serializedVersion: 2
+        x: 1657
+        y: 132
+        width: 327
+        height: 518
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4d7a3c9ee89b2c240800000000000000
+      internalID: 4810611375443519444
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Run TT_3
+      rect:
+        serializedVersion: 2
+        x: 2306
+        y: 132
+        width: 314
+        height: 518
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6f72024df1d954d60800000000000000
+      internalID: 7873872283555604470
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Run TT_4
+      rect:
+        serializedVersion: 2
+        x: 2985
+        y: 132
+        width: 310
+        height: 518
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c44fb1fabcddfb480800000000000000
+      internalID: -8881136073265384372
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Run TT_5
+      rect:
+        serializedVersion: 2
+        x: 3574
+        y: 132
+        width: 319
+        height: 522
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 08c1b8c62b3727580800000000000000
+      internalID: -8830868709157692288
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: ca8ad53e5122dad47a55a07216e916c3
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Run TT_0: -5426889392868798152
+      Run TT_1: 664445506427153985
+      Run TT_2: 4810611375443519444
+      Run TT_3: 7873872283555604470
+      Run TT_4: -8881136073265384372
+      Run TT_5: -8830868709157692288
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

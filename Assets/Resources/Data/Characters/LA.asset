@@ -18,7 +18,7 @@ MonoBehaviour:
   - {fileID: 5302855978004974855, guid: 443a33d283550064ca3445368f9fccde, type: 3}
   - {fileID: -5377472139892819932, guid: 44d6956d0e37a6b4eafbfe6ca39bd296, type: 3}
   - {fileID: -1318602564601608021, guid: fb8ae31072281a047b6c9ddfd4463fe7, type: 3}
-  previewImage: {fileID: -7153723979098260847, guid: 57f4c84785b060647a048366eb4f2816, type: 3}
+  previewAction: {fileID: 9100000, guid: c7de87cb478a704439a82309103f1a11, type: 2}
   checklistImage: {fileID: -7153723979098260847, guid: 58c06aed1f3005f4aa7ee0041342c55c, type: 3}
   maxHealth: 100
   moveSpeed: 5

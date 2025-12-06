@@ -18,8 +18,9 @@ MonoBehaviour:
   - {fileID: -3963990266487283547, guid: b07ba799e5a351141a74d60d4aa95306, type: 3}
   - {fileID: 5687059711130630309, guid: 8accb2d8241c16343a48d84406a74ee6, type: 3}
   - {fileID: 6250992763990314324, guid: ceacea37d3cef844f94c1606a49f6655, type: 3}
-  previewImage: {fileID: -2673498809610610117, guid: 47a23d41e95fcdc4c90b6d0be3e01723, type: 3}
+  previewAction: {fileID: 9100000, guid: 53ea1531cd246d1428957180c0c3e14f, type: 2}
   checklistImage: {fileID: -2673498809610610117, guid: 93fb1e64c963cb5408d2efcfcbce7881, type: 3}
+  inGameAnimator: {fileID: 9100000, guid: 1fc96bbb15f0e684298ad2dd91cf67aa, type: 2}
   maxHealth: 100
   moveSpeed: 5
   strength: 15

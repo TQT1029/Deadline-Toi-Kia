@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEditor.Animations;
 
 [DefaultExecutionOrder(-10)]
 public class UIManager : Singleton<UIManager>
@@ -12,7 +13,7 @@ public class UIManager : Singleton<UIManager>
     public GameObject CharactersPage;
     public GameObject MapsPage;
 
-    public Image characterPreview;
+    public Animator characterPreview;
     public Image characterChecklist;
 
     public GameObject HUDPanel;
@@ -50,7 +51,7 @@ public class UIManager : Singleton<UIManager>
             MapsPage = FindObj("MapsPage");
 
             var prevObj = GameObject.Find("CharacterPreview");
-            if (prevObj) characterPreview = prevObj.GetComponent<Image>();
+            if (prevObj) characterPreview = prevObj.GetComponent<Animator>();
 
             var checkObj = GameObject.Find("Checklist");
             if (checkObj) characterChecklist = checkObj.GetComponent<Image>();
@@ -126,11 +127,28 @@ public class UIManager : Singleton<UIManager>
 
     private void UpdatePreviewUI(CharacterProfile data)
     {
-        if (characterPreview && data.previewImage)
+        // 1. Xử lý ANIMATOR cho nhân vật chính
+        if (characterPreview != null && data.previewAction != null)
         {
-            characterPreview.sprite = data.previewImage;
-            characterPreview.SetNativeSize();
+            // Gán Animator Controller mới
+            characterPreview.runtimeAnimatorController = data.previewAction;
+
+            // Reset lại Animator về trạng thái đầu (tránh bị kẹt ở animation cũ)
+            characterPreview.Rebind();
+            characterPreview.Update(0f);
+
+            // [Tùy chọn] Set Native Size cho Image chứa Animator
+            // Vì Animator component không có hàm SetNativeSize, ta phải lấy Image cùng cấp
+            Image previewImage = characterPreview.GetComponent<Image>();
+            if (previewImage != null)
+            {
+                // Lưu ý: Nếu Animation thay đổi kích thước liên tục, việc này có thể gây giật hình
+                // Nên cân nhắc chỉ dùng nếu các nhân vật có kích thước khác hẳn nhau
+                previewImage.SetNativeSize();
+            }
         }
+
+        // 2. Xử lý check list (icon nhỏ)
         if (characterChecklist && data.checklistImage)
         {
             characterChecklist.sprite = data.checklistImage;

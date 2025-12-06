@@ -1,0 +1,471 @@
+fileFormatVersion: 2
+guid: e526f657245067e4f9bf4febc2e302dd
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -3167923257957840131
+    second: jump - LN_0
+  - first:
+      213: 6841602880520700319
+    second: jump - LN_1
+  - first:
+      213: -3113807218565693518
+    second: jump - LN_2
+  - first:
+      213: 6329658858101379783
+    second: jump - LN_3
+  - first:
+      213: 9130121421631364567
+    second: jump - LN_4
+  - first:
+      213: 2364280918630669158
+    second: jump - LN_5
+  - first:
+      213: -4206440232681349808
+    second: jump - LN_6
+  - first:
+      213: 7078993810018489535
+    second: jump - LN_7
+  - first:
+      213: -6333601016706860588
+    second: jump - LN_8
+  - first:
+      213: 2938406460062334009
+    second: jump - LN_9
+  - first:
+      213: 1742250685654404583
+    second: jump - LN_10
+  - first:
+      213: -6137367857867158670
+    second: jump - LN_11
+  - first:
+      213: 1280390101801031188
+    second: jump - LN_12
+  - first:
+      213: 3843004814779176181
+    second: jump - LN_13
+  - first:
+      213: -2220443507246921849
+    second: jump - LN_14
+  - first:
+      213: -8431916863047506564
+    second: jump - LN_15
+  - first:
+      213: -2009104280876944992
+    second: jump - LN_16
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: iOS
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: jump - LN_0
+      rect:
+        serializedVersion: 2
+        x: 353
+        y: 800
+        width: 326
+        height: 505
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dfa89bdc4964904d0800000000000000
+      internalID: -3167923257957840131
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: jump - LN_1
+      rect:
+        serializedVersion: 2
+        x: 984
+        y: 800
+        width: 329
+        height: 503
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f91c9bb429142fe50800000000000000
+      internalID: 6841602880520700319
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: jump - LN_2
+      rect:
+        serializedVersion: 2
+        x: 1649
+        y: 792
+        width: 348
+        height: 505
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2bf385615d889c4d0800000000000000
+      internalID: -3113807218565693518
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: jump - LN_3
+      rect:
+        serializedVersion: 2
+        x: 2244
+        y: 806
+        width: 428
+        height: 466
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7c2998a023777d750800000000000000
+      internalID: 6329658858101379783
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: jump - LN_4
+      rect:
+        serializedVersion: 2
+        x: 2908
+        y: 792
+        width: 592
+        height: 503
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7dd958c3f05b4be70800000000000000
+      internalID: 9130121421631364567
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: jump - LN_5
+      rect:
+        serializedVersion: 2
+        x: 3500
+        y: 837
+        width: 491
+        height: 423
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 66b173018fc9fc020800000000000000
+      internalID: 2364280918630669158
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: jump - LN_6
+      rect:
+        serializedVersion: 2
+        x: 295
+        y: 137
+        width: 394
+        height: 489
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 05ddd1225e8bf95c0800000000000000
+      internalID: -4206440232681349808
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: jump - LN_7
+      rect:
+        serializedVersion: 2
+        x: 896
+        y: 156
+        width: 501
+        height: 476
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fb457553d53ad3260800000000000000
+      internalID: 7078993810018489535
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: jump - LN_8
+      rect:
+        serializedVersion: 2
+        x: 1659
+        y: 166
+        width: 349
+        height: 476
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4d97222ae678a18a0800000000000000
+      internalID: -6333601016706860588
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: jump - LN_9
+      rect:
+        serializedVersion: 2
+        x: 2346
+        y: 156
+        width: 295
+        height: 492
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 93c7ab96b1157c820800000000000000
+      internalID: 2938406460062334009
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: jump - LN_10
+      rect:
+        serializedVersion: 2
+        x: 3019
+        y: 154
+        width: 305
+        height: 499
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7ed8c1c84c7bd2810800000000000000
+      internalID: 1742250685654404583
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: jump - LN_11
+      rect:
+        serializedVersion: 2
+        x: 3575
+        y: 154
+        width: 313
+        height: 503
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 27b8def4370b3daa0800000000000000
+      internalID: -6137367857867158670
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 2005766ac9748bb4a86d4b754e2bc360
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      jump - LN_0: -3167923257957840131
+      jump - LN_1: 6841602880520700319
+      jump - LN_10: 1742250685654404583
+      jump - LN_11: -6137367857867158670
+      jump - LN_12: -893804222
+      jump - LN_2: -3113807218565693518
+      jump - LN_3: 6329658858101379783
+      jump - LN_4: 9130121421631364567
+      jump - LN_5: 2364280918630669158
+      jump - LN_6: -4206440232681349808
+      jump - LN_7: 7078993810018489535
+      jump - LN_8: -6333601016706860588
+      jump - LN_9: 2938406460062334009
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

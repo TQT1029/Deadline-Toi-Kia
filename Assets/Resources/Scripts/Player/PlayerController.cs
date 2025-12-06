@@ -13,11 +13,8 @@ public class PlayerController : MonoBehaviour
     [Tooltip("Lực nhảy")]
     public float jumpForce = 10f;
 
-    [Header("Animation")]
-    [Tooltip("Thời gian xoay 1 vòng")]
-    public float rotateDuration = 0.5f;
-    [Tooltip("Số vòng xoay khi nhảy (vd: -360 là xoay ra trước)")]
-    public Vector3 rotateAngle = new Vector3(0, 0, -360);
+    [SerializeField] private float jumpCooldown = 0.5f;
+    private float lastJumpTime;
 
     [Header("Ground Detection")]
     public Transform groundCheck; // Kéo một GameObject con nằm dưới chân Player vào đây
@@ -25,14 +22,14 @@ public class PlayerController : MonoBehaviour
     public LayerMask groundLayer; // Chọn Layer là "Ground" hoặc "Platform"
 
     private Rigidbody2D _rb;
-    private SpriteRenderer _spriteRenderer;
+    private Animator _animator;
     private CharacterProfile _profile;
     private bool isGrounded;
 
     private void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
-        _spriteRenderer = GetComponent<SpriteRenderer>();
+        _animator = GetComponent<Animator>();
     }
 
     private void Start()
@@ -48,18 +45,10 @@ public class PlayerController : MonoBehaviour
 
         if (_profile == null) return;
 
-         runSpeed = _profile.moveSpeed;
+        runSpeed = _profile.moveSpeed;
 
-        // 2. Setup Skin
-        int skinIndex = (mapData != null) ? mapData.mapIndex : 0;
-        if (_profile.skinVariants != null && skinIndex < _profile.skinVariants.Length)
-        {
-            _spriteRenderer.sprite = _profile.skinVariants[skinIndex];
-        }
-        else if (_profile.skinVariants.Length > 0)
-        {
-            _spriteRenderer.sprite = _profile.skinVariants[0];
-        }
+        // 2. Setup Animation
+        _animator.runtimeAnimatorController = _profile.inGameAnimator;
     }
 
     private void Update()
@@ -108,9 +97,20 @@ public class PlayerController : MonoBehaviour
     private void CheckInput()
     {
         // Hỗ trợ cả Click chuột trái, Chạm màn hình, hoặc nút Space
-        if ((Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space)) && isGrounded)
+        if (lastJumpTime >= jumpCooldown)
         {
-            Jump();
+            if ((Input.GetMouseButton(0) || (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began) || Input.GetKeyDown(KeyCode.Space)) && isGrounded)
+            {
+                Jump();
+                lastJumpTime = 0f;
+            }
+        }
+        else
+        {
+            lastJumpTime += Time.deltaTime;
+
+            // Reset animation nhảy khi đã hạ cánh
+            _animator.SetBool("isJump", false);
         }
     }
 
@@ -134,28 +134,9 @@ public class PlayerController : MonoBehaviour
         }
 
         // 2. Thực hiện Animation lộn vòng bằng DOTween
-        DoJumpAnimation();
+        _animator.SetBool("isJump", true);
     }
 
-    private void DoJumpAnimation()
-    {
-        // Ngắt tween cũ nếu đang xoay dở để xoay cái mới
-        transform.DOKill();
-
-        // Reset góc xoay về mặc định (hoặc giữ nguyên nếu muốn xoay tiếp)
-        // Ở đây ta reset Z về 0 để xoay cho chuẩn vòng
-        transform.rotation = Quaternion.identity;
-
-        // Xoay 360 độ (RotateMode.FastBeyond360 đảm bảo nó xoay đủ vòng chứ không đứng im)
-        transform.DORotate(rotateAngle, rotateDuration, RotateMode.FastBeyond360)
-                 .SetEase(Ease.OutCubic); // Hiệu ứng nhanh dần rồi chậm lại khi tiếp đất
-    }
-
-    private void OnDestroy()
-    {
-        // Dọn dẹp tween khi nhân vật bị hủy
-        transform.DOKill();
-    }
 
     // Vẽ vòng tròn check ground trong Editor để dễ chỉnh
     private void OnDrawGizmosSelected()

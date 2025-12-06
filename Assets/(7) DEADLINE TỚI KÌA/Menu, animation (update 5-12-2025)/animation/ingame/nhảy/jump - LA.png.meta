@@ -1,0 +1,476 @@
+fileFormatVersion: 2
+guid: de33398491432f247a6aa4b763118e33
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -9037826585516506157
+    second: jump - LA_0
+  - first:
+      213: 8199841523691619664
+    second: jump - LA_1
+  - first:
+      213: 2351859431510783189
+    second: jump - LA_2
+  - first:
+      213: 2589804670227100996
+    second: jump - LA_3
+  - first:
+      213: 8205780128247271317
+    second: jump - LA_4
+  - first:
+      213: -2515450376821569944
+    second: jump - LA_5
+  - first:
+      213: 1749654833632650255
+    second: jump - LA_6
+  - first:
+      213: 263011426308420614
+    second: jump - LA_7
+  - first:
+      213: -4027922852290929504
+    second: jump - LA_8
+  - first:
+      213: -8758175213662574734
+    second: jump - LA_9
+  - first:
+      213: -4553979188017395904
+    second: jump - LA_10
+  - first:
+      213: -5892276101127983673
+    second: jump - LA_11
+  - first:
+      213: 2307562313556821783
+    second: jump - LA_12
+  - first:
+      213: 7306100256529109950
+    second: jump - LA_13
+  - first:
+      213: 1867295191969930055
+    second: jump - LA_14
+  - first:
+      213: 4185309928384796167
+    second: jump - LA_15
+  - first:
+      213: -8708070473745456245
+    second: jump - LA_16
+  - first:
+      213: -6362257232223301434
+    second: jump - LA_17
+  - first:
+      213: -2251198243261046149
+    second: jump - LA_18
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: iOS
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: jump - LA_0
+      rect:
+        serializedVersion: 2
+        x: 349
+        y: 796
+        width: 336
+        height: 493
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3d305bcda90339280800000000000000
+      internalID: -9037826585516506157
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: jump - LA_1
+      rect:
+        serializedVersion: 2
+        x: 1021
+        y: 796
+        width: 335
+        height: 493
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0550322db60bbc170800000000000000
+      internalID: 8199841523691619664
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: jump - LA_2
+      rect:
+        serializedVersion: 2
+        x: 1647
+        y: 790
+        width: 367
+        height: 499
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5d43ad831bb73a020800000000000000
+      internalID: 2351859431510783189
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: jump - LA_3
+      rect:
+        serializedVersion: 2
+        x: 2231
+        y: 802
+        width: 460
+        height: 458
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 445b88e40a5d0f320800000000000000
+      internalID: 2589804670227100996
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: jump - LA_4
+      rect:
+        serializedVersion: 2
+        x: 2906
+        y: 790
+        width: 594
+        height: 488
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 59f4321fc89c0e170800000000000000
+      internalID: 8205780128247271317
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: jump - LA_5
+      rect:
+        serializedVersion: 2
+        x: 3500
+        y: 831
+        width: 493
+        height: 456
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8668d6fa533571dd0800000000000000
+      internalID: -2515450376821569944
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: jump - LA_6
+      rect:
+        serializedVersion: 2
+        x: 297
+        y: 135
+        width: 400
+        height: 479
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f0428361dc5084810800000000000000
+      internalID: 1749654833632650255
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: jump - LA_7
+      rect:
+        serializedVersion: 2
+        x: 902
+        y: 150
+        width: 490
+        height: 470
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6047bfcaf7766a300800000000000000
+      internalID: 263011426308420614
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: jump - LA_8
+      rect:
+        serializedVersion: 2
+        x: 1665
+        y: 162
+        width: 353
+        height: 495
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0ac5586b181f918c0800000000000000
+      internalID: -4027922852290929504
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: jump - LA_9
+      rect:
+        serializedVersion: 2
+        x: 2367
+        y: 150
+        width: 313
+        height: 503
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 277e205cb06b47680800000000000000
+      internalID: -8758175213662574734
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: jump - LA_10
+      rect:
+        serializedVersion: 2
+        x: 3033
+        y: 148
+        width: 316
+        height: 492
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 04783b77e040dc0c0800000000000000
+      internalID: -4553979188017395904
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: jump - LA_11
+      rect:
+        serializedVersion: 2
+        x: 3572
+        y: 148
+        width: 327
+        height: 494
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7cd2eb9ca1e6a3ea0800000000000000
+      internalID: -5892276101127983673
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 0fdeb234ddf2bab45a03ff9d5431a0b2
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      jump - LA_0: -9037826585516506157
+      jump - LA_1: 8199841523691619664
+      jump - LA_10: -4553979188017395904
+      jump - LA_11: -5892276101127983673
+      jump - LA_2: 2351859431510783189
+      jump - LA_3: 2589804670227100996
+      jump - LA_4: 8205780128247271317
+      jump - LA_5: -2515450376821569944
+      jump - LA_6: 1749654833632650255
+      jump - LA_7: 263011426308420614
+      jump - LA_8: -4027922852290929504
+      jump - LA_9: -8758175213662574734
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

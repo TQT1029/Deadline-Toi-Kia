@@ -15,11 +15,10 @@ MonoBehaviour:
   characterName: LA
   characterDescription: 
   skinVariants:
-  - {fileID: 5302855978004974855, guid: 443a33d283550064ca3445368f9fccde, type: 3}
-  - {fileID: -5377472139892819932, guid: 44d6956d0e37a6b4eafbfe6ca39bd296, type: 3}
-  - {fileID: -1318602564601608021, guid: fb8ae31072281a047b6c9ddfd4463fe7, type: 3}
+  - {fileID: 327894765690226695, guid: 1b6b5ab4ec297d54f8b93e15eb6f9032, type: 3}
   previewAction: {fileID: 9100000, guid: c7de87cb478a704439a82309103f1a11, type: 2}
   checklistImage: {fileID: -7153723979098260847, guid: 58c06aed1f3005f4aa7ee0041342c55c, type: 3}
+  inGameAnimator: {fileID: 9100000, guid: 9e965cd4b8e56684c8bc06a58bfc1199, type: 2}
   maxHealth: 100
   moveSpeed: 5
-  strength: 15
+  jumpForce: 20

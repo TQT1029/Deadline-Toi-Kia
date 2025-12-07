@@ -7,6 +7,7 @@ public class ReferenceManager : Singleton<ReferenceManager>
     [Header("Runtime References")]
     public Camera MainCamera;
     public Transform PlayerTransform;
+    public Transform RespawnTrans;
 
     [Header("Data Library")]
     [Tooltip("Kéo tất cả CharacterProfile vào đây")]
@@ -24,6 +25,8 @@ public class ReferenceManager : Singleton<ReferenceManager>
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         RefreshRuntimeReferences();
+
+        RespawnTrans = GameObject.FindGameObjectWithTag(GameConstants.TAG_RESPAWN)?.transform;
     }
 
     /// <summary>
@@ -38,4 +41,5 @@ public class ReferenceManager : Singleton<ReferenceManager>
 
         Debug.Log($"[ReferenceManager] Refreshed. Player found: {PlayerTransform != null}");
     }
+
 }

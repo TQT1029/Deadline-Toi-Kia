@@ -15,11 +15,10 @@ MonoBehaviour:
   characterName: NE
   characterDescription: 
   skinVariants:
-  - {fileID: -1594820362499543944, guid: d325e4d372528a24d9b4682afe860204, type: 3}
-  - {fileID: -2011322834443855399, guid: 3c8ba72730ea4c849883a45f2111d9b6, type: 3}
-  - {fileID: -5150642624203269858, guid: 5d736c23602643d44b1a7f7c028ada36, type: 3}
+  - {fileID: 1638458196620539021, guid: 75a74a27143bb984083be343c9488be8, type: 3}
   previewAction: {fileID: 9100000, guid: 3c4fd4d4f9585d84a9aa67567b34136b, type: 2}
   checklistImage: {fileID: 3589084789329954834, guid: 51684e50abf4c8a4fb8d40ad3826ce7d, type: 3}
+  inGameAnimator: {fileID: 9100000, guid: ba712379689a8de44ad67f444ec6258a, type: 2}
   maxHealth: 100
   moveSpeed: 5
-  strength: 15
+  jumpForce: 20

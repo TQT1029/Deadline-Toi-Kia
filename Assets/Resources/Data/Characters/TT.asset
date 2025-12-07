@@ -15,11 +15,10 @@ MonoBehaviour:
   characterName: TT
   characterDescription: 
   skinVariants:
-  - {fileID: 5772217296857774353, guid: b1b550f12060fa044ba8d46b0440c825, type: 3}
-  - {fileID: 4311537277197846356, guid: fa5b0d9c38f0c6e4aa1e5b5001dcc610, type: 3}
-  - {fileID: -6591136130442701219, guid: 2707826d106eb5d4bb11d978248d2e59, type: 3}
+  - {fileID: -5426889392868798152, guid: 3d90631ec14bcdb4989e056c0d8901bf, type: 3}
   previewAction: {fileID: 9100000, guid: 2d6b1582777eba8489e8ce58f4243009, type: 2}
   checklistImage: {fileID: 1065955251045692784, guid: acf5bde79e4d8d14aa7727cc50660c97, type: 3}
+  inGameAnimator: {fileID: 9100000, guid: 1b09d082f00e90e4ba42c95c209d8982, type: 2}
   maxHealth: 100
   moveSpeed: 5
-  strength: 15
+  jumpForce: 20

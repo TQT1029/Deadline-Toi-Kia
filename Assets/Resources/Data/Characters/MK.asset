@@ -15,11 +15,10 @@ MonoBehaviour:
   characterName: MK
   characterDescription: 
   skinVariants:
-  - {fileID: 6416713398881488738, guid: 675745d1b6c0bc44a9f4c7c251435cfe, type: 3}
-  - {fileID: -2179482889673029701, guid: cc028774ad607504da602b18310a3765, type: 3}
-  - {fileID: 6457535910122399508, guid: 498faa57f6c9f094592f857eba28b0e5, type: 3}
+  - {fileID: 8607950385922526889, guid: 26a503a1ce03ae149a1c5211bfd8c22c, type: 3}
   previewAction: {fileID: 9100000, guid: 1ed93c09f2422a447b0c23ca15f1ef7d, type: 2}
   checklistImage: {fileID: 5041133611706424559, guid: e8ac0a08e4f36184b986fcd53791c637, type: 3}
+  inGameAnimator: {fileID: 9100000, guid: 6a48fbdc60dd0784693a3b0e39a4f1b6, type: 2}
   maxHealth: 100
   moveSpeed: 5
-  strength: 15
+  jumpForce: 20

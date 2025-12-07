@@ -24,5 +24,5 @@ public class CharacterProfile : ScriptableObject
     [Header("Stats")]
     public float maxHealth = 100f;
     public float moveSpeed = 5f;
-    public float strength = 15f;
+    public float jumpForce = 25f;
 }

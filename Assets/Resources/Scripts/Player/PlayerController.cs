@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using DG.Tweening; // Bắt buộc
 
 [RequireComponent(typeof(Rigidbody2D), typeof(SpriteRenderer))]
 public class PlayerController : MonoBehaviour
@@ -13,8 +12,12 @@ public class PlayerController : MonoBehaviour
     [Tooltip("Lực nhảy")]
     public float jumpForce = 10f;
 
+    [Tooltip("Thời gian hồi giữa các lần nhảy")]
     [SerializeField] private float jumpCooldown = 0.5f;
     private float lastJumpTime;
+
+    private float respawnDelay = 1f;
+    private float respawnTime;
 
     [Header("Ground Detection")]
     public Transform groundCheck; // Kéo một GameObject con nằm dưới chân Player vào đây
@@ -22,6 +25,7 @@ public class PlayerController : MonoBehaviour
     public LayerMask groundLayer; // Chọn Layer là "Ground" hoặc "Platform"
 
     private Rigidbody2D _rb;
+    private BoxCollider2D _collider;
     private Animator _animator;
     private CharacterProfile _profile;
     private bool isGrounded;
@@ -29,7 +33,9 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
+        _collider = GetComponent<BoxCollider2D>();
         _animator = GetComponent<Animator>();
+
     }
 
     private void Start()
@@ -46,14 +52,25 @@ public class PlayerController : MonoBehaviour
         if (_profile == null) return;
 
         runSpeed = _profile.moveSpeed;
+        jumpForce = _profile.jumpForce;
 
         // 2. Setup Animation
         _animator.runtimeAnimatorController = _profile.inGameAnimator;
+
+        // 3. Cập nhật Collider dựa trên kích thước skin đầu tiên
+        UpdateCollider();
+
     }
 
+    private void UpdateCollider()
+    {
+        _collider.size = _profile.skinVariants[0].bounds.size;
+        _collider.offset = _profile.skinVariants[0].bounds.center;
+    }
     private void Update()
     {
         CheckInput();
+        CheckRespawn();
     }
 
     private void FixedUpdate()
@@ -80,6 +97,23 @@ public class PlayerController : MonoBehaviour
         else
         {
             _rb.linearVelocity = targetVelocity;
+        }
+    }
+
+    // --- CheckRespawn ---
+    private void CheckRespawn()
+    {
+        if (_rb.linearVelocityX <= 1)
+        {
+            if (respawnTime >= respawnDelay)
+            {
+                transform.position = ReferenceManager.Instance.RespawnTrans.position;
+                respawnTime = 0f;
+            }
+            else
+            {
+                respawnTime += Time.deltaTime;
+            }
         }
     }
 
@@ -121,7 +155,7 @@ public class PlayerController : MonoBehaviour
         {
 #if UNITY_6000_0_OR_NEWER
             _rb.linearVelocity = new Vector2(_rb.linearVelocity.x, 0);
-            _rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+            _rb.AddForce((new Vector2(1, 0.5f)).normalized * jumpForce, ForceMode2D.Impulse);
 #else
              _rb.velocity = new Vector2(_rb.velocity.x, 0);
              _rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
@@ -130,7 +164,8 @@ public class PlayerController : MonoBehaviour
         else
         {
             _rb.linearVelocity = new Vector2(_rb.linearVelocity.x, 0);
-            _rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+
+            _rb.AddForce((new Vector2(1, 0.5f)).normalized * jumpForce, ForceMode2D.Impulse);
         }
 
         // 2. Thực hiện Animation lộn vòng bằng DOTween

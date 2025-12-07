@@ -29,9 +29,22 @@ public class GameManager : Singleton<GameManager>
         // Tự động xử lý TimeScale
         switch (newState)
         {
+            case GameState.MainMenu:
+                Time.timeScale = 1f;
+                break;
+            case GameState.Gameplay:
+                Time.timeScale = 1f;
+                break;
             case GameState.Paused:
                 Time.timeScale = 0f;
                 break;
+            case GameState.Victory:
+                Time.timeScale = 1f;
+                break;
+            case GameState.GameOver:
+                Time.timeScale = 0f;
+                break;
+
             default:
                 Time.timeScale = 1f;
                 break;

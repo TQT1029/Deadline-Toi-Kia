@@ -21,6 +21,9 @@ public class CharacterProfile : ScriptableObject
     [Tooltip("Animation nhân vật trong khi chơi")]
     public RuntimeAnimatorController inGameAnimator;
 
+    [Tooltip("Ảnh hiển thị chính trong menu thông tin trạng thái nhân vật")]
+    public Sprite mainInfo;
+
     [Header("Stats")]
     public float maxHealth = 100f;
     public float moveSpeed = 5f;

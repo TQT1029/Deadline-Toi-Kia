@@ -1,24 +1,31 @@
-﻿using UnityEngine;
+﻿using TMPro;
+using UnityEditor.Animations;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using UnityEditor.Animations;
 
 [DefaultExecutionOrder(-10)]
 public class UIManager : Singleton<UIManager>
 {
     [Header("References (Auto Found)")]
+    // Main Menu & Settings
     public GameObject MainMenuPanel;
     public GameObject SettingPanel;
     public GameObject TutorialPanel;
+
+    // Selection Scene
     public GameObject CharactersPage;
     public GameObject MapsPage;
 
     public Animator characterPreview;
     public Image characterChecklist;
 
-    public GameObject HUDPanel;
-    public GameObject PausePanel;
-    public GameObject GameOverPanel;
+    //Gameplay Scenes 
+    public TMP_Text DistanceText;
+    public TMP_Text LearnScoreText;
+    public TMP_Text XPScoreText;
+
+    public GameObject WinPanel;
 
     private void OnEnable()
     {
@@ -63,9 +70,11 @@ public class UIManager : Singleton<UIManager>
         else
         {
             // Gameplay Scenes
-            HUDPanel = FindObj("HUDPanel");
-            PausePanel = FindObj("PausePanel");
-            GameOverPanel = FindObj("GameOverPanel");
+            DistanceText = FindObj("DistanceText")?.GetComponent<TMP_Text>();
+            LearnScoreText = FindObj("LearnScoreText")?.GetComponent<TMP_Text>();
+            XPScoreText = FindObj("XPScoreText")?.GetComponent<TMP_Text>();
+
+            WinPanel = FindObj("WinPanel");
             GameManager.Instance.ChangeState(GameState.Gameplay);
         }
 
@@ -84,14 +93,12 @@ public class UIManager : Singleton<UIManager>
                 if (MainMenuPanel) MainMenuPanel.SetActive(true);
                 break;
             case GameState.Gameplay:
-                if (HUDPanel) HUDPanel.SetActive(true);
                 break;
             case GameState.Paused:
-                if (HUDPanel) HUDPanel.SetActive(true);
-                if (PausePanel) PausePanel.SetActive(true);
+                if (SettingPanel) SettingPanel.SetActive(true);
                 break;
-            case GameState.GameOver:
-                if (GameOverPanel) GameOverPanel.SetActive(true);
+            case GameState.Victory:
+                if (WinPanel) WinPanel.SetActive(true);
                 break;
         }
     }
@@ -103,9 +110,7 @@ public class UIManager : Singleton<UIManager>
         if (SettingPanel) SettingPanel.SetActive(false);
         if (TutorialPanel) TutorialPanel.SetActive(false);
 
-        if (HUDPanel) HUDPanel.SetActive(false);
-        if (PausePanel) PausePanel.SetActive(false);
-        if (GameOverPanel) GameOverPanel.SetActive(false);
+        if (WinPanel) WinPanel.SetActive(false);
 
         // Page Selection xử lý riêng
         if (MapsPage) MapsPage.SetActive(false);

@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 7476262677982034933}
   - component: {fileID: 2534061678097985957}
   - component: {fileID: 9147186382378546997}
+  - component: {fileID: 1551217061738880280}
   m_Layer: 0
   m_Name: SystemManagers
   m_TagString: Untagged
@@ -75,6 +76,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MainCamera: {fileID: 0}
   PlayerTransform: {fileID: 0}
+  RespawnTrans: {fileID: 0}
   allCharacters:
   - {fileID: 11400000, guid: 852f9a9523fbaaf429d0ddbb9c5337ad, type: 2}
   - {fileID: 11400000, guid: 0091282184277724ba7c14a87a042393, type: 2}
@@ -109,6 +111,25 @@ MonoBehaviour:
   MapsPage: {fileID: 0}
   characterPreview: {fileID: 0}
   characterChecklist: {fileID: 0}
-  HUDPanel: {fileID: 0}
-  PausePanel: {fileID: 0}
-  GameOverPanel: {fileID: 0}
+  DistanceText: {fileID: 0}
+  LearnScoreText: {fileID: 0}
+  XPScoreText: {fileID: 0}
+  WinPanel: {fileID: 0}
+--- !u!114 &1551217061738880280
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8865307804083502269}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5bcc088b794d3f46b9587f5795fcc69, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scoreMultiplier: 2
+  oneStarScore: 100
+  twoStarScore: 300
+  threeStarScore: 600
+  fourStarScore: 1000
+  fiveStarScore: 1500

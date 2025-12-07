@@ -7,7 +7,6 @@ public enum GameState
     Gameplay,
     Paused,
     Victory,
-    GameOver
 }
 
 [DefaultExecutionOrder(-10)]
@@ -39,9 +38,6 @@ public class GameManager : Singleton<GameManager>
                 Time.timeScale = 0f;
                 break;
             case GameState.Victory:
-                Time.timeScale = 0f;
-                break;
-            case GameState.GameOver:
                 Time.timeScale = 0f;
                 break;
 

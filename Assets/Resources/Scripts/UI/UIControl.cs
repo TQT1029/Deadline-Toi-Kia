@@ -7,7 +7,6 @@ public class UIControl : MonoBehaviour
     [Header("UI Panels")]
     [Tooltip("Kéo Panel Setting vào đây")]
     [SerializeField] private GameObject settingPanel;
-    [SerializeField] private GameObject tutorialPanel;
 
     [Tooltip("Kéo Panel Pause (nếu có) vào đây")]
     [SerializeField] private GameObject pausePanel;
@@ -23,7 +22,6 @@ public class UIControl : MonoBehaviour
     private void Awake()
     {
         if (settingPanel == null) settingPanel = UIManager.Instance.SettingPanel;
-        if (pausePanel == null) pausePanel = UIManager.Instance.PausePanel;
 
     }
 
@@ -45,25 +43,6 @@ public class UIControl : MonoBehaviour
     {
         settingPanel.SetActive(false);
 
-        // Logic thông minh: Chỉ cho chạy lại thời gian nếu Pause Panel KHÔNG bật
-        // (Tránh trường hợp đang Pause game, mở Setting, tắt Setting -> Game tự chạy lại dù chưa resume)
-        if (pausePanel == null || !pausePanel.activeSelf)
-        {
-            Time.timeScale = 1f;
-        }
-        isPopupOpen = false;
-    }
-    public void OpenTutorial()
-    {
-        if (isPopupOpen) return; // Ngăn chặn mở nhiều popup cùng lúc
-        tutorialPanel.SetActive(true);
-        isPopupOpen = true;
-        Time.timeScale = 0f; // Dừng game khi mở tutorial
-    }
-
-    public void CloseTutorial()
-    {
-        tutorialPanel.SetActive(false);
         // Logic thông minh: Chỉ cho chạy lại thời gian nếu Pause Panel KHÔNG bật
         // (Tránh trường hợp đang Pause game, mở Setting, tắt Setting -> Game tự chạy lại dù chưa resume)
         if (pausePanel == null || !pausePanel.activeSelf)

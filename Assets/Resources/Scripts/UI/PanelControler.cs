@@ -9,8 +9,6 @@ public class PanelController : MonoBehaviour
 {
     [Header("Panels")]
     [SerializeField] private GameObject settingPanel;
-    [SerializeField] private GameObject tutorialPanel;
-    [SerializeField] private GameObject pausePanel;
 
     [Header("Selection Pages")]
     [SerializeField] private GameObject charactersPage;
@@ -22,8 +20,6 @@ public class PanelController : MonoBehaviour
         if (UIManager.Instance == null) return;
 
         if (settingPanel == null) settingPanel = UIManager.Instance.SettingPanel;
-        if (tutorialPanel == null) tutorialPanel = UIManager.Instance.TutorialPanel;
-        if (pausePanel == null) pausePanel = UIManager.Instance.PausePanel;
 
         if (charactersPage == null) charactersPage = UIManager.Instance.CharactersPage;
         if (mapsPage == null) mapsPage = UIManager.Instance.MapsPage;
@@ -32,9 +28,6 @@ public class PanelController : MonoBehaviour
     // --- Panel Logic ---
     public void OpenSettings() => TogglePanel(settingPanel, true);
     public void CloseSettings() => TogglePanel(settingPanel, false);
-
-    public void OpenTutorial() => TogglePanel(tutorialPanel, true);
-    public void CloseTutorial() => TogglePanel(tutorialPanel, false);
 
     public void PauseGame()
     {
@@ -55,7 +48,7 @@ public class PanelController : MonoBehaviour
         // Pause time khi mở panel popup (trừ khi đang ở main menu)
         if (GameManager.Instance && GameManager.Instance.CurrentState != GameState.MainMenu)
         {
-            Time.timeScale = isOpen ? 0f : (pausePanel && pausePanel.activeSelf ? 0f : 1f);
+            Time.timeScale = isOpen ? 0f : 1;
         }
     }
 

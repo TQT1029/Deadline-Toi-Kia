@@ -39,7 +39,7 @@ public class GameManager : Singleton<GameManager>
                 Time.timeScale = 0f;
                 break;
             case GameState.Victory:
-                Time.timeScale = 1f;
+                Time.timeScale = 0f;
                 break;
             case GameState.GameOver:
                 Time.timeScale = 0f;

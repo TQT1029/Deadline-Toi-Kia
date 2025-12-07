@@ -155,7 +155,7 @@ public class PlayerController : MonoBehaviour
         {
 #if UNITY_6000_0_OR_NEWER
             _rb.linearVelocity = new Vector2(_rb.linearVelocity.x, 0);
-            _rb.AddForce((new Vector2(1, 0.5f)).normalized * jumpForce, ForceMode2D.Impulse);
+            _rb.AddForce((new Vector2(1, .5f)).normalized * jumpForce, ForceMode2D.Impulse);
 #else
              _rb.velocity = new Vector2(_rb.velocity.x, 0);
              _rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);

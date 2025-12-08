@@ -19,6 +19,7 @@ MonoBehaviour:
   previewAction: {fileID: 9100000, guid: 53ea1531cd246d1428957180c0c3e14f, type: 2}
   checklistImage: {fileID: -2673498809610610117, guid: 93fb1e64c963cb5408d2efcfcbce7881, type: 3}
   inGameAnimator: {fileID: 9100000, guid: 1fc96bbb15f0e684298ad2dd91cf67aa, type: 2}
+  mainInfo: {fileID: -1137737209797957164, guid: 68fa522fc901bcc4893b04afcb7210be, type: 3}
   maxHealth: 100
   moveSpeed: 5
-  jumpForce: 20
+  jumpForce: 25

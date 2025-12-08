@@ -22,10 +22,10 @@ public class UIManager : Singleton<UIManager>
 
     //Gameplay Scenes 
     public TMP_Text DistanceText;
-    public TMP_Text LearnScoreText;
+    public TMP_Text DocumentScoreText;
     public TMP_Text XPScoreText;
 
-    public GameObject WinPanel;
+    public GameObject VictoryPanel;
 
     private void OnEnable()
     {
@@ -71,10 +71,10 @@ public class UIManager : Singleton<UIManager>
         {
             // Gameplay Scenes
             DistanceText = FindObj("DistanceText")?.GetComponent<TMP_Text>();
-            LearnScoreText = FindObj("LearnScoreText")?.GetComponent<TMP_Text>();
+            DocumentScoreText = FindObj("DocumentScoreText")?.GetComponent<TMP_Text>();
             XPScoreText = FindObj("XPScoreText")?.GetComponent<TMP_Text>();
 
-            WinPanel = FindObj("WinPanel");
+            VictoryPanel = FindObj("VictoryPanel");
             GameManager.Instance.ChangeState(GameState.Gameplay);
         }
 
@@ -98,7 +98,7 @@ public class UIManager : Singleton<UIManager>
                 if (SettingPanel) SettingPanel.SetActive(true);
                 break;
             case GameState.Victory:
-                if (WinPanel) WinPanel.SetActive(true);
+                if (VictoryPanel) VictoryPanel.SetActive(true);
                 break;
         }
     }
@@ -110,7 +110,7 @@ public class UIManager : Singleton<UIManager>
         if (SettingPanel) SettingPanel.SetActive(false);
         if (TutorialPanel) TutorialPanel.SetActive(false);
 
-        if (WinPanel) WinPanel.SetActive(false);
+        if (VictoryPanel) VictoryPanel.SetActive(false);
 
         // Page Selection xử lý riêng
         if (MapsPage) MapsPage.SetActive(false);

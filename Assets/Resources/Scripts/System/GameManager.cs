@@ -38,6 +38,7 @@ public class GameManager : Singleton<GameManager>
                 Time.timeScale = 0f;
                 break;
             case GameState.Victory:
+                GameStatsManager.Instance.FinishLevel();
                 Time.timeScale = 0f;
                 break;
 

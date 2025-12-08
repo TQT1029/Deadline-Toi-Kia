@@ -42,7 +42,7 @@ public class GameStatsManager : Singleton<GameStatsManager>
     {
         currentLearnScore += amount;
 
-        // Mặc định XP tăng bằng LearnScore
+        // Mặc định XP tăng bằng Document Score
         currentXPScore += amount;
     }
 
@@ -65,7 +65,9 @@ public class GameStatsManager : Singleton<GameStatsManager>
 
         // Tính số sao
         int starsEarned = 0;
-        if (finalScore >= threeStarScore) starsEarned = 3;
+        if (finalScore >= fiveStarScore) starsEarned = 5;
+        else if (finalScore >= fourStarScore) starsEarned = 4;
+        else if (finalScore >= threeStarScore) starsEarned = 3;
         else if (finalScore >= twoStarScore) starsEarned = 2;
         else if (finalScore >= oneStarScore) starsEarned = 1;
 

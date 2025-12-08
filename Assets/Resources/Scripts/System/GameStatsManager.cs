@@ -1,5 +1,8 @@
 ﻿using UnityEngine;
 
+/// <summary>
+/// Singleton quản lý thống kê và điểm số trong game.
+/// </summary>
 public class GameStatsManager : Singleton<GameStatsManager>
 {
     [Header("Settings")]
@@ -13,9 +16,9 @@ public class GameStatsManager : Singleton<GameStatsManager>
     public int fiveStarScore = 1500; // Ví dụ: > 1500 điểm = 5 sao
 
     // Các biến lưu trữ nội bộ
-    private float currentDistance;
-    private int currentLearnScore;
-    private int currentXPScore;
+    public float resultDistance { get; private set; }
+    public int resultDocument { get; private set; }
+    public int resultXPScore { get; private set; }
     private bool isGameActive = true;
 
     private void Update()
@@ -28,11 +31,11 @@ public class GameStatsManager : Singleton<GameStatsManager>
         if (ReferenceManager.Instance.PlayerTransform != null)
         {
             // Cách 1: Tính theo vị trí X thực tế của nhân vật
-            currentDistance = ReferenceManager.Instance.PlayerTransform.position.x;
+            resultDistance += ReferenceManager.Instance.PlayerRigidbody.linearVelocityX * Time.deltaTime;
         }
 
         // 2. Cập nhật lên HUD
-        HUDController.Instance.UpdateHUD(currentDistance, currentLearnScore, currentXPScore);
+        HUDController.Instance.UpdateHUD(resultDistance, resultDocument, resultXPScore);
     }
 
     // --- LOGIC ĂN VẬT PHẨM ---
@@ -40,28 +43,35 @@ public class GameStatsManager : Singleton<GameStatsManager>
     // Gọi hàm này khi ăn vật phẩm thường (Sách, Laptop...)
     public void CollectLearnItem(int amount = 1)
     {
-        currentLearnScore += amount;
+        resultDocument += amount;
 
         // Mặc định XP tăng bằng Document Score
-        currentXPScore += amount;
+        resultXPScore += amount;
     }
 
     // Gọi hàm này khi ăn vật phẩm X2
     public void CollectDoubleXPItem()
     {
         // Yêu cầu của bạn: "nếu nhặt được vật phẩm x2 XP score thì sẽ được x2 XP Score HIỆN TẠI"
-        currentXPScore *= 2;
-        Debug.Log("Đã X2 XP Score! Điểm hiện tại: " + currentXPScore);
+        resultXPScore *= 2;
+        Debug.Log("Đã X2 XP Score! Điểm hiện tại: " + resultXPScore);
     }
 
-    // --- LOGIC KẾT THÚC MÀN CHƠI ---
+    // --- LOGIC MÀN CHƠI ---
 
+    public void StartMap()
+    {
+        resultDistance = 0f;
+        resultDocument = 0;
+        resultXPScore = 0;
+        isGameActive = true;
+    }
     public void FinishLevel()
     {
         isGameActive = false;
 
         // Tính tổng điểm cuối cùng (Tùy logic game, ở đây lấy XP Score làm chuẩn xếp hạng)
-        int finalScore = currentXPScore;
+        int finalScore = resultXPScore;
 
         // Tính số sao
         int starsEarned = 0;

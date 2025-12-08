@@ -4,6 +4,11 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
+/// <summary>
+/// Singleton quản lý giao diện người dùng (UI) chung.
+/// Được dùng để điều khiển các panel UI tùy theo trạng thái game.
+/// </summary>
+
 [DefaultExecutionOrder(-10)]
 public class UIManager : Singleton<UIManager>
 {
@@ -11,7 +16,6 @@ public class UIManager : Singleton<UIManager>
     // Main Menu & Settings
     public GameObject MainMenuPanel;
     public GameObject SettingPanel;
-    public GameObject TutorialPanel;
 
     // Selection Scene
     public GameObject CharactersPage;
@@ -20,12 +24,20 @@ public class UIManager : Singleton<UIManager>
     public Animator characterPreview;
     public Image characterChecklist;
 
-    //Gameplay Scenes 
+    //Playing Scenes 
     public TMP_Text DistanceText;
     public TMP_Text DocumentScoreText;
     public TMP_Text XPScoreText;
 
-    public GameObject VictoryPanel;
+    public GameObject ResultPanel;
+
+    public GameObject[] Stars = new GameObject[5];
+    public Image BGObj1;
+    public Image BGObj2;
+    public Animator AnimatorObj2;
+    public TMP_Text ResultDistanceText;
+    public TMP_Text ResultDocumentScoreText;
+    public TMP_Text ResultXPScoreText;
 
     private void OnEnable()
     {
@@ -48,7 +60,6 @@ public class UIManager : Singleton<UIManager>
         {
             MainMenuPanel = FindObj("MainMenuPanel");
             SettingPanel = FindObj("SettingPanel");
-            TutorialPanel = FindObj("TutorialPanel");
             GameManager.Instance.ChangeState(GameState.MainMenu);
         }
         else if (sName == GameConstants.SCENE_SELECTION)
@@ -69,13 +80,30 @@ public class UIManager : Singleton<UIManager>
         }
         else
         {
-            // Gameplay Scenes
+            // Playing Scenes
+            SettingPanel = FindObj("SettingPanel");
+
             DistanceText = FindObj("DistanceText")?.GetComponent<TMP_Text>();
             DocumentScoreText = FindObj("DocumentScoreText")?.GetComponent<TMP_Text>();
             XPScoreText = FindObj("XPScoreText")?.GetComponent<TMP_Text>();
 
-            VictoryPanel = FindObj("VictoryPanel");
-            GameManager.Instance.ChangeState(GameState.Gameplay);
+            ResultPanel = FindObj("ResultPanel");
+
+            Stars[0] = ResultPanel.transform.Find("ResultZone/Stars/1")?.gameObject;
+            Stars[1] = ResultPanel.transform.Find("ResultZone/Stars/2")?.gameObject;
+            Stars[2] = ResultPanel.transform.Find("ResultZone/Stars/3")?.gameObject;
+            Stars[3] = ResultPanel.transform.Find("ResultZone/Stars/4")?.gameObject;
+            Stars[4] = ResultPanel.transform.Find("ResultZone/Stars/5")?.gameObject;
+
+            BGObj1 = FindObj("BGObj1")?.GetComponent<Image>();
+            BGObj2 = FindObj("BGObj2")?.GetComponent<Image>();
+            AnimatorObj2 = BGObj2?.GetComponent<Animator>();
+
+            ResultDistanceText = ResultPanel.transform.Find("ResultZone/ResultDistance")?.GetComponent<TMP_Text>();
+            ResultDocumentScoreText = ResultPanel.transform.Find("ResultZone/ResultDocuments")?.GetComponent<TMP_Text>();
+            ResultXPScoreText = ResultPanel.transform.Find("ResultZone/ResultXP")?.GetComponent<TMP_Text>();
+
+            GameManager.Instance.ChangeState(GameState.Playing);
         }
 
         HideAllPanels();
@@ -92,13 +120,13 @@ public class UIManager : Singleton<UIManager>
             case GameState.MainMenu:
                 if (MainMenuPanel) MainMenuPanel.SetActive(true);
                 break;
-            case GameState.Gameplay:
+            case GameState.Playing:
                 break;
             case GameState.Paused:
                 if (SettingPanel) SettingPanel.SetActive(true);
                 break;
             case GameState.Victory:
-                if (VictoryPanel) VictoryPanel.SetActive(true);
+                if (ResultPanel) ResultPanel.SetActive(true);
                 break;
         }
     }
@@ -108,9 +136,8 @@ public class UIManager : Singleton<UIManager>
         // Ẩn tất cả an toàn (Null check)
         if (MainMenuPanel) MainMenuPanel.SetActive(true);
         if (SettingPanel) SettingPanel.SetActive(false);
-        if (TutorialPanel) TutorialPanel.SetActive(false);
 
-        if (VictoryPanel) VictoryPanel.SetActive(false);
+        if (ResultPanel) ResultPanel.SetActive(false);
 
         // Page Selection xử lý riêng
         if (MapsPage) MapsPage.SetActive(false);

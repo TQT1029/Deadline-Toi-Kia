@@ -37,9 +37,9 @@ public class InputManager : Singleton<InputManager>
     private void TogglePause()
     {
         var current = GameManager.Instance.CurrentState;
-        if (current == GameState.Gameplay)
+        if (current == GameState.Playing)
             GameManager.Instance.ChangeState(GameState.Paused);
         else if (current == GameState.Paused)
-            GameManager.Instance.ChangeState(GameState.Gameplay);
+            GameManager.Instance.ChangeState(GameState.Playing);
     }
 }

@@ -8,6 +8,7 @@ public static class GameConstants
     public const string SCENE_SELECTION = "SelectionScene";
     // Tag
     public const string TAG_PLAYER = "Player";
+    public const string TAG_SPAWNPOINT = "SpawnPoint";
     public const string TAG_RESPAWN = "Respawn";
     // Path Resources
     public const string PATH_SYSTEM_PREFABS = "SystemPrefabs/SystemManagers";

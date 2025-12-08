@@ -12,14 +12,14 @@ public class SceneLoader : MonoBehaviour
 
     public void EnterMap()
     {
-        // Vào Gameplay từ màn chọn map
+        // Vào Playing từ màn chọn map
         if (ReferenceManager.Instance.currentSelectedMap == null)
         {
             Debug.LogError("[SceneLoader] Chưa chọn Map nào!");
             return;
         }
 
-        GameManager.Instance.ChangeState(GameState.Gameplay);
+        GameManager.Instance.ChangeState(GameState.Playing);
         Time.timeScale = 1f;
         string mapScene = ReferenceManager.Instance.currentSelectedMap.targetSceneName;
         SceneManager.LoadScene(mapScene);

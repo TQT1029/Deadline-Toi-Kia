@@ -1,13 +1,22 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
+/// <summary>
+/// Singleton quản lý các tham chiếu chung trong game.
+/// </summary>
+
 [DefaultExecutionOrder(-9)]
 public class ReferenceManager : Singleton<ReferenceManager>
 {
     [Header("Runtime References")]
     public Camera MainCamera;
     public Transform PlayerTransform;
+    public Rigidbody2D PlayerRigidbody;
+
+    public Transform SpawnTrans;
     public Transform RespawnTrans;
+
+
 
     [Header("Data Library")]
     [Tooltip("Kéo tất cả CharacterProfile vào đây")]
@@ -26,6 +35,8 @@ public class ReferenceManager : Singleton<ReferenceManager>
     {
         RefreshRuntimeReferences();
 
+        // Tìm lại Spawn và Respawn
+        SpawnTrans = GameObject.FindGameObjectWithTag(GameConstants.TAG_SPAWNPOINT)?.transform;
         RespawnTrans = GameObject.FindGameObjectWithTag(GameConstants.TAG_RESPAWN)?.transform;
     }
 
@@ -38,6 +49,7 @@ public class ReferenceManager : Singleton<ReferenceManager>
 
         GameObject playerObj = GameObject.FindGameObjectWithTag(GameConstants.TAG_PLAYER);
         PlayerTransform = (playerObj != null) ? playerObj.transform : null;
+        PlayerRigidbody = (PlayerTransform != null) ? PlayerTransform.GetComponent<Rigidbody2D>() : null;
 
         Debug.Log($"[ReferenceManager] Refreshed. Player found: {PlayerTransform != null}");
     }

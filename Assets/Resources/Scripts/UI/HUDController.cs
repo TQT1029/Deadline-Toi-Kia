@@ -11,21 +11,21 @@ public class HUDController : Singleton<HUDController>
     [SerializeField] private TMP_Text xpScoreText => UIManager.Instance.XPScoreText;    // Điểm kinh nghiệm tổng
 
     [Header("End Game Animation")]
-    [SerializeField] private GameObject resultPanel;
-    [SerializeField] private GameObject[] stars; // Kéo 3 ảnh ngôi sao vào đây (Star 1, 2, 3)
+    [SerializeField] private GameObject resultPanel => UIManager.Instance.ResultPanel;
+    [SerializeField] private GameObject[] stars => UIManager.Instance.Stars; // Kéo 3 ảnh ngôi sao vào đây (Star 1, 2, 3)
 
-    [SerializeField] private Image bgObj1;
-    [SerializeField] private Image bgObj2;
-    [SerializeField] private Animator animatorObj2;
+    [SerializeField] private Image bgObj1 => UIManager.Instance.BGObj1;
+    [SerializeField] private Image bgObj2 => UIManager.Instance.BGObj2;
+    [SerializeField] private Animator animatorObj2 => UIManager.Instance.AnimatorObj2;
 
-    [SerializeField] private TMP_Text resultDistanceText;
-    [SerializeField] private TMP_Text resultDocumentScoreText;
-    [SerializeField] private TMP_Text resultXPScoreText;
+    [SerializeField] private TMP_Text resultDistanceText => UIManager.Instance.ResultDistanceText;
+    [SerializeField] private TMP_Text resultDocumentScoreText => UIManager.Instance.ResultDocumentScoreText;
+    [SerializeField] private TMP_Text resultXPScoreText => UIManager.Instance.ResultXPScoreText;
 
     // Cập nhật UI liên tục
     public void UpdateHUD(float distance, int learnScore, int xpScore)
     {
-        if (distanceText) distanceText.text = $"{distance:F0}m"; // F0 là làm tròn không lấy số thập phân
+        if (distanceText) distanceText.text = $"{distance:F1}m"; // F0 là làm tròn không lấy số thập phân
         if (documentScoreText) documentScoreText.text = $"{learnScore}";
         if (xpScoreText) xpScoreText.text = $"{xpScore}";
     }
@@ -37,7 +37,7 @@ public class HUDController : Singleton<HUDController>
         {
 
             resultPanel.SetActive(true);
-            
+
             bgObj1.sprite = ReferenceManager.Instance.currentSelectedProfile.skinVariants[0];
             bgObj1.SetNativeSize();
 

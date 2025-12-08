@@ -4,10 +4,15 @@ using UnityEngine;
 public enum GameState
 {
     MainMenu,
-    Gameplay,
+    Playing,
     Paused,
     Victory,
 }
+
+/// <summary>
+/// Singleton quản lý trạng thái game chung.
+/// Được dùng để gọi các hàm toàn cục liên quan đến trạng thái game.
+/// </summary>
 
 [DefaultExecutionOrder(-10)]
 public class GameManager : Singleton<GameManager>
@@ -31,7 +36,8 @@ public class GameManager : Singleton<GameManager>
             case GameState.MainMenu:
                 Time.timeScale = 1f;
                 break;
-            case GameState.Gameplay:
+            case GameState.Playing:
+                GameStatsManager.Instance.StartMap();
                 Time.timeScale = 1f;
                 break;
             case GameState.Paused:
@@ -39,7 +45,7 @@ public class GameManager : Singleton<GameManager>
                 break;
             case GameState.Victory:
                 GameStatsManager.Instance.FinishLevel();
-                Time.timeScale = 0f;
+                Time.timeScale = 1f;
                 break;
 
             default:

@@ -84,12 +84,12 @@ public class PlayerController : MonoBehaviour
     {
         // Luôn luôn di chuyển sang phải với tốc độ runSpeed
         // Giữ nguyên vận tốc Y hiện tại (để trọng lực hoạt động)
-        Vector2 targetVelocity = new Vector2(runSpeed, _rb.linearVelocity.y);
+        Vector2 targetVelocity = new Vector2(runSpeed + GameStatsManager.Instance.resultDistance / 100, _rb.linearVelocity.y);
 
         if (useUnity6LinearVelocity)
         {
 #if UNITY_6000_0_OR_NEWER
-            _rb.linearVelocity = new Vector2(runSpeed, _rb.linearVelocity.y);
+            _rb.linearVelocity = new Vector2(runSpeed + GameStatsManager.Instance.resultDistance / 100, _rb.linearVelocity.y);
 #else
             _rb.velocity = targetVelocity;
 #endif

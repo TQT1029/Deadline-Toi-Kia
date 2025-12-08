@@ -76,6 +76,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MainCamera: {fileID: 0}
   PlayerTransform: {fileID: 0}
+  PlayerRigidbody: {fileID: 0}
   RespawnTrans: {fileID: 0}
   allCharacters:
   - {fileID: 11400000, guid: 852f9a9523fbaaf429d0ddbb9c5337ad, type: 2}
@@ -112,9 +113,21 @@ MonoBehaviour:
   characterPreview: {fileID: 0}
   characterChecklist: {fileID: 0}
   DistanceText: {fileID: 0}
-  LearnScoreText: {fileID: 0}
+  DocumentScoreText: {fileID: 0}
   XPScoreText: {fileID: 0}
-  WinPanel: {fileID: 0}
+  ResultPanel: {fileID: 0}
+  Stars:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  BGObj1: {fileID: 0}
+  BGObj2: {fileID: 0}
+  AnimatorObj2: {fileID: 0}
+  ResultDistanceText: {fileID: 0}
+  ResultDocumentScoreText: {fileID: 0}
+  ResultXPScoreText: {fileID: 0}
 --- !u!114 &1551217061738880280
 MonoBehaviour:
   m_ObjectHideFlags: 0

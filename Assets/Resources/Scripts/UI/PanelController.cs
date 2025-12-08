@@ -29,17 +29,6 @@ public class PanelController : MonoBehaviour
     public void OpenSettings() => TogglePanel(settingPanel, true);
     public void CloseSettings() => TogglePanel(settingPanel, false);
 
-    public void PauseGame()
-    {
-        if (GameManager.Instance) GameManager.Instance.ChangeState(GameState.Paused);
-    }
-
-    public void ResumeGame()
-    {
-        if (GameManager.Instance) GameManager.Instance.ChangeState(GameState.Gameplay);
-        if (settingPanel) settingPanel.SetActive(false);
-    }
-
     private void TogglePanel(GameObject panel, bool isOpen)
     {
         if (panel == null) return;
@@ -48,7 +37,8 @@ public class PanelController : MonoBehaviour
         // Pause time khi mở panel popup (trừ khi đang ở main menu)
         if (GameManager.Instance && GameManager.Instance.CurrentState != GameState.MainMenu)
         {
-            Time.timeScale = isOpen ? 0f : 1;
+            if (isOpen) GameManager.Instance.ChangeState(GameState.Paused);
+            else GameManager.Instance.ChangeState(GameState.Playing);
         }
     }
 

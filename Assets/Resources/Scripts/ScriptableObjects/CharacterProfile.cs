@@ -25,7 +25,7 @@ public class CharacterProfile : ScriptableObject
     public Sprite mainInfo;
 
     [Header("Stats")]
-    public float maxHealth = 100f;
     public float moveSpeed = 5f;
+    public float acc = 1f;
     public float jumpForce = 25f;
 }

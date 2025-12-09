@@ -20,6 +20,7 @@ public class GameManager : Singleton<GameManager>
     public GameState CurrentState { get; private set; }
     public static event Action<GameState> OnStateChanged;
 
+
     protected override void OnAwake()
     {
         // Mặc định ban đầu
@@ -37,7 +38,7 @@ public class GameManager : Singleton<GameManager>
                 Time.timeScale = 1f;
                 break;
             case GameState.Playing:
-                RandomPlacementController.Instance.RandomizeObjects();
+                FindFirstObjectByType<MapController>().GenerateLevel();
                 GameStatsManager.Instance.StartMap();
                 Time.timeScale = 1f;
                 break;

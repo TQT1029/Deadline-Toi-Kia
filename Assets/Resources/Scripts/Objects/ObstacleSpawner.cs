@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Threading.Tasks; // Cần thư viện này để dùng Task
 using System.Linq; // Dùng để xử lý List tiện hơn
 
-public class RandomPlacementController : MonoBehaviour
+public class ObstacleSpawner : MonoBehaviour
 {
-    public static RandomPlacementController Instance;
+    public static ObstacleSpawner Instance;
 
     [Header("Cấu hình Random")]
     [Tooltip("Mảng chứa các vật thể được random")]
@@ -37,7 +37,7 @@ public class RandomPlacementController : MonoBehaviour
     }
 
     [ContextMenu("Test Randomize Async")]
-    public async void RandomizeObjects()
+    public async Task RandomizeObjects()
     {
         // 1. Kiểm tra điều kiện & Khóa spam
         if (isCalculating) return;

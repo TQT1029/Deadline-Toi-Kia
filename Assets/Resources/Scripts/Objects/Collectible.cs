@@ -1,39 +1,62 @@
 ﻿using UnityEngine;
+using DG.Tweening; // Bắt buộc
 
 public enum ItemType
 {
-    LearnItem,   // Sách, Laptop, Dụng cụ học tập...
-    DoubleXPItem // Bình thuốc X2, Icon X2...
+    DocumentItem,
+    DoubleXPItem,
+    // Có thể thêm các loại vật phẩm khác ở đây
 }
 
 public class Collectible : MonoBehaviour
 {
     [Header("Item Settings")]
     public ItemType type;
-    public int scoreValue = 10; // Điểm cộng thêm (nếu là LearnItem)
-    public GameObject collectEffect; // Hiệu ứng nổ khi ăn (nếu có)
+    public int scoreValue = 10;
+    public GameObject collectEffect;
+
+    [Header("Animation Settings")]
+    [SerializeField] private float animDuration = 0.3f;
+    [SerializeField] private Ease animEase = Ease.InBack; // Hiệu ứng thu nhỏ giật lại
+
+    private bool isCollected = false; // Cờ để tránh bị ăn 2 lần
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if (isCollected) return; // Nếu đã ăn rồi thì bỏ qua
+
         if (collision.CompareTag("Player"))
         {
-            // Xử lý logic cộng điểm
+            isCollected = true;
+
+            // 1. Tắt Collider ngay lập tức để không ai chạm vào được nữa
+            GetComponent<Collider2D>().enabled = false;
+
+            // 2. Xử lý logic cộng điểm
             switch (type)
             {
-                case ItemType.LearnItem:
+                case ItemType.DocumentItem:
                     GameStatsManager.Instance.CollectLearnItem(scoreValue);
                     break;
-
                 case ItemType.DoubleXPItem:
                     GameStatsManager.Instance.CollectDoubleXPItem();
                     break;
             }
 
-            // Hiệu ứng âm thanh/hình ảnh (Optional)
-            if (collectEffect != null) Instantiate(collectEffect, transform.position, Quaternion.identity);
+            // 3. Hiệu ứng nổ (Particle System)
+            if (collectEffect != null)
+            {
+                Instantiate(collectEffect, transform.position, Quaternion.identity);
+            }
 
-            // Biến mất
-            Destroy(gameObject);
+            // 4. Hiệu ứng biến mất bằng DOTween
+            // Thu nhỏ về 0, sau đó mới Destroy object
+            transform.DOScale(Vector3.zero, animDuration)
+                .SetEase(animEase)
+                .OnComplete(() =>
+                {
+                    Destroy(gameObject);
+                });
         }
     }
 }

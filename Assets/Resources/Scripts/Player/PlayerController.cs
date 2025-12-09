@@ -121,7 +121,7 @@ public class PlayerController : MonoBehaviour
     // --- KIỂM TRA ĐẤT ---
     private void CheckGround()
     {
-        if (groundCheck != null)
+        if (groundCheck != null && isGrounded==false)
         {
             // Tạo một vòng tròn nhỏ dưới chân để xem có chạm lớp Ground không
             isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
@@ -137,6 +137,7 @@ public class PlayerController : MonoBehaviour
             if ((Input.GetMouseButton(0) || (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began) || Input.GetKeyDown(KeyCode.Space)) && isGrounded)
             {
                 Jump();
+                isGrounded = false; // Ngay lập tức đánh dấu là không còn trên đất để tránh nhảy liên tục
                 lastJumpTime = 0f;
             }
         }

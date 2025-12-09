@@ -12,10 +12,9 @@ public class ReferenceManager : Singleton<ReferenceManager>
     public Camera MainCamera;
     public Transform PlayerTransform;
     public Rigidbody2D PlayerRigidbody;
-
+    
     public Transform SpawnTrans;
     public Transform RespawnTrans;
-
 
 
     [Header("Data Library")]
@@ -38,6 +37,8 @@ public class ReferenceManager : Singleton<ReferenceManager>
         // Tìm lại Spawn và Respawn
         SpawnTrans = GameObject.FindGameObjectWithTag(GameConstants.TAG_SPAWNPOINT)?.transform;
         RespawnTrans = GameObject.FindGameObjectWithTag(GameConstants.TAG_RESPAWN)?.transform;
+
+        // Tìm lại MapController
     }
 
     /// <summary>

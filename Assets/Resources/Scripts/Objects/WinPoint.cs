@@ -10,10 +10,13 @@ public class WinPoint : MonoBehaviour
     [SerializeField] private bool isOpenWin = false;
     private void Update()
     {
-        spendTime += Time.deltaTime;
-        if (spendTime >= timeOpenWin)
+        if (ReferenceManager.Instance.PlayerRigidbody.linearVelocityX >= 4.5f)
         {
-            isOpenWin = true;
+            spendTime += Time.deltaTime;
+            if (spendTime >= timeOpenWin)
+            {
+                isOpenWin = true;
+            }
         }
     }
     private void OnTriggerEnter2D(Collider2D other)
@@ -26,7 +29,7 @@ public class WinPoint : MonoBehaviour
             else
             {
                 ReferenceManager.Instance.SpawnTrans.position = new Vector3(other.transform.position.x, ReferenceManager.Instance.SpawnTrans.position.y, 0);
-                RandomPlacementController.Instance.RandomizeObjects();  
+                FindFirstObjectByType<MapController>().GenerateLevel();
             }
         }
     }

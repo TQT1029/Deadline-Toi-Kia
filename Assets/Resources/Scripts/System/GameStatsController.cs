@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
 
-public class GameStatsManager : Singleton<GameStatsManager>
+public class GameStatsController : MonoBehaviour
 {
+    public static GameStatsController Instance;
+
     [Header("Settings")]
     public float scoreMultiplier = 1f;
 
@@ -17,7 +19,16 @@ public class GameStatsManager : Singleton<GameStatsManager>
     public int resultXPScore { get; private set; }
     private bool isGameActive = true;
 
-    // ... (Giữ nguyên hàm Update và Logic Ăn Vật Phẩm) ...
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(this.gameObject);
+            return;
+        }
+        Instance = this;
+    }
+
     private void Update()
     {
         if (!isGameActive) return;

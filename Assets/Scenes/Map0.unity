@@ -2024,7 +2024,7 @@ Transform:
   m_GameObject: {fileID: 303609434}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 268.5, y: 0, z: 0}
+  m_LocalPosition: {x: 269, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4219,7 +4219,7 @@ Transform:
   m_GameObject: {fileID: 817237136}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 15, y: 3, z: 20}
+  m_LocalPosition: {x: 15.5, y: 3, z: 20}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -4250,7 +4250,7 @@ MonoBehaviour:
   - {fileID: 1025562334}
   startPoint: {fileID: 1893159984}
   endPoint: {fileID: 303609435}
-  minDistance: 20
+  minDistance: 15
   maxAttempts: 100
 --- !u!1 &873237668
 GameObject:
@@ -4816,7 +4816,7 @@ Transform:
   m_GameObject: {fileID: 941845864}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 115, y: 3, z: 0}
+  m_LocalPosition: {x: 115.5, y: 3, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -8048,6 +8048,7 @@ GameObject:
   - component: {fileID: 1352026134}
   - component: {fileID: 1352026133}
   - component: {fileID: 1352026137}
+  - component: {fileID: 1352026138}
   m_Layer: 0
   m_Name: UIController
   m_TagString: Untagged
@@ -8109,6 +8110,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd3de125cbe61004a98c2dd0b3ae9bea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1352026138
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1352026131}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5bcc088b794d3f46b9587f5795fcc69, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scoreMultiplier: 2
+  oneStarScore: 100
+  twoStarScore: 300
+  threeStarScore: 600
+  fourStarScore: 1000
+  fiveStarScore: 1500
 --- !u!1 &1357384127
 GameObject:
   m_ObjectHideFlags: 0
@@ -9638,7 +9657,7 @@ Transform:
   m_GameObject: {fileID: 1695817143}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.5, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -9979,7 +9998,7 @@ Transform:
   m_GameObject: {fileID: 1771556728}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 306.28, y: 3, z: 0}
+  m_LocalPosition: {x: 306.78, y: 3, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -10680,7 +10699,7 @@ Transform:
   m_GameObject: {fileID: 1792635653}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 15, y: 3, z: 0}
+  m_LocalPosition: {x: 15.5, y: 3, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -10875,7 +10894,7 @@ Transform:
   m_GameObject: {fileID: 1893159983}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 61.5, y: 0, z: 0}
+  m_LocalPosition: {x: 62, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -10906,7 +10925,7 @@ Transform:
   m_GameObject: {fileID: 1894545259}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 15, y: 3, z: 20}
+  m_LocalPosition: {x: 15.5, y: 3, z: 20}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children:

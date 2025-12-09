@@ -39,14 +39,14 @@ public class GameManager : Singleton<GameManager>
                 break;
             case GameState.Playing:
                 FindFirstObjectByType<MapController>().GenerateLevel();
-                GameStatsManager.Instance.StartMap();
+                GameStatsController.Instance.StartMap();
                 Time.timeScale = 1f;
                 break;
             case GameState.Paused:
                 Time.timeScale = 0f;
                 break;
             case GameState.Victory:
-                GameStatsManager.Instance.FinishLevel();
+                GameStatsController.Instance.FinishLevel();
                 Time.timeScale = 0f;
                 break;
 

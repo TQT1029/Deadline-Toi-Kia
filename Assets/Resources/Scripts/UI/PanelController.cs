@@ -37,8 +37,7 @@ public class PanelController : MonoBehaviour
         // Pause time khi mở panel popup (trừ khi đang ở main menu)
         if (GameManager.Instance && GameManager.Instance.CurrentState != GameState.MainMenu)
         {
-            if (isOpen) GameManager.Instance.ChangeState(GameState.Paused);
-            else GameManager.Instance.ChangeState(GameState.Playing);
+            Time.timeScale = isOpen ? 0f : 1f;
         }
     }
 

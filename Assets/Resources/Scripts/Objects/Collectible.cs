@@ -36,10 +36,10 @@ public class Collectible : MonoBehaviour
             switch (type)
             {
                 case ItemType.DocumentItem:
-                    GameStatsManager.Instance.CollectLearnItem(scoreValue);
+                    GameStatsController.Instance.CollectLearnItem(scoreValue);
                     break;
                 case ItemType.DoubleXPItem:
-                    GameStatsManager.Instance.CollectDoubleXPItem();
+                    GameStatsController.Instance.CollectDoubleXPItem();
                     break;
             }
 

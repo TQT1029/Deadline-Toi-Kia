@@ -54,7 +54,8 @@ public class PlayerController : MonoBehaviour
         runSpeed = _profile.moveSpeed;
         jumpForce = _profile.jumpForce;
 
-        // 2. Setup Animation
+        // 2. Setup Animation,...
+        UIManager.Instance.MainInfo.sprite = _profile.mainInfo;
         _animator.runtimeAnimatorController = _profile.inGameAnimator;
 
         // 3. Cập nhật Collider dựa trên kích thước skin đầu tiên
@@ -85,12 +86,12 @@ public class PlayerController : MonoBehaviour
     {
         // Luôn luôn di chuyển sang phải với tốc độ runSpeed
         // Giữ nguyên vận tốc Y hiện tại (để trọng lực hoạt động)
-        Vector2 targetVelocity = new Vector2(runSpeed + GameStatsManager.Instance.resultDistance / 100, _rb.linearVelocity.y);
+        Vector2 targetVelocity = new Vector2(runSpeed + GameStatsController.Instance.resultDistance / 100, _rb.linearVelocity.y);
 
         if (useUnity6LinearVelocity)
         {
 #if UNITY_6000_0_OR_NEWER
-            _rb.linearVelocity = new Vector2(runSpeed + GameStatsManager.Instance.resultDistance / 100, _rb.linearVelocity.y);
+            _rb.linearVelocity = new Vector2(runSpeed + GameStatsController.Instance.resultDistance / 100, _rb.linearVelocity.y);
 #else
             _rb.velocity = targetVelocity;
 #endif

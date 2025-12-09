@@ -25,6 +25,8 @@ public class UIManager : Singleton<UIManager>
     public Image characterChecklist;
 
     //Playing Scenes 
+    public Image MainInfo;
+
     public TMP_Text DistanceText;
     public TMP_Text DocumentScoreText;
     public TMP_Text XPScoreText;
@@ -81,6 +83,8 @@ public class UIManager : Singleton<UIManager>
         {
             // Playing Scenes
             SettingPanel = FindObj("SettingPanel");
+
+            MainInfo = FindObj("MainInfo")?.GetComponent<Image>();
 
             DistanceText = FindObj("DistanceText")?.GetComponent<TMP_Text>();
             DocumentScoreText = FindObj("DocumentScoreText")?.GetComponent<TMP_Text>();

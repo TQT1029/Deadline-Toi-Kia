@@ -19,7 +19,6 @@ public class SceneLoader : MonoBehaviour
             return;
         }
 
-        GameManager.Instance.ChangeState(GameState.Playing);
         Time.timeScale = 1f;
         string mapScene = ReferenceManager.Instance.currentSelectedMap.targetSceneName;
         SceneManager.LoadScene(mapScene);

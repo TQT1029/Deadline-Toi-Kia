@@ -33,7 +33,6 @@ public class UIManager : Singleton<UIManager>
 
     public GameObject[] Stars = new GameObject[5];
     public Image BGObj1;
-    public Image BGObj2;
     public Animator AnimatorObj2;
     public TMP_Text ResultDistanceText;
     public TMP_Text ResultDocumentScoreText;
@@ -96,8 +95,7 @@ public class UIManager : Singleton<UIManager>
             Stars[4] = ResultPanel.transform.Find("ResultZone/Stars/5")?.gameObject;
 
             BGObj1 = FindObj("BGObj1")?.GetComponent<Image>();
-            BGObj2 = FindObj("BGObj2")?.GetComponent<Image>();
-            AnimatorObj2 = BGObj2?.GetComponent<Animator>();
+            AnimatorObj2 = FindObj("BGObj2") ?.GetComponent<Animator>();
 
             ResultDistanceText = ResultPanel.transform.Find("ResultZone/ResultDistance")?.GetComponent<TMP_Text>();
             ResultDocumentScoreText = ResultPanel.transform.Find("ResultZone/ResultDocuments")?.GetComponent<TMP_Text>();

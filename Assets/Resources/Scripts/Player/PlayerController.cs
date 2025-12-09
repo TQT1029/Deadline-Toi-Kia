@@ -16,7 +16,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float jumpCooldown = 0.5f;
     private float lastJumpTime;
 
-    private float respawnDelay = 1f;
+    private float respawnDelay = 3f;
     private float respawnTime;
 
     [Header("Ground Detection")]
@@ -104,7 +104,7 @@ public class PlayerController : MonoBehaviour
     // --- CheckRespawn ---
     private void CheckRespawn()
     {
-        if (_rb.linearVelocityX <= 1)
+        if (_rb.linearVelocityX <= 0.5f)
         {
             if (respawnTime >= respawnDelay)
             {

@@ -1,63 +1,44 @@
 ﻿using UnityEngine;
 
-/// <summary>
-/// Singleton quản lý thống kê và điểm số trong game.
-/// </summary>
 public class GameStatsManager : Singleton<GameStatsManager>
 {
     [Header("Settings")]
-    public float scoreMultiplier = 1f; // Hệ số nhân điểm (mặc định là 1)
+    public float scoreMultiplier = 1f;
 
-    [Header("Star Thresholds (Mốc điểm để đạt sao)")]
-    public int oneStarScore = 100;  // Ví dụ: > 100 điểm = 1 sao
-    public int twoStarScore = 300;  // Ví dụ: > 300 điểm = 2 sao
-    public int threeStarScore = 600;// Ví dụ: > 600 điểm = 3 sao
-    public int fourStarScore = 1000; // Ví dụ: > 1000 điểm = 4 sao
-    public int fiveStarScore = 1500; // Ví dụ: > 1500 điểm = 5 sao
+    [Header("Star Thresholds")]
+    public int oneStarScore = 100;
+    public int twoStarScore = 300;
+    public int threeStarScore = 600;
+    public int fourStarScore = 1000;
+    public int fiveStarScore = 1500;
 
-    // Các biến lưu trữ nội bộ
     public float resultDistance { get; private set; }
     public int resultDocument { get; private set; }
     public int resultXPScore { get; private set; }
     private bool isGameActive = true;
 
+    // ... (Giữ nguyên hàm Update và Logic Ăn Vật Phẩm) ...
     private void Update()
     {
         if (!isGameActive) return;
-
-        // 1. Tính khoảng cách (Giả sử runSpeed lấy từ PlayerController)
-        // Nếu bạn dùng script PlayerController ở câu trả lời trước, hãy truy cập runSpeed từ đó
-        // Ở đây mình ví dụ cộng dồn theo thời gian
         if (ReferenceManager.Instance.PlayerTransform != null)
         {
-            // Cách 1: Tính theo vị trí X thực tế của nhân vật
-            resultDistance += ReferenceManager.Instance.PlayerRigidbody.linearVelocityX * Time.deltaTime;
+            // Dùng linearVelocityX (Unity 6) hoặc velocity.x tùy phiên bản
+            resultDistance += ReferenceManager.Instance.PlayerRigidbody.linearVelocity.x * Time.deltaTime;
         }
-
-        // 2. Cập nhật lên HUD
         HUDController.Instance.UpdateHUD(resultDistance, resultDocument, resultXPScore);
     }
 
-    // --- LOGIC ĂN VẬT PHẨM ---
-
-    // Gọi hàm này khi ăn vật phẩm thường (Sách, Laptop...)
     public void CollectLearnItem(int amount = 1)
     {
         resultDocument += amount;
-
-        // Mặc định XP tăng bằng Document Score
         resultXPScore += amount;
     }
 
-    // Gọi hàm này khi ăn vật phẩm X2
     public void CollectDoubleXPItem()
     {
-        // Yêu cầu của bạn: "nếu nhặt được vật phẩm x2 XP score thì sẽ được x2 XP Score HIỆN TẠI"
         resultXPScore *= 2;
-        Debug.Log("Đã X2 XP Score! Điểm hiện tại: " + resultXPScore);
     }
-
-    // --- LOGIC MÀN CHƠI ---
 
     public void StartMap()
     {
@@ -66,25 +47,24 @@ public class GameStatsManager : Singleton<GameStatsManager>
         resultXPScore = 0;
         isGameActive = true;
     }
+
+    // --- SỬA HÀM NÀY ---
     public void FinishLevel()
     {
         isGameActive = false;
 
-        // Tính tổng điểm cuối cùng (Tùy logic game, ở đây lấy XP Score làm chuẩn xếp hạng)
-        int finalScore = resultXPScore;
-
         // Tính số sao
         int starsEarned = 0;
-        if (finalScore >= fiveStarScore) starsEarned = 5;
-        else if (finalScore >= fourStarScore) starsEarned = 4;
-        else if (finalScore >= threeStarScore) starsEarned = 3;
-        else if (finalScore >= twoStarScore) starsEarned = 2;
-        else if (finalScore >= oneStarScore) starsEarned = 1;
+        if (resultXPScore >= fiveStarScore) starsEarned = 5;
+        else if (resultXPScore >= fourStarScore) starsEarned = 4;
+        else if (resultXPScore >= threeStarScore) starsEarned = 3;
+        else if (resultXPScore >= twoStarScore) starsEarned = 2;
+        else if (resultXPScore >= oneStarScore) starsEarned = 1;
 
-        Debug.Log($"Kết thúc! Điểm: {finalScore} - Sao: {starsEarned}");
+        Debug.Log($"Kết thúc! XP: {resultXPScore} - Sao: {starsEarned}");
 
-        // Hiển thị UI kết quả
-        HUDController.Instance.ShowResult(starsEarned, finalScore);
+        // GỌI HUD VỚI ĐẦY ĐỦ THAM SỐ
+        HUDController.Instance.ShowResult(starsEarned, resultDistance, resultDocument, resultXPScore);
 
         // Dừng game
         Time.timeScale = 0f;

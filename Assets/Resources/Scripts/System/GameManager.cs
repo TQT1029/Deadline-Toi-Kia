@@ -37,6 +37,7 @@ public class GameManager : Singleton<GameManager>
                 Time.timeScale = 1f;
                 break;
             case GameState.Playing:
+                RandomPlacementController.Instance.RandomizeObjects();
                 GameStatsManager.Instance.StartMap();
                 Time.timeScale = 1f;
                 break;
@@ -45,7 +46,7 @@ public class GameManager : Singleton<GameManager>
                 break;
             case GameState.Victory:
                 GameStatsManager.Instance.FinishLevel();
-                Time.timeScale = 1f;
+                Time.timeScale = 0f;
                 break;
 
             default:

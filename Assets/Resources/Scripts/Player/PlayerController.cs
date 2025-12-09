@@ -71,6 +71,7 @@ public class PlayerController : MonoBehaviour
     {
         CheckInput();
         CheckRespawn();
+
     }
 
     private void FixedUpdate()
@@ -145,6 +146,8 @@ public class PlayerController : MonoBehaviour
 
             // Reset animation nhảy khi đã hạ cánh
             _animator.SetBool("isJump", false);
+
+
         }
     }
 
@@ -168,7 +171,7 @@ public class PlayerController : MonoBehaviour
             _rb.AddForce((new Vector2(1, 0.5f)).normalized * jumpForce, ForceMode2D.Impulse);
         }
 
-        // 2. Thực hiện Animation lộn vòng bằng DOTween
+        // 2. Thực hiện Animation lộn vòng
         _animator.SetBool("isJump", true);
     }
 

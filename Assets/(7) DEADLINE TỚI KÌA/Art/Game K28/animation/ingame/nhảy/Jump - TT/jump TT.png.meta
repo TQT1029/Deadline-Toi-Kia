@@ -1,0 +1,579 @@
+fileFormatVersion: 2
+guid: ec6cff6b6c267384c95e9bd079cf12a0
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 7230114267532395230
+    second: jump TT_0
+  - first:
+      213: 7008989762391692615
+    second: jump TT_1
+  - first:
+      213: 5128219414529947771
+    second: jump TT_2
+  - first:
+      213: -230484975251845193
+    second: jump TT_3
+  - first:
+      213: 7469458876048623511
+    second: jump TT_4
+  - first:
+      213: 4375164797027289849
+    second: jump TT_5
+  - first:
+      213: 7477254443908888996
+    second: jump TT_6
+  - first:
+      213: 8703636511366847955
+    second: jump TT_7
+  - first:
+      213: 863072074381841196
+    second: jump TT_8
+  - first:
+      213: -6250401104761244270
+    second: jump TT_9
+  - first:
+      213: -8993304721587745109
+    second: jump TT_10
+  - first:
+      213: -2056127457433311022
+    second: jump TT_11
+  - first:
+      213: 229391690252944963
+    second: jump TT_12
+  - first:
+      213: 9149720803247215370
+    second: jump TT_13
+  - first:
+      213: 1973186653338026447
+    second: jump TT_14
+  - first:
+      213: 7295708543194619243
+    second: jump TT_15
+  - first:
+      213: 2118434135137607407
+    second: jump TT_16
+  - first:
+      213: 3430937255050341656
+    second: jump TT_17
+  - first:
+      213: -805833127755374592
+    second: jump TT_18
+  - first:
+      213: 5059644551564248284
+    second: jump TT_19
+  - first:
+      213: 4312883308801220159
+    second: jump TT_20
+  - first:
+      213: -7688853941130937552
+    second: jump TT_21
+  - first:
+      213: 8312249076862546379
+    second: jump TT_22
+  - first:
+      213: -1781340677085157420
+    second: jump TT_23
+  - first:
+      213: 1413366737544567103
+    second: jump TT_24
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: iOS
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WindowsStoreApps
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: jump TT_0
+      rect:
+        serializedVersion: 2
+        x: 367
+        y: 797
+        width: 358
+        height: 502
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ed280c99e96865460800000000000000
+      internalID: 7230114267532395230
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: jump TT_2
+      rect:
+        serializedVersion: 2
+        x: 1048
+        y: 803
+        width: 353
+        height: 500
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b78b15513681b2740800000000000000
+      internalID: 5128219414529947771
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: jump TT_4
+      rect:
+        serializedVersion: 2
+        x: 1593
+        y: 804
+        width: 437
+        height: 465
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 797444bd549d8a760800000000000000
+      internalID: 7469458876048623511
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: jump TT_5
+      rect:
+        serializedVersion: 2
+        x: 2292
+        y: 794
+        width: 370
+        height: 505
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9fa0b98c335b7bc30800000000000000
+      internalID: 4375164797027289849
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: jump TT_7
+      rect:
+        serializedVersion: 2
+        x: 2906
+        y: 794
+        width: 479
+        height: 499
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3dd14221b4789c870800000000000000
+      internalID: 8703636511366847955
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: jump TT_8
+      rect:
+        serializedVersion: 2
+        x: 3481
+        y: 836
+        width: 511
+        height: 439
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c23d6199a7f3afb00800000000000000
+      internalID: 863072074381841196
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: jump TT_9
+      rect:
+        serializedVersion: 2
+        x: 624
+        y: 905
+        width: 8
+        height: 10
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2953ffeaf4d1249a0800000000000000
+      internalID: -6250401104761244270
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: jump TT_11
+      rect:
+        serializedVersion: 2
+        x: 623
+        y: 887
+        width: 8
+        height: 15
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2d8a2c6a8fa2773e0800000000000000
+      internalID: -2056127457433311022
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: jump TT_13
+      rect:
+        serializedVersion: 2
+        x: 298
+        y: 138
+        width: 398
+        height: 493
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a035d8fd7965afe70800000000000000
+      internalID: 9149720803247215370
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: jump TT_14
+      rect:
+        serializedVersion: 2
+        x: 914
+        y: 154
+        width: 501
+        height: 474
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fc141cb8eca226b10800000000000000
+      internalID: 1973186653338026447
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: jump TT_15
+      rect:
+        serializedVersion: 2
+        x: 1665
+        y: 170
+        width: 356
+        height: 482
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b6dd5e504409f3560800000000000000
+      internalID: 7295708543194619243
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: jump TT_16
+      rect:
+        serializedVersion: 2
+        x: 2330
+        y: 158
+        width: 339
+        height: 495
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fee50f83f90366d10800000000000000
+      internalID: 2118434135137607407
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: jump TT_18
+      rect:
+        serializedVersion: 2
+        x: 3036
+        y: 157
+        width: 337
+        height: 497
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 00026ef2a0b11d4f0800000000000000
+      internalID: -805833127755374592
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: jump TT_20
+      rect:
+        serializedVersion: 2
+        x: 3588
+        y: 157
+        width: 342
+        height: 500
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f3edecac4807adb30800000000000000
+      internalID: 4312883308801220159
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 1bab429389f1a564790534277e39045b
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.0},"autoSlicingMethod":1,"spriteAlignment":7,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
+    nameFileIdTable:
+      jump TT_0: 7230114267532395230
+      jump TT_1: 7008989762391692615
+      jump TT_10: -8993304721587745109
+      jump TT_11: -2056127457433311022
+      jump TT_12: 229391690252944963
+      jump TT_13: 9149720803247215370
+      jump TT_14: 1973186653338026447
+      jump TT_15: 7295708543194619243
+      jump TT_16: 2118434135137607407
+      jump TT_17: 3430937255050341656
+      jump TT_18: -805833127755374592
+      jump TT_19: 5059644551564248284
+      jump TT_2: 5128219414529947771
+      jump TT_20: 4312883308801220159
+      jump TT_21: -7688853941130937552
+      jump TT_22: 8312249076862546379
+      jump TT_23: -1781340677085157420
+      jump TT_24: 1413366737544567103
+      jump TT_3: -230484975251845193
+      jump TT_4: 7469458876048623511
+      jump TT_5: 4375164797027289849
+      jump TT_6: 7477254443908888996
+      jump TT_7: 8703636511366847955
+      jump TT_8: 863072074381841196
+      jump TT_9: -6250401104761244270
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

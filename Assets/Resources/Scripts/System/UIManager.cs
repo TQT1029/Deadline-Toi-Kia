@@ -169,15 +169,7 @@ public class UIManager : Singleton<UIManager>
             characterPreview.Rebind();
             characterPreview.Update(0f);
 
-            // [Tùy chọn] Set Native Size cho Image chứa Animator
-            // Vì Animator component không có hàm SetNativeSize, ta phải lấy Image cùng cấp
-            Image previewImage = characterPreview.GetComponent<Image>();
-            if (previewImage != null)
-            {
-                // Lưu ý: Nếu Animation thay đổi kích thước liên tục, việc này có thể gây giật hình
-                // Nên cân nhắc chỉ dùng nếu các nhân vật có kích thước khác hẳn nhau
-                previewImage.SetNativeSize();
-            }
+          
         }
 
         // 2. Xử lý check list (icon nhỏ)

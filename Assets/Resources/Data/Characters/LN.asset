@@ -16,10 +16,10 @@ MonoBehaviour:
   characterDescription: 
   skinVariants:
   - {fileID: 508954756717103011, guid: f5f67c29a509e5644b29eccb17d2b312, type: 3}
-  previewAction: {fileID: 9100000, guid: a08b6055f5df9c24dbb4b50b7450afd0, type: 2}
+  previewAction: {fileID: 9100000, guid: 362e94a77e9e495408b0861454d25a23, type: 2}
   checklistImage: {fileID: 2166056730965598516, guid: 63bc803fa6d8641498b0079a1edbaa1a, type: 3}
-  inGameAnimator: {fileID: 9100000, guid: 233b401b96129e04ab59b266592f0555, type: 2}
+  inGameAnimator: {fileID: 9100000, guid: 5be08cf1b1f97094690e4d4d74a96b78, type: 2}
   mainInfo: {fileID: -835798625675420776, guid: 018a6cf420fb4224db026f97fbe6340d, type: 3}
-  maxHealth: 100
   moveSpeed: 5
+  acc: 1
   jumpForce: 25

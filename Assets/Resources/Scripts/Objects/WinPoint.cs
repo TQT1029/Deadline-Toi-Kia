@@ -1,12 +1,13 @@
 ﻿using UnityEngine;
 
+
 public class WinPoint : MonoBehaviour
 {
+
     [SerializeField] private float timeOpenWin = 120f; // Thời gian mở Win Point (Giây)
     [SerializeField] private float spendTime = 0f;
 
     [SerializeField] private bool isOpenWin = false;
-
     private void Update()
     {
         spendTime += Time.deltaTime;
@@ -24,7 +25,8 @@ public class WinPoint : MonoBehaviour
                 GameManager.Instance.ChangeState(GameState.Victory);
             else
             {
-                other.transform.position = new Vector2(ReferenceManager.Instance.SpawnTrans.position.x, other.transform.position.y);
+                ReferenceManager.Instance.SpawnTrans.position = new Vector3(other.transform.position.x, ReferenceManager.Instance.SpawnTrans.position.y, 0);
+                RandomPos.Instance.RandomizeObjects();  
             }
         }
     }

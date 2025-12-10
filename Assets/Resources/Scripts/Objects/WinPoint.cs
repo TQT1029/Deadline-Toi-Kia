@@ -29,7 +29,7 @@ public class WinPoint : MonoBehaviour
             else
             {
                 ReferenceManager.Instance.SpawnTrans.position = new Vector3(other.transform.position.x, ReferenceManager.Instance.SpawnTrans.position.y, 0);
-                FindFirstObjectByType<MapController>().GenerateLevel();
+                GameManager.Instance.MapController.GenerateLevel();
             }
         }
     }

@@ -20,6 +20,7 @@ public class GameManager : Singleton<GameManager>
     public GameState CurrentState { get; private set; }
     public static event Action<GameState> OnStateChanged;
 
+    public MapController MapController;
 
     protected override void OnAwake()
     {
@@ -38,8 +39,9 @@ public class GameManager : Singleton<GameManager>
                 Time.timeScale = 1f;
                 break;
             case GameState.Playing:
-                FindFirstObjectByType<MapController>().GenerateLevel();
-                GameStatsController.Instance.StartMap();
+                MapController = FindFirstObjectByType<MapController>();
+                if (MapController != null) MapController.GenerateLevel();
+                    GameStatsController.Instance.StartMap();
                 Time.timeScale = 1f;
                 break;
             case GameState.Paused:

@@ -52,17 +52,17 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 2
+  spriteMode: 1
   spriteExtrude: 1
   spriteMeshType: 1
-  alignment: 0
-  spritePivot: {x: 0.5, y: 0.5}
+  alignment: 9
+  spritePivot: {x: 0.5, y: 0.14}
   spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
   alphaIsTransparency: 1
-  spriteTessellationDetail: -1
+  spriteTessellationDetail: 1
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
@@ -117,6 +117,19 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 4
     buildTarget: iOS
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -219,12 +232,37 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
-    outline: []
+    outline:
+    - - {x: 375.5, y: 211}
+      - {x: 374.5, y: 100}
+      - {x: -229.5, y: 96}
+      - {x: -185.5, y: -207}
+      - {x: 487.5, y: -210}
+      - {x: 487.5, y: 281}
+      - {x: 424.5, y: 281}
+      - {x: 415.5, y: 237}
+    - - {x: -452.5, y: -207}
+      - {x: -290.5, y: -206}
+      - {x: -266.5, y: -35}
+      - {x: -485.5, y: -35}
     customData: 
-    physicsShape: []
+    physicsShape:
+    - - {x: 371.5, y: 99}
+      - {x: -231.5, y: 98}
+      - {x: -228.5, y: 68}
+      - {x: -202.5, y: 21}
+      - {x: -186.5, y: -203}
+      - {x: 487.5, y: -212}
+      - {x: 484.5, y: 281}
+      - {x: 429.5, y: 281}
+      - {x: 373.5, y: 229}
+    - - {x: -450.5, y: -201}
+      - {x: -294.5, y: -200}
+      - {x: -265.5, y: -35}
+      - {x: -486.5, y: -37}
     bones: []
     spriteID: f0ee1128582fbf4468f4be0a10486387
-    internalID: 0
+    internalID: -400849943
     vertices: []
     indices: 
     edges: []

@@ -1,154 +1,115 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
-using System.Threading.Tasks; // Cần thư viện này để dùng Task
-using System.Linq; // Dùng để xử lý List tiện hơn
+using System.Threading.Tasks;
 
 public class ObstacleSpawner : MonoBehaviour
 {
     public static ObstacleSpawner Instance;
 
-    [Header("Cấu hình Random")]
-    [Tooltip("Mảng chứa các vật thể được random")]
+    [Header("Cấu hình Khoảng Cách (Quan trọng)")]
+    [Tooltip("Khoảng cách tối thiểu giữa 2 chướng ngại vật")]
+    [SerializeField] private float minGap = 8.0f;
+    [Tooltip("Khoảng cách tối đa giữa 2 chướng ngại vật")]
+    [SerializeField] private float maxGap = 15.0f;
+    // Gợi ý: Set minGap = 8, maxGap = 15 sẽ khớp với nhịp của ItemSpawner (distanceBetweenGroups = 12)
+
+    [Header("Danh sách Vật Cản")]
     [SerializeField] private List<GameObject> objectsToRandomize;
 
-    [Tooltip("Vị trí đầu")]
+    [Header("Phạm vi")]
     [SerializeField] private Transform startPoint;
-
-    [Tooltip("Vị trí cuối")]
     [SerializeField] private Transform endPoint;
 
-    [Tooltip("Khoảng cách tối thiểu")]
-    [SerializeField] private float minDistance = 10.0f;
-
-    [Tooltip("Số lần thử tối đa")]
-    [SerializeField] private int maxAttempts = 100;
-
-    // Biến để khóa không cho spam nút khi đang tính toán
     private bool isCalculating = false;
 
     private void Awake()
     {
-        if (Instance != null && Instance != this)
-        {
-            Destroy(this.gameObject);
-            return;
-        }
-        Instance = this;
+        if (Instance == null) Instance = this;
+        else Destroy(gameObject);
     }
 
-    [ContextMenu("Test Randomize Async")]
+    // Hàm Async Task để LevelGenerator gọi
     public async Task RandomizeObjects()
     {
-        // 1. Kiểm tra điều kiện & Khóa spam
         if (isCalculating) return;
         if (objectsToRandomize == null || objectsToRandomize.Count == 0) return;
         if (startPoint == null || endPoint == null) return;
 
         isCalculating = true;
 
-        // 2. Lấy dữ liệu cần thiết ở Main Thread (Vì Thread phụ không được truy cập Transform của Unity)
+        // 1. Lấy dữ liệu Main Thread
         float sX = startPoint.position.x;
         float eX = endPoint.position.x;
-        int objectCount = objectsToRandomize.Count;
+        int count = objectsToRandomize.Count;
 
-        // Lưu lại Y và Z của từng object để gán lại sau này
-        // (Giả sử các object có thể có Y, Z khác nhau, ta cache lại)
+        // Cache lại Y, Z cũ (để giữ độ cao của máy giặt/bàn ghế nếu bạn đã chỉnh sẵn)
         List<Vector2> originalYZ = new List<Vector2>();
         foreach (var obj in objectsToRandomize)
         {
             if (obj != null) originalYZ.Add(new Vector2(obj.transform.position.y, obj.transform.position.z));
-            else originalYZ.Add(Vector2.zero); // Placeholder cho object null
+            else originalYZ.Add(Vector2.zero);
         }
 
-        // 3. Chạy tính toán ở luồng phụ (Background Thread)
-        // Lưu ý: Trong Task.Run không được dùng UnityEngine.Random, phải dùng System.Random
+        // 2. Chạy tính toán tuyến tính ở Background Thread
         List<float?> resultPositions = await Task.Run(() =>
         {
-            return CalculatePositionsLogic(sX, eX, objectCount);
+            return CalculateLinearPositions(sX, eX, count);
         });
 
-        // 4. Quay lại Main Thread để áp dụng vị trí
-        if (this == null) return; // Kiểm tra nếu script bị hủy trong lúc chờ
+        // 3. Gán vị trí ở Main Thread
+        if (this == null) return;
 
         for (int i = 0; i < objectsToRandomize.Count; i++)
         {
             GameObject obj = objectsToRandomize[i];
             if (obj == null) continue;
 
-            // Lấy kết quả đã tính
             float? newX = resultPositions[i];
 
             if (newX.HasValue)
             {
-                // Áp dụng vị trí mới, giữ nguyên Y và Z cũ
+                // Gán vị trí mới (X mới, Y cũ, Z cũ)
                 obj.transform.position = new Vector3(newX.Value, originalYZ[i].x, originalYZ[i].y);
                 obj.SetActive(true);
             }
             else
             {
-                Debug.LogWarning($"Không tìm được chỗ trống cho object thứ {i}.");
+                // Nếu hết đường (vượt quá EndPoint) thì tắt bớt các vật thừa đi
                 obj.SetActive(false);
             }
         }
 
         isCalculating = false;
-        Debug.Log("Hoàn tất Random vị trí (Async)!");
+        // Debug.Log("Đã rải vật cản xong!");
     }
 
-    // Hàm này chạy hoàn toàn trên luồng phụ, KHÔNG được đụng vào Unity API (Transform, GameObject...)
-    private List<float?> CalculatePositionsLogic(float startX, float endX, int count)
+    // --- LOGIC MỚI: Rải đều theo đường thẳng ---
+    private List<float?> CalculateLinearPositions(float startX, float endX, int count)
     {
-        // Tạo bộ Random của C# System (không dùng Unity Random)
         System.Random sysRandom = new System.Random();
-
-        float minX = Mathf.Min(startX, endX);
-        float maxX = Mathf.Max(startX, endX);
-        float padding = 0.5f;
-        minX += padding;
-        maxX -= padding;
-
-        List<float> usedPositions = new List<float>();
         List<float?> results = new List<float?>();
+
+        // Bắt đầu từ vị trí Start + một khoảng nhỏ
+        float currentCursor = startX + 5f;
 
         for (int i = 0; i < count; i++)
         {
-            bool found = false;
-            float chosenX = 0;
+            // 1. Random khoảng cách bước nhảy (Gap)
+            // Công thức: Random * (Max - Min) + Min
+            double randomGap = sysRandom.NextDouble() * (maxGap - minGap) + minGap;
 
-            for (int attempt = 0; attempt < maxAttempts; attempt++)
+            // 2. Cộng dồn vào vị trí hiện tại
+            currentCursor += (float)randomGap;
+
+            // 3. Kiểm tra xem đã vượt quá EndPoint chưa
+            if (currentCursor < endX)
             {
-                // Random số thực trong khoảng (System.Random trả về 0.0 -> 1.0)
-                double range = maxX - minX;
-                double sample = sysRandom.NextDouble();
-                float candidateX = (float)(sample * range) + minX;
-
-                // Kiểm tra va chạm
-                bool isOverlapping = false;
-                foreach (float existingX in usedPositions)
-                {
-                    if (Mathf.Abs(candidateX - existingX) < minDistance)
-                    {
-                        isOverlapping = true;
-                        break;
-                    }
-                }
-
-                if (!isOverlapping)
-                {
-                    chosenX = candidateX;
-                    found = true;
-                    break;
-                }
-            }
-
-            if (found)
-            {
-                usedPositions.Add(chosenX);
-                results.Add(chosenX);
+                results.Add(currentCursor);
             }
             else
             {
-                results.Add(null); // Đánh dấu là không tìm thấy
+                // Hết đường rồi -> Trả về null để tắt vật thể này đi
+                results.Add(null);
             }
         }
 

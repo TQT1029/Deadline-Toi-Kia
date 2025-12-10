@@ -1,5 +1,4 @@
-﻿using UnityEditor.Animations;
-using UnityEngine;
+﻿using UnityEngine;
 
 [CreateAssetMenu(fileName = "NewCharacterProfile", menuName = "Data/Character Profile")]
 public class CharacterProfile : ScriptableObject

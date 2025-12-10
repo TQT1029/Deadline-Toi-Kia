@@ -8,9 +8,16 @@ public class PlayerController : MonoBehaviour
 
     [Header("Runner Stats")]
     [Tooltip("Tốc độ chạy liên tục")]
-    public float runSpeed = 5f;
+    [SerializeField] private float runSpeed = 5f;
     [Tooltip("Lực nhảy")]
-    public float jumpForce = 10f;
+    [SerializeField] private float jumpForce = 10f;
+
+    [Header("Jump Settings")]
+    [Tooltip("Thời gian giữ để đạt lực nhảy tối đa")]
+    [SerializeField] private float timeToMaxJump = 1f;
+    private float jumpHoldTime = 0f;
+    private float jumpHoldPercent = 0f;
+
 
     [Tooltip("Thời gian hồi giữa các lần nhảy")]
     [SerializeField] private float jumpCooldown = 0.5f;
@@ -122,7 +129,7 @@ public class PlayerController : MonoBehaviour
     // --- KIỂM TRA ĐẤT ---
     private void CheckGround()
     {
-        if (groundCheck != null && isGrounded==false)
+        if (groundCheck != null)
         {
             // Tạo một vòng tròn nhỏ dưới chân để xem có chạm lớp Ground không
             isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
@@ -135,10 +142,16 @@ public class PlayerController : MonoBehaviour
         // Hỗ trợ cả Click chuột trái, Chạm màn hình, hoặc nút Space
         if (lastJumpTime >= jumpCooldown)
         {
-            if ((Input.GetMouseButton(0) || (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began) || Input.GetKeyDown(KeyCode.Space)) && isGrounded)
+            if ((Input.GetMouseButton(0) || (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began) || Input.GetKeyDown(KeyCode.Space)))
             {
-                Jump();
-                isGrounded = false; // Ngay lập tức đánh dấu là không còn trên đất để tránh nhảy liên tục
+                jumpHoldTime += Time.deltaTime;
+
+                jumpHoldPercent = Mathf.Clamp(1f - (jumpHoldTime * 2 / timeToMaxJump), 0, 1f);
+                Jump(jumpHoldPercent);
+            }
+            else if (Input.GetMouseButtonUp(0) || (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended) || Input.GetKeyUp(KeyCode.Space) && isGrounded)
+            {
+                jumpHoldTime = 0f;
                 lastJumpTime = 0f;
             }
         }
@@ -148,29 +161,27 @@ public class PlayerController : MonoBehaviour
 
             // Reset animation nhảy khi đã hạ cánh
             _animator.SetBool("isJump", false);
-
-
         }
     }
 
-    private void Jump()
+    private void Jump(float jumpHoldPercent)
     {
         // 1. Reset vận tốc Y về 0 trước khi nhảy để lực nhảy luôn đồng đều
         if (useUnity6LinearVelocity)
         {
 #if UNITY_6000_0_OR_NEWER
             _rb.linearVelocity = new Vector2(_rb.linearVelocity.x, 0);
-            _rb.AddForce((new Vector2(1, .5f)).normalized * jumpForce, ForceMode2D.Impulse);
+            _rb.AddForce((new Vector2(1, .5f)).normalized * jumpForce * jumpHoldPercent, ForceMode2D.Impulse);
 #else
              _rb.velocity = new Vector2(_rb.velocity.x, 0);
-             _rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+             _rb.AddForce(Vector2.up * jumpForce* jumpHoldForce, ForceMode2D.Impulse);
 #endif
         }
         else
         {
             _rb.linearVelocity = new Vector2(_rb.linearVelocity.x, 0);
 
-            _rb.AddForce((new Vector2(1, 0.5f)).normalized * jumpForce, ForceMode2D.Impulse);
+            _rb.AddForce((new Vector2(1, 0.5f)).normalized * jumpForce * jumpHoldPercent, ForceMode2D.Impulse);
         }
 
         // 2. Thực hiện Animation lộn vòng

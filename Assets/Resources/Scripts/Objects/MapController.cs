@@ -82,7 +82,7 @@ public class MapController : MonoBehaviour
         Debug.Log("Hoàn tất tạo màn chơi!");
     }
 
-    // --- LOGIC 1: TẠO VẬT CẢN & ITEM TRÊN NÓC ---
+    // --- LOGIC 1: TẠO VẬT CẢN & ITEM TRÊN NÓC (ĐÃ NÂNG CẤP) ---
     private float SpawnObstacleLogic(float posX)
     {
         if (obstacles == null || obstacles.Count == 0) return 0;
@@ -93,24 +93,56 @@ public class MapController : MonoBehaviour
         // 2. Spawn vật cản tại mặt đất
         Vector3 spawnPos = new Vector3(posX, groundY, 0);
         GameObject obsObj = Instantiate(obsData.prefab, spawnPos, Quaternion.identity);
-        if (obstacleObjs != null)
-            obsObj.transform.SetParent(obstacleObjs.transform);
-        else
-            obsObj.transform.SetParent(this.transform);
+
+        if (obstacleObjs != null) obsObj.transform.SetParent(obstacleObjs.transform);
+        else obsObj.transform.SetParent(this.transform);
 
         // 3. Xử lý Item trên nóc (Theo xác suất)
         if (Random.Range(0, 100) < chanceItemOnObstacle)
         {
-            // Tính vị trí trên nóc
             float topY = groundY + obsData.topHeightOffset;
-            int count = Random.Range(1, obsData.maxItemsOnTop + 1);
 
-            // Rải item canh giữa vật cản
+            // Random số lượng item (đảm bảo ít nhất 2 cái để tạo hình được)
+            int count = Random.Range(2, obsData.maxItemsOnTop + 1);
+
+            // Tính điểm bắt đầu X để các item luôn nằm giữa vật cản
             float startXItem = posX - ((count - 1) * itemSpacing) / 2;
+
+            // --- [MỚI] RANDOM KIỂU DÁNG TRÊN NÓC ---
+            // 0: Thẳng hàng (Cổ điển)
+            // 1: Vòng cung (Arc) - Tạo cảm giác muốn nhảy qua
+            // 2: Kim tự tháp (Pyramid) - Cao ở giữa
+            int patternType = Random.Range(0, 3);
 
             for (int i = 0; i < count; i++)
             {
-                Vector3 itemPos = new Vector3(startXItem + (i * itemSpacing), topY, 0);
+                float yOffset = 0;
+
+                switch (patternType)
+                {
+                    case 0: // Line (Thẳng)
+                        yOffset = 0;
+                        break;
+
+                    case 1: // Arc (Vòng cung)
+                        // Công thức Parabola: Cao ở giữa, thấp ở 2 đầu
+                        if (count > 1)
+                        {
+                            float progress = (float)i / (count - 1);
+                            yOffset = Mathf.Sin(progress * Mathf.PI) * 1.5f; // Cao thêm 1.5 đơn vị ở đỉnh
+                        }
+                        break;
+
+                    case 2: // Pyramid (Tam giác)
+                        // Cao dần vào giữa
+                        float midPoint = (count - 1) / 2f;
+                        float distFromMid = Mathf.Abs(i - midPoint);
+                        // Càng gần giữa càng cao. (midPoint - dist) sẽ ra số lớn ở giữa
+                        yOffset = (midPoint - distFromMid) * 0.8f;
+                        break;
+                }
+
+                Vector3 itemPos = new Vector3(startXItem + (i * itemSpacing), topY + yOffset, 0);
                 SpawnItem(itemPos);
             }
         }
@@ -118,16 +150,18 @@ public class MapController : MonoBehaviour
         // Trả về chiều rộng vật cản để vòng lặp chính cộng dồn vào currentX
         return obsData.width;
     }
-
-    // --- LOGIC 2: TẠO NHÓM ITEM (HÌNH DÁNG) ---
+    // --- LOGIC 2: TẠO NHÓM ITEM (HÌNH DÁNG ĐA DẠNG) ---
     private float SpawnItemPatternLogic(float startX)
     {
-        ItemPattern pattern = (ItemPattern)Random.Range(0, 3);
+        // Random kiểu bất kỳ trong Enum
+        ItemPattern pattern = (ItemPattern)Random.Range(0, System.Enum.GetValues(typeof(ItemPattern)).Length);
+
         float patternWidth = 0;
-        float baseItemY = groundY + 1.5f; // Item bay lơ lửng tầm thấp
+        float baseItemY = groundY + 1.2f; // Độ cao cơ bản (ngang tầm nhảy thấp)
 
         switch (pattern)
         {
+            // 1. ĐƯỜNG THẲNG
             case ItemPattern.Line:
                 int lineCount = Random.Range(3, 6);
                 for (int i = 0; i < lineCount; i++)
@@ -137,17 +171,20 @@ public class MapController : MonoBehaviour
                 patternWidth = lineCount * itemSpacing;
                 break;
 
+            // 2. HÌNH SÓNG (WAVE)
             case ItemPattern.Wave:
                 int waveCount = Random.Range(5, 10);
                 for (int i = 0; i < waveCount; i++)
                 {
-                    float yOffset = Mathf.Sin(i * 0.5f) * 1.5f;
-                    SpawnItem(new Vector3(startX + (i * itemSpacing), baseItemY + yOffset, 0));
+                    // Sin * 0.5f tạo sóng nhẹ, + 1.5f biên độ
+                    float yOffset = Mathf.Sin(i * 0.6f) * 1.5f;
+                    SpawnItem(new Vector3(startX + (i * itemSpacing), baseItemY + 0.5f + yOffset, 0));
                 }
                 patternWidth = waveCount * itemSpacing;
                 break;
 
-            case ItemPattern.Grid: // Hình vuông 3x2
+            // 3. HÌNH KHỐI/LƯỚI (GRID 3x2)
+            case ItemPattern.Grid:
                 for (int x = 0; x < 3; x++)
                 {
                     for (int y = 0; y < 2; y++)
@@ -157,11 +194,65 @@ public class MapController : MonoBehaviour
                 }
                 patternWidth = 3 * itemSpacing;
                 break;
+
+            // 4. HÌNH CUNG TRÒN (ARC) - Mới
+            // Mô phỏng cú nhảy: Bắt đầu thấp -> Lên cao -> Xuống thấp
+            case ItemPattern.Arc:
+                int arcCount = 5; // Số lượng item trong cung
+                float arcHeight = 2.5f; // Độ cao đỉnh cung
+                for (int i = 0; i < arcCount; i++)
+                {
+                    // Công thức Parabola đơn giản hóa bằng Sin(0 -> PI)
+                    float progress = (float)i / (arcCount - 1); // Chạy từ 0 đến 1
+                    float yOffset = Mathf.Sin(progress * Mathf.PI) * arcHeight;
+
+                    SpawnItem(new Vector3(startX + (i * itemSpacing), baseItemY + yOffset, 0));
+                }
+                patternWidth = arcCount * itemSpacing;
+                break;
+
+            // 5. ZIGZAG - Mới
+            // Lên - Xuống - Lên - Xuống
+            case ItemPattern.ZigZag:
+                int zigZagCount = 6;
+                for (int i = 0; i < zigZagCount; i++)
+                {
+                    // Nếu i chẵn thì thấp, i lẻ thì cao
+                    float yOffset = (i % 2 == 0) ? 0 : 1.5f;
+                    SpawnItem(new Vector3(startX + (i * itemSpacing), baseItemY + yOffset, 0));
+                }
+                patternWidth = zigZagCount * itemSpacing;
+                break;
+
+            // 6. MŨI TÊN (ARROW) - Mới
+            // Tạo hình > để chỉ hướng đi
+            case ItemPattern.Arrow:
+                // Vẽ 3 điểm: Trên, Giữa (xa nhất), Dưới
+                //  *
+                //      *
+                //  *
+                SpawnItem(new Vector3(startX, baseItemY + 1.2f, 0));       // Trên
+                SpawnItem(new Vector3(startX, baseItemY - 0.5f, 0));       // Dưới
+                SpawnItem(new Vector3(startX + itemSpacing, baseItemY + 0.35f, 0)); // Mũi nhọn ở giữa
+
+                patternWidth = 2 * itemSpacing;
+                break;
+
+            // 7. BẬC THANG (STAIRS) - Mới
+            // Đi lên dần:  _ - ¯
+            case ItemPattern.Stairs:
+                int stairCount = 4;
+                for (int i = 0; i < stairCount; i++)
+                {
+                    float yOffset = i * 0.8f; // Mỗi bước cao thêm 0.8
+                    SpawnItem(new Vector3(startX + (i * itemSpacing), baseItemY + yOffset, 0));
+                }
+                patternWidth = stairCount * itemSpacing;
+                break;
         }
 
         return patternWidth;
     }
-
     private void SpawnItem(Vector3 pos)
     {
         if (itemPrefab)

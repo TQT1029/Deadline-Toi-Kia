@@ -33,10 +33,10 @@ public class UIManager : Singleton<UIManager>
     public GameObject ResultPanel;
 
     public GameObject[] Stars = new GameObject[5];
-    public Image BGObj1;
+    public Animator AnimatorObj1;
     public Animator AnimatorObj2;
     public TMP_Text ResultDistanceText;
-    public TMP_Text ResultDocumentScoreText;
+    public TMP_Text ResultCoinText;
     public TMP_Text ResultXPScoreText;
 
     private void OnEnable()
@@ -97,11 +97,11 @@ public class UIManager : Singleton<UIManager>
             Stars[3] = ResultPanel.transform.Find("ResultZone/Stars/4")?.gameObject;
             Stars[4] = ResultPanel.transform.Find("ResultZone/Stars/5")?.gameObject;
 
-            BGObj1 = FindObj("BGObj1")?.GetComponent<Image>();
-            AnimatorObj2 = FindObj("BGObj2") ?.GetComponent<Animator>();
+            AnimatorObj1 = FindObj("BGObj1")?.GetComponent<Animator>();
+            AnimatorObj2 = FindObj("BGObj2")?.GetComponent<Animator>();
 
             ResultDistanceText = ResultPanel.transform.Find("ResultZone/ResultDistance")?.GetComponent<TMP_Text>();
-            ResultDocumentScoreText = ResultPanel.transform.Find("ResultZone/ResultDocuments")?.GetComponent<TMP_Text>();
+            ResultCoinText = ResultPanel.transform.Find("ResultZone/ResultDocuments")?.GetComponent<TMP_Text>();
             ResultXPScoreText = ResultPanel.transform.Find("ResultZone/ResultXP")?.GetComponent<TMP_Text>();
 
             GameManager.Instance.ChangeState(GameState.Playing);
@@ -170,7 +170,7 @@ public class UIManager : Singleton<UIManager>
             characterPreview.Rebind();
             characterPreview.Update(0f);
 
-          
+
         }
 
         // 2. Xử lý check list (icon nhỏ)

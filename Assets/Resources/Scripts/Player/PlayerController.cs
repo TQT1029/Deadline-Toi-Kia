@@ -122,7 +122,7 @@ public class PlayerController : MonoBehaviour
             float tempCurrentSpeed = currentSpeed;
 
             // Reset currentSpeed về tốc độ thực tế (để tăng tốc lại từ đáy)
-            currentSpeed = Mathf.Max(tempCurrentSpeed - baseRunSpeed, baseRunSpeed);
+            currentSpeed = Mathf.Max(tempCurrentSpeed - baseRunSpeed / 2, baseRunSpeed);
         }
 
         // 3. Tăng tốc TUYẾN TÍNH (MoveTowards) thay vì Lerp
@@ -175,7 +175,7 @@ public class PlayerController : MonoBehaviour
             float tempCurrentSpeed = currentSpeed;
 
             // Reset biến tốc độ về rất thấp
-            currentSpeed = Mathf.Max(tempCurrentSpeed - baseRunSpeed, baseRunSpeed);
+            currentSpeed = Mathf.Max(tempCurrentSpeed - baseRunSpeed / 2, baseRunSpeed);
             respawnTimer = 0f;
 
             // Cho phép di chuyển lại sau 1 khung hình (hoặc ngay lập tức)
@@ -188,12 +188,14 @@ public class PlayerController : MonoBehaviour
     {
         if (IsJumpButtonPressed() && isGrounded && Time.time > lastJumpTime + jumpCooldown)
         {
+
             isJumping = true;
             jumpTimeCounter = maxJumpHoldTime;
             SetVelocity(new Vector2(GetVelocity().x, 0));
             _rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
             lastJumpTime = Time.time;
-            _animator.SetBool("isJump", true);
+            _animator.SetTrigger("isJump");
+            PlayJumpSound();
         }
 
         if (IsJumpButtonHeld() && isJumping)
@@ -214,7 +216,6 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    // ... (Giữ nguyên các hàm Helper IsJumpButton..., CheckGround, GetVelocity, SetVelocity) ...
     private bool IsJumpButtonPressed() => Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space) || (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began);
     private bool IsJumpButtonHeld() => Input.GetMouseButton(0) || Input.GetKey(KeyCode.Space) || (Input.touchCount > 0 && (Input.GetTouch(0).phase == TouchPhase.Stationary || Input.GetTouch(0).phase == TouchPhase.Moved));
     private bool IsJumpButtonUp() => Input.GetMouseButtonUp(0) || Input.GetKeyUp(KeyCode.Space) || (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended);
@@ -225,10 +226,17 @@ public class PlayerController : MonoBehaviour
         {
             bool wasGrounded = isGrounded;
             isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
-            if (isGrounded) { _animator.SetBool("isJump", false); if (!wasGrounded) isJumping = false; }
+            if (isGrounded && !wasGrounded)
+            {
+                isJumping = false;
+            }
         }
     }
 
+    private void PlayJumpSound()
+    {
+        AudioManager.Instance.PlaySFX($"Jump_{Random.Range(0,2)}");
+    }
     private Vector2 GetVelocity()
     {
 #if UNITY_6000_0_OR_NEWER

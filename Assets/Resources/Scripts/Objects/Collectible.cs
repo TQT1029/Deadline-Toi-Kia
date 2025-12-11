@@ -29,6 +29,8 @@ public class Collectible : MonoBehaviour
 
         if (collision.CompareTag("Player"))
         {
+            AudioManager.Instance.PlaySFX("CollectItem");
+
             isCollected = true;
             GetComponent<Collider2D>().enabled = false;
 

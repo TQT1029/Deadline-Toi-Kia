@@ -14,6 +14,9 @@ public class CharacterProfile : ScriptableObject
     [Tooltip("Dùng RuntimeAnimatorController để hoạt động được cả trong Build")]
     public RuntimeAnimatorController previewAction;
 
+    [Tooltip("Animation nhảy")]
+    public RuntimeAnimatorController previewJump;
+
     [Tooltip("Ảnh hiển thị nhỏ (icon)")]
     public Sprite checklistImage;
 
@@ -23,7 +26,4 @@ public class CharacterProfile : ScriptableObject
     [Tooltip("Ảnh hiển thị chính trong menu thông tin trạng thái nhân vật")]
     public Sprite mainInfo;
 
-    [Header("Stats")]
-    public float moveSpeed = 5f;
-    public float jumpForce = 10f;
 }

@@ -17,11 +17,11 @@ public class HUDController : MonoBehaviour
     [SerializeField] private GameObject resultPanel => UIManager.Instance.ResultPanel;
     [SerializeField] private GameObject[] stars => UIManager.Instance.Stars;
 
-    [SerializeField] private Image bgObj1 => UIManager.Instance.BGObj1;
+    [SerializeField] private Animator animatorObj1 => UIManager.Instance.AnimatorObj1;
     [SerializeField] private Animator animatorObj2 => UIManager.Instance.AnimatorObj2;
 
     [SerializeField] private TMP_Text resultDistanceText => UIManager.Instance.ResultDistanceText;
-    [SerializeField] private TMP_Text resultDocumentScoreText => UIManager.Instance.ResultDocumentScoreText;
+    [SerializeField] private TMP_Text resultCoinText => UIManager.Instance.ResultCoinText;
     [SerializeField] private TMP_Text resultXPScoreText => UIManager.Instance.ResultXPScoreText;
 
     private void Awake()
@@ -49,16 +49,16 @@ public class HUDController : MonoBehaviour
 
         // 1. Hiển thị thông số kết quả
         if (resultDistanceText) resultDistanceText.text = $"{distance:F1}m";
-        if (resultDocumentScoreText) resultDocumentScoreText.text = $"{docScore}";
+        if (resultCoinText) resultCoinText.text = $"{docScore}";
         if (resultXPScoreText) resultXPScoreText.text = $"{xpScore}";
 
         // 2. Setup hình ảnh nhân vật (nếu có logic chọn skin)
         if (ReferenceManager.Instance.currentSelectedProfile != null)
         {
-            if (bgObj1)
+            if (animatorObj1)
             {
-                bgObj1.sprite = ReferenceManager.Instance.currentSelectedProfile.skinVariants[0];
-                bgObj1.SetNativeSize();
+                animatorObj1.runtimeAnimatorController = ReferenceManager.Instance.currentSelectedProfile.inGameAnimator;
+                animatorObj1.SetBool("isJump", true);
             }
             if (animatorObj2)
             {

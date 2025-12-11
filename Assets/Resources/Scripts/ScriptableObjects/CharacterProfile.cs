@@ -25,6 +25,5 @@ public class CharacterProfile : ScriptableObject
 
     [Header("Stats")]
     public float moveSpeed = 5f;
-    public float acc = 1f;
     public float jumpForce = 10f;
 }

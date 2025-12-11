@@ -22,4 +22,4 @@ MonoBehaviour:
   mainInfo: {fileID: -2377679827771515745, guid: 0e3e23defba359a42bbe80a8bb70acd2, type: 3}
   moveSpeed: 5
   acc: 1
-  jumpForce: 30
+  jumpForce: 10

@@ -15,7 +15,7 @@ public class GameStatsController : MonoBehaviour
     public int fiveStarScore = 1500;
 
     public float resultDistance { get; private set; }
-    public int resultDocument { get; private set; }
+    public int resultCoin { get; private set; }
     public int resultXPScore { get; private set; }
     private bool isGameActive = true;
 
@@ -37,12 +37,12 @@ public class GameStatsController : MonoBehaviour
             // Dùng linearVelocityX (Unity 6) hoặc velocity.x tùy phiên bản
             resultDistance += ReferenceManager.Instance.PlayerRigidbody.linearVelocity.x * Time.deltaTime;
         }
-        HUDController.Instance.UpdateHUD(resultDistance, resultDocument, resultXPScore);
+        HUDController.Instance.UpdateHUD(resultDistance, resultCoin, resultXPScore);
     }
 
-    public void CollectLearnItem(int amount = 1)
+    public void CollectCoinItem(int amount = 1)
     {
-        resultDocument += amount;
+        resultCoin += amount;
         resultXPScore += amount;
     }
 
@@ -54,7 +54,7 @@ public class GameStatsController : MonoBehaviour
     public void StartMap()
     {
         resultDistance = 0f;
-        resultDocument = 0;
+        resultCoin = 0;
         resultXPScore = 0;
         isGameActive = true;
     }
@@ -75,7 +75,7 @@ public class GameStatsController : MonoBehaviour
         Debug.Log($"Kết thúc! XP: {resultXPScore} - Sao: {starsEarned}");
 
         // GỌI HUD VỚI ĐẦY ĐỦ THAM SỐ
-        HUDController.Instance.ShowResult(starsEarned, resultDistance, resultDocument, resultXPScore);
+        HUDController.Instance.ShowResult(starsEarned, resultDistance, resultCoin, resultXPScore);
 
         // Dừng game
         Time.timeScale = 0f;

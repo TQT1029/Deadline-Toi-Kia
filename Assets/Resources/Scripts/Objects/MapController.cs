@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
-using System.Threading.Tasks; // Để dùng Async
+using System.Threading.Tasks;
 
 public class MapController : MonoBehaviour
 {
@@ -12,291 +12,296 @@ public class MapController : MonoBehaviour
         else Destroy(gameObject);
     }
 
-    [Header("Resources")]
-    public GameObject itemPrefab;
-    public List<ObstacleData> obstacles; // Kéo các loại vật cản vào đây
+    [Header("Data Config")]
+    public List<ObstacleData> obstacles;
+    public List<ItemData> itemLibrary;
 
     [Header("Map Settings")]
     public Transform startPoint;
     public Transform endPoint;
-    public float groundY = -2f; // Độ cao mặt đất
+    public float groundY = -2f;
     public GameObject obstacleObjs;
     public GameObject itemObjs;
 
+    [Header("Physics Settings")]
+    public LayerMask obstacleLayer;
+    public float checkRadius = 0.4f;
+
     [Header("Spacing Settings")]
-    [Tooltip("Khoảng cách tối thiểu giữa các sự kiện (Vật cản/Nhóm Item)")]
-    public float minGap = 5f;
-    [Tooltip("Khoảng cách tối đa")]
-    public float maxGap = 8f;
+    [Tooltip("Khoảng cách tối thiểu và tối đa giữa các phần tử trên map")]
+    public float minGap = 6f;
+    public float maxGap = 10f;
 
-    [Header("Item Logic")]
-    [Range(0, 100)] public int chanceToSpawnObstacle = 40; // 40% ra vật cản, 60% ra nhóm item
-    [Range(0, 100)] public int chanceItemOnObstacle = 70;   // 70% vật cản sẽ có item trên đầu
-    public float itemSpacing = 1.2f;
+    [Header("Logic")]
+    [Range(0, 100)] public int chanceToSpawnObstacle = 40;
+    [Range(0, 100)] public int chanceItemOnObstacle = 70;
+    public float itemSpacing = 1.0f;
 
-    // Enum các kiểu xếp item
-    private enum ItemPattern { Line, Wave, Grid, Arc, ZigZag, Arrow, Stairs }
+    private enum ItemPattern { Line, Grid, Wave, ArrowComplex, Diamond, RectHollow, ShapeVLU, ShapeAPlus, RectVertical, RectHorizontal }
+
     [ContextMenu("Generate Level")]
     public async void GenerateLevel()
     {
-        // 1. Xóa sạch map cũ
         ClearMap();
-
         if (startPoint == null || endPoint == null) return;
 
         float currentX = startPoint.position.x;
         float endX = endPoint.position.x;
         int elementCount = 0;
 
-        // 2. Vòng lặp rải vật thể từ đầu đến cuối map
         while (currentX < endX)
         {
-            // Random khoảng cách bước nhảy tiếp theo
             float gap = Random.Range(minGap, maxGap);
             currentX += gap;
 
             if (currentX >= endX) break;
 
-            // Quyết định xem spawn cái gì: Vật cản hay Nhóm Item?
             bool spawnObstacle = Random.Range(0, 100) < chanceToSpawnObstacle;
 
             if (spawnObstacle)
             {
-                // --- SPAWN VẬT CẢN (KÈM ITEM TRÊN ĐẦU) ---
                 float addedWidth = SpawnObstacleLogic(currentX);
-                currentX += addedWidth; // Cộng thêm chiều rộng vật cản để con trỏ X đi tiếp
+                currentX += addedWidth;
             }
             else
             {
-                // --- SPAWN NHÓM ITEM BAY ---
                 float addedWidth = SpawnItemPatternLogic(currentX);
                 currentX += addedWidth;
             }
 
             elementCount++;
-
-            // Kỹ thuật Async: Cứ 10 vật thể thì nghỉ 1 frame để game mượt
-            if (elementCount % 10 == 0) await Task.Yield();
+            if (elementCount % 5 == 0) await Task.Yield();
         }
-
         Debug.Log("Hoàn tất tạo màn chơi!");
     }
 
-    // --- LOGIC 1: TẠO VẬT CẢN & ITEM TRÊN NÓC (ĐÃ NÂNG CẤP) ---
+    // --- LOGIC 1: SPAWN OBSTACLE ---
     private float SpawnObstacleLogic(float posX)
     {
         if (obstacles == null || obstacles.Count == 0) return 0;
-
-        // 1. Chọn random 1 loại vật cản
         ObstacleData obsData = obstacles[Random.Range(0, obstacles.Count)];
 
-        // 2. Spawn vật cản tại mặt đất
-        Vector3 spawnPos = new Vector3(posX, groundY, 0);
+        float prefabY = obsData.prefab.transform.position.y;
+        Vector3 spawnPos = new Vector3(posX, groundY + prefabY, 0);
+
         GameObject obsObj = Instantiate(obsData.prefab, spawnPos, Quaternion.identity);
 
         if (obstacleObjs != null) obsObj.transform.SetParent(obstacleObjs.transform);
         else obsObj.transform.SetParent(this.transform);
 
-        // 3. Xử lý Item trên nóc (Theo xác suất)
         if (Random.Range(0, 100) < chanceItemOnObstacle)
         {
-            float topY = groundY + obsData.topHeightOffset;
-
-            // Random số lượng item (đảm bảo ít nhất 2 cái để tạo hình được)
-            int count = Random.Range(2, obsData.maxItemsOnTop + 1);
-
-            // Tính điểm bắt đầu X để các item luôn nằm giữa vật cản
+            float topY = spawnPos.y + obsData.topHeightOffset;
+            int count = Random.Range(obsData.minItemsOnTop, obsData.maxItemsOnTop + 1);
             float startXItem = posX - ((count - 1) * itemSpacing) / 2;
-
-            // --- [MỚI] RANDOM KIỂU DÁNG TRÊN NÓC ---
-            // 0: Thẳng hàng (Cổ điển)
-            // 1: Vòng cung (Arc) - Tạo cảm giác muốn nhảy qua
-            // 2: Kim tự tháp (Pyramid) - Cao ở giữa
-            int patternType = Random.Range(0, 3);
 
             for (int i = 0; i < count; i++)
             {
-                float yOffset = 0;
-
-                switch (patternType)
-                {
-                    case 0: // Line (Thẳng)
-                        yOffset = 0;
-                        break;
-
-                    case 1: // Arc (Vòng cung)
-                        // Công thức Parabola: Cao ở giữa, thấp ở 2 đầu
-                        if (count > 1)
-                        {
-                            float progress = (float)i / (count - 1);
-                            yOffset = Mathf.Sin(progress * Mathf.PI) * 1.5f; // Cao thêm 1.5 đơn vị ở đỉnh
-                        }
-                        break;
-
-                    case 2: // Pyramid (Tam giác)
-                        // Cao dần vào giữa
-                        float midPoint = (count - 1) / 2f;
-                        float distFromMid = Mathf.Abs(i - midPoint);
-                        // Càng gần giữa càng cao. (midPoint - dist) sẽ ra số lớn ở giữa
-                        yOffset = (midPoint - distFromMid) * 0.8f;
-                        break;
-                }
-
-                Vector3 itemPos = new Vector3(startXItem + (i * itemSpacing), topY + yOffset, 0);
-                SpawnItem(itemPos);
+                SpawnItem(new Vector3(startXItem + (i * itemSpacing), topY, 0));
             }
         }
 
-        // Trả về chiều rộng vật cản để vòng lặp chính cộng dồn vào currentX
         return obsData.width;
     }
-    // --- LOGIC 2: TẠO NHÓM ITEM (HÌNH DÁNG ĐA DẠNG) ---
+
+    // --- LOGIC 2: SPAWN ITEM PATTERNS ---
     private float SpawnItemPatternLogic(float startX)
     {
-        // Random kiểu bất kỳ trong Enum
         ItemPattern pattern = (ItemPattern)Random.Range(0, System.Enum.GetValues(typeof(ItemPattern)).Length);
 
+        List<Vector2> localPoints = new List<Vector2>();
         float patternWidth = 0;
-        float baseItemY = groundY + 1.2f; // Độ cao cơ bản (ngang tầm nhảy thấp)
 
         switch (pattern)
         {
-            // 1. ĐƯỜNG THẲNG
+            case ItemPattern.ShapeVLU:
+                localPoints.AddRange(GetTextPoints("V", 0));
+                localPoints.AddRange(GetTextPoints("L", 4));
+                localPoints.AddRange(GetTextPoints("U", 8));
+                patternWidth = 11 * itemSpacing;
+                break;
+
+            case ItemPattern.ShapeAPlus:
+                localPoints.AddRange(GetTextPoints("A", 0));
+                localPoints.AddRange(GetTextPoints("+", 4));
+                patternWidth = 7 * itemSpacing;
+                break;
+
             case ItemPattern.Line:
-                int lineCount = Random.Range(3, 6);
-                for (int i = 0; i < lineCount; i++)
-                {
-                    SpawnItem(new Vector3(startX + (i * itemSpacing), baseItemY, 0));
-                }
-                patternWidth = lineCount * itemSpacing;
+                int c = Random.Range(3, 6);
+                for (int i = 0; i < c; i++) localPoints.Add(new Vector2(i, 0));
+                patternWidth = c * itemSpacing;
                 break;
 
-            // 2. HÌNH SÓNG (WAVE)
-            case ItemPattern.Wave:
-                int waveCount = Random.Range(5, 10);
-                for (int i = 0; i < waveCount; i++)
-                {
-                    // Sin * 0.5f tạo sóng nhẹ, + 1.5f biên độ
-                    float yOffset = Mathf.Sin(i * 0.6f) * 1.5f;
-                    SpawnItem(new Vector3(startX + (i * itemSpacing), baseItemY + 0.5f + yOffset, 0));
-                }
-                patternWidth = waveCount * itemSpacing;
-                break;
-
-            // 3. HÌNH KHỐI/LƯỚI (GRID 3x2)
             case ItemPattern.Grid:
                 for (int x = 0; x < 3; x++)
-                {
-                    for (int y = 0; y < 2; y++)
-                    {
-                        SpawnItem(new Vector3(startX + (x * itemSpacing), baseItemY + (y * itemSpacing), 0));
-                    }
-                }
+                    for (int y = 0; y < 3; y++) localPoints.Add(new Vector2(x, y - 1));
                 patternWidth = 3 * itemSpacing;
                 break;
 
-            // 4. HÌNH CUNG TRÒN (ARC) - Mới
-            // Mô phỏng cú nhảy: Bắt đầu thấp -> Lên cao -> Xuống thấp
-            case ItemPattern.Arc:
-                int arcCount = 5; // Số lượng item trong cung
-                float arcHeight = 2.5f; // Độ cao đỉnh cung
-                for (int i = 0; i < arcCount; i++)
-                {
-                    // Công thức Parabola đơn giản hóa bằng Sin(0 -> PI)
-                    float progress = (float)i / (arcCount - 1); // Chạy từ 0 đến 1
-                    float yOffset = Mathf.Sin(progress * Mathf.PI) * arcHeight;
-
-                    SpawnItem(new Vector3(startX + (i * itemSpacing), baseItemY + yOffset, 0));
-                }
-                patternWidth = arcCount * itemSpacing;
+            case ItemPattern.Wave:
+                for (int i = 0; i < 8; i++)
+                    localPoints.Add(new Vector2(i, Mathf.Sin(i * 0.8f) * 1.5f));
+                patternWidth = 8 * itemSpacing;
                 break;
 
-            // 5. ZIGZAG - Mới
-            // Lên - Xuống - Lên - Xuống
-            case ItemPattern.ZigZag:
-                int zigZagCount = 6;
-                for (int i = 0; i < zigZagCount; i++)
-                {
-                    // Nếu i chẵn thì thấp, i lẻ thì cao
-                    float yOffset = (i % 2 == 0) ? 0 : 1.5f;
-                    SpawnItem(new Vector3(startX + (i * itemSpacing), baseItemY + yOffset, 0));
-                }
-                patternWidth = zigZagCount * itemSpacing;
+            case ItemPattern.ArrowComplex:
+                localPoints.Add(new Vector2(0, 1.5f)); localPoints.Add(new Vector2(0, -1.5f));
+                localPoints.Add(new Vector2(1, 0.8f)); localPoints.Add(new Vector2(1, -0.8f));
+                localPoints.Add(new Vector2(2, 0));
+                patternWidth = 3 * itemSpacing;
                 break;
 
-            // 6. MŨI TÊN (ARROW) - Mới
-            // Tạo hình > để chỉ hướng đi
-            case ItemPattern.Arrow:
-                // Vẽ 3 điểm: Trên, Giữa (xa nhất), Dưới
-                //  *
-                //      *
-                //  *
-                SpawnItem(new Vector3(startX, baseItemY + 1.2f, 0));       // Trên
-                SpawnItem(new Vector3(startX, baseItemY - 0.5f, 0));       // Dưới
-                SpawnItem(new Vector3(startX + itemSpacing, baseItemY + 0.35f, 0)); // Mũi nhọn ở giữa
-
-                patternWidth = 2 * itemSpacing;
+            case ItemPattern.Diamond:
+                localPoints.Add(new Vector2(1, 1.5f)); localPoints.Add(new Vector2(1, -1.5f));
+                localPoints.Add(new Vector2(0, 0)); localPoints.Add(new Vector2(2, 0));
+                patternWidth = 3 * itemSpacing;
                 break;
 
-            // 7. BẬC THANG (STAIRS) - Mới
-            // Đi lên dần:  _ - ¯
-            case ItemPattern.Stairs:
-                int stairCount = 4;
-                for (int i = 0; i < stairCount; i++)
-                {
-                    float yOffset = i * 0.8f; // Mỗi bước cao thêm 0.8
-                    SpawnItem(new Vector3(startX + (i * itemSpacing), baseItemY + yOffset, 0));
-                }
-                patternWidth = stairCount * itemSpacing;
+            case ItemPattern.RectHollow:
+                int rw = 4, rh = 3;
+                for (int x = 0; x < rw; x++)
+                    for (int y = 0; y < rh; y++)
+                        if (x == 0 || x == rw - 1 || y == 0 || y == rh - 1)
+                            localPoints.Add(new Vector2(x, y - (rh - 1) / 2f));
+                patternWidth = rw * itemSpacing;
                 break;
+
+            case ItemPattern.RectVertical:
+                int vw = Random.Range(2, 4);
+                int vh = Random.Range(3, 6);
+                for (int x = 0; x < vw; x++)
+                    for (int y = 0; y < vh; y++)
+                        if (x == 0 || x == vw - 1 || y == 0 || y == vh - 1)
+                            localPoints.Add(new Vector2(x, y - (vh - 1) / 2f));
+                patternWidth = vw * itemSpacing;
+                break;
+
+            case ItemPattern.RectHorizontal:
+                int hw = Random.Range(3, 6);
+                int hh = Random.Range(2, 4);
+                for (int x = 0; x < hw; x++)
+                    for (int y = 0; y < hh; y++)
+                        if (x == 0 || x == hw - 1 || y == 0 || y == hh - 1)
+                            localPoints.Add(new Vector2(x, y - (hh - 1) / 2f));
+                patternWidth = hw * itemSpacing;
+                break;
+        }
+
+        float currentBaseY = groundY + 1.5f;
+        float liftOffset = CalculateSmartLift(startX, currentBaseY, localPoints);
+        currentBaseY += liftOffset;
+
+        foreach (Vector2 p in localPoints)
+        {
+            SpawnItem(new Vector3(startX + (p.x * itemSpacing), currentBaseY + (p.y * itemSpacing), 0));
         }
 
         return patternWidth;
     }
+
+    private float CalculateSmartLift(float startX, float baseY, List<Vector2> points)
+    {
+        float maxLiftNeeded = 0f;
+        foreach (Vector2 p in points)
+        {
+            Vector2 checkPos = new Vector2(startX + (p.x * itemSpacing), baseY + (p.y * itemSpacing));
+            Collider2D hit = Physics2D.OverlapCircle(checkPos, checkRadius, obstacleLayer);
+            if (hit != null)
+            {
+                float diff = (hit.bounds.max.y + 1.5f) - checkPos.y;
+                if (diff > maxLiftNeeded) maxLiftNeeded = diff;
+            }
+        }
+        return maxLiftNeeded;
+    }
+
+    private List<Vector2> GetTextPoints(string charType, int xOffset)
+    {
+        List<Vector2> pts = new List<Vector2>();
+        switch (charType)
+        {
+            case "V":
+                pts.Add(new Vector2(0, 2)); pts.Add(new Vector2(2, 2));
+                pts.Add(new Vector2(0, 1)); pts.Add(new Vector2(2, 1));
+                pts.Add(new Vector2(1, 0));
+                break;
+            case "L":
+                pts.Add(new Vector2(0, 2)); pts.Add(new Vector2(0, 1));
+                pts.Add(new Vector2(0, 0)); pts.Add(new Vector2(1, 0)); pts.Add(new Vector2(2, 0));
+                break;
+            case "U":
+                pts.Add(new Vector2(0, 2)); pts.Add(new Vector2(2, 2));
+                pts.Add(new Vector2(0, 1)); pts.Add(new Vector2(2, 1));
+                pts.Add(new Vector2(0, 0)); pts.Add(new Vector2(1, 0)); pts.Add(new Vector2(2, 0));
+                break;
+            case "A":
+                pts.Add(new Vector2(1, 2));
+                pts.Add(new Vector2(0, 1)); pts.Add(new Vector2(2, 1)); pts.Add(new Vector2(1, 1));
+                pts.Add(new Vector2(0, 0)); pts.Add(new Vector2(2, 0));
+                break;
+            case "+":
+                pts.Add(new Vector2(1, 2));
+                pts.Add(new Vector2(0, 1)); pts.Add(new Vector2(1, 1)); pts.Add(new Vector2(2, 1));
+                pts.Add(new Vector2(1, 0));
+                break;
+        }
+        for (int i = 0; i < pts.Count; i++) pts[i] = new Vector2(pts[i].x + xOffset, pts[i].y);
+        return pts;
+    }
+
     private void SpawnItem(Vector3 pos)
     {
-        if (itemPrefab)
+        if (pos.y < groundY + 0.5f) pos.y = groundY + 0.5f;
+
+        ItemData data = GetRandomItemData();
+        if (data != null && data.prefab != null)
         {
-            GameObject item = Instantiate(itemPrefab, pos, Quaternion.identity);
-            if (itemObjs != null)
-                item.transform.SetParent(itemObjs.transform);
-            else
-                item.transform.SetParent(this.transform);
+            GameObject item = Instantiate(data.prefab, pos, Quaternion.identity);
+            if (itemObjs != null) item.transform.SetParent(itemObjs.transform);
+            else item.transform.SetParent(this.transform);
+
+            Collectible col = item.GetComponent<Collectible>();
+            if (col != null) col.Init(data.scoreValue);
         }
+    }
+
+    // --- CẬP NHẬT LOGIC RANDOM FLOAT ---
+    private ItemData GetRandomItemData()
+    {
+        if (itemLibrary == null || itemLibrary.Count == 0) return null;
+
+        // Tính tổng trọng số (dùng float)
+        float totalWeight = 0f;
+        foreach (var item in itemLibrary) totalWeight += item.spawnWeight;
+
+        // Random trong khoảng float
+        float randomValue = Random.Range(0f, totalWeight);
+        float currentWeight = 0f;
+
+        foreach (var item in itemLibrary)
+        {
+            currentWeight += item.spawnWeight;
+            if (randomValue < currentWeight) return item;
+        }
+        return itemLibrary[0];
     }
 
     private void ClearMap()
     {
-        if (obstacleObjs == null || itemObjs == null)
-        {
-            // Xóa an toàn cho Async
-            int childCount = transform.childCount;
-            for (int i = childCount - 1; i >= 0; i--)
-            {
-                if (Application.isPlaying) Destroy(transform.GetChild(i).gameObject);
-                else DestroyImmediate(transform.GetChild(i).gameObject);
-            }
+        if (obstacleObjs) ClearChildren(obstacleObjs.transform);
+        if (itemObjs) ClearChildren(itemObjs.transform);
+        if (!obstacleObjs && !itemObjs) ClearChildren(transform);
+    }
 
-        }
-
-        if (obstacleObjs != null)
+    private void ClearChildren(Transform p)
+    {
+        if (!p) return;
+        for (int i = p.childCount - 1; i >= 0; i--)
         {
-            int obstacleCount = obstacleObjs.transform.childCount;
-            for (int i = obstacleCount - 1; i >= 0; i--)
-            {
-                if (Application.isPlaying) Destroy(obstacleObjs.transform.GetChild(i).gameObject);
-                else DestroyImmediate(obstacleObjs.transform.GetChild(i).gameObject);
-            }
-
-        }
-        if (itemObjs != null)
-        {
-            int itemCount = itemObjs.transform.childCount;
-            for (int i = itemCount - 1; i >= 0; i--)
-            {
-                if (Application.isPlaying) Destroy(itemObjs.transform.GetChild(i).gameObject);
-                else DestroyImmediate(itemObjs.transform.GetChild(i).gameObject);
-            }
+            GameObject c = p.GetChild(i).gameObject;
+            if (Application.isPlaying) Destroy(c);
+            else DestroyImmediate(c);
         }
     }
 }

@@ -7,195 +7,243 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private bool useUnity6LinearVelocity = true;
 
     [Header("Runner Stats")]
-    [Tooltip("Tốc độ chạy liên tục")]
-    [SerializeField] private float runSpeed = 5f;
-    [Tooltip("Lực nhảy")]
+    [Tooltip("Tốc độ chạy cơ bản")]
+    [SerializeField] private float baseRunSpeed = 5f;
+    [Tooltip("Lực nhảy ban đầu")]
     [SerializeField] private float jumpForce = 10f;
 
-    [Header("Jump Settings")]
-    [Tooltip("Thời gian giữ để đạt lực nhảy tối đa")]
-    [SerializeField] private float timeToMaxJump = 1f;
-    private float jumpHoldTime = 0f;
-    private float jumpHoldPercent = 0f;
+    [Header("Variable Jump Settings")]
+    [Tooltip("Lực cộng thêm khi giữ nút nhảy")]
+    [SerializeField] private float jumpHoldForce = 5f;
+    [Tooltip("Thời gian tối đa được phép giữ nút")]
+    [SerializeField] private float maxJumpHoldTime = 0.3f;
+    [Tooltip("Hệ số giảm lực khi thả nút sớm")]
+    [SerializeField] private float jumpCutMultiplier = 0.5f;
 
-
-    [Tooltip("Thời gian hồi giữa các lần nhảy")]
-    [SerializeField] private float jumpCooldown = 0.5f;
+    [Header("Jump Cooldown")]
+    [SerializeField] private float jumpCooldown = 0.2f;
     private float lastJumpTime;
 
-    private float respawnDelay = 3f;
-    private float respawnTime;
+    [Header("Respawn & Acceleration")]
+    [SerializeField] private float respawnDelay = 3f;
+
+    [Tooltip("Tốc độ tăng tốc (Đơn vị/Giây). Ví dụ: 2 nghĩa là mỗi giây tăng 2m/s.")]
+    [SerializeField] private float accelerationRate = 2.0f; // Chỉnh cái này để tăng nhanh hay chậm
+
+    private float respawnTimer;
+    private bool isRespawning = false;
+    private float currentSpeed = 0f;
 
     [Header("Ground Detection")]
-    public Transform groundCheck; // Kéo một GameObject con nằm dưới chân Player vào đây
+    public Transform groundCheck;
     public float groundCheckRadius = 0.2f;
-    public LayerMask groundLayer; // Chọn Layer là "Ground" hoặc "Platform"
+    public LayerMask groundLayer;
 
+    // Internal Variables
     private Rigidbody2D _rb;
     private BoxCollider2D _collider;
     private Animator _animator;
     private CharacterProfile _profile;
+
     private bool isGrounded;
+    private bool isJumping;
+    private float jumpTimeCounter;
 
     private void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
         _collider = GetComponent<BoxCollider2D>();
         _animator = GetComponent<Animator>();
-
     }
 
     private void Start()
     {
         SetupCharacter();
+        // Bắt đầu game tăng tốc từ 0 lên cho mượt
+        currentSpeed = 0f;
     }
 
     private void SetupCharacter()
     {
-        // 1. Lấy dữ liệu (Giữ nguyên logic cũ của bạn)
         _profile = ReferenceManager.Instance.currentSelectedProfile;
-        var mapData = ReferenceManager.Instance.currentSelectedMap;
-
         if (_profile == null) return;
 
-        runSpeed = _profile.moveSpeed;
-        jumpForce = _profile.jumpForce;
+        if (UIManager.Instance.MainInfo != null)
+            UIManager.Instance.MainInfo.sprite = _profile.mainInfo;
 
-        // 2. Setup Animation,...
-        UIManager.Instance.MainInfo.sprite = _profile.mainInfo;
-        _animator.runtimeAnimatorController = _profile.inGameAnimator;
+        if (_profile.inGameAnimator != null)
+            _animator.runtimeAnimatorController = _profile.inGameAnimator;
 
-        // 3. Cập nhật Collider dựa trên kích thước skin đầu tiên
         UpdateCollider();
-
     }
 
     private void UpdateCollider()
     {
-        _collider.size = _profile.skinVariants[0].bounds.size;
-        _collider.offset = _profile.skinVariants[0].bounds.center;
+        if (_profile.skinVariants != null && _profile.skinVariants.Length > 0)
+        {
+            _collider.size = _profile.skinVariants[0].bounds.size;
+            _collider.offset = _profile.skinVariants[0].bounds.center;
+        }
     }
+
     private void Update()
     {
         CheckInput();
-        CheckRespawn();
-
+        HandleStuckAndRespawn();
     }
 
     private void FixedUpdate()
     {
         CheckGround();
-        MoveAuto();
+        MoveAutoSmooth();
     }
 
-    // --- LOGIC DI CHUYỂN TỰ ĐỘNG ---
-    private void MoveAuto()
+    // --- LOGIC DI CHUYỂN TĂNG DẦN ĐỀU ---
+    private void MoveAutoSmooth()
     {
-        // Luôn luôn di chuyển sang phải với tốc độ runSpeed
-        // Giữ nguyên vận tốc Y hiện tại (để trọng lực hoạt động)
-        Vector2 targetVelocity = new Vector2(runSpeed + GameStatsController.Instance.resultDistance / 100, _rb.linearVelocity.y);
-
-        if (useUnity6LinearVelocity)
+        if (isRespawning)
         {
-#if UNITY_6000_0_OR_NEWER
-            _rb.linearVelocity = new Vector2(runSpeed + GameStatsController.Instance.resultDistance / 100, _rb.linearVelocity.y);
-#else
-            _rb.velocity = targetVelocity;
-#endif
+            SetVelocity(Vector2.zero);
+            return;
+        }
+
+        // 1. Tính tốc độ mục tiêu
+        float scoreBonus = (GameStatsController.Instance != null) ? GameStatsController.Instance.resultDistance / 150f : 0f;
+        float targetSpeed = baseRunSpeed + scoreBonus;
+
+        // 2. Đồng bộ tốc độ vật lý thực tế với biến currentSpeed
+        // Nếu nhân vật đâm vào tường, vận tốc vật lý X sẽ về 0.
+        // Ta cần gán currentSpeed về 0 theo nó để khi thoát ra nó tăng tốc lại từ đầu.
+        float physicalVelocityX = GetVelocity().x;
+
+        // Nếu tốc độ thực tế nhỏ hơn nhiều so với tốc độ tính toán (chứng tỏ đang bị kẹt)
+        if (physicalVelocityX < currentSpeed - 1f)
+        {
+            float tempCurrentSpeed = currentSpeed;
+
+            // Reset currentSpeed về tốc độ thực tế (để tăng tốc lại từ đáy)
+            currentSpeed = Mathf.Max(tempCurrentSpeed - baseRunSpeed, baseRunSpeed);
+        }
+
+        // 3. Tăng tốc TUYẾN TÍNH (MoveTowards) thay vì Lerp
+        // Điều này giúp tốc độ tăng đều đặn, không bị vọt lên đột ngột
+        currentSpeed = Mathf.MoveTowards(currentSpeed, targetSpeed, accelerationRate * Time.fixedDeltaTime);
+
+        // 4. Áp dụng vận tốc
+        Vector2 targetVelocity = new Vector2(currentSpeed, GetVelocity().y);
+        SetVelocity(targetVelocity);
+    }
+
+    // --- CHECK KẸT & RESPAWN ---
+    private void HandleStuckAndRespawn()
+    {
+        // Điều kiện chết: Vận tốc X gần như bằng 0 trong khi target speed cao
+        // Hoặc rơi xuống vực (Y < -10)
+        bool isStuck = GetVelocity().x <= 0.1f && currentSpeed > 1f;
+        bool isFallen = transform.position.y < -10f;
+
+        if (!isRespawning && (isStuck || isFallen))
+        {
+            respawnTimer += Time.deltaTime;
+
+            // Nếu kẹt quá respawnDelay giây -> Hồi sinh
+            if (respawnTimer >= respawnDelay || isFallen)
+            {
+                Respawn();
+            }
         }
         else
         {
-            _rb.linearVelocity = targetVelocity;
+            // Nếu thoát kẹt thì reset timer
+            respawnTimer = 0f;
         }
     }
 
-    // --- CheckRespawn ---
-    private void CheckRespawn()
+    private void Respawn()
     {
-        if (_rb.linearVelocityX <= 0.5f)
+        if (ReferenceManager.Instance.RespawnTrans != null)
         {
-            if (respawnTime >= respawnDelay)
-            {
-                transform.position = ReferenceManager.Instance.RespawnTrans.position;
-                respawnTime = 0f;
-            }
-            else
-            {
-                respawnTime += Time.deltaTime;
-            }
+            isRespawning = true; // Bật cờ đang hồi sinh để chặn di chuyển
+
+            // Dời vị trí
+            transform.position = ReferenceManager.Instance.RespawnTrans.position;
+
+            // Reset vận tốc vật lý
+            SetVelocity(Vector2.zero);
+
+            // Biến tạm
+            float tempCurrentSpeed = currentSpeed;
+
+            // Reset biến tốc độ về rất thấp
+            currentSpeed = Mathf.Max(tempCurrentSpeed - baseRunSpeed, baseRunSpeed);
+            respawnTimer = 0f;
+
+            // Cho phép di chuyển lại sau 1 khung hình (hoặc ngay lập tức)
+            isRespawning = false;
         }
     }
 
-    // --- KIỂM TRA ĐẤT ---
+    // --- XỬ LÝ NHẤN ---
+    private void CheckInput()
+    {
+        if (IsJumpButtonPressed() && isGrounded && Time.time > lastJumpTime + jumpCooldown)
+        {
+            isJumping = true;
+            jumpTimeCounter = maxJumpHoldTime;
+            SetVelocity(new Vector2(GetVelocity().x, 0));
+            _rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+            lastJumpTime = Time.time;
+            _animator.SetBool("isJump", true);
+        }
+
+        if (IsJumpButtonHeld() && isJumping)
+        {
+            if (jumpTimeCounter > 0)
+            {
+                _rb.AddForce(Vector2.up * jumpHoldForce, ForceMode2D.Force);
+                jumpTimeCounter -= Time.deltaTime;
+            }
+            else isJumping = false;
+        }
+
+        if (IsJumpButtonUp())
+        {
+            isJumping = false;
+            if (GetVelocity().y > 0)
+                SetVelocity(new Vector2(GetVelocity().x, GetVelocity().y * jumpCutMultiplier));
+        }
+    }
+
+    // ... (Giữ nguyên các hàm Helper IsJumpButton..., CheckGround, GetVelocity, SetVelocity) ...
+    private bool IsJumpButtonPressed() => Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space) || (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began);
+    private bool IsJumpButtonHeld() => Input.GetMouseButton(0) || Input.GetKey(KeyCode.Space) || (Input.touchCount > 0 && (Input.GetTouch(0).phase == TouchPhase.Stationary || Input.GetTouch(0).phase == TouchPhase.Moved));
+    private bool IsJumpButtonUp() => Input.GetMouseButtonUp(0) || Input.GetKeyUp(KeyCode.Space) || (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended);
+
     private void CheckGround()
     {
         if (groundCheck != null)
         {
-            // Tạo một vòng tròn nhỏ dưới chân để xem có chạm lớp Ground không
+            bool wasGrounded = isGrounded;
             isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
+            if (isGrounded) { _animator.SetBool("isJump", false); if (!wasGrounded) isJumping = false; }
         }
     }
 
-    // --- XỬ LÝ NHẤN MÀN HÌNH ---
-    private void CheckInput()
+    private Vector2 GetVelocity()
     {
-        // Hỗ trợ cả Click chuột trái, Chạm màn hình, hoặc nút Space
-        if (lastJumpTime >= jumpCooldown)
-        {
-            if ((Input.GetMouseButton(0) || (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began) || Input.GetKeyDown(KeyCode.Space)))
-            {
-                jumpHoldTime += Time.deltaTime;
-
-                jumpHoldPercent = Mathf.Clamp(1f - (jumpHoldTime * 2 / timeToMaxJump), 0, 1f);
-                Jump(jumpHoldPercent);
-            }
-            else if (Input.GetMouseButtonUp(0) || (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended) || Input.GetKeyUp(KeyCode.Space) && isGrounded)
-            {
-                jumpHoldTime = 0f;
-                lastJumpTime = 0f;
-            }
-        }
-        else
-        {
-            lastJumpTime += Time.deltaTime;
-
-            // Reset animation nhảy khi đã hạ cánh
-            _animator.SetBool("isJump", false);
-        }
-    }
-
-    private void Jump(float jumpHoldPercent)
-    {
-        // 1. Reset vận tốc Y về 0 trước khi nhảy để lực nhảy luôn đồng đều
-        if (useUnity6LinearVelocity)
-        {
 #if UNITY_6000_0_OR_NEWER
-            _rb.linearVelocity = new Vector2(_rb.linearVelocity.x, 0);
-            _rb.AddForce((new Vector2(1, .5f)).normalized * jumpForce * jumpHoldPercent, ForceMode2D.Impulse);
+        return useUnity6LinearVelocity ? _rb.linearVelocity : _rb.linearVelocity;
 #else
-             _rb.velocity = new Vector2(_rb.velocity.x, 0);
-             _rb.AddForce(Vector2.up * jumpForce* jumpHoldForce, ForceMode2D.Impulse);
+        return _rb.velocity;
 #endif
-        }
-        else
-        {
-            _rb.linearVelocity = new Vector2(_rb.linearVelocity.x, 0);
-
-            _rb.AddForce((new Vector2(1, 0.5f)).normalized * jumpForce * jumpHoldPercent, ForceMode2D.Impulse);
-        }
-
-        // 2. Thực hiện Animation lộn vòng
-        _animator.SetBool("isJump", true);
     }
 
-
-    // Vẽ vòng tròn check ground trong Editor để dễ chỉnh
-    private void OnDrawGizmosSelected()
+    private void SetVelocity(Vector2 v)
     {
-        if (groundCheck != null)
-        {
-            Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
-        }
+#if UNITY_6000_0_OR_NEWER
+        if (useUnity6LinearVelocity) _rb.linearVelocity = v; else _rb.linearVelocity = v;
+#else
+        _rb.velocity = v;
+#endif
     }
 }

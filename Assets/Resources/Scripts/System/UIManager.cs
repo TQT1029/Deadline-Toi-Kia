@@ -27,7 +27,7 @@ public class UIManager : Singleton<UIManager>
     public Image MainInfo;
 
     public TMP_Text DistanceText;
-    public TMP_Text DocumentScoreText;
+    public TMP_Text CoinText;
     public TMP_Text XPScoreText;
 
     public GameObject ResultPanel;
@@ -86,7 +86,7 @@ public class UIManager : Singleton<UIManager>
             MainInfo = FindObj("MainInfo")?.GetComponent<Image>();
 
             DistanceText = FindObj("DistanceText")?.GetComponent<TMP_Text>();
-            DocumentScoreText = FindObj("DocumentScoreText")?.GetComponent<TMP_Text>();
+            CoinText = FindObj("CoinText")?.GetComponent<TMP_Text>();
             XPScoreText = FindObj("XPScoreText")?.GetComponent<TMP_Text>();
 
             ResultPanel = FindObj("ResultPanel");

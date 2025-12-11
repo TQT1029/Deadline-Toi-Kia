@@ -10,7 +10,7 @@ public class HUDController : MonoBehaviour
     // ... (Giữ nguyên các Reference Header cũ) ...
     [Header("In-Game HUD")]
     [SerializeField] private TMP_Text distanceText => UIManager.Instance.DistanceText;
-    [SerializeField] private TMP_Text documentScoreText => UIManager.Instance.DocumentScoreText;
+    [SerializeField] private TMP_Text coinText => UIManager.Instance.CoinText;
     [SerializeField] private TMP_Text xpScoreText => UIManager.Instance.XPScoreText;
 
     [Header("End Game Animation")]
@@ -36,7 +36,7 @@ public class HUDController : MonoBehaviour
     public void UpdateHUD(float distance, int learnScore, int xpScore)
     {
         if (distanceText) distanceText.text = $"{distance:F1}m";
-        if (documentScoreText) documentScoreText.text = $"{learnScore}";
+        if (coinText) coinText.text = $"{learnScore}";
         if (xpScoreText) xpScoreText.text = $"{xpScore}";
     }
 

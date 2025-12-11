@@ -12,8 +12,11 @@ public class ParallaxBackground : MonoBehaviour
     [SerializeField] private bool enableParallaxY = true;
 
     [Space(10)]
-    [Tooltip("Tốc độ cơ bản cuộn ngang (Infinite Scroll)")]
-    [SerializeField] private float baseScrollSpeedX = 0.5f;
+    [Tooltip("Tốc độ tự động cuộn (Auto Scroll) - Đặt 0 nếu muốn background chỉ chạy khi nhân vật chạy")]
+    [SerializeField] private float baseScrollSpeedX = 0f; // Mặc định để 0 để test theo nhân vật
+
+    [Tooltip("Hệ số nhân vận tốc nhân vật (Giá trị càng lớn, background trôi càng nhanh theo nhân vật)")]
+    [SerializeField] private float velocityMultiplierX = 0.5f; // Thay thế số cứng 0.05f cũ
 
     [Tooltip("Độ mạnh của hiệu ứng Parallax dọc (0 = không trôi, 1 = trôi theo nhân vật)")]
     [Range(0f, 1f)]
@@ -25,8 +28,6 @@ public class ParallaxBackground : MonoBehaviour
     private BackgroundManager _bgManager;
     private DynamicLayer[] _dynamicLayers;
     private Rigidbody2D _targetRb;
-
-    // ĐÃ XOÁ: public static int MainTexID ... (Gây lỗi)
 
     private void Awake()
     {
@@ -65,8 +66,9 @@ public class ParallaxBackground : MonoBehaviour
 
             float ratio = (count <= 1) ? 0f : (float)i / (count - 1);
 
-            // Layer xa chạy chậm, gần chạy nhanh
-            float speedFactorX = Mathf.Lerp(0.1f, 1.0f, ratio);
+            // Layer xa chạy chậm (gần 0), layer gần chạy nhanh (gần 1)
+            float speedFactorX = Mathf.Lerp(0.05f, 1.0f, ratio);
+
             // Layer xa ít bị trôi Y, gần bị trôi nhiều
             float parallaxFactorY = Mathf.Lerp(0.05f, verticalParallaxStrength, ratio);
 
@@ -91,6 +93,10 @@ public class ParallaxBackground : MonoBehaviour
     public bool IsXEnabled => enableParallaxX;
     public bool IsYEnabled => enableParallaxY;
     public float BaseSpeedX => baseScrollSpeedX;
+
+    // Property mới để DynamicLayer truy cập
+    public float VelocityMultiplierX => velocityMultiplierX;
+
     public float SmoothingY => smoothingY;
 
     public float GetTargetPositionY()

@@ -12,12 +12,16 @@ public class RankingManager : Singleton<RankingManager>
     public int CurrentRank { get; private set; } = 1;
     public int TotalRacers { get; private set; } = 1;
 
+    // Cờ kiểm tra xem đã khởi tạo xong chưa
+    private bool _isInitialized = false;
+
     private void Start()
     {
         InitializeRacers();
     }
 
-    private void InitializeRacers()
+    // Hàm này public để các script khác (như Spawner) có thể gọi thủ công nếu cần
+    public void InitializeRacers()
     {
         _racers.Clear();
 
@@ -36,16 +40,28 @@ public class RankingManager : Singleton<RankingManager>
             _racers.Add(bot.transform);
         }
 
-        TotalRacers = _racers.Count;
+        // Chỉ coi là đã khởi tạo thành công nếu tìm thấy Player
+        if (_playerTransform != null)
+        {
+            _isInitialized = true;
+            TotalRacers = _racers.Count;
+            Debug.Log($"RankingManager: Đã tìm thấy {_racers.Count} racers (Có Player).");
+        }
     }
-
     private void Update()
     {
-        if (_playerTransform == null || _racers.Count == 0) return;
+        // CƠ CHẾ TỰ SỬA LỖI:
+        // Nếu chưa khởi tạo thành công (chưa thấy Player), hãy thử tìm lại liên tục
+        if (!_isInitialized || _playerTransform == null)
+        {
+            InitializeRacers();
+
+            // Nếu vẫn chưa tìm thấy sau khi thử lại -> Dừng update frame này
+            if (_playerTransform == null) return;
+        }
 
         CalculateRanking();
     }
-
     private void CalculateRanking()
     {
         // Loại bỏ các object đã bị hủy (nếu Bot bị rơi xuống vực chết)

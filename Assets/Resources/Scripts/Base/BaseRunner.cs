@@ -122,6 +122,8 @@ public class BaseRunner : MonoBehaviour
 #endif
             _rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
             if (_animator) _animator.SetTrigger("isJump");
+
+            AudioManager.Instance.PlaySFX($"Jump_{Random.Range(0, 2)}");
         }
     }
 

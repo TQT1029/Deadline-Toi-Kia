@@ -14,13 +14,50 @@ public class PlayerController : BaseRunner
     private bool isJumping;
     private float jumpTimeCounter;
 
+    // --- 1. THÊM HÀM START ĐỂ KHỞI TẠO CHARACTER ---
+    protected override void Start()
+    {
+        // Gọi Setup trước để load Skin và Animator
+        SetupCharacter();
+
+        // Sau đó mới gọi base.Start() để BaseRunner tự cập nhật Collider theo Skin vừa load
+        base.Start();
+    }
+
+    // --- 2. HÀM SETUP CHARACTER (ĐÃ KHÔI PHỤC) ---
+    private void SetupCharacter()
+    {
+        // Kiểm tra xem có ReferenceManager và Profile đã chọn chưa
+        if (ReferenceManager.Instance == null || ReferenceManager.Instance.CurrentSelectedProfile == null)
+            return;
+
+        var profile = ReferenceManager.Instance.CurrentSelectedProfile;
+
+/*        // Cập nhật chỉ số từ Profile (Ghi đè lên baseRunSpeed của BaseRunner)
+        baseRunSpeed = profile.moveSpeed;
+        jumpForce = profile.jumpForce;
+*/
+        // Cập nhật Animator cho nhân vật (Skin)
+        if (_animator != null && profile.inGameAnimator != null)
+        {
+            _animator.runtimeAnimatorController = profile.inGameAnimator;
+        }
+
+        // Cập nhật UI hiển thị (Icon nhân vật trên góc màn hình nếu có)
+        if (UIManager.Instance != null && UIManager.Instance.MainInfo != null)
+        {
+            UIManager.Instance.MainInfo.sprite = profile.mainInfo;
+        }
+    }
+
+    // --- CÁC LOGIC DI CHUYỂN CŨ (GIỮ NGUYÊN) ---
     protected override void Move()
     {
-        // Tính tốc độ mục tiêu dựa trên điểm số (càng chạy xa càng nhanh)
+        // Tính tốc độ mục tiêu dựa trên khoảng cách
         float scoreBonus = (GameStatsController.Instance != null) ? GameStatsController.Instance.resultDistance / 150f : 0f;
         targetRunSpeed = baseRunSpeed + scoreBonus;
 
-        // Nếu vừa respawn (tốc độ đang thấp), tăng dần lên
+        // Tăng tốc mượt mà
         currentSpeed = Mathf.MoveTowards(currentSpeed, targetRunSpeed, accelerationRate * Time.fixedDeltaTime);
 
         base.Move();
@@ -31,29 +68,22 @@ public class PlayerController : BaseRunner
         HandleInput();
     }
 
-    // --- 1. XỬ LÝ INPUT (TOUCH + MOUSE) ---
     private void HandleInput()
     {
-        // Kiểm tra Input Nhấn xuống (Bắt đầu nhảy)
+        // Input Nhấn xuống
         bool isPressDown = Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space);
-
-        // Kiểm tra Touch phase Began
-        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
-            isPressDown = true;
+        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began) isPressDown = true;
 
         if (isPressDown && isGrounded)
         {
-            Jump(); // Nhảy cơ bản
+            Jump();
             isJumping = true;
             jumpTimeCounter = maxJumpHoldTime;
         }
 
-        // Kiểm tra Input Giữ (Bay cao hơn)
+        // Input Giữ
         bool isHolding = Input.GetMouseButton(0) || Input.GetKey(KeyCode.Space);
-
-        // Kiểm tra Touch phase Stationary/Moved
-        if (Input.touchCount > 0 && (Input.GetTouch(0).phase == TouchPhase.Stationary || Input.GetTouch(0).phase == TouchPhase.Moved))
-            isHolding = true;
+        if (Input.touchCount > 0 && (Input.GetTouch(0).phase == TouchPhase.Stationary || Input.GetTouch(0).phase == TouchPhase.Moved)) isHolding = true;
 
         if (isHolding && isJumping)
         {
@@ -65,16 +95,13 @@ public class PlayerController : BaseRunner
             else isJumping = false;
         }
 
-        // Kiểm tra Input Thả ra (Cắt lực nhảy)
+        // Input Thả ra
         bool isPressUp = Input.GetMouseButtonUp(0) || Input.GetKeyUp(KeyCode.Space);
-
-        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended)
-            isPressUp = true;
+        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended) isPressUp = true;
 
         if (isPressUp)
         {
             isJumping = false;
-            // Giảm vận tốc Y ngay lập tức
 #if UNITY_6000_0_OR_NEWER
             if (_rb.linearVelocity.y > 0)
                 _rb.linearVelocity = new Vector2(_rb.linearVelocity.x, _rb.linearVelocity.y * jumpCutMultiplier);
@@ -85,20 +112,13 @@ public class PlayerController : BaseRunner
         }
     }
 
-    // --- 2. LOGIC KHI BỊ KẸT (RESPAWN) ---
     protected override void OnStuck()
     {
         base.OnStuck();
-
-        // Nếu Player bị kẹt, thực hiện Respawn về điểm hồi sinh
         if (ReferenceManager.Instance != null && ReferenceManager.Instance.RespawnTrans != null)
         {
             transform.position = ReferenceManager.Instance.RespawnTrans.position;
-
-            // Reset tốc độ về thấp để tăng tốc lại từ từ (tránh ngộp)
             currentSpeed = baseRunSpeed * 0.8f;
-
-            // Reset vật lý
 #if UNITY_6000_0_OR_NEWER
             _rb.linearVelocity = Vector2.zero;
 #else

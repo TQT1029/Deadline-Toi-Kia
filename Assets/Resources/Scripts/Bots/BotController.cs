@@ -2,80 +2,155 @@
 
 public class BotController : BaseRunner
 {
+    [Header("Bot Personality (Randomized)")]
+    [Tooltip("Độ trễ phản xạ khi thấy vật cản (0.05s - 0.2s)")]
+    private float reactionTime;
+    private float speedNoiseSeed;
+
+    [Header("Rubber Banding Config")]
+    [SerializeField] private float adjustDist = 20f;
+    public Transform targetPlayer;
+
+    private float myCatchUpMult;
+    private float mySlowDownMult;
+    private float myAccelerationRate;
+
     [Header("AI Radar (Sweeping Raycast)")]
     public Transform sensorPoint;
     public float viewDistance = 5.0f;
     public LayerMask obstacleLayer;
 
-    [Tooltip("Góc quét tối đa (Lên/Xuống). VD: 30 độ")]
     public float maxSweepAngle = 30f;
+    private float phiDelta;
+    private float mySweepSpeed;
 
-    [Tooltip("Tốc độ quét (Radar quay nhanh hay chậm). Cao = Chính xác hơn")]
-    public float sweepSpeed = 10f;
-
-    [Header("Rubber Banding")]
-    public Transform targetPlayer;
-    public float catchUpMult = 1.3f;
-    public float slowDownMult = 0.8f;
+    [Header("Map Safety (Chống rơi khỏi map)")]
+    [Tooltip("Độ cao Y mà nếu Bot rơi xuống dưới mức này sẽ bị coi là lọt map")]
+    public float fallThresholdY = -10f;
+    [Tooltip("Bot sẽ được hồi sinh cao hơn Player bao nhiêu mét?")]
+    public float respawnHeightOffset = 5f;
 
     private bool isJumpCooldown = false;
+    private float targetRunSpeed;
+
+    protected override void Awake()
+    {
+        base.Awake();
+
+        // --- RANDOM HÓA TÍNH CÁCH BOT ---
+        speedNoiseSeed = Random.Range(0f, 100f);
+        phiDelta = Random.Range(0f, 180f);
+        mySweepSpeed = Random.Range(8f, 15f);
+        myCatchUpMult = Random.Range(1.2f, 1.5f);
+        mySlowDownMult = Random.Range(0.7f, 0.9f);
+        myAccelerationRate = Random.Range(1.5f, 3.0f);
+        reactionTime = Random.Range(0.05f, 0.2f);
+    }
 
     protected override void FixedUpdate()
     {
         base.FixedUpdate();
 
-        PerformRadarScan(); // Quét liên tục
-        AdjustSpeed();
+        PerformRadarScan();
+        AdjustSpeedTarget();
+
+        // --- LOGIC MỚI: KIỂM TRA RƠI KHỎI MAP ---
+        CheckMapFallSafety();
     }
 
-    // --- 1. LOGIC RADAR QUÉT (LÊN XUỐNG) ---
+    protected override void Move()
+    {
+        float scoreBonus = (GameStatsController.Instance != null) ? GameStatsController.Instance.resultDistance / 150f : 0f;
+        float desiredSpeed = targetRunSpeed + scoreBonus;
+        float noise = (Mathf.PerlinNoise(Time.time * 0.5f, speedNoiseSeed) - 0.5f) * 2f;
+        desiredSpeed += noise;
+
+        currentSpeed = Mathf.MoveTowards(currentSpeed, desiredSpeed, myAccelerationRate * Time.fixedDeltaTime);
+
+        base.Move();
+    }
+
+    // --- LOGIC AN TOÀN KHI RƠI KHỎI MAP ---
+    private void CheckMapFallSafety()
+    {
+        // Nếu Bot rơi xuống quá sâu (dưới fallThresholdY)
+        if (transform.position.y < fallThresholdY)
+        {
+            if (targetPlayer != null)
+            {
+                // 1. Giữ nguyên vị trí X (Tiến độ chạy)
+                float keepX = transform.position.x;
+
+                // 2. Lấy vị trí Y của Player + Offset (Để đảm bảo Bot rơi từ trên cao xuống sàn an toàn)
+                // Nếu Player lỡ cũng rơi thì dùng tạm 0 hoặc groundY mặc định
+                float safeY = Mathf.Max(targetPlayer.position.y, -2f) + respawnHeightOffset;
+
+                // 3. Teleport Bot
+                transform.position = new Vector3(keepX, safeY, 0);
+
+                // 4. Quan trọng: Reset vận tốc rơi (để không bị rơi tiếp với tốc độ tên lửa)
+#if UNITY_6000_0_OR_NEWER
+                _rb.linearVelocity = Vector2.zero;
+#else
+                _rb.velocity = Vector2.zero;
+#endif
+                // Reset tốc độ chạy về cơ bản để Bot lấy lại nhịp
+                currentSpeed = baseRunSpeed;
+
+                // Debug.Log($"{gameObject.name} lọt map! Đã tele lên cao.");
+            }
+        }
+    }
+
+    // --- CÁC LOGIC CŨ GIỮ NGUYÊN ---
     private void PerformRadarScan()
     {
         if (!isGrounded || isJumpCooldown) return;
 
-        // Tạo góc dao động hình sin theo thời gian: Từ -Max đến +Max
-        float currentAngle = Mathf.Sin(Time.time * sweepSpeed) * maxSweepAngle;
-
-        // Tính hướng vector dựa trên góc
+        float currentAngle = Mathf.Sin(Time.time * mySweepSpeed + phiDelta) * maxSweepAngle;
         Vector2 direction = Quaternion.Euler(0, 0, currentAngle) * Vector2.right;
-
-        // Bắn tia
         RaycastHit2D hit = Physics2D.Raycast(sensorPoint.position, direction, viewDistance, obstacleLayer);
-
-        // Vẽ màu để debug: Đỏ = Trúng, Xanh = An toàn
-        Debug.DrawRay(sensorPoint.position, direction * viewDistance, hit.collider ? Color.red : Color.green);
 
         if (hit.collider != null)
         {
-            // Phát hiện vật cản -> Nhảy
+            if (!IsInvoking(nameof(PerformJumpAction))) Invoke(nameof(PerformJumpAction), reactionTime);
+        }
+    }
+
+    private void PerformJumpAction()
+    {
+        if (isGrounded && !isJumpCooldown)
+        {
             Jump();
             isJumpCooldown = true;
             Invoke(nameof(ResetJumpCooldown), 0.5f);
         }
     }
 
-    // --- 2. LOGIC TỰ THÁO KẸT (BOT) ---
+    private void AdjustSpeedTarget()
+    {
+        if (targetPlayer == null)
+        {
+            targetRunSpeed = baseRunSpeed;
+            return;
+        }
+
+        float dist = transform.position.x - targetPlayer.position.x;
+
+        if (dist < -adjustDist) targetRunSpeed = baseRunSpeed * myCatchUpMult;
+        else if (dist > adjustDist) targetRunSpeed = baseRunSpeed * mySlowDownMult;
+        else targetRunSpeed = baseRunSpeed;
+    }
+
     protected override void OnStuck()
     {
         base.OnStuck();
-        // Khi Bot bị kẹt, nó sẽ thử nhảy "Panic Jump" để thoát ra
         if (isGrounded)
         {
             Jump();
-            // Nếu vẫn kẹt quá lâu, có thể teleport nhẹ lên trước (Cheat)
-            transform.position += Vector3.right * 1.5f + Vector3.up * 0.5f;
+            transform.position += new Vector3(1.0f, 0.5f, 0);
+            currentSpeed = baseRunSpeed;
         }
-    }
-
-    // --- 3. LOGIC ĐUỔI THEO ---
-    private void AdjustSpeed()
-    {
-        if (targetPlayer == null) return;
-        float dist = transform.position.x - targetPlayer.position.x;
-
-        if (dist < -10f) currentSpeed = baseRunSpeed * catchUpMult;
-        else if (dist > 10f) currentSpeed = baseRunSpeed * slowDownMult;
-        else currentSpeed = baseRunSpeed;
     }
 
     private void ResetJumpCooldown() => isJumpCooldown = false;

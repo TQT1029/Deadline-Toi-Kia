@@ -1914,7 +1914,7 @@ MonoBehaviour:
     scoreValue: 1000
     spawnWeight: 0.1
   spawnDistanceAhead: 50
-  destroyDistanceBehind: 20
+  destroyDistanceBehind: 50
   groundY: -4.25
   obstacleLayer:
     serializedVersion: 2
@@ -3015,16 +3015,16 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 192
+  adjustDist: 20
+  targetPlayer: {fileID: 335606032}
   sensorPoint: {fileID: 1978534604}
   viewDistance: 4
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 128
   maxSweepAngle: 30
-  sweepSpeed: 10
-  targetPlayer: {fileID: 335606032}
-  catchUpMult: 1.5
-  slowDownMult: 0.8
+  fallThresholdY: -10
+  respawnHeightOffset: 5
 --- !u!61 &1137751198
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -4247,16 +4247,16 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 192
+  adjustDist: 20
+  targetPlayer: {fileID: 335606032}
   sensorPoint: {fileID: 35889857}
   viewDistance: 4
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 128
   maxSweepAngle: 30
-  sweepSpeed: 10
-  targetPlayer: {fileID: 335606032}
-  catchUpMult: 1.5
-  slowDownMult: 0.8
+  fallThresholdY: -10
+  respawnHeightOffset: 5
 --- !u!61 &1383894663
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -6569,16 +6569,16 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 192
+  adjustDist: 20
+  targetPlayer: {fileID: 335606032}
   sensorPoint: {fileID: 380527255}
   viewDistance: 4
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 128
   maxSweepAngle: 30
-  sweepSpeed: 10
-  targetPlayer: {fileID: 335606032}
-  catchUpMult: 1.5
-  slowDownMult: 0.8
+  fallThresholdY: -10
+  respawnHeightOffset: 5
 --- !u!95 &2054229273
 Animator:
   serializedVersion: 7

@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using DG.Tweening; // Cần DOTween để Fade nhạc
+using DG.Tweening; // Cần DOTween
 
 [System.Serializable]
 public class MusicController
@@ -17,25 +17,45 @@ public class MusicController
     public void SetGlobalVolume(float vol)
     {
         _globalVolume = vol;
-        _audioSource.volume = vol;
+        // Nếu đang không fade thì cập nhật ngay, còn đang fade thì để tween tự xử lý
+        if (!DOTween.IsTweening(_audioSource))
+        {
+            _audioSource.volume = vol;
+        }
     }
 
     public void PlayMusic(AudioClip clip, bool fade = true)
     {
         if (clip == null) return;
 
-        // Nếu đang phát đúng bài này rồi thì thôi
+        // Nếu đang phát đúng bài này rồi thì thôi, không làm gì cả
         if (_audioSource.clip == clip && _audioSource.isPlaying) return;
+
+        // Ngắt tất cả các tween cũ đang chạy trên AudioSource này (tránh xung đột)
+        _audioSource.DOKill();
 
         if (fade)
         {
-            // Logic Fade: Giảm âm lượng về 0 -> Đổi bài -> Tăng lại
-            _audioSource.DOFade(0f, 0.5f).OnComplete(() =>
+            // TRƯỜNG HỢP 1: Đang có nhạc chạy -> Cần Fade Out bài cũ trước
+            if (_audioSource.isPlaying && _audioSource.volume > 0)
+            {
+                // Giảm volume về 0 trong 0.5s -> Đổi bài -> Tăng lại
+                _audioSource.DOFade(0f, 0.5f).SetUpdate(true).OnComplete(() =>
+                {
+                    _audioSource.clip = clip;
+                    _audioSource.Play();
+                    _audioSource.DOFade(_globalVolume, 0.5f).SetUpdate(true);
+                });
+            }
+            // TRƯỜNG HỢP 2: Chưa có nhạc (Mới vào game) -> Fade In luôn cho nhanh
+            else
             {
                 _audioSource.clip = clip;
+                _audioSource.volume = 0f; // Set về 0 ngay lập tức
                 _audioSource.Play();
-                _audioSource.DOFade(_globalVolume, 0.5f);
-            });
+                // Tăng dần lên volume gốc
+                _audioSource.DOFade(_globalVolume, 0.8f).SetUpdate(true);
+            }
         }
         else
         {
@@ -48,9 +68,15 @@ public class MusicController
 
     public void StopMusic(bool fade = true)
     {
-        if (fade)
+        _audioSource.DOKill(); // Ngắt tween cũ
+
+        if (fade && _audioSource.isPlaying)
         {
-            _audioSource.DOFade(0f, 0.5f).OnComplete(() => _audioSource.Stop());
+            // Fade Out rồi mới Stop
+            _audioSource.DOFade(0f, 0.5f).SetUpdate(true).OnComplete(() =>
+            {
+                _audioSource.Stop();
+            });
         }
         else
         {

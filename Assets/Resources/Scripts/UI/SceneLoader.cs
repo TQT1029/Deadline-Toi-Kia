@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class SceneLoader : MonoBehaviour
@@ -13,14 +14,15 @@ public class SceneLoader : MonoBehaviour
     public void EnterMap()
     {
         // Vào Playing từ màn chọn map
-        if (ReferenceManager.Instance.currentSelectedMap == null)
+        if (ReferenceManager.Instance.CurrentSelectedMap == null)
         {
             Debug.LogError("[SceneLoader] Chưa chọn Map nào!");
             return;
         }
 
         Time.timeScale = 1f;
-        string mapScene = ReferenceManager.Instance.currentSelectedMap.targetSceneName;
+        AudioManager.Instance.PlayMusic($"BGM_Map{ReferenceManager.Instance.CurrentSelectedMap.mapIndex}");
+        string mapScene = ReferenceManager.Instance.CurrentSelectedMap.mapName;
         SceneManager.LoadScene(mapScene);
     }
 

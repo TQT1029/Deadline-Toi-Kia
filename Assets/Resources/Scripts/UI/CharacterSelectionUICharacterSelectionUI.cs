@@ -20,6 +20,7 @@ public class CharacterSelectionUI : MonoBehaviour
         if (UIManager.Instance != null)
         {
             UIManager.Instance.SelectCharacterByIndex(index);
+            Debug.Log($"[CharacterSelectionUI] Character Selected: {index}");
         }
 
         // 2. Di chuyển mũi tên

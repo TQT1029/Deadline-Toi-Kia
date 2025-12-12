@@ -65,7 +65,7 @@ public class PlayerController : MonoBehaviour
 
     private void SetupCharacter()
     {
-        _profile = ReferenceManager.Instance.currentSelectedProfile;
+        _profile = ReferenceManager.Instance.CurrentSelectedProfile;
         if (_profile == null) return;
 
         if (UIManager.Instance.MainInfo != null)
@@ -236,6 +236,7 @@ public class PlayerController : MonoBehaviour
     private void PlayJumpSound()
     {
         AudioManager.Instance.PlaySFX($"Jump_{Random.Range(0,2)}");
+
     }
     private Vector2 GetVelocity()
     {

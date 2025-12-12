@@ -12,20 +12,19 @@ public class ReferenceManager : Singleton<ReferenceManager>
     public Camera MainCamera;
     public Transform PlayerTransform;
     public Rigidbody2D PlayerRigidbody;
-    
+
     public Transform SpawnTrans;
     public Transform RespawnTrans;
 
-
     [Header("Data Library")]
     [Tooltip("Kéo tất cả CharacterProfile vào đây")]
-    public CharacterProfile[] allCharacters;
+    public CharacterProfile[] AllCharacters;
     [Tooltip("Kéo tất cả MapProfile vào đây")]
-    public MapProfile[] allMaps;
+    public MapProfile[] AllMaps;
 
     [Header("Current Session")]
-    public CharacterProfile currentSelectedProfile;
-    public MapProfile currentSelectedMap;
+    public CharacterProfile CurrentSelectedProfile;
+    public MapProfile CurrentSelectedMap;
 
     private void OnEnable() => SceneManager.sceneLoaded += OnSceneLoaded;
     private void OnDisable() => SceneManager.sceneLoaded -= OnSceneLoaded;
@@ -38,7 +37,6 @@ public class ReferenceManager : Singleton<ReferenceManager>
         SpawnTrans = GameObject.FindGameObjectWithTag(GameConstants.TAG_SPAWNPOINT)?.transform;
         RespawnTrans = GameObject.FindGameObjectWithTag(GameConstants.TAG_RESPAWN)?.transform;
 
-        // Tìm lại MapController
     }
 
     /// <summary>

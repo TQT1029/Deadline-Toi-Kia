@@ -82,21 +82,21 @@ MonoBehaviour:
   PlayerRigidbody: {fileID: 0}
   SpawnTrans: {fileID: 0}
   RespawnTrans: {fileID: 0}
-  allCharacters:
+  AllCharacters:
   - {fileID: 11400000, guid: 852f9a9523fbaaf429d0ddbb9c5337ad, type: 2}
   - {fileID: 11400000, guid: 0091282184277724ba7c14a87a042393, type: 2}
   - {fileID: 11400000, guid: 1b11e5dccf71969419f8e82f4333711e, type: 2}
   - {fileID: 11400000, guid: 61c6229ee848fa249a2c0ab986ff3f94, type: 2}
   - {fileID: 11400000, guid: 36d8557022a7e9142acc768f91c739bf, type: 2}
   - {fileID: 11400000, guid: 2a966ac66603df74497a6b9af3db693f, type: 2}
-  allMaps:
+  AllMaps:
   - {fileID: 11400000, guid: 14a1f2a293a287b4c96cecb4a2229c67, type: 2}
   - {fileID: 11400000, guid: 0f0c83c9367aea547837104ac529af91, type: 2}
   - {fileID: 11400000, guid: a7f176c202e888147b8b91650119ed1d, type: 2}
   - {fileID: 11400000, guid: 6ad2a22fc3548f8478cea85a2fa663fe, type: 2}
   - {fileID: 11400000, guid: 814dfc75139d5bc4c9521d7668441327, type: 2}
-  currentSelectedProfile: {fileID: 11400000, guid: 852f9a9523fbaaf429d0ddbb9c5337ad, type: 2}
-  currentSelectedMap: {fileID: 11400000, guid: 14a1f2a293a287b4c96cecb4a2229c67, type: 2}
+  CurrentSelectedProfile: {fileID: 11400000, guid: 852f9a9523fbaaf429d0ddbb9c5337ad, type: 2}
+  CurrentSelectedMap: {fileID: 11400000, guid: 14a1f2a293a287b4c96cecb4a2229c67, type: 2}
 --- !u!114 &9147186382378546997
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -160,17 +160,17 @@ MonoBehaviour:
     pitch: 1
   sfxLibrary:
   - id: Jump_0
-    clip: {fileID: 8300000, guid: 76a3d24b8cc6488428b7d9b9936376b7, type: 3}
-    volume: 0.25
-    pitch: 1
+    clip: {fileID: 8300000, guid: 2badb9d1284194b42b980afc706bfacf, type: 3}
+    volume: 0.5
+    pitch: 1.5
   - id: Jump_1
-    clip: {fileID: 8300000, guid: 1e5c2c62faa26f047b62b978c263fd6c, type: 3}
-    volume: 0.25
-    pitch: 1
+    clip: {fileID: 8300000, guid: 93a0d1ea3d3e47247a18afefaf7e8e99, type: 3}
+    volume: 0.5
+    pitch: 1.5
   - id: Jump_2
-    clip: {fileID: 8300000, guid: ed137b7c06a57314ab4bedf1e9e27e3f, type: 3}
-    volume: 0.25
-    pitch: 1
+    clip: {fileID: 8300000, guid: 3af372c70bee4624f92acf3fc81ef813, type: 3}
+    volume: 0.5
+    pitch: 1.5
   - id: CollectItem
     clip: {fileID: 8300000, guid: 9e6f9b8628d7a9e4282f6cf7bce099aa, type: 3}
     volume: 1
@@ -187,7 +187,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -284,7 +284,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0

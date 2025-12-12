@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a084fb05f5a3c1c47adfb785daa8055e, type: 3}
   m_Name: Map2
   m_EditorClassIdentifier: 
-  mapName: "K\xDD T\xDAC X\xC1"
-  targetSceneName: Map2
+  mapName: Map2
+  idBGM: 
   mapIndex: 2

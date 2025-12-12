@@ -20,8 +20,6 @@ public class GameManager : Singleton<GameManager>
     public GameState CurrentState { get; private set; }
     public static event Action<GameState> OnStateChanged;
 
-    public MapController MapController;
-
     protected override void OnAwake()
     {
         // Mặc định ban đầu

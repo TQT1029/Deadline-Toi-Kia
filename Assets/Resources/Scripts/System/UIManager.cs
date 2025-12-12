@@ -68,14 +68,14 @@ public class UIManager : Singleton<UIManager>
             CharactersPage = FindObj("CharactersPage");
             MapsPage = FindObj("MapsPage");
 
-            var prevObj = GameObject.Find("CharacterPreview");
+            GameObject prevObj = GameObject.Find("CharacterPreview");
             if (prevObj) characterPreview = prevObj.GetComponent<Animator>();
 
             var checkObj = GameObject.Find("Checklist");
             if (checkObj) characterChecklist = checkObj.GetComponent<Image>();
 
             // Mặc định chọn nhân vật đầu tiên nếu chưa có
-            if (ReferenceManager.Instance.currentSelectedProfile == null)
+            if (ReferenceManager.Instance.CurrentSelectedProfile == null)
                 SelectCharacterByIndex(0);
         }
         else
@@ -150,12 +150,15 @@ public class UIManager : Singleton<UIManager>
 
     public void SelectCharacterByIndex(int index)
     {
-        var lib = ReferenceManager.Instance.allCharacters;
+        var lib = ReferenceManager.Instance.AllCharacters;
         if (lib == null || index < 0 || index >= lib.Length) return;
 
         var profile = lib[index];
-        ReferenceManager.Instance.currentSelectedProfile = profile;
+        ReferenceManager.Instance.CurrentSelectedProfile = profile;
         UpdatePreviewUI(profile);
+
+        Debug.Log($"[UIManager] Update Preview: {profile.name}");
+
     }
 
     private void UpdatePreviewUI(CharacterProfile data)
@@ -183,10 +186,10 @@ public class UIManager : Singleton<UIManager>
 
     public void SelectMapByIndex(int index)
     {
-        var lib = ReferenceManager.Instance.allMaps;
+        var lib = ReferenceManager.Instance.AllMaps;
         if (lib == null || index < 0 || index >= lib.Length) return;
 
-        ReferenceManager.Instance.currentSelectedMap = lib[index];
+        ReferenceManager.Instance.CurrentSelectedMap = lib[index];
         Debug.Log($"[UIManager] Map Selected: {lib[index].mapName}");
     }
 }

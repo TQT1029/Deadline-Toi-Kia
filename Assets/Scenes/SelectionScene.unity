@@ -2906,7 +2906,7 @@ MonoBehaviour:
   mapsContent: {fileID: 225162805}
   leftArrowBtn: {fileID: 1544534252}
   rightArrowBtn: {fileID: 771131639}
-  goButton: {fileID: 0}
+  goButton: {fileID: 1080783201}
   mapSpacing: 1284
   moveDuration: 0.4
   moveEase: 27
@@ -5025,7 +5025,7 @@ Animator:
   m_GameObject: {fileID: 2006958311}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 5863f08c23d40754dbef1da45ac8cd27, type: 2}
+  m_Controller: {fileID: 9100000, guid: e7635c39179de8345b8462ab81974df0, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 1
   m_ApplyRootMotion: 0

@@ -53,16 +53,16 @@ public class HUDController : MonoBehaviour
         if (resultXPScoreText) resultXPScoreText.text = $"{xpScore}";
 
         // 2. Setup hình ảnh nhân vật (nếu có logic chọn skin)
-        if (ReferenceManager.Instance.currentSelectedProfile != null)
+        if (ReferenceManager.Instance.CurrentSelectedProfile != null)
         {
             if (animatorObj1)
             {
-                animatorObj1.runtimeAnimatorController = ReferenceManager.Instance.currentSelectedProfile.inGameAnimator;
+                animatorObj1.runtimeAnimatorController = ReferenceManager.Instance.CurrentSelectedProfile.inGameAnimator;
                 animatorObj1.SetBool("isJump", true);
             }
             if (animatorObj2)
             {
-                animatorObj2.runtimeAnimatorController = ReferenceManager.Instance.currentSelectedProfile.previewAction;
+                animatorObj2.runtimeAnimatorController = ReferenceManager.Instance.CurrentSelectedProfile.previewAction;
             }
         }
 

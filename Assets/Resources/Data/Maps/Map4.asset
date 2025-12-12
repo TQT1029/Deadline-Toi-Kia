@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a084fb05f5a3c1c47adfb785daa8055e, type: 3}
   m_Name: Map4
   m_EditorClassIdentifier: 
-  mapName: "QU\xC1N CAF\xC9 CH\u1EA0Y DEADLINE"
-  targetSceneName: Map4
+  mapName: Map4
+  idBGM: BGM_Map4
   mapIndex: 4

@@ -4,8 +4,8 @@
 public class MapProfile  : ScriptableObject
 {
     public string mapName;
-    [Tooltip("Tên Scene chính xác trong Build Settings")]
-    public string targetSceneName;
-    [Tooltip("Index dùng để xác định Skin nhân vật")]
+    [Tooltip("Âm thanh nền của map")]
+    public string idBGM;
+    [Tooltip("Index dùng để xác định map")]
     public int mapIndex;
 }

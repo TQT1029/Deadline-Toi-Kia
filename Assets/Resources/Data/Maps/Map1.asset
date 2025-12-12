@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a084fb05f5a3c1c47adfb785daa8055e, type: 3}
   m_Name: Map1
   m_EditorClassIdentifier: 
-  mapName: "H\xC0NH LANG"
-  targetSceneName: Map1
+  mapName: Map1
+  idBGM: BGM_Map1
   mapIndex: 1

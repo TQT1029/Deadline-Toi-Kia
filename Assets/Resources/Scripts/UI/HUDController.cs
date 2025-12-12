@@ -7,11 +7,16 @@ public class HUDController : MonoBehaviour
 {
     public static HUDController Instance;
 
-    // ... (Giữ nguyên các Reference Header cũ) ...
     [Header("In-Game HUD")]
     [SerializeField] private TMP_Text distanceText => UIManager.Instance.DistanceText;
     [SerializeField] private TMP_Text coinText => UIManager.Instance.CoinText;
     [SerializeField] private TMP_Text xpScoreText => UIManager.Instance.XPScoreText;
+
+    [Header("Ranking UI")]
+    [Tooltip("Text hiển thị chữ 'TOP 1'")]
+    [SerializeField] private TMP_Text rankTitleText => UIManager.Instance.RankTitleText;
+    [Tooltip("Text hiển thị số '01/25'")]
+    [SerializeField] private TMP_Text rankDetailText => UIManager.Instance.RankDetailText;
 
     [Header("End Game Animation")]
     [SerializeField] private GameObject resultPanel => UIManager.Instance.ResultPanel;
@@ -32,6 +37,33 @@ public class HUDController : MonoBehaviour
             return;
         }
         Instance = this;
+    }
+    private void Update()
+    {
+        // Cập nhật Rank liên tục mỗi khung hình
+        UpdateRankingUI();
+    }
+
+    private void UpdateRankingUI()
+    {
+        // Nếu không có RankingManager thì thôi
+        if (RankingManager.Instance == null) return;
+
+        int rank = RankingManager.Instance.CurrentRank;
+        int total = RankingManager.Instance.TotalRacers;
+
+        // 1. Cập nhật chữ TOP (Ví dụ: TOP 1)
+        if (rankTitleText != null)
+        {
+            rankTitleText.text = $"TOP {rank}";
+        }
+
+        // 2. Cập nhật tỉ lệ (Ví dụ: 01/25)
+        if (rankDetailText != null)
+        {
+            // Format "00" để số 1 hiện thành 01
+            rankDetailText.text = $"{rank:00}/{total:00}";
+        }
     }
     public void UpdateHUD(float distance, int learnScore, int xpScore)
     {

@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 7476262677982034933}
   - component: {fileID: 2534061678097985957}
   - component: {fileID: 9147186382378546997}
+  - component: {fileID: -1956224002922006573}
   - component: {fileID: -5303073022070743713}
   - component: {fileID: 5574078942048712370}
   - component: {fileID: 2152862621563435424}
@@ -50,7 +51,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27a15ea1f7ed5ca4a8db0610cca14e19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MapController: {fileID: 0}
 --- !u!114 &7476262677982034933
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -131,6 +131,18 @@ MonoBehaviour:
   ResultDistanceText: {fileID: 0}
   ResultCoinText: {fileID: 0}
   ResultXPScoreText: {fileID: 0}
+--- !u!114 &-1956224002922006573
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8865307804083502269}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 089f857a3390dbb449eee61c55fb445b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &-5303073022070743713
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -13,10 +13,12 @@ public class UIManager : Singleton<UIManager>
 {
     [Header("References (Auto Found)")]
     // Main Menu & Settings
+    [Header("Main Menu UI References")]
     public GameObject MainMenuPanel;
     public GameObject SettingPanel;
 
     // Selection Scene
+    [Header("Selection UI References")]
     public GameObject CharactersPage;
     public GameObject MapsPage;
 
@@ -24,11 +26,16 @@ public class UIManager : Singleton<UIManager>
     public Image characterChecklist;
 
     //Playing Scenes 
+    [Header("In-Game UI References")]
     public Image MainInfo;
-
+    [Space(10)]
     public TMP_Text DistanceText;
     public TMP_Text CoinText;
     public TMP_Text XPScoreText;
+
+    public TMP_Text RankTitleText;
+    public TMP_Text RankDetailText;
+    [Space(10)]
 
     public GameObject ResultPanel;
 
@@ -88,6 +95,9 @@ public class UIManager : Singleton<UIManager>
             DistanceText = FindObj("DistanceText")?.GetComponent<TMP_Text>();
             CoinText = FindObj("CoinText")?.GetComponent<TMP_Text>();
             XPScoreText = FindObj("XPScoreText")?.GetComponent<TMP_Text>();
+
+            RankTitleText = FindObj("RankingTitleText")?.GetComponent<TMP_Text>();
+            RankDetailText = FindObj("RankingDetailText")?.GetComponent<TMP_Text>();
 
             ResultPanel = FindObj("ResultPanel");
 

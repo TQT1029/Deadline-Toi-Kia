@@ -5,11 +5,12 @@ TagManager:
   serializedVersion: 3
   tags:
   - SpawnPoint
+  - Bot
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Racer
   - Water
   - UI
   - Platform

@@ -1,106 +1,82 @@
 ﻿using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody2D), typeof(BoxCollider2D))]
-public class BotController : MonoBehaviour
+public class BotController : BaseRunner
 {
-    [Header("Bot Stats")]
-    public float baseSpeed = 5f;
-    public float jumpForce = 10f;
-
-    [Header("AI Senses (Mắt thần)")]
-    [Tooltip("Vị trí mắt bắn tia dò đường (Nên đặt ở chân hoặc bụng)")]
+    [Header("AI Radar (Sweeping Raycast)")]
     public Transform sensorPoint;
-    [Tooltip("Khoảng cách nhìn thấy vật cản để nhảy")]
-    public float viewDistance = 3.0f;
-    [Tooltip("Layer của chướng ngại vật (Bắt buộc chọn đúng)")]
+    public float viewDistance = 5.0f;
     public LayerMask obstacleLayer;
-    [Tooltip("Layer mặt đất")]
-    public LayerMask groundLayer;
 
-    [Header("Rubber Banding (Cân bằng game)")]
-    [Tooltip("Kéo Player vào đây để Bot biết đường đuổi theo")]
+    [Tooltip("Góc quét tối đa (Lên/Xuống). VD: 30 độ")]
+    public float maxSweepAngle = 30f;
+
+    [Tooltip("Tốc độ quét (Radar quay nhanh hay chậm). Cao = Chính xác hơn")]
+    public float sweepSpeed = 10f;
+
+    [Header("Rubber Banding")]
     public Transform targetPlayer;
-    public float catchUpMultiplier = 1.3f; // Tăng tốc khi bị bỏ lại
-    public float slowDownMultiplier = 0.8f; // Giảm tốc khi chạy quá xa
+    public float catchUpMult = 1.3f;
+    public float slowDownMult = 0.8f;
 
-    private Rigidbody2D _rb;
-    private Animator _animator;
-    private bool isGrounded;
     private bool isJumpCooldown = false;
-    private float currentSpeed;
 
-    private void Awake()
+    protected override void FixedUpdate()
     {
-        _rb = GetComponent<Rigidbody2D>();
-        _animator = GetComponent<Animator>();
-        currentSpeed = baseSpeed;
+        base.FixedUpdate();
+
+        PerformRadarScan(); // Quét liên tục
+        AdjustSpeed();
     }
 
-    private void FixedUpdate()
+    // --- 1. LOGIC RADAR QUÉT (LÊN XUỐNG) ---
+    private void PerformRadarScan()
     {
-        CheckGround();
-        HandleAIBehavior();
-        Move();
-    }
+        if (!isGrounded || isJumpCooldown) return;
 
-    private void HandleAIBehavior()
-    {
-        // 1. Logic Raycast để nhảy
-        if (isGrounded && !isJumpCooldown)
+        // Tạo góc dao động hình sin theo thời gian: Từ -Max đến +Max
+        float currentAngle = Mathf.Sin(Time.time * sweepSpeed) * maxSweepAngle;
+
+        // Tính hướng vector dựa trên góc
+        Vector2 direction = Quaternion.Euler(0, 0, currentAngle) * Vector2.right;
+
+        // Bắn tia
+        RaycastHit2D hit = Physics2D.Raycast(sensorPoint.position, direction, viewDistance, obstacleLayer);
+
+        // Vẽ màu để debug: Đỏ = Trúng, Xanh = An toàn
+        Debug.DrawRay(sensorPoint.position, direction * viewDistance, hit.collider ? Color.red : Color.green);
+
+        if (hit.collider != null)
         {
-            // Bắn tia về phía trước
-            RaycastHit2D hit = Physics2D.Raycast(sensorPoint.position, Vector2.right, viewDistance, obstacleLayer);
-            Debug.DrawRay(sensorPoint.position, Vector2.right * viewDistance, Color.red);
-
-            if (hit.collider != null)
-            {
-                Jump();
-            }
-        }
-
-        // 2. Logic điều chỉnh tốc độ (Rubber Banding)
-        if (targetPlayer != null)
-        {
-            float distance = transform.position.x - targetPlayer.position.x;
-
-            if (distance < -8f) // Bot bị tụt lại xa quá (> 8m)
-            {
-                currentSpeed = Mathf.Lerp(currentSpeed, baseSpeed * catchUpMultiplier, Time.fixedDeltaTime);
-            }
-            else if (distance > 8f) // Bot chạy nhanh quá (> 8m)
-            {
-                currentSpeed = Mathf.Lerp(currentSpeed, baseSpeed * slowDownMultiplier, Time.fixedDeltaTime);
-            }
-            else
-            {
-                currentSpeed = Mathf.Lerp(currentSpeed, baseSpeed, Time.fixedDeltaTime);
-            }
+            // Phát hiện vật cản -> Nhảy
+            Jump();
+            isJumpCooldown = true;
+            Invoke(nameof(ResetJumpCooldown), 0.5f);
         }
     }
 
-    private void Move()
+    // --- 2. LOGIC TỰ THÁO KẸT (BOT) ---
+    protected override void OnStuck()
     {
-        _rb.linearVelocity = new Vector2(currentSpeed, _rb.linearVelocity.y);
+        base.OnStuck();
+        // Khi Bot bị kẹt, nó sẽ thử nhảy "Panic Jump" để thoát ra
+        if (isGrounded)
+        {
+            Jump();
+            // Nếu vẫn kẹt quá lâu, có thể teleport nhẹ lên trước (Cheat)
+            transform.position += Vector3.right * 1.5f + Vector3.up * 0.5f;
+        }
     }
 
-    private void Jump()
+    // --- 3. LOGIC ĐUỔI THEO ---
+    private void AdjustSpeed()
     {
-        _rb.linearVelocity = new Vector2(_rb.linearVelocity.x, 0); // Reset Y
-        _rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+        if (targetPlayer == null) return;
+        float dist = transform.position.x - targetPlayer.position.x;
 
-        if (_animator) _animator.SetTrigger("isJump"); // Sử dụng trigger giống PlayerController
-
-        // Cooldown để không nhảy liên tục (tránh lỗi double jump)
-        isJumpCooldown = true;
-        Invoke(nameof(ResetJump), 0.5f);
+        if (dist < -10f) currentSpeed = baseRunSpeed * catchUpMult;
+        else if (dist > 10f) currentSpeed = baseRunSpeed * slowDownMult;
+        else currentSpeed = baseRunSpeed;
     }
 
-    private void ResetJump() => isJumpCooldown = false;
-
-    private void CheckGround()
-    {
-        // Bắn tia xuống dưới chân
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, 1.1f, groundLayer);
-        isGrounded = hit.collider != null;
-    }
+    private void ResetJumpCooldown() => isJumpCooldown = false;
 }

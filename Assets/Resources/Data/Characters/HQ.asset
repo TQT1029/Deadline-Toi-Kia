@@ -17,9 +17,7 @@ MonoBehaviour:
   skinVariants:
   - {fileID: 1336200906323390844, guid: ebe7482c6b31e3142848f0b092ee1fd1, type: 3}
   previewAction: {fileID: 9100000, guid: e7635c39179de8345b8462ab81974df0, type: 2}
+  endAnimation: {fileID: 9100000, guid: 88cf5d960a1966c47ab6e9f365946d9a, type: 2}
   checklistImage: {fileID: -2673498809610610117, guid: 93fb1e64c963cb5408d2efcfcbce7881, type: 3}
   inGameAnimator: {fileID: 9100000, guid: 0ae7761304dddee4d8156e017c625d6a, type: 2}
   mainInfo: {fileID: -1137737209797957164, guid: 68fa522fc901bcc4893b04afcb7210be, type: 3}
-  moveSpeed: 5
-  acc: 1
-  jumpForce: 10

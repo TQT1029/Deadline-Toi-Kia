@@ -62,4 +62,14 @@ public class Collectible : MonoBehaviour
             transform.DOScale(Vector3.zero, 0.3f).SetEase(Ease.InBack).OnComplete(() => Destroy(gameObject));
         }
     }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        Destroy(gameObject);
+    }
+
+    private void OnDestroy()
+    {
+       transform.DOKill();
+    }
 }

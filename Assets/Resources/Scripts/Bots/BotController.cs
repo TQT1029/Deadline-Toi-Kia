@@ -8,7 +8,7 @@ public class BotController : BaseRunner
     private float speedNoiseSeed;
 
     [Header("Rubber Banding Config")]
-    [SerializeField] private float adjustDist = 20f;
+    [SerializeField] private float adjustDist = 10f;
     public Transform targetPlayer;
 
     private float myCatchUpMult;
@@ -44,7 +44,7 @@ public class BotController : BaseRunner
         myCatchUpMult = Random.Range(1.2f, 1.5f);
         mySlowDownMult = Random.Range(0.7f, 0.9f);
         myAccelerationRate = Random.Range(1.5f, 3.0f);
-        reactionTime = Random.Range(0.05f, 0.2f);
+        reactionTime = Random.Range(0.05f, 0.15f);
     }
 
     protected override void FixedUpdate()
@@ -102,7 +102,7 @@ public class BotController : BaseRunner
         }
     }
 
-    // --- CÁC LOGIC CŨ GIỮ NGUYÊN ---
+    // --- Logic quét nhảy ---
     private void PerformRadarScan()
     {
         if (!isGrounded || isJumpCooldown) return;

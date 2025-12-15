@@ -14,7 +14,7 @@ public class CharacterProfile : ScriptableObject
     [Tooltip("Dùng RuntimeAnimatorController để hoạt động được cả trong Build")]
     public RuntimeAnimatorController previewAction;
 
-    [Tooltip("Animation nhảy")]
+    [Tooltip("Animation khi End Game")]
     public RuntimeAnimatorController endAnimation;
 
     [Tooltip("Ảnh hiển thị nhỏ (icon)")]

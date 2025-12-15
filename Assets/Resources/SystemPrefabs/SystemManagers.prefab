@@ -119,6 +119,8 @@ MonoBehaviour:
   DistanceText: {fileID: 0}
   CoinText: {fileID: 0}
   XPScoreText: {fileID: 0}
+  RankTitleText: {fileID: 0}
+  RankDetailText: {fileID: 0}
   ResultPanel: {fileID: 0}
   Stars:
   - {fileID: 0}
@@ -160,15 +162,15 @@ MonoBehaviour:
   musicLibrary:
   - id: BGM_Map0
     clip: {fileID: 8300000, guid: 78d16a04a372a434a84b144e178ce062, type: 3}
-    volume: 1
+    volume: 0.5
     pitch: 1
   - id: BGM_Map1
     clip: {fileID: 8300000, guid: 0a38170d8202aff40a8891cc7556455c, type: 3}
-    volume: 1
+    volume: 0.5
     pitch: 1
   - id: BGM_Map4
     clip: {fileID: 8300000, guid: 06d7c87ea35ee9c44a2f878589a0764a, type: 3}
-    volume: 1
+    volume: 0.5
     pitch: 1
   sfxLibrary:
   - id: Jump_0

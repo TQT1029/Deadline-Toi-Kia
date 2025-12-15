@@ -51,5 +51,15 @@ public class Collectible : MonoBehaviour
             // Hiệu ứng biến mất
             transform.DOScale(Vector3.zero, 0.3f).SetEase(Ease.InBack).OnComplete(() => Destroy(gameObject));
         }
+
+        if (collision.CompareTag("Bot"))
+        {
+            AudioManager.Instance.PlaySFX("CollectItem");
+
+            if (collectEffect != null)
+                Instantiate(collectEffect, transform.position, Quaternion.identity);
+
+            transform.DOScale(Vector3.zero, 0.3f).SetEase(Ease.InBack).OnComplete(() => Destroy(gameObject));
+        }
     }
 }

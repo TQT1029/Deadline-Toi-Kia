@@ -15,7 +15,7 @@ public class CharacterProfile : ScriptableObject
     public RuntimeAnimatorController previewAction;
 
     [Tooltip("Animation nhảy")]
-    public RuntimeAnimatorController previewJump;
+    public RuntimeAnimatorController endAnimation;
 
     [Tooltip("Ảnh hiển thị nhỏ (icon)")]
     public Sprite checklistImage;

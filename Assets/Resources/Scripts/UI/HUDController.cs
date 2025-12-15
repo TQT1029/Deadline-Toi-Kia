@@ -89,8 +89,7 @@ public class HUDController : MonoBehaviour
         {
             if (animatorObj1)
             {
-                animatorObj1.runtimeAnimatorController = ReferenceManager.Instance.CurrentSelectedProfile.inGameAnimator;
-                animatorObj1.SetBool("isJump", true);
+                animatorObj1.runtimeAnimatorController = ReferenceManager.Instance.CurrentSelectedProfile.endAnimation;
             }
             if (animatorObj2)
             {

@@ -1900,10 +1900,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerTransform: {fileID: 335606032}
-  ground1: {fileID: 1918821690}
-  ground2: {fileID: 598324629}
+  groundPieces:
+  - {fileID: 1918821690}
+  - {fileID: 598324629}
   winPointPrefab: {fileID: 1771556728}
   groundLength: 121.26
+  pitChance: 0
+  minGap: 2
+  maxGap: 4
   distanceToTriggerTimer: 500
   countdownTime: 60
   timerText: {fileID: 0}

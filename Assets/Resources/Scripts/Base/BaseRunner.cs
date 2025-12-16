@@ -11,12 +11,15 @@ public class BaseRunner : MonoBehaviour
     [Tooltip("Thời gian đứng yên tối đa trước khi bị coi là Kẹt")]
     public float timeToStuck = 1.0f;
     protected float stuckTimer;
-    protected bool isStuck;
 
     [Header("Ground Detection")]
     public Transform groundCheck;
     public float groundCheckRadius = 0.2f;
     public LayerMask groundLayer;
+
+    [Header("Map Safety (Chống rơi khỏi map)")]
+    [Tooltip("Độ sâu mà Runner rơi xuống sẽ bị Respawn (VD: -10)")]
+    public float fallThresholdY = -10f;
 
     // Components
     protected Rigidbody2D _rb;
@@ -32,46 +35,27 @@ public class BaseRunner : MonoBehaviour
         _rb = GetComponent<Rigidbody2D>();
         _collider = GetComponent<BoxCollider2D>();
         _spriteRenderer = GetComponent<SpriteRenderer>();
-        _animator = GetComponent<Animator>(); // Animator có thể null
+        _animator = GetComponent<Animator>();
 
         currentSpeed = baseRunSpeed;
     }
 
     protected virtual void Start()
     {
-        // Tự động cập nhật Collider theo Sprite đầu tiên
         UpdateColliderSize();
     }
 
     protected virtual void FixedUpdate()
     {
         CheckGround();
-        CheckStuck(); // Kiểm tra xem có bị kẹt không
+        CheckStuck();
+        CheckPitFall(); // Tự động kiểm tra rơi hố
         Move();
     }
 
-    // --- 1. LOGIC TỰ CẬP NHẬT COLLIDER ---
-    protected void UpdateColliderSize()
-    {
-        // Chờ 1 chút để Animator cập nhật frame đầu tiên (nếu có)
-        // Hoặc lấy trực tiếp từ SpriteRenderer
-        if (_spriteRenderer.sprite != null)
-        {
-            _collider.size = _spriteRenderer.sprite.bounds.size;
-            _collider.offset = _spriteRenderer.sprite.bounds.center - transform.position;
-            // Lưu ý: offset tính tương đối nên trừ đi transform.position nếu cần, 
-            // nhưng thường sprite.bounds.center là local nếu pivot đúng.
-            // Cách an toàn nhất cho 2D Sprite là:
-            _collider.size = _spriteRenderer.size;
-            _collider.offset = Vector2.zero; // Nếu Pivot sprite ở giữa
-                                             // Nếu Pivot ở chân, bạn có thể cần chỉnh offset Y = size.y / 2
-        }
-    }
-
-    // --- 2. LOGIC DI CHUYỂN & CHỐNG KẸT ---
+    // --- LOGIC DI CHUYỂN ---
     protected virtual void Move()
     {
-        // Giữ vận tốc Y, ghi đè vận tốc X
 #if UNITY_6000_0_OR_NEWER
         _rb.linearVelocity = new Vector2(currentSpeed, _rb.linearVelocity.y);
 #else
@@ -79,38 +63,7 @@ public class BaseRunner : MonoBehaviour
 #endif
     }
 
-    protected virtual void CheckStuck()
-    {
-        // Nếu vận tốc X gần bằng 0 (đang bị chặn) nhưng logic game vẫn muốn chạy (currentSpeed > 0)
-        float vX = 0f;
-#if UNITY_6000_0_OR_NEWER
-        vX = _rb.linearVelocity.x;
-#else
-        vX = _rb.velocity.x;
-#endif
-
-        if (Mathf.Abs(vX) < 0.1f && currentSpeed > 1f)
-        {
-            stuckTimer += Time.fixedDeltaTime;
-            if (stuckTimer >= timeToStuck)
-            {
-                OnStuck(); // Gọi hàm xử lý kẹt
-                stuckTimer = 0f;
-            }
-        }
-        else
-        {
-            stuckTimer = 0f;
-        }
-    }
-
-    // Hàm ảo để lớp con tự định nghĩa cách giải thoát (Player thì Respawn, Bot thì Nhảy)
-    protected virtual void OnStuck()
-    {
-        Debug.Log($"{gameObject.name} is Stuck!");
-    }
-
-    // --- CÁC HÀM CƠ BẢN ---
+    // --- LOGIC NHẢY CƠ BẢN ---
     public virtual void Jump()
     {
         if (isGrounded)
@@ -123,16 +76,83 @@ public class BaseRunner : MonoBehaviour
             _rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
             if (_animator) _animator.SetTrigger("isJump");
 
-            AudioManager.Instance.PlaySFX($"Jump_{Random.Range(0, 2)}");
+            if (AudioManager.Instance != null)
+                AudioManager.Instance.PlaySFX($"Jump_{Random.Range(0, 2)}");
         }
     }
 
+    // --- LOGIC KIỂM TRA & XỬ LÝ SỰ CỐ (KẸT / RƠI) ---
     protected void CheckGround()
     {
         if (groundCheck != null)
-        {
             isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
-            //if (_animator) _animator.SetBool("isGrounded", isGrounded);
+    }
+
+    protected virtual void CheckStuck()
+    {
+        float vX = 0f;
+#if UNITY_6000_0_OR_NEWER
+        vX = _rb.linearVelocity.x;
+#else
+        vX = _rb.velocity.x;
+#endif
+        // Nếu vận tốc gần 0 mà vẫn muốn chạy
+        if (Mathf.Abs(vX) < 0.1f && currentSpeed > 1f)
+        {
+            stuckTimer += Time.fixedDeltaTime;
+            if (stuckTimer >= timeToStuck)
+            {
+                OnStuck();
+                stuckTimer = 0f;
+            }
+        }
+        else stuckTimer = 0f;
+    }
+
+    protected virtual void CheckPitFall()
+    {
+        if (transform.position.y < fallThresholdY)
+        {
+            OnRespawn();
+        }
+    }
+
+    // --- CÁC HÀM XỬ LÝ HÀNH VI (VIRTUAL ĐỂ CON GHI ĐÈ) ---
+
+    // 1. Khi bị kẹt tường -> Mặc định gọi Respawn luôn (đơn giản hóa)
+    protected virtual void OnStuck()
+    {
+        Debug.Log($"{gameObject.name} bị kẹt -> Gọi Respawn.");
+        OnRespawn();
+    }
+
+    // 2. Khi cần hồi sinh (Do rơi hố hoặc kẹt)
+    protected virtual void OnRespawn()
+    {
+        // LOGIC CHUNG CHO CẢ PLAYER VÀ BOT:
+
+        // a. Reset vận tốc về 0 để không bị trôi/rơi tiếp
+#if UNITY_6000_0_OR_NEWER
+        _rb.linearVelocity = Vector2.zero;
+#else
+        _rb.velocity = Vector2.zero;
+#endif
+        // b. Giảm tốc độ chạy (Hình phạt)
+        currentSpeed = baseRunSpeed * 0.5f;
+
+        // c. Reset bộ đếm kẹt
+        stuckTimer = 0f;
+
+        // Lưu ý: Việc đặt lại transform.position sẽ do lớp con tự quyết định
+    }
+
+    // Helper: Update Collider
+    protected void UpdateColliderSize()
+    {
+        if (_spriteRenderer.sprite != null)
+        {
+            _collider.size = _spriteRenderer.size;
+            _collider.offset = Vector2.zero;
         }
     }
 }

@@ -1394,6 +1394,7 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 192
+  fallThresholdY: -10
   adjustDist: 10
   targetPlayer: {fileID: 1823669199}
   sensorPoint: {fileID: 1801570922}
@@ -1402,10 +1403,12 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   maxSweepAngle: 30
+  pitCheckDistance: 1.5
+  pitRayLength: 5
   jumpHoldForce: 5
   maxJumpHoldTime: 0.35
-  fallThresholdY: -10
   respawnHeightOffset: 5
+  penaltyDistance: 5
 --- !u!61 &425822462
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1894,6 +1897,7 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 192
+  fallThresholdY: -10
   adjustDist: 10
   targetPlayer: {fileID: 1823669199}
   sensorPoint: {fileID: 31955297}
@@ -1902,10 +1906,12 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   maxSweepAngle: 30
+  pitCheckDistance: 1.5
+  pitRayLength: 5
   jumpHoldForce: 5
   maxJumpHoldTime: 0.35
-  fallThresholdY: -10
   respawnHeightOffset: 5
+  penaltyDistance: 5
 --- !u!61 &549520850
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2758,7 +2764,7 @@ BoxCollider2D:
   m_Enabled: 1
   serializedVersion: 3
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: cf7101f67ca4a2a43bb14d5748885aab, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -2782,7 +2788,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: -0.1842022}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -2792,7 +2798,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 40.17, y: 2.5314648}
+  m_Size: {x: 40.17, y: 2.1630602}
   m_EdgeRadius: 0
 --- !u!212 &824355903
 SpriteRenderer:
@@ -5676,6 +5682,7 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 192
+  fallThresholdY: -10
   accelerationRate: 2
   jumpHoldForce: 2.5
   maxJumpHoldTime: 0.3
@@ -6313,6 +6320,7 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 192
+  fallThresholdY: -10
   adjustDist: 10
   targetPlayer: {fileID: 1823669199}
   sensorPoint: {fileID: 1257577006}
@@ -6321,10 +6329,12 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   maxSweepAngle: 30
+  pitCheckDistance: 1.5
+  pitRayLength: 5
   jumpHoldForce: 5
   maxJumpHoldTime: 0.35
-  fallThresholdY: -10
   respawnHeightOffset: 5
+  penaltyDistance: 5
 --- !u!61 &2003083579
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -6718,7 +6728,7 @@ BoxCollider2D:
   m_Enabled: 1
   serializedVersion: 3
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: cf7101f67ca4a2a43bb14d5748885aab, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -6742,7 +6752,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: -0.1842022}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -6752,7 +6762,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 40.17, y: 2.5314648}
+  m_Size: {x: 40.17, y: 2.1630602}
   m_EdgeRadius: 0
 --- !u!212 &2067799631
 SpriteRenderer:
@@ -6881,7 +6891,7 @@ BoxCollider2D:
   m_Enabled: 1
   serializedVersion: 3
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: cf7101f67ca4a2a43bb14d5748885aab, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -6905,7 +6915,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: -0.23895574}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -6915,7 +6925,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 40.17, y: 2.5314648}
+  m_Size: {x: 40.17, y: 2.053553}
   m_EdgeRadius: 0
 --- !u!212 &2068579969
 SpriteRenderer:

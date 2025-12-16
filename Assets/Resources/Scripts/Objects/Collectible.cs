@@ -13,9 +13,8 @@ public class Collectible : MonoBehaviour
     [Header("Item Settings")]
     public ItemType type;
     public int scoreValue = 10; // Giá trị mặc định
-    public GameObject collectEffect;
 
-    // --- HÀM MỚI: Dùng để nạp dữ liệu từ MapController ---
+    // --- HÀM MỚI: Dùng để nạp dữ liệu từ MapGenerator ---
     public void Init(int value)
     {
         this.scoreValue = value;
@@ -45,8 +44,6 @@ public class Collectible : MonoBehaviour
                     break;
             }
 
-            if (collectEffect != null)
-                Instantiate(collectEffect, transform.position, Quaternion.identity);
 
             // Hiệu ứng biến mất
             transform.DOScale(Vector3.zero, 0.3f).SetEase(Ease.InBack).OnComplete(() => Destroy(gameObject));
@@ -56,8 +53,6 @@ public class Collectible : MonoBehaviour
         {
             AudioManager.Instance.PlaySFX("CollectItem");
 
-            if (collectEffect != null)
-                Instantiate(collectEffect, transform.position, Quaternion.identity);
 
             transform.DOScale(Vector3.zero, 0.3f).SetEase(Ease.InBack).OnComplete(() => Destroy(gameObject));
         }
@@ -70,6 +65,6 @@ public class Collectible : MonoBehaviour
 
     private void OnDestroy()
     {
-       transform.DOKill();
+        transform.DOKill();
     }
 }

@@ -1802,7 +1802,7 @@ GameObject:
   m_Component:
   - component: {fileID: 721343294}
   - component: {fileID: 721343296}
-  - component: {fileID: 721343295}
+  - component: {fileID: 721343297}
   m_Layer: 0
   m_Name: Map
   m_TagString: Untagged
@@ -1828,65 +1828,6 @@ Transform:
   - {fileID: 1695817144}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &721343295
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 721343293}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 139070f1581bae94099a3c0d94621b4c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerTransform: {fileID: 335606032}
-  obstacleObjs: {fileID: 817237136}
-  itemObjs: {fileID: 1695817143}
-  obstacles:
-  - name: LowWashingMachine
-    prefab: {fileID: 3897467062838213673, guid: eaa2738296cf5e8409bfbfc5ee9f05b1, type: 3}
-    width: 7.4
-    topHeightOffset: 3.25
-    minItemsOnTop: 3
-    maxItemsOnTop: 5
-  - name: HighWashingMachine
-    prefab: {fileID: 2554239590043448735, guid: 5fe54466db105164dbb8feb7e8513460, type: 3}
-    width: 25
-    topHeightOffset: 6.5
-    minItemsOnTop: 3
-    maxItemsOnTop: 5
-  - name: Table&Bracket
-    prefab: {fileID: 4201045231176910432, guid: 75faf0f1a704e46478075296b7a3b1c3, type: 3}
-    width: 7.3
-    topHeightOffset: 4
-    minItemsOnTop: 1
-    maxItemsOnTop: 4
-  itemLibrary:
-  - name: Coin
-    prefab: {fileID: 3501825626615947439, guid: 14bb9858d06c3e04c9a47f46ea37fb09, type: 3}
-    scoreValue: 10
-    spawnWeight: 100
-  - name: Diamond
-    prefab: {fileID: 3501825626615947439, guid: 938ac3824944f37468e6cb0d21478921, type: 3}
-    scoreValue: 50
-    spawnWeight: 5
-  - name: Aplus
-    prefab: {fileID: 3501825626615947439, guid: af0e73e5ae7b79440929644bd7bd0792, type: 3}
-    scoreValue: 1000
-    spawnWeight: 0.1
-  spawnDistanceAhead: 50
-  destroyDistanceBehind: 50
-  groundY: -4.25
-  obstacleLayer:
-    serializedVersion: 2
-    m_Bits: 192
-  checkRadius: 0.5
-  minGap: 12
-  maxGap: 17
-  chanceToSpawnObstacle: 50
-  chanceItemOnObstacle: 90
-  itemSpacing: 1.5
 --- !u!114 &721343296
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1911,6 +1852,70 @@ MonoBehaviour:
   distanceToTriggerTimer: 500
   countdownTime: 60
   timerText: {fileID: 0}
+--- !u!114 &721343297
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 721343293}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 058bac9b31a5f7c4a917dc07a4401535, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerTransform: {fileID: 335606032}
+  obstacleObjs: {fileID: 817237136}
+  itemObjs: {fileID: 1695817143}
+  obstacles:
+  - name: LowWashingMachine
+    prefab: {fileID: 3897467062838213673, guid: eaa2738296cf5e8409bfbfc5ee9f05b1, type: 3}
+    width: 7.3
+    topHeightOffset: 3.7
+    minItemsOnTop: 3
+    maxItemsOnTop: 5
+  - name: HighWashingMachine
+    prefab: {fileID: 2554239590043448735, guid: 5fe54466db105164dbb8feb7e8513460, type: 3}
+    width: 16.425
+    topHeightOffset: 6.4
+    minItemsOnTop: 3
+    maxItemsOnTop: 5
+  - name: Table&Bracket
+    prefab: {fileID: 4201045231176910432, guid: 75faf0f1a704e46478075296b7a3b1c3, type: 3}
+    width: 7.3
+    topHeightOffset: 3.7
+    minItemsOnTop: 5
+    maxItemsOnTop: 6
+  itemLibrary:
+  - name: Coin
+    prefab: {fileID: 3501825626615947439, guid: 14bb9858d06c3e04c9a47f46ea37fb09, type: 3}
+    scoreValue: 10
+    spawnWeight: 100
+  - name: Diamond
+    prefab: {fileID: 3501825626615947439, guid: 938ac3824944f37468e6cb0d21478921, type: 3}
+    scoreValue: 50
+    spawnWeight: 2.5
+  - name: APlus
+    prefab: {fileID: 3501825626615947439, guid: af0e73e5ae7b79440929644bd7bd0792, type: 3}
+    scoreValue: 1000
+    spawnWeight: 0.1
+  spawnDistanceAhead: 50
+  destroyDistanceBehind: 50
+  groundY: -4.25
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 192
+  obstacleLayer:
+    serializedVersion: 2
+    m_Bits: 192
+  checkRadius: 0.4
+  minGap: 12
+  maxGap: 17
+  chanceToSpawnObstacle: 50
+  chanceItemOnObstacle: 90
+  itemSpacing: 1.25
+  archHeight: 4
+  minPitWidthForArch: 2
 --- !u!1 &759242288
 GameObject:
   m_ObjectHideFlags: 0

@@ -1770,7 +1770,7 @@ GameObject:
   m_Component:
   - component: {fileID: 479212433}
   - component: {fileID: 479212432}
-  - component: {fileID: 479212431}
+  - component: {fileID: 479212434}
   m_Layer: 0
   m_Name: Map
   m_TagString: Untagged
@@ -1778,59 +1778,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &479212431
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 479212430}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 139070f1581bae94099a3c0d94621b4c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerTransform: {fileID: 1107744927}
-  obstacleObjs: {fileID: 13836522}
-  itemObjs: {fileID: 1755767445}
-  obstacles:
-  - name: Fire extinguisher
-    prefab: {fileID: 7290545855054261292, guid: 7e5583311ee2dfc46bb2619861d19981, type: 3}
-    width: 1.86
-    topHeightOffset: 4.5
-    minItemsOnTop: 1
-    maxItemsOnTop: 3
-  - name: Compress Fire Extinguisher
-    prefab: {fileID: 7290545855054261292, guid: 81865ca4cc821284d8351f8915691719, type: 3}
-    width: 5.58
-    topHeightOffset: 4.5
-    minItemsOnTop: 3
-    maxItemsOnTop: 7
-  itemLibrary:
-  - name: Coin
-    prefab: {fileID: 3501825626615947439, guid: 14bb9858d06c3e04c9a47f46ea37fb09, type: 3}
-    scoreValue: 10
-    spawnWeight: 100
-  - name: Diamond
-    prefab: {fileID: 3501825626615947439, guid: 938ac3824944f37468e6cb0d21478921, type: 3}
-    scoreValue: 50
-    spawnWeight: 5
-  - name: Aplus
-    prefab: {fileID: 3501825626615947439, guid: af0e73e5ae7b79440929644bd7bd0792, type: 3}
-    scoreValue: 1000
-    spawnWeight: 0.1
-  spawnDistanceAhead: 50
-  destroyDistanceBehind: 50
-  groundY: -4.25
-  obstacleLayer:
-    serializedVersion: 2
-    m_Bits: 192
-  checkRadius: 0.5
-  minGap: 7.5
-  maxGap: 12
-  chanceToSpawnObstacle: 50
-  chanceItemOnObstacle: 90
-  itemSpacing: 1.5
 --- !u!114 &479212432
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1873,6 +1820,64 @@ Transform:
   - {fileID: 1755767446}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &479212434
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 479212430}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 058bac9b31a5f7c4a917dc07a4401535, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerTransform: {fileID: 1107744927}
+  obstacleObjs: {fileID: 13836522}
+  itemObjs: {fileID: 1755767445}
+  obstacles:
+  - name: Fire-Extinguisher
+    prefab: {fileID: 7290545855054261292, guid: 7e5583311ee2dfc46bb2619861d19981, type: 3}
+    width: 1.86
+    topHeightOffset: 5
+    minItemsOnTop: 1
+    maxItemsOnTop: 3
+  - name: Compress-Fire-Extinguisher
+    prefab: {fileID: 7290545855054261292, guid: 81865ca4cc821284d8351f8915691719, type: 3}
+    width: 5.58
+    topHeightOffset: 5
+    minItemsOnTop: 3
+    maxItemsOnTop: 7
+  itemLibrary:
+  - name: Coin
+    prefab: {fileID: 3501825626615947439, guid: 14bb9858d06c3e04c9a47f46ea37fb09, type: 3}
+    scoreValue: 10
+    spawnWeight: 100
+  - name: Diamond
+    prefab: {fileID: 3501825626615947439, guid: 938ac3824944f37468e6cb0d21478921, type: 3}
+    scoreValue: 50
+    spawnWeight: 2.5
+  - name: APlus
+    prefab: {fileID: 3501825626615947439, guid: af0e73e5ae7b79440929644bd7bd0792, type: 3}
+    scoreValue: 1000
+    spawnWeight: 0.1
+  spawnDistanceAhead: 50
+  destroyDistanceBehind: 50
+  groundY: -4.25
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  obstacleLayer:
+    serializedVersion: 2
+    m_Bits: 192
+  checkRadius: 0.4
+  minGap: 7.5
+  maxGap: 15
+  chanceToSpawnObstacle: 50
+  chanceItemOnObstacle: 90
+  itemSpacing: 1.25
+  archHeight: 4
+  minPitWidthForArch: 2
 --- !u!1 &544130743
 GameObject:
   m_ObjectHideFlags: 0
@@ -2738,8 +2743,8 @@ MonoBehaviour:
   targetSubject: {fileID: 1107744927}
   enableParallaxX: 1
   enableParallaxY: 1
-  baseScrollSpeedX: 0.35
-  velocityMultiplierX: 0.001
+  baseScrollSpeedX: 0
+  velocityMultiplierX: 0.05
   verticalParallaxStrength: 0.1
   smoothingY: 10
 --- !u!114 &1022573961

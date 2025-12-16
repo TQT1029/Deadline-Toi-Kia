@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class MapController : MonoBehaviour
+public class MapGenerator : MonoBehaviour
 {
-    public static MapController Instance;
+    public static MapGenerator Instance;
 
     private void Awake()
     {
@@ -28,7 +28,10 @@ public class MapController : MonoBehaviour
     public float destroyDistanceBehind = 20f;
     public float groundY = -2f;
 
-    [Header("Physics Settings")]
+    [Header("Physics & Detection (QUAN TRỌNG)")]
+    [Tooltip("Layer của mặt đất (Bắt buộc phải set đúng để Raycast nhận diện hố)")]
+    public LayerMask groundLayer;
+    [Tooltip("Layer của vật cản để item né tránh (Smart Lift)")]
     public LayerMask obstacleLayer;
     public float checkRadius = 0.4f;
 
@@ -38,6 +41,12 @@ public class MapController : MonoBehaviour
     [Range(0, 100)] public int chanceToSpawnObstacle = 40;
     [Range(0, 100)] public int chanceItemOnObstacle = 70;
     public float itemSpacing = 1.0f;
+
+    [Header("Pit Features (Hố & Cung Tiền)")]
+    [Tooltip("Chiều cao của cung tiền khi bắc qua hố")]
+    public float archHeight = 4.0f;
+    [Tooltip("Độ rộng tối thiểu của hố để tạo cung tiền")]
+    public float minPitWidthForArch = 2.0f;
 
     // Biến theo dõi vị trí spawn hiện tại
     private float currentSpawnX;
@@ -55,13 +64,13 @@ public class MapController : MonoBehaviour
             if (player != null) playerTransform = player.transform;
         }
 
-        // Khởi tạo vị trí spawn bắt đầu (cách nhân vật một đoạn)
+        // Khởi tạo vị trí spawn bắt đầu
         if (playerTransform != null)
             currentSpawnX = playerTransform.position.x + 10f;
         else
             currentSpawnX = 0f;
 
-        // Pre-warm: Spawn trước một đoạn dài để khi game start không bị trống
+        // Pre-warm: Spawn trước một đoạn dài
         SpawnChunk();
     }
 
@@ -72,7 +81,7 @@ public class MapController : MonoBehaviour
         // 1. SPAWN: Nếu nhân vật chạy gần đến điểm spawn hiện tại -> Spawn tiếp
         if (playerTransform.position.x > currentSpawnX - spawnDistanceAhead)
         {
-            SpawnSingleGroup();
+            SpawnSmartGroup();
         }
 
         // 2. DESPAWN: Xóa vật thể phía sau lưng
@@ -82,72 +91,138 @@ public class MapController : MonoBehaviour
     // --- HÀM KHỞI TẠO ĐẦU GAME ---
     private void SpawnChunk()
     {
-        // Spawn liên tục cho đến khi đủ độ dài ban đầu
         for (int i = 0; i < 10; i++)
         {
-            SpawnSingleGroup();
+            SpawnSmartGroup();
         }
     }
 
-    // --- LOGIC SINH 1 NHÓM (OBSTACLE HOẶC ITEM) ---
-    private void SpawnSingleGroup()
+    // --- CORE LOGIC: SPAWN THÔNG MINH (CHECK HỐ) ---
+    private void SpawnSmartGroup()
     {
-        // Cộng khoảng cách nghỉ ngẫu nhiên
-        float gap = Random.Range(minGap, maxGap);
-        currentSpawnX += gap;
+        // Bước 1: Kiểm tra xem vị trí hiện tại có đất không?
+        bool isGroundHere = IsGroundAt(currentSpawnX);
 
-        bool spawnObstacle = Random.Range(0, 100) < chanceToSpawnObstacle;
-        float addedWidth = 0;
-
-        if (spawnObstacle)
+        if (!isGroundHere)
         {
-            addedWidth = SpawnObstacleLogic(currentSpawnX);
+            // === PHÁT HIỆN HỐ (PIT) ===
+            float pitWidth = GetPitWidth(currentSpawnX);
+
+            // Nếu hố đủ rộng -> Tạo Cung Tiền (Coin Arch)
+            if (pitWidth >= minPitWidthForArch)
+            {
+                SpawnCoinArch(currentSpawnX, pitWidth);
+            }
+
+            // Dời điểm spawn sang bờ bên kia của hố (+ đệm an toàn 1m)
+            currentSpawnX += pitWidth + 1f;
         }
         else
         {
-            addedWidth = SpawnItemPatternLogic(currentSpawnX);
-        }
+            // === CÓ ĐẤT (GROUND) ===
+            // Cộng khoảng cách nghỉ ngẫu nhiên
+            float gap = Random.Range(minGap, maxGap);
+            currentSpawnX += gap;
 
-        // Cập nhật vị trí con trỏ X sau khi đã đặt vật thể
-        currentSpawnX += addedWidth;
+            // Kiểm tra lại sau khi cộng gap, lỡ cộng xong lại rơi xuống hố tiếp theo
+            if (!IsGroundAt(currentSpawnX)) return;
+
+            bool spawnObstacle = Random.Range(0, 100) < chanceToSpawnObstacle;
+            float addedWidth = 0;
+
+            if (spawnObstacle)
+            {
+                // Lấy random một vật cản
+                ObstacleData obsToSpawn = GetRandomObstacle();
+
+                // Kiểm tra an toàn: Đất có đủ rộng để đặt vật cản này không?
+                if (obsToSpawn != null && IsSafeToSpawnObstacle(currentSpawnX, obsToSpawn.width))
+                {
+                    addedWidth = SpawnObstacleLogic(currentSpawnX, obsToSpawn);
+                }
+                else
+                {
+                    // Không an toàn (sắp hết đất) -> Chuyển sang spawn Item thôi
+                    addedWidth = SpawnItemPatternLogic(currentSpawnX);
+                }
+            }
+            else
+            {
+                addedWidth = SpawnItemPatternLogic(currentSpawnX);
+            }
+
+            // Cập nhật vị trí con trỏ X
+            currentSpawnX += addedWidth;
+        }
     }
 
-    // --- LOGIC XÓA VẬT CŨ ---
-    private void RemoveOldObjects()
+    // --- TÍNH NĂNG MỚI: CUNG TIỀN QUA HỐ (PARABOLA) ---
+    private void SpawnCoinArch(float startX, float width)
     {
-        if (activeObjects.Count > 0)
+        // Tính số lượng coin dựa trên độ rộng (mỗi mét 1 coin)
+        int coinCount = Mathf.FloorToInt(width / itemSpacing);
+        if (coinCount < 3) coinCount = 3; // Tối thiểu 3 coin cho đẹp
+
+        float startY = groundY + 1.0f; // Bắt đầu cao hơn mặt đất 1 chút
+
+        for (int i = 0; i <= coinCount; i++)
         {
-            // Kiểm tra vật đầu tiên trong hàng đợi
-            GameObject oldestObj = activeObjects.Peek();
+            // t chạy từ 0 đến 1
+            float t = (float)i / coinCount;
 
-            // Nếu vật thể bị hủy do va chạm trước đó -> Loại khỏi hàng đợi
-            if (oldestObj == null)
-            {
-                activeObjects.Dequeue();
-                return;
-            }
+            // Công thức Parabol: y = 4 * h * (t - t^2)
+            float yOffset = 4 * archHeight * (t - (t * t));
 
-            // Nếu vật thể đã trôi quá xa về phía sau -> Xóa
-            if (playerTransform.position.x - oldestObj.transform.position.x > destroyDistanceBehind)
-            {
-                GameObject objToRemove = activeObjects.Dequeue();
-                Destroy(objToRemove);
-            }
+            float posX = startX + (t * width);
+            float posY = startY + yOffset;
+
+            SpawnItem(new Vector3(posX, posY, 0));
         }
     }
 
-    // --- LOGIC 1: SPAWN OBSTACLE ---
-    private float SpawnObstacleLogic(float posX)
+    // --- CÁC HÀM KIỂM TRA ĐỊA HÌNH (RAYCAST) ---
+    private bool IsGroundAt(float xPos)
     {
-        if (obstacles == null || obstacles.Count == 0) return 0;
-        ObstacleData obsData = obstacles[Random.Range(0, obstacles.Count)];
+        // Bắn tia từ trên cao (groundY + 10) xuống dưới
+        // Raycast dài 20 đơn vị để chắc chắn chạm đất nếu có
+        return Physics2D.Raycast(new Vector2(xPos, groundY + 10f), Vector2.down, 20f, groundLayer);
+    }
 
+    private float GetPitWidth(float startX)
+    {
+        float checkX = startX;
+        float step = 0.5f; // Độ phân giải dò tìm (0.5m)
+        float maxDist = 30f; // Giới hạn độ rộng hố tối đa để tránh vòng lặp vô tận
+        float dist = 0;
+
+        while (dist < maxDist)
+        {
+            if (IsGroundAt(checkX))
+            {
+                return dist; // Đã tìm thấy bờ bên kia
+            }
+            checkX += step;
+            dist += step;
+        }
+        return dist; // Hố quá to hoặc không tìm thấy bờ
+    }
+
+    private bool IsSafeToSpawnObstacle(float startX, float width)
+    {
+        // Kiểm tra điểm đầu và điểm cuối của vật cản xem có đất không
+        return IsGroundAt(startX) && IsGroundAt(startX + width);
+    }
+
+    // --- LOGIC CŨ: SPAWN OBSTACLE ---
+    private float SpawnObstacleLogic(float posX, ObstacleData obsData)
+    {
         float prefabY = obsData.prefab.transform.position.y;
         Vector3 spawnPos = new Vector3(posX, groundY + prefabY, 0);
 
         GameObject obsObj = Instantiate(obsData.prefab, spawnPos, Quaternion.identity);
-        RegisterObject(obsObj, true); // Đăng ký quản lý
+        RegisterObject(obsObj, true);
 
+        // Logic spawn item trên đầu vật cản (nếu có)
         if (Random.Range(0, 100) < chanceItemOnObstacle)
         {
             float topY = spawnPos.y + obsData.topHeightOffset;
@@ -162,13 +237,14 @@ public class MapController : MonoBehaviour
         return obsData.width;
     }
 
-    // --- LOGIC 2: SPAWN ITEM PATTERNS ---
+    // --- LOGIC CŨ: SPAWN ITEM PATTERNS ---
     private float SpawnItemPatternLogic(float startX)
     {
         ItemPattern pattern = (ItemPattern)Random.Range(0, System.Enum.GetValues(typeof(ItemPattern)).Length);
         List<Vector2> localPoints = new List<Vector2>();
         float patternWidth = 0;
 
+        // Tái tạo lại logic switch case cũ
         switch (pattern)
         {
             case ItemPattern.ShapeVLU:
@@ -223,6 +299,7 @@ public class MapController : MonoBehaviour
                 break;
         }
 
+        // Tính toán nâng Item lên nếu bị trùng vật cản (Smart Lift)
         float currentBaseY = groundY + 1.5f;
         float liftOffset = CalculateSmartLift(startX, currentBaseY, localPoints);
         currentBaseY += liftOffset;
@@ -237,10 +314,7 @@ public class MapController : MonoBehaviour
     // --- HỆ THỐNG QUẢN LÝ OBJECT ---
     private void RegisterObject(GameObject obj, bool isObstacle)
     {
-        // Thêm vào hàng đợi để xóa sau này
         activeObjects.Enqueue(obj);
-
-        // Gán cha để Hierarchy gọn gàng
         if (isObstacle)
         {
             if (obstacleObjs != null) obj.transform.SetParent(obstacleObjs.transform);
@@ -255,20 +329,39 @@ public class MapController : MonoBehaviour
 
     private void SpawnItem(Vector3 pos)
     {
+        // Giới hạn không cho item spawn dưới lòng đất
         if (pos.y < groundY + 0.5f) pos.y = groundY + 0.5f;
 
         ItemData data = GetRandomItemData();
         if (data != null && data.prefab != null)
         {
             GameObject item = Instantiate(data.prefab, pos, Quaternion.identity);
-            RegisterObject(item, false); // Đăng ký quản lý
+            RegisterObject(item, false);
 
             Collectible col = item.GetComponent<Collectible>();
             if (col != null) col.Init(data.scoreValue);
         }
     }
 
-    // --- CÁC HÀM PHỤ TRỢ (GIỮ NGUYÊN) ---
+    private void RemoveOldObjects()
+    {
+        if (activeObjects.Count > 0)
+        {
+            GameObject oldestObj = activeObjects.Peek();
+            if (oldestObj == null)
+            {
+                activeObjects.Dequeue();
+                return;
+            }
+            if (playerTransform.position.x - oldestObj.transform.position.x > destroyDistanceBehind)
+            {
+                GameObject objToRemove = activeObjects.Dequeue();
+                Destroy(objToRemove);
+            }
+        }
+    }
+
+    // --- CÁC HÀM PHỤ TRỢ ---
     private float CalculateSmartLift(float startX, float baseY, List<Vector2> points)
     {
         float maxLiftNeeded = 0f;
@@ -309,5 +402,11 @@ public class MapController : MonoBehaviour
         float currentWeight = 0f;
         foreach (var item in itemLibrary) { currentWeight += item.spawnWeight; if (randomValue < currentWeight) return item; }
         return itemLibrary[0];
+    }
+
+    private ObstacleData GetRandomObstacle()
+    {
+        if (obstacles == null || obstacles.Count == 0) return null;
+        return obstacles[Random.Range(0, obstacles.Count)];
     }
 }

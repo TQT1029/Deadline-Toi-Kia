@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 6827772923312095782}
   - component: {fileID: 8538196248905163745}
   - component: {fileID: 1188368662247477851}
-  - component: {fileID: 2247323913853611677}
   - component: {fileID: 2523933327138251916}
-  m_Layer: 0
+  - component: {fileID: 5919786996650868298}
+  m_Layer: 7
   m_Name: map 1 - light_0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -117,8 +117,27 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!60 &2247323913853611677
-PolygonCollider2D:
+--- !u!251 &2523933327138251916
+PlatformEffector2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4568781688712164426}
+  m_Enabled: 1
+  m_UseColliderMask: 1
+  m_ColliderMask:
+    serializedVersion: 2
+    m_Bits: 8
+  m_RotationalOffset: 0
+  m_UseOneWay: 1
+  m_UseOneWayGrouping: 0
+  m_SurfaceArc: 180
+  m_UseSideFriction: 0
+  m_UseSideBounce: 0
+  m_SideArc: 1
+--- !u!61 &5919786996650868298
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -151,98 +170,15 @@ PolygonCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: -0.48465943, y: 7.3625026}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
+    pivot: {x: 0.5, y: 0.25}
     oldSize: {x: 11.14, y: 10.8}
     newSize: {x: 11.14, y: 10.8}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: 2.53, y: 4.87}
-      - {x: 2.02, y: 4.92}
-      - {x: 1.88, y: 5.1}
-      - {x: 1.7199999, y: 5.02}
-      - {x: 1.8499999, y: 5.25}
-      - {x: 1.8299999, y: 5.4}
-      - {x: 1.43, y: 5.4}
-      - {x: 1.36, y: 5.08}
-      - {x: 1, y: 4.94}
-      - {x: 0.96, y: 5.0099998}
-      - {x: 0.84999996, y: 5.0899997}
-      - {x: 0.71999997, y: 5.1099997}
-      - {x: 0.5, y: 4.94}
-      - {x: 0.5, y: 4.87}
-      - {x: -1.66, y: 4.87}
-      - {x: -1.65, y: 4.91}
-      - {x: -1.8, y: 5.0499997}
-      - {x: -2.1, y: 5.2}
-      - {x: -2.36, y: 5.08}
-      - {x: -2.56, y: 4.93}
-      - {x: -2.44, y: 5.0299997}
-      - {x: -2.3999999, y: 5.08}
-      - {x: -2.45, y: 5.4}
-      - {x: -2.52, y: 5.4}
-      - {x: -2.52, y: 5.25}
-      - {x: -2.58, y: 5.12}
-      - {x: -2.6, y: 5.4}
-      - {x: -2.81, y: 5.4}
-      - {x: -2.96, y: 5.16}
-      - {x: -3.04, y: 5.21}
-      - {x: -3.36, y: 4.89}
-      - {x: -3.53, y: 4.9}
-      - {x: -3.6799998, y: 4.74}
-      - {x: -3.7099998, y: 4.48}
-      - {x: -3.7099998, y: 4.43}
-      - {x: -3.6799998, y: 4.4}
-      - {x: 2.73, y: 4.4}
-      - {x: 2.78, y: 4.42}
-      - {x: 2.78, y: 4.5499997}
-      - {x: 2.6699998, y: 4.83}
-    - - {x: -3.21, y: 4.89}
-      - {x: -3.1799998, y: 4.91}
-      - {x: -3.1799998, y: 4.88}
-      - {x: -3.1699998, y: 4.87}
-      - {x: -3.26, y: 4.87}
-      - {x: -3.25, y: 4.87}
-    - - {x: -3.09, y: 4.92}
-      - {x: -3.08, y: 4.91}
-      - {x: -3.06, y: 4.91}
-      - {x: -3.03, y: 4.89}
-      - {x: -3.03, y: 4.88}
-      - {x: -3.08, y: 4.88}
-    - - {x: -2.8999999, y: 4.89}
-      - {x: -2.9299998, y: 4.96}
-      - {x: -2.9399998, y: 4.94}
-      - {x: -2.8999999, y: 4.88}
-    - - {x: -2.44, y: 4.93}
-      - {x: -2.4099998, y: 4.95}
-      - {x: -2.37, y: 4.95}
-      - {x: -2.36, y: 4.94}
-      - {x: -2.36, y: 4.9}
-      - {x: -2.35, y: 4.88}
-      - {x: -2.49, y: 4.88}
-  m_UseDelaunayMesh: 1
---- !u!251 &2523933327138251916
-PlatformEffector2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4568781688712164426}
-  m_Enabled: 1
-  m_UseColliderMask: 1
-  m_ColliderMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_RotationalOffset: 0
-  m_UseOneWay: 1
-  m_UseOneWayGrouping: 0
-  m_SurfaceArc: 180
-  m_UseSideFriction: 0
-  m_UseSideBounce: 0
-  m_SideArc: 1
+  m_Size: {x: 6.542107, y: 0.55460453}
+  m_EdgeRadius: 0

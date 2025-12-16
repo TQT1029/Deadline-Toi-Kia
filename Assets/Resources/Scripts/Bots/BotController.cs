@@ -24,10 +24,17 @@ public class BotController : BaseRunner
     private float phiDelta;
     private float mySweepSpeed;
 
+    [Header("High Jump Logic (Nhảy cao thông minh)")]
+    [Tooltip("Lực cộng thêm khi cần nhảy cao (Giống Player)")]
+    public float jumpHoldForce = 5f;
+    [Tooltip("Thời gian tối đa được phép 'giữ nút' ảo")]
+    public float maxJumpHoldTime = 0.35f;
+
+    private bool isHighJumping = false; // Bot có đang cố nhảy cao không?
+    private float highJumpTimer;        // Thời gian còn lại để giữ nhảy
+
     [Header("Map Safety (Chống rơi khỏi map)")]
-    [Tooltip("Độ cao Y mà nếu Bot rơi xuống dưới mức này sẽ bị coi là lọt map")]
     public float fallThresholdY = -10f;
-    [Tooltip("Bot sẽ được hồi sinh cao hơn Player bao nhiêu mét?")]
     public float respawnHeightOffset = 5f;
 
     private bool isJumpCooldown = false;
@@ -51,10 +58,13 @@ public class BotController : BaseRunner
     {
         base.FixedUpdate();
 
-        PerformRadarScan();
-        AdjustSpeedTarget();
+        // 1. Quét Radar và lấy kết quả xem có thấy vật cản không
+        bool seesObstacle = PerformRadarScan();
 
-        // --- LOGIC MỚI: KIỂM TRA RƠI KHỎI MAP ---
+        // 2. Xử lý Logic Nhảy Cao (Nếu đang nhảy mà vẫn thấy vật cản -> Bơm thêm lực)
+        HandleHighJumpLogic(seesObstacle);
+
+        AdjustSpeedTarget();
         CheckMapFallSafety();
     }
 
@@ -70,60 +80,64 @@ public class BotController : BaseRunner
         base.Move();
     }
 
-    // --- LOGIC AN TOÀN KHI RƠI KHỎI MAP ---
-    private void CheckMapFallSafety()
+    // --- LOGIC 1: RADAR QUÉT (Trả về true nếu thấy vật cản) ---
+    private bool PerformRadarScan()
     {
-        // Nếu Bot rơi xuống quá sâu (dưới fallThresholdY)
-        if (transform.position.y < fallThresholdY)
-        {
-            if (targetPlayer != null)
-            {
-                // 1. Giữ nguyên vị trí X (Tiến độ chạy)
-                float keepX = transform.position.x;
-
-                // 2. Lấy vị trí Y của Player + Offset (Để đảm bảo Bot rơi từ trên cao xuống sàn an toàn)
-                // Nếu Player lỡ cũng rơi thì dùng tạm 0 hoặc groundY mặc định
-                float safeY = Mathf.Max(targetPlayer.position.y, -2f) + respawnHeightOffset;
-
-                // 3. Teleport Bot
-                transform.position = new Vector3(keepX, safeY, 0);
-
-                // 4. Quan trọng: Reset vận tốc rơi (để không bị rơi tiếp với tốc độ tên lửa)
-#if UNITY_6000_0_OR_NEWER
-                _rb.linearVelocity = Vector2.zero;
-#else
-                _rb.velocity = Vector2.zero;
-#endif
-                // Reset tốc độ chạy về cơ bản để Bot lấy lại nhịp
-                currentSpeed = baseRunSpeed;
-
-                // Debug.Log($"{gameObject.name} lọt map! Đã tele lên cao.");
-            }
-        }
-    }
-
-    // --- Logic quét nhảy ---
-    private void PerformRadarScan()
-    {
-        if (!isGrounded || isJumpCooldown) return;
-
+        // Vẫn quét kể cả khi đang nhảy để phục vụ logic High Jump
         float currentAngle = Mathf.Sin(Time.time * mySweepSpeed + phiDelta) * maxSweepAngle;
         Vector2 direction = Quaternion.Euler(0, 0, currentAngle) * Vector2.right;
+
         RaycastHit2D hit = Physics2D.Raycast(sensorPoint.position, direction, viewDistance, obstacleLayer);
 
-        if (hit.collider != null)
+        // Debug vẽ tia (Đỏ = Thấy, Xanh = Không)
+        Debug.DrawRay(sensorPoint.position, direction * viewDistance, hit.collider ? Color.red : Color.green);
+
+        // Logic kích hoạt nhảy ban đầu (Chỉ khi ở dưới đất)
+        if (hit.collider != null && isGrounded && !isJumpCooldown)
         {
-            if (!IsInvoking(nameof(PerformJumpAction))) Invoke(nameof(PerformJumpAction), reactionTime);
+            if (!IsInvoking(nameof(PerformJumpAction)))
+                Invoke(nameof(PerformJumpAction), reactionTime);
         }
+
+        return hit.collider != null;
     }
 
+    // --- LOGIC 2: BẮT ĐẦU NHẢY ---
     private void PerformJumpAction()
     {
         if (isGrounded && !isJumpCooldown)
         {
-            Jump();
+            Jump(); // Nhảy cơ bản (Force Impulse)
+
+            // Bắt đầu trạng thái High Jump (Giả lập việc nhấn giữ nút)
+            isHighJumping = true;
+            highJumpTimer = maxJumpHoldTime;
+
             isJumpCooldown = true;
             Invoke(nameof(ResetJumpCooldown), 0.5f);
+        }
+    }
+
+    // --- LOGIC 3: XỬ LÝ NHẢY CAO (GIỮ NÚT ẢO) ---
+    private void HandleHighJumpLogic(bool seesObstacle)
+    {
+        // Nếu Bot đang trong trạng thái nhảy cao
+        if (isHighJumping)
+        {
+            // Điều kiện để tiếp tục bơm lực:
+            // 1. Còn thời gian giữ (highJumpTimer > 0)
+            // 2. VẪN CÒN NHÌN THẤY VẬT CẢN (seesObstacle == true)
+            //    -> Nghĩa là vật cản cao, nhảy thường chưa qua được đỉnh của nó.
+            if (highJumpTimer > 0 && seesObstacle)
+            {
+                _rb.AddForce(Vector2.up * jumpHoldForce, ForceMode2D.Force);
+                highJumpTimer -= Time.fixedDeltaTime;
+            }
+            else
+            {
+                // Hết giờ hoặc đã vượt qua vật cản (không thấy nữa) -> Ngắt lực
+                isHighJumping = false;
+            }
         }
     }
 
@@ -140,6 +154,27 @@ public class BotController : BaseRunner
         if (dist < -adjustDist) targetRunSpeed = baseRunSpeed * myCatchUpMult;
         else if (dist > adjustDist) targetRunSpeed = baseRunSpeed * mySlowDownMult;
         else targetRunSpeed = baseRunSpeed;
+    }
+
+    // --- Map Safety ---
+    private void CheckMapFallSafety()
+    {
+        if (transform.position.y < fallThresholdY)
+        {
+            if (targetPlayer != null)
+            {
+                float keepX = transform.position.x;
+                float safeY = Mathf.Max(targetPlayer.position.y, -2f) + respawnHeightOffset;
+                transform.position = new Vector3(keepX, safeY, 0);
+
+#if UNITY_6000_0_OR_NEWER
+                _rb.linearVelocity = Vector2.zero;
+#else
+                _rb.velocity = Vector2.zero;
+#endif
+                currentSpeed = baseRunSpeed;
+            }
+        }
     }
 
     protected override void OnStuck()

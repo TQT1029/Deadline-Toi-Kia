@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 3077214095603263836}
   - component: {fileID: 4891659461637996590}
   - component: {fileID: 8398827663975820678}
-  m_Layer: 0
-  m_Name: "map 1 - v\u1EADt c\u1EA3n_0"
+  m_Layer: 7
+  m_Name: Fire-Extinguisher
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -126,7 +126,7 @@ BoxCollider2D:
   m_Enabled: 1
   serializedVersion: 3
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: cf7101f67ca4a2a43bb14d5748885aab, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -150,10 +150,10 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: 2}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
+    pivot: {x: 0.5, y: 0}
     oldSize: {x: 1.86, y: 4}
     newSize: {x: 1.86, y: 4}
     adaptiveTilingThreshold: 0.5

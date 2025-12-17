@@ -1,11 +1,14 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using System.Collections.Generic; // Cần dùng List
-using System.Linq; // Cần dùng để sắp xếp List ban đầu
+using System.Collections; // Cần cho Coroutine
+using System.Collections.Generic;
+using System.Linq;
 
-public class EndlessGameManager : MonoBehaviour
+public class EndlessGameController : MonoBehaviour
 {
-    public static EndlessGameManager Instance;
+    public static EndlessGameController Instance;
+
+    public enum MapType { NoPits, WithPits }
 
     private void Awake()
     {
@@ -13,42 +16,49 @@ public class EndlessGameManager : MonoBehaviour
         else Destroy(gameObject);
     }
 
+    // --- SỰ KIỆN QUAN TRỌNG: Gửi thông báo khi có sàn mới ---
+    // Tham số 1: Mép trái (Start X), Tham số 2: Mép phải (End X)
+    public event System.Action<float, float> OnPlatformSpawned;
+
     [Header("References")]
     public Transform playerTransform;
-
-    [Tooltip("Kéo tất cả các miếng sàn (Ground_1, Ground_2, Ground_3...) vào đây")]
-    public List<Transform> groundPieces;
-
     public GameObject winPointPrefab;
+    [Tooltip("Container chứa các sàn được sinh ra")]
+    public GameObject platformObjs;
 
-    [Header("Ground Settings")]
-    [Tooltip("Chiều dài của một miếng sàn (Sprite Width)")]
-    public float groundLength = 20f;
+    [Header("Platform Library")]
+    public List<PlatformData> platformLibrary;
+
+    [SerializeField] private List<Transform> activePlatforms = new List<Transform>();
+
+    [Header("Map Settings")]
+    public MapType mapType = MapType.WithPits;
+
+    [Header("Generation Config")]
+    public float generationDistanceAhead = 80f;
+    public float destroyDistanceBehind = 30f;
+
+    [Header("Length Settings")]
+    public bool useCommonLength = false;
+    public float commonLength = 20f;
 
     [Header("Pit (Hố) Settings")]
-    [Tooltip("Tỉ lệ xuất hiện hố (%)")]
     [Range(0, 100)] public int pitChance = 30;
-
-    [Tooltip("Độ rộng tối thiểu của hố")]
     public float minGap = 2f;
-
-    [Tooltip("Độ rộng tối đa của hố (Đừng để quá lực nhảy của Player)")]
     public float maxGap = 4f;
 
-    [Header("Game Flow Settings")]
+    [Header("Game Flow")]
     public float distanceToTriggerTimer = 500f;
     public float countdownTime = 60f;
-
-    [Header("UI (Optional)")]
     public Text timerText;
 
-    // Private variables
     private float currentDistance;
     private bool isTimerRunning = false;
     private bool isWinSpawned = false;
     private float timeRemaining;
 
-    private void Start()
+    // Sử dụng IEnumerator cho Start để xử lý bất đồng bộ (chờ MapGenerator load xong)
+    private IEnumerator Start()
     {
         timeRemaining = countdownTime;
 
@@ -58,32 +68,118 @@ public class EndlessGameManager : MonoBehaviour
             if (player != null) playerTransform = player.transform;
         }
 
-        // Sắp xếp lại List sàn theo thứ tự X tăng dần để đảm bảo logic chạy đúng
-        // (Phòng trường hợp bạn kéo vào List lộn xộn)
-        if (groundPieces.Count > 0)
+        // Sắp xếp các sàn có sẵn
+        if (activePlatforms.Count > 0)
         {
-            groundPieces.Sort((a, b) => a.position.x.CompareTo(b.position.x));
+            activePlatforms.Sort((a, b) => a.position.x.CompareTo(b.position.x));
         }
+
+        // --- QUAN TRỌNG: Chờ 1 frame để đảm bảo MapGenerator đã chạy hàm Start và đăng ký Event ---
+        yield return null;
+
+        // Sau khi chờ xong mới bắt đầu sinh map
+        ManageMapGeneration();
     }
 
     private void Update()
     {
-        if (playerTransform == null || groundPieces.Count == 0) return;
+        if (playerTransform == null || activePlatforms.Count == 0) return;
 
-        // 1. Xử lý Vòng lặp sàn (Infinite Ground)
-        HandleGroundLoop();
+        ManageMapGeneration();
+        CleanupOldMap();
+        HandleGameFlow();
+    }
 
-        // 2. Tính khoảng cách đã chạy
+    private void ManageMapGeneration()
+    {
+        Transform farthestPlatform = activePlatforms[activePlatforms.Count - 1];
+        float farthestEdge = GetPlatformRightEdge(farthestPlatform);
+
+        // Sinh liên tục nếu chưa đủ độ dài
+        while (farthestEdge < playerTransform.position.x + generationDistanceAhead)
+        {
+            SpawnNextPlatform();
+
+            farthestPlatform = activePlatforms[activePlatforms.Count - 1];
+            farthestEdge = GetPlatformRightEdge(farthestPlatform);
+        }
+    }
+
+    private void SpawnNextPlatform()
+    {
+        Transform lastPlatform = activePlatforms[activePlatforms.Count - 1];
+        float lastPlatformRightEdge = GetPlatformRightEdge(lastPlatform);
+
+        PlatformData newData = GetRandomPlatformData();
+        if (newData == null || newData.prefab == null) return;
+
+        // Tính Gap
+        float gap = 0f;
+        if (mapType == MapType.WithPits && playerTransform.position.x > 0f)
+        {
+            if (Random.Range(0, 100) < pitChance) gap = Random.Range(minGap, maxGap);
+            else gap = 0f;
+        }
+
+        Debug.Log($"[EndlessGameController] Gap: {gap}");
+        // Sinh Object
+        GameObject newObj = Instantiate(newData.prefab, lastPlatform.position, Quaternion.identity);
+        if (platformObjs != null) newObj.transform.SetParent(platformObjs.transform);
+        else newObj.transform.SetParent(this.transform);
+
+        // Tính toán vị trí chính xác
+        BoxCollider2D newCol = newObj.GetComponent<BoxCollider2D>();
+        float halfWidth = 0f;
+        float offsetX = 0f;
+
+        if (newCol != null)
+        {
+            float scaledWidth = newCol.size.x * newObj.transform.localScale.x;
+            halfWidth = scaledWidth / 2;
+            offsetX = newCol.offset.x * newObj.transform.localScale.x;
+        }
+        else
+        {
+            float length = useCommonLength ? commonLength : newData.length;
+            halfWidth = length / 2;
+        }
+
+        // Công thức: Mép phải cũ + Gap + (Một nửa độ rộng mới - Offset lệch tâm)
+        float targetLeftEdgeX = lastPlatformRightEdge + gap;
+        float distancePivotToLeftEdge = halfWidth - offsetX;
+        float newCenterX = targetLeftEdgeX + distancePivotToLeftEdge;
+
+        newObj.transform.position = new Vector3(newCenterX, lastPlatform.position.y, 0);
+        activePlatforms.Add(newObj.transform);
+
+        // --- BẮN SỰ KIỆN CHO MAPCONTROLLER ---
+        // Gửi thông tin: "Tôi vừa tạo đất từ [targetLeftEdgeX] đến [targetLeftEdgeX + width]"
+        // MapGenerator sẽ nhận tin này và điền item vào đó.
+        float width = halfWidth * 2;
+        OnPlatformSpawned?.Invoke(targetLeftEdgeX, targetLeftEdgeX + width);
+    }
+
+    private void CleanupOldMap()
+    {
+        if (activePlatforms.Count == 0) return;
+        Transform oldestPlatform = activePlatforms[0];
+        float oldestEdge = GetPlatformRightEdge(oldestPlatform);
+
+        if (playerTransform.position.x > oldestEdge + destroyDistanceBehind)
+        {
+            activePlatforms.RemoveAt(0);
+            Destroy(oldestPlatform.gameObject);
+        }
+    }
+
+    private void HandleGameFlow()
+    {
         currentDistance = playerTransform.position.x;
-
-        // 3. Logic kích hoạt Timer (Giữ nguyên logic cũ)
         if (!isTimerRunning && !isWinSpawned && currentDistance >= distanceToTriggerTimer)
         {
             isTimerRunning = true;
-            Debug.Log("Bắt đầu đếm ngược về đích!");
         }
 
-        // 4. Logic Đếm ngược & Spawn WinPoint (Giữ nguyên logic cũ)
         if (isTimerRunning)
         {
             timeRemaining -= Time.deltaTime;
@@ -97,56 +193,36 @@ public class EndlessGameManager : MonoBehaviour
         }
     }
 
-    // --- LOGIC ĐẢO SÀN MỚI (HỖ TRỢ LIST & GAP) ---
-    private void HandleGroundLoop()
+    private float GetPlatformRightEdge(Transform platform)
     {
-        // Lấy miếng sàn đầu tiên trong danh sách (miếng đang ở phía sau cùng)
-        Transform firstGround = groundPieces[0];
-
-        // Kiểm tra nếu Player đã chạy qua miếng sàn này một đoạn an toàn (ví dụ: groundLength)
-        // Cộng thêm 5f để chắc chắn nó đã ra khỏi màn hình bên trái
-        if (playerTransform.position.x > firstGround.position.x + groundLength + 10f)
+        BoxCollider2D col = platform.GetComponent<BoxCollider2D>();
+        if (col != null) return col.bounds.max.x;
+        else
         {
-            RecycleGround(firstGround);
+            float length = useCommonLength ? commonLength : 20f;
+            return platform.position.x + (length / 2);
         }
     }
 
-    private void RecycleGround(Transform groundToMove)
+    private PlatformData GetRandomPlatformData()
     {
-        // 1. Tìm miếng sàn đang ở xa nhất phía trước (miếng cuối cùng trong List)
-        Transform lastGround = groundPieces[groundPieces.Count - 1];
-
-        // 2. Tính toán vị trí mới
-        // Mặc định nối tiếp nhau:
-        float newX = lastGround.position.x + groundLength;
-
-        // 3. Random Hố (Gap)
-        // Chỉ tạo hố nếu không phải là đoạn đầu game (player.x > 50) để tránh rơi lúc mới vào
-        if (playerTransform.position.x > 50f && Random.Range(0, 100) < pitChance)
-        {
-            float gap = Random.Range(minGap, maxGap);
-            newX += gap; // Cộng thêm khoảng trống vào vị trí X
-        }
-
-        // 4. Di chuyển miếng sàn cũ lên vị trí mới
-        Vector3 newPos = groundToMove.position;
-        newPos.x = newX;
-        groundToMove.position = newPos;
-
-        // 5. Cập nhật lại Danh Sách:
-        // Đưa miếng vừa di chuyển xuống cuối danh sách (vì giờ nó là miếng xa nhất)
-        groundPieces.RemoveAt(0);
-        groundPieces.Add(groundToMove);
+        if (platformLibrary == null || platformLibrary.Count == 0) return null;
+        float totalWeight = 0;
+        foreach (var p in platformLibrary) totalWeight += p.spawnWeight;
+        float r = Random.Range(0, totalWeight);
+        float c = 0;
+        foreach (var p in platformLibrary) { c += p.spawnWeight; if (r < c) return p; }
+        return platformLibrary[0];
     }
 
     private void SpawnWinPoint()
     {
         if (isWinSpawned) return;
         isWinSpawned = true;
-
-        Vector3 winPos = new Vector3(playerTransform.position.x + 30f, playerTransform.position.y, 0);
+        Transform lastP = activePlatforms[activePlatforms.Count - 1];
+        float edge = GetPlatformRightEdge(lastP);
+        Vector3 winPos = new Vector3(edge + 10f, lastP.position.y, 0);
         Instantiate(winPointPrefab, winPos, Quaternion.identity);
-
         if (timerText != null) timerText.text = "GOAL!";
     }
 }

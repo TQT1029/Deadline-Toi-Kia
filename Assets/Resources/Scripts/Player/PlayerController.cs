@@ -57,13 +57,11 @@ public class PlayerController : BaseRunner
 
         if (ReferenceManager.Instance != null && ReferenceManager.Instance.RespawnTrans != null)
         {
-            transform.position = ReferenceManager.Instance.RespawnTrans.position;
+            transform.position = new Vector3(ReferenceManager.Instance.RespawnTrans.position.x, ReferenceManager.Instance.RespawnTrans.position.y, 0);
 
             // Reset trạng thái Input nhảy
             isJumping = false;
             jumpTimeCounter = 0;
-
-            Debug.Log("Player đã hồi sinh về điểm xuất phát!");
         }
     }
 

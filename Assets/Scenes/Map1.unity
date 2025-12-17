@@ -1632,15 +1632,18 @@ MonoBehaviour:
   platformLibrary:
   - id: Platform-0
     prefab: {fileID: 7079737918172317107, guid: 4411ba1220e151e4dbcb7f330974d2e9, type: 3}
-    length: 122.94
     spawnWeight: 100
+    isFlying: 0
+    minHeightDiff: 1
+    maxHeightDiff: 2.5
+    length: 122.94
   activePlatforms:
   - {fileID: 8620604596426308613}
   mapType: 0
   generationDistanceAhead: 80
   destroyDistanceBehind: 30
-  useCommonLength: 1
-  commonLength: 122.94
+  groundY: -2
+  maxY: 6
   pitChance: 0
   minGap: 2
   maxGap: 4
@@ -1708,10 +1711,6 @@ MonoBehaviour:
     scoreValue: 1000
     spawnWeight: 0.1
   destroyDistanceBehind: 20
-  groundY: -4.25
-  groundLayer:
-    serializedVersion: 2
-    m_Bits: 64
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 192

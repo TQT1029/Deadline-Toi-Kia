@@ -3005,7 +3005,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1002921624}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 058bac9b31a5f7c4a917dc07a4401535, type: 3}
   m_Name: 
@@ -3054,8 +3054,8 @@ MonoBehaviour:
   minChainGap: 1
   minFirstHeight: 3
   maxFirstHeight: 5
-  minStepDiff: 0.5
-  maxStepDiff: 2
+  minStepDiff: 2
+  maxStepDiff: 3
   absoluteMaxHeight: 10
   heightThresholdForUnderneath: 3
   destroyDistanceBehind: 50
@@ -3210,6 +3210,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1078367681}
+  - component: {fileID: 1078367682}
   m_Layer: 7
   m_Name: ItemObjs
   m_TagString: Untagged
@@ -3232,6 +3233,39 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1002921627}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1078367682
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1078367680}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04e5ec55fdd87bf43a83aa01e8340d42, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerTransform: {fileID: 1193955504}
+  itemContainer: {fileID: 1078367680}
+  itemLibrary:
+  - name: Coin
+    prefab: {fileID: 3501825626615947439, guid: 14bb9858d06c3e04c9a47f46ea37fb09, type: 3}
+    scoreValue: 10
+    spawnWeight: 100
+  - name: Diamond
+    prefab: {fileID: 3501825626615947439, guid: 938ac3824944f37468e6cb0d21478921, type: 3}
+    scoreValue: 50
+    spawnWeight: 10
+  - name: Aplus
+    prefab: {fileID: 3501825626615947439, guid: af0e73e5ae7b79440929644bd7bd0792, type: 3}
+    scoreValue: 1000
+    spawnWeight: 0.5
+  obstacleLayer:
+    serializedVersion: 2
+    m_Bits: 192
+  checkRadius: 0.4
+  itemSpacing: 1.25
+  destroyDistanceBehind: 20
 --- !u!1 &1171249704
 GameObject:
   m_ObjectHideFlags: 0
@@ -4989,6 +5023,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1586954303}
+  - component: {fileID: 1586954304}
   m_Layer: 7
   m_Name: ObstacleObjs
   m_TagString: Untagged
@@ -5011,6 +5046,68 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1002921627}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1586954304
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1586954302}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0954742ba106fe469985f4323bd0b8d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerTransform: {fileID: 1193955504}
+  objectContainer: {fileID: 1586954302}
+  obstacleLibrary:
+  - name: ComFire
+    prefab: {fileID: 7290545855054261292, guid: 81865ca4cc821284d8351f8915691719, type: 3}
+    width: 5.905077
+    topHeightOffset: 4.5
+    minItemsOnTop: 3
+    maxItemsOnTop: 5
+  - name: Fire
+    prefab: {fileID: 7290545855054261292, guid: 7e5583311ee2dfc46bb2619861d19981, type: 3}
+    width: 1.968359
+    topHeightOffset: 4.5
+    minItemsOnTop: 1
+    maxItemsOnTop: 3
+  miniPlatformLibrary:
+  - id: mini-0
+    prefab: {fileID: 2997676687723301785, guid: 85a0f2dbd00cb68498978bf34bbeae87, type: 3}
+    spawnWeight: 10
+    itemHeightOffset: 0.5
+    length: 27.76615
+  - id: mini-1
+    prefab: {fileID: 7650719088838195618, guid: 3aee55d72242cd94297032aa4bcfc750, type: 3}
+    spawnWeight: 30
+    itemHeightOffset: 0.5
+    length: 17.56
+  - id: mini-2
+    prefab: {fileID: 6899700398074020138, guid: ce1303e226a7f884c9b4ccca49eafe10, type: 3}
+    spawnWeight: 100
+    itemHeightOffset: 0.5
+    length: 6.65
+  spawnContentChance: 100
+  miniPlatformChance: 50
+  itemOnTopChance: 80
+  itemUnderPlatformChance: 60
+  minChainLength: 3
+  maxChainLength: 5
+  minMiniPlatformGap: 1.5
+  maxMiniPlatformGap: 3.5
+  minFirstHeight: 3
+  maxFirstHeight: 5
+  minStepDiff: 1
+  maxStepDiff: 2
+  absoluteMaxHeight: 10
+  heightThresholdForUnderneath: 5
+  destroyDistanceBehind: 20
+  minGap: 7
+  maxGap: 10
+  minPadding: 3
+  maxPadding: 4
 --- !u!1 &1634848064
 GameObject:
   m_ObjectHideFlags: 0

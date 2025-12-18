@@ -16,19 +16,16 @@ public class ItemGenerator : MonoBehaviour
     public GameObject itemContainer;
 
     [Header("--- CONFIG ---")]
-    [Tooltip("Danh sách Item (Coin, Powerup...)")]
     public List<ItemData> itemLibrary;
-    [Tooltip("Layer vật cản để tránh spawn trùng")]
     public LayerMask obstacleLayer;
-    [Tooltip("Bán kính kiểm tra trùng vật cản")]
-    public float checkRadius = 0.25f;
-    [Tooltip("Khoảng cách giữa các item khi xếp hàng")]
+
+    [Tooltip("Giảm bán kính check để item không bị xóa oan uổng")]
+    public float checkRadius = 0.2f;
     public float itemSpacing = 1.0f;
     public float destroyDistanceBehind = 20f;
 
     private Queue<GameObject> activeItems = new Queue<GameObject>();
 
-    // Các Pattern lớn cho khoảng trống
     private enum ItemPattern
     {
         Line, Grid, Wave, ArrowComplex, Diamond, RectHollow, RectVertical, RectHorizontal,
@@ -42,8 +39,6 @@ public class ItemGenerator : MonoBehaviour
             ObstacleGenerator.Instance.OnRequestSingleItem += SpawnSingleItem;
             ObstacleGenerator.Instance.OnRequestItemRow += SpawnItemRow;
             ObstacleGenerator.Instance.OnRequestItemPattern += SpawnPatternInGap;
-
-            // Đăng ký thêm sự kiện mới cho Mini Platform
             ObstacleGenerator.Instance.OnRequestItemOnPlatform += SpawnItemOnPlatform;
         }
     }
@@ -64,20 +59,18 @@ public class ItemGenerator : MonoBehaviour
         RemoveOldItems();
     }
 
-    // --- EVENT HANDLERS ---
+    // --- LOGIC SPAWN ---
 
     private void SpawnSingleItem(Vector3 pos)
     {
         if (IsPositionClear(pos)) SpawnItem(pos);
     }
 
-    // Spawn dạng hàng thẳng (Dùng cho dưới gầm hoặc nóc obstacle thường)
     private void SpawnItemRow(Vector3 centerPos, int count, float widthAvailable)
     {
         if (count <= 0) return;
 
         float totalWidth = (count - 1) * itemSpacing;
-        // Co kéo số lượng nếu không đủ chỗ
         if (totalWidth > widthAvailable)
         {
             count = Mathf.FloorToInt(widthAvailable / itemSpacing);
@@ -93,33 +86,21 @@ public class ItemGenerator : MonoBehaviour
         }
     }
 
-    // [MỚI] Spawn Item trên sàn bay với sự biến tấu (Cung, Zigzag...)
+    // Biến tấu item trên Mini Platform
     private void SpawnItemOnPlatform(Vector3 centerPos, float platformLength)
     {
-        // Tính số lượng item tối đa có thể nhét vào
-        int maxItems = Mathf.FloorToInt(platformLength - 1.0f);
+        int maxItems = Mathf.FloorToInt(platformLength - 0.5f);
         if (maxItems < 1) maxItems = 1;
 
-        // Random kiểu spawn:
-        // 0-50%: Đường thẳng (Line) - Gọn gàng
-        // 50-80%: Cung nhỏ (Arch) - Chỉ nếu sàn đủ dài (>3 item)
-        // 80-100%: ZigZag nhỏ - Chỉ nếu sàn đủ dài (>3 item)
-        float roll = Random.value;
-
-        if (roll < 0.5f || maxItems < 3)
+        // Nếu sàn ngắn (< 3m) hoặc random -> Spawn đường thẳng gọn gàng
+        if (maxItems < 3 || Random.value < 0.5f)
         {
-            // Spawn đường thẳng truyền thống
             SpawnItemRow(centerPos, maxItems, platformLength);
-        }
-        else if (roll < 0.8f)
-        {
-            // Spawn hình cung nhỏ (Arch)
-            SpawnMiniArch(centerPos, maxItems);
         }
         else
         {
-            // Spawn Zigzag
-            SpawnMiniZigZag(centerPos, maxItems);
+            // Nếu sàn dài -> Spawn hình Cung (Arch)
+            SpawnMiniArch(centerPos, maxItems);
         }
     }
 
@@ -127,44 +108,28 @@ public class ItemGenerator : MonoBehaviour
     {
         float totalWidth = (count - 1) * itemSpacing;
         float startX = center.x - (totalWidth / 2f);
-        float archHeight = 1.0f; // Độ cao đỉnh cung
+        float archHeight = 0.8f;
 
         for (int i = 0; i < count; i++)
         {
-            // Công thức Parabol: y = 4 * h * x * (1-x) (x đi từ 0 đến 1)
             float t = (float)i / (count - 1);
-            float yOffset = 4 * archHeight * t * (1 - t);
+            float yOffset = 4 * archHeight * t * (1 - t); // Parabol
 
             Vector3 pos = new Vector3(startX + i * itemSpacing, center.y + yOffset, 0);
             if (IsPositionClear(pos)) SpawnItem(pos);
         }
     }
 
-    private void SpawnMiniZigZag(Vector3 center, int count)
-    {
-        float totalWidth = (count - 1) * itemSpacing;
-        float startX = center.x - (totalWidth / 2f);
-
-        for (int i = 0; i < count; i++)
-        {
-            // So le cao thấp: 0 -> 0.8 -> 0 -> 0.8
-            float yOffset = (i % 2 == 0) ? 0 : 0.8f;
-            Vector3 pos = new Vector3(startX + i * itemSpacing, center.y + yOffset, 0);
-            if (IsPositionClear(pos)) SpawnItem(pos);
-        }
-    }
-
-    // --- PATTERN LỚN TRONG KHOẢNG TRỐNG ---
     private void SpawnPatternInGap(float startX, float endX, float baseHeight)
     {
         float width = endX - startX;
+        // Đã giảm điều kiện xuống 2.0f để dễ vẽ hơn
         if (width < 2.0f) return;
 
-        // Chọn pattern ngẫu nhiên
         ItemPattern p = (ItemPattern)Random.Range(0, System.Enum.GetValues(typeof(ItemPattern)).Length);
         List<Vector2> localPoints = new List<Vector2>();
 
-        // [LOGIC PATTERN CŨ - GIỮ NGUYÊN]
+        // Logic vẽ hình (Giữ nguyên đầy đủ)
         switch (p)
         {
             case ItemPattern.Line: int c = Random.Range(3, 6); for (int i = 0; i < c; i++) localPoints.Add(new Vector2(i, 0)); break;
@@ -184,8 +149,8 @@ public class ItemGenerator : MonoBehaviour
             case ItemPattern.DoubleLine: for (int i = 0; i < 5; i++) { localPoints.Add(new Vector2(i, 0)); localPoints.Add(new Vector2(i, 1.5f)); } break;
         }
 
-        // Căn giữa Pattern vào khoảng trống
-        float patternWidthEst = 5f;
+        // Căn giữa
+        float patternWidthEst = 0f;
         if (localPoints.Count > 0)
         {
             float maxX = 0;
@@ -196,6 +161,8 @@ public class ItemGenerator : MonoBehaviour
         float midX = startX + (width / 2f);
         float spawnStartX = midX - (patternWidthEst / 2f);
         float currentBaseY = baseHeight + 1.0f;
+
+        // Smart Lift
         float lift = CalculateSmartLift(spawnStartX, currentBaseY, localPoints);
         currentBaseY += lift;
 
@@ -203,7 +170,7 @@ public class ItemGenerator : MonoBehaviour
         {
             Vector3 pos = new Vector3(spawnStartX + pt.x * itemSpacing, currentBaseY + pt.y * itemSpacing, 0);
 
-            // Check biên an toàn (startX, endX được truyền vào đã tính padding bên ObstacleGenerator)
+            // Check an toàn: nằm trong gap
             if (pos.x >= startX && pos.x <= endX)
             {
                 if (IsPositionClear(pos)) SpawnItem(pos);

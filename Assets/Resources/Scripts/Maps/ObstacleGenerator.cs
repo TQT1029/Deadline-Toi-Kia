@@ -12,13 +12,10 @@ public class ObstacleGenerator : MonoBehaviour
         else Destroy(gameObject);
     }
 
-    // --- EVENTS (Gửi tín hiệu sang ItemGenerator) ---
+    // --- EVENTS ---
     public event Action<Vector3> OnRequestSingleItem;
-    // Param: Vị trí tâm, Số lượng tối đa, Chiều dài sàn
     public event Action<Vector3, int, float> OnRequestItemRow;
-    // Param: Vị trí tâm sàn, Chiều dài sàn (Dùng cho mini platform để biến tấu)
     public event Action<Vector3, float> OnRequestItemOnPlatform;
-    // Param: Mép trái, Mép phải, Độ cao cơ sở
     public event Action<float, float, float> OnRequestItemPattern;
 
     [Header("--- CORE REFERENCES ---")]
@@ -31,50 +28,46 @@ public class ObstacleGenerator : MonoBehaviour
 
     [Space(20)]
     [Header("--- SPAWN CHANCES ---")]
-    [Tooltip("Tỉ lệ % xuất hiện vật cản/sàn bay. Nếu trượt sẽ là đất trống chứa Item Pattern.")]
-    [Range(0, 100)] public int spawnContentChance = 65;
+    [Tooltip("Tỉ lệ % xuất hiện vật cản. Giảm xuống để có nhiều đất trống cho Pattern.")]
+    [Range(0, 100)] public int spawnContentChance = 60;
 
-    [Tooltip("Trong số các lần spawn content, bao nhiêu % là Chuỗi Sàn Bay?")]
+    [Tooltip("Tỉ lệ % là Chuỗi Sàn Bay?")]
     [Range(0, 100)] public int miniPlatformChance = 50;
 
     [Space(20)]
     [Header("--- ITEM SETTINGS ---")]
-    [Tooltip("Tỉ lệ có Item trên nóc Obstacle/Sàn bay")]
     [Range(0, 100)] public int itemOnTopChance = 90;
-    [Tooltip("Tỉ lệ có Item dưới gầm sàn bay (Nếu đủ cao và CÒN ĐẤT)")]
-    [Range(0, 100)] public int itemUnderPlatformChance = 70;
+    [Range(0, 100)] public int itemUnderPlatformChance = 80; // Tăng lên để dễ ra
 
     [Space(20)]
     [Header("--- MINI PLATFORM CONFIG ---")]
     public int minChainLength = 2;
     public int maxChainLength = 5;
 
-    [Tooltip("Khoảng cách ngang TỐI THIỂU giữa các bậc thang")]
     public float minMiniPlatformGap = 1.0f;
-    [Tooltip("Khoảng cách ngang TỐI ĐA giữa các bậc thang")]
     public float maxMiniPlatformGap = 3.0f;
 
     [Header("Height Logic")]
-    public float minFirstHeight = 1.5f;
-    public float maxFirstHeight = 2.5f;
+    public float minFirstHeight = 1.8f; // Tăng nhẹ để bậc đầu tiên đã có thể chui lọt
+    public float maxFirstHeight = 2.8f;
     public float minStepDiff = 0.5f;
     public float maxStepDiff = 2.0f;
-    public float absoluteMaxHeight = 5.5f;
-    [Tooltip("Sàn phải cao hơn mức này mới spawn coin ở dưới đất")]
-    public float heightThresholdForUnderneath = 3.0f;
+    public float absoluteMaxHeight = 6.0f;
+
+    [Tooltip("Hạ thấp ngưỡng này xuống để dễ spawn coin dưới gầm hơn")]
+    public float heightThresholdForUnderneath = 2.2f;
 
     [Space(20)]
     [Header("--- SPACING (Khoảng cách) ---")]
     public float destroyDistanceBehind = 20f;
 
-    [Tooltip("Khoảng nghỉ tối thiểu giữa các cụm vật cản")]
-    public float minGap = 5f;
-    [Tooltip("Khoảng nghỉ tối đa giữa các cụm vật cản")]
-    public float maxGap = 10f;
+    [Tooltip("Tăng Gap để có chỗ vẽ Pattern chữ cái")]
+    public float minGap = 6f;
+    public float maxGap = 16f;
 
-    [Header("Padding (Lề an toàn cho Pattern)")]
-    public float minPadding = 1.5f;
-    public float maxPadding = 3.0f;
+    [Header("Padding (Giảm lề để tận dụng chỗ trống)")]
+    public float minPadding = 1.0f;
+    public float maxPadding = 2.5f;
 
     private float currentSpawnX;
     private Queue<GameObject> activeObjects = new Queue<GameObject>();
@@ -111,35 +104,29 @@ public class ObstacleGenerator : MonoBehaviour
     private void OnBasePlatformSpawned(float startX, float endX, float baseHeight)
     {
         if (currentSpawnX < startX) currentSpawnX = startX;
-
-        // Trừ hao 2m cuối sàn để không spawn vật thể chênh vênh mép hố
         float safeLimitX = endX - 2.0f;
 
         while (currentSpawnX < safeLimitX)
         {
-            // Nếu hàm trả về false (hết đất), thoát vòng lặp
             if (!SpawnLogicGroup(safeLimitX, baseHeight)) break;
         }
     }
 
     private bool SpawnLogicGroup(float limitX, float baseHeight)
     {
-        // 1. TÍNH TOÁN GAP & PATTERN (Item trên đất trống)
+        // 1. TÍNH TOÁN GAP & PATTERN
         float gap = UnityEngine.Random.Range(minGap, maxGap);
 
-        // Tính lề ngẫu nhiên
         float paddingFront = UnityEngine.Random.Range(minPadding, maxPadding);
         float paddingBack = UnityEngine.Random.Range(minPadding, maxPadding);
-
-        // Khoảng trống khả dụng cho Pattern
         float availableSpace = gap - (paddingFront + paddingBack);
 
-        if (availableSpace > 2.0f)
+        // Pattern chữ cái cần khoảng 3-5m, nên availableSpace > 2.5m là thử vẽ được rồi
+        if (availableSpace > 2.5f)
         {
             float patternStartX = currentSpawnX + paddingFront;
             float patternEndX = currentSpawnX + gap - paddingBack;
 
-            // Check an toàn: Pattern trên mặt đất KHÔNG ĐƯỢC lòi ra hố
             if (patternEndX <= limitX)
             {
                 OnRequestItemPattern?.Invoke(patternStartX, patternEndX, baseHeight);
@@ -148,10 +135,9 @@ public class ObstacleGenerator : MonoBehaviour
 
         currentSpawnX += gap;
 
-        // Nếu vị trí bắt đầu spawn đã vượt quá giới hạn đất -> Dừng spawn cho segment này
         if (currentSpawnX >= limitX) return false;
 
-        // 2. SPAWN OBSTACLE HOẶC MINI PLATFORM
+        // 2. SPAWN CONTENT
         bool doSpawnContent = UnityEngine.Random.Range(0, 100) < spawnContentChance;
         float addedWidth = 0;
 
@@ -161,13 +147,11 @@ public class ObstacleGenerator : MonoBehaviour
 
             if (isChain && miniPlatformLibrary.Count > 0)
             {
-                // [THAY ĐỔI] Mini Platform được phép bay ra ngoài hố
                 addedWidth = SpawnStaircaseChain(currentSpawnX, baseHeight, limitX);
             }
             else
             {
                 ObstacleData obs = GetRandomObstacle();
-                // [QUAN TRỌNG] Vật cản dưới đất (Thùng, Gai) BẮT BUỘC phải nằm trong đất
                 if (obs != null && (currentSpawnX + obs.width) <= limitX)
                 {
                     addedWidth = SpawnObstacle(currentSpawnX, baseHeight, obs);
@@ -202,8 +186,9 @@ public class ObstacleGenerator : MonoBehaviour
             float halfWidth = miniData.length / 2f;
             float gap = (i == 0) ? 0 : UnityEngine.Random.Range(minMiniPlatformGap, maxMiniPlatformGap);
 
-            // [ĐÃ SỬA] Bỏ check "break" ở đây để Mini Platform được phép bay ra hố
-            // Chỉ cần đảm bảo localX tịnh tiến đúng hướng
+            // Check nếu đặt tấm này mà lòi ra ngoài đất -> Ngắt chuỗi (để không bay ra hố)
+            if (localX + gap + miniData.length > limitX) break;
+
             localX += gap + halfWidth;
 
             // --- SPAWN OBJECT ---
@@ -211,7 +196,7 @@ public class ObstacleGenerator : MonoBehaviour
             GameObject plat = Instantiate(miniData.prefab, pos, Quaternion.identity);
             RegisterObject(plat);
 
-            // 1. ITEM TRÊN SÀN (Luôn spawn vì item đi theo sàn)
+            // 1. ITEM TRÊN SÀN (Gọi Event đặc biệt để biến tấu hình dạng)
             if (UnityEngine.Random.Range(0, 100) < itemOnTopChance)
             {
                 float itemY = pos.y + miniData.itemHeightOffset;
@@ -220,24 +205,18 @@ public class ObstacleGenerator : MonoBehaviour
                 OnRequestItemOnPlatform?.Invoke(centerItemPos, miniData.length);
             }
 
-            // 2. ITEM DƯỚI GẦM (Check kỹ: Chỉ spawn nếu BÊN DƯỚI CÒN ĐẤT)
-            // Vì sàn có thể bay ra hố, nhưng coin dưới gầm (level mặt đất) thì không nên bay giữa hố
+            // 2. ITEM DƯỚI GẦM
             if (currentHeight >= heightThresholdForUnderneath)
             {
-                // Kiểm tra: Mép phải của item row có nằm trong giới hạn đất không?
-                // Ước lượng chiều dài item row khoảng miniData.length
-                float itemRowEnd = localX + (miniData.length / 2f);
-
-                if (itemRowEnd <= limitX)
+                if (UnityEngine.Random.Range(0, 100) < itemUnderPlatformChance)
                 {
-                    if (UnityEngine.Random.Range(0, 100) < itemUnderPlatformChance)
-                    {
-                        Vector3 bottomCenterPos = new Vector3(localX, baseHeight + 0.5f, 0);
-                        int maxItemsBottom = Mathf.FloorToInt(miniData.length - 1.0f);
-                        if (maxItemsBottom < 1) maxItemsBottom = 1;
+                    // Nâng Y lên +1.0f để tránh bị IsPositionClear coi là dính đất
+                    Vector3 bottomCenterPos = new Vector3(localX, baseHeight + 1.0f, 0);
 
-                        OnRequestItemRow?.Invoke(bottomCenterPos, maxItemsBottom, miniData.length);
-                    }
+                    int maxItemsBottom = Mathf.FloorToInt(miniData.length - 0.5f);
+                    if (maxItemsBottom < 1) maxItemsBottom = 1;
+
+                    OnRequestItemRow?.Invoke(bottomCenterPos, maxItemsBottom, miniData.length);
                 }
             }
 
@@ -253,7 +232,6 @@ public class ObstacleGenerator : MonoBehaviour
         GameObject o = Instantiate(obs.prefab, new Vector3(x, y + prefabY, 0), Quaternion.identity);
         RegisterObject(o);
 
-        // Spawn item trên nóc vật cản
         if (UnityEngine.Random.Range(0, 100) < itemOnTopChance)
         {
             int count = UnityEngine.Random.Range(obs.minItemsOnTop, obs.maxItemsOnTop + 1);
@@ -267,7 +245,6 @@ public class ObstacleGenerator : MonoBehaviour
         return obs.width;
     }
 
-    // --- UTILITIES ---
     private void RegisterObject(GameObject obj)
     {
         activeObjects.Enqueue(obj);

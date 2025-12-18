@@ -5095,19 +5095,19 @@ MonoBehaviour:
   itemUnderPlatformChance: 60
   minChainLength: 3
   maxChainLength: 5
-  minMiniPlatformGap: 1.5
-  maxMiniPlatformGap: 3.5
-  minFirstHeight: 3
-  maxFirstHeight: 5
-  minStepDiff: 1
+  minMiniPlatformGap: 1
+  maxMiniPlatformGap: 3
+  minFirstHeight: 1.8
+  maxFirstHeight: 2.8
+  minStepDiff: 0.5
   maxStepDiff: 2
   absoluteMaxHeight: 10
-  heightThresholdForUnderneath: 5
+  heightThresholdForUnderneath: 3
   destroyDistanceBehind: 20
   minGap: 7
   maxGap: 10
-  minPadding: 3
-  maxPadding: 4
+  minPadding: 2
+  maxPadding: 3
 --- !u!1 &1634848064
 GameObject:
   m_ObjectHideFlags: 0

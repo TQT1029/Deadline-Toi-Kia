@@ -3,22 +3,18 @@
 [System.Serializable]
 public class PlatformData
 {
+    [Header("Identity")]
     public string id;
     public GameObject prefab;
 
-    [Tooltip("Tỉ lệ xuất hiện (Càng cao càng dễ ra)")]
+    [Tooltip("Tỉ lệ xuất hiện")]
     public float spawnWeight = 10f;
 
-    [Header("Flying Settings (Cấu hình Bay)")]
-    [Tooltip("Đây có phải là sàn bay không?")]
-    public bool isFlying = false;
+    [Header("Settings for Mini Platform")]
+    [Tooltip("Item trên sàn này sẽ nằm cao hơn tâm sàn bao nhiêu?")]
+    public float itemHeightOffset = 1.0f;
 
-    [Tooltip("Độ cao tối thiểu so với sàn trước đó (VD: 1.0)")]
-    public float minHeightDiff = 1.0f;
-
-    [Tooltip("Độ cao tối đa so với sàn trước đó (VD: 3.0)")]
-    public float maxHeightDiff = 2.5f;
-
-    [Header("Fallback")]
-    public float length = 20f; // Dùng nếu không có Collider
+    [Header("Physics Config")]
+    [Tooltip("Chiều dài thực tế (Script sẽ tự chỉnh Collider khớp số này)")]
+    public float length = 20f;
 }

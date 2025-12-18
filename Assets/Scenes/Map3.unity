@@ -3011,20 +3011,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerTransform: {fileID: 1193955504}
-  obstacleObjs: {fileID: 1586954302}
-  itemObjs: {fileID: 1078367680}
-  obstacles:
-  - name: Bed
-    prefab: {fileID: 2333592362498116760, guid: d8c5b928608f11544bc81ca646cf10a3, type: 3}
-    width: 5.21
-    topHeightOffset: 5.14
-    minItemsOnTop: 3
-    maxItemsOnTop: 5
-  - name: Desk
-    prefab: {fileID: 3298468444853077915, guid: 52e91c8b1a60e5d44a3a6f0f1ba6387a, type: 3}
-    width: 5.48
-    topHeightOffset: 4.491
-    minItemsOnTop: 3
+  objectContainer: {fileID: 1586954302}
+  obstacleLibrary:
+  - name: 
+    prefab: {fileID: 7290545855054261292, guid: 81865ca4cc821284d8351f8915691719, type: 3}
+    width: 4.75
+    topHeightOffset: 6
+    minItemsOnTop: 1
     maxItemsOnTop: 5
   itemLibrary:
   - name: Coin
@@ -3040,44 +3033,40 @@ MonoBehaviour:
     scoreValue: 1000
     spawnWeight: 0.1
   miniPlatformLibrary:
-  - id: Flight-0
+  - id: Mini-Platform-0
     prefab: {fileID: 2997676687723301785, guid: 85a0f2dbd00cb68498978bf34bbeae87, type: 3}
     spawnWeight: 30
-    isFlying: 1
-    minHeightDiff: 0
-    maxHeightDiff: 2
+    itemHeightOffset: 1
     length: 13.82
-  - id: Flight-1
+  - id: Mini-Platform-1
     prefab: {fileID: 7650719088838195618, guid: 3aee55d72242cd94297032aa4bcfc750, type: 3}
     spawnWeight: 50
-    isFlying: 1
-    minHeightDiff: 0
-    maxHeightDiff: 2
+    itemHeightOffset: 1
     length: 8.78
-  - id: Flight-2
+  - id: Mini-Platform-2
     prefab: {fileID: 6899700398074020138, guid: ce1303e226a7f884c9b4ccca49eafe10, type: 3}
     spawnWeight: 100
-    isFlying: 1
-    minHeightDiff: 0
-    maxHeightDiff: 2
+    itemHeightOffset: 1
     length: 3.325
-  chanceToSpawnPlatformChain: 30
+  miniPlatformChance: 30
   minChainLength: 3
   maxChainLength: 5
-  platformHeightStep: 1.2
-  maxPlatformHeight: 4
+  minChainGap: 1
+  minFirstHeight: 3
+  maxFirstHeight: 5
+  minStepDiff: 0.5
+  maxStepDiff: 2
+  absoluteMaxHeight: 10
+  heightThresholdForUnderneath: 3
   destroyDistanceBehind: 50
-  groundLayer:
-    serializedVersion: 2
-    m_Bits: 64
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 192
   checkRadius: 0.4
   minGap: 7
   maxGap: 13
-  chanceToSpawnObstacle: 75
-  chanceItemOnObstacle: 90
+  spawnObstacleChance: 40
+  itemOnObstacleChance: 70
   itemSpacing: 1.25
 --- !u!114 &1002921626
 MonoBehaviour:
@@ -3093,41 +3082,34 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerTransform: {fileID: 1193955504}
   winPointPrefab: {fileID: 1634848064}
-  platformObjs: {fileID: 125938558}
-  platformLibrary:
-  - id: Baseplatform-0
+  basePlatformContainer: {fileID: 125938558}
+  basePlatformLibrary:
+  - id: BasePlatform-0
     prefab: {fileID: 2997676687723301785, guid: 8c2038f57ed0fce4388d9bed28cde993, type: 3}
     spawnWeight: 100
-    isFlying: 0
-    minHeightDiff: 1
-    maxHeightDiff: 2.5
-    length: 27.64
-  - id: Baseplatform-1
+    itemHeightOffset: 0
+    length: 27.76615
+  - id: BasePlatform-1
     prefab: {fileID: 7650719088838195618, guid: 73657ede4291ee540af91143299d6c8a, type: 3}
     spawnWeight: 50
-    isFlying: 0
-    minHeightDiff: 0
-    maxHeightDiff: 2.5
+    itemHeightOffset: 0
     length: 17.56
-  - id: Baseplatform-2
+  - id: BasePlatform-2
     prefab: {fileID: 6899700398074020138, guid: 028b9c5edaee5fc4aa2d01bac166f9b5, type: 3}
     spawnWeight: 30
-    isFlying: 0
-    minHeightDiff: 1
-    maxHeightDiff: 2.5
+    itemHeightOffset: 0
     length: 6.65
-  activePlatforms:
+  activeBasePlatforms:
   - {fileID: 4859214173115808740}
   mapType: 1
   generationDistanceAhead: 80
   destroyDistanceBehind: 30
-  groundY: -2
-  maxY: 6
+  groundY: -5
   useCommonLength: 0
   commonLength: 20
-  pitChance: 100
+  pitChance: 70
   minGap: 5
-  maxGap: 10
+  maxGap: 7
   distanceToTriggerTimer: 500
   countdownTime: 60
   timerText: {fileID: 0}
@@ -6540,7 +6522,7 @@ GameObject:
   - component: {fileID: 1654779479832636801}
   - component: {fileID: 8821387655056186809}
   - component: {fileID: 2578936723719681034}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Platform-0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6581,10 +6563,10 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: -0.705}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
+    pivot: {x: 0.5, y: 1}
     oldSize: {x: 27.766151, y: 1.41}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5

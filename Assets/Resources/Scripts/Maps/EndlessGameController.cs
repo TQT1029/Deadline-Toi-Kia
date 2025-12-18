@@ -16,31 +16,25 @@ public class EndlessGameController : MonoBehaviour
         else Destroy(gameObject);
     }
 
-    // Sự kiện gửi: Mép Trái, Mép Phải, Độ Cao
-    public event System.Action<float, float, float> OnPlatformSpawned;
+    public event System.Action<float, float, float> OnBasePlatformSpawned;
 
     [Header("References")]
     public Transform playerTransform;
     public GameObject winPointPrefab;
-    [Tooltip("Container chứa các sàn được sinh ra")]
-    public GameObject platformObjs;
+    public GameObject basePlatformContainer;
 
-    [Header("Platform Library")]
-    public List<PlatformData> platformLibrary;
+    [Header("Base Platform Config")]
+    public List<PlatformData> basePlatformLibrary;
 
-    [SerializeField] private List<Transform> activePlatforms = new List<Transform>();
+    [SerializeField] private List<Transform> activeBasePlatforms = new List<Transform>();
 
     [Header("Map Settings")]
     public MapType mapType = MapType.WithPits;
     public float generationDistanceAhead = 80f;
     public float destroyDistanceBehind = 30f;
-
-    [Header("Height Limits")]
-    public float groundY = -2f;
-    public float maxY = 6f;
+    public float groundY = -2f; // Mặt đất luôn ở đây
 
     [Header("Length Settings")]
-    [Tooltip("Nếu bật, bỏ qua thông số trong Data mà dùng Common Length")]
     public bool useCommonLength = false;
     public float commonLength = 20f;
 
@@ -57,6 +51,7 @@ public class EndlessGameController : MonoBehaviour
     private bool isTimerRunning = false;
     private bool isWinSpawned = false;
     private float timeRemaining;
+    private float lastEdgeX;
 
     private IEnumerator Start()
     {
@@ -68,47 +63,38 @@ public class EndlessGameController : MonoBehaviour
             if (player != null) playerTransform = player.transform;
         }
 
-        // Kiểm tra an toàn
-        if (platformLibrary == null || platformLibrary.Count == 0)
+        if (basePlatformLibrary == null || basePlatformLibrary.Count == 0)
         {
-            Debug.LogError("EndlessGameController: Chưa có PlatformData nào trong Library!");
+            Debug.LogError("EndlessGameController: Chưa có Base Platform Data!");
             yield break;
         }
 
-        // Sắp xếp các sàn có sẵn (nếu có)
-        if (activePlatforms.Count > 0)
-            activePlatforms.Sort((a, b) => a.position.x.CompareTo(b.position.x));
-
-        yield return null; // Chờ 1 frame
-
-        // Nếu chưa có sàn nào, tạo sàn đầu tiên
-        if (activePlatforms.Count == 0)
+        if (activeBasePlatforms.Count == 0) CreateFirstPlatform();
+        else
         {
-            CreateFirstPlatform();
+            activeBasePlatforms.Sort((a, b) => a.position.x.CompareTo(b.position.x));
+            lastEdgeX = GetPlatformRightEdge(activeBasePlatforms[activeBasePlatforms.Count - 1]);
         }
 
+        yield return null;
         ManageMapGeneration();
     }
 
     private void CreateFirstPlatform()
     {
-        if (platformLibrary.Count == 0) return;
-        PlatformData firstData = platformLibrary[0];
-
-        // Spawn tại 0,0
+        PlatformData firstData = basePlatformLibrary[0];
         GameObject newObj = Instantiate(firstData.prefab, new Vector3(0, groundY, 0), Quaternion.identity);
-        if (platformObjs) newObj.transform.SetParent(platformObjs.transform);
 
-        // [FIX] Đồng bộ Collider ngay cho sàn đầu tiên
+        if (basePlatformContainer) newObj.transform.SetParent(basePlatformContainer.transform);
+
         SyncColliderSize(newObj, firstData.length);
-
-        activePlatforms.Add(newObj.transform);
+        activeBasePlatforms.Add(newObj.transform);
+        lastEdgeX = firstData.length / 2f;
     }
 
     private void Update()
     {
-        if (playerTransform == null || activePlatforms.Count == 0) return;
-
+        if (playerTransform == null) return;
         ManageMapGeneration();
         CleanupOldMap();
         HandleGameFlow();
@@ -116,183 +102,115 @@ public class EndlessGameController : MonoBehaviour
 
     private void ManageMapGeneration()
     {
-        if (activePlatforms.Count == 0) return;
-
-        Transform farthestPlatform = activePlatforms[activePlatforms.Count - 1];
-        float farthestEdge = GetPlatformRightEdge(farthestPlatform);
-
-        // SAFETY BREAK: Chỉ cho phép lặp tối đa 50 lần/frame để chống treo máy
-        int loopGuard = 0;
-
-        while (farthestEdge < playerTransform.position.x + generationDistanceAhead)
+        int safetyLoop = 0;
+        while (lastEdgeX < playerTransform.position.x + generationDistanceAhead)
         {
-            loopGuard++;
-            if (loopGuard > 50)
-            {
-                Debug.LogError("INFINITE LOOP DETECTED: Đã dừng sinh map khẩn cấp! Kiểm tra lại độ dài Platform.");
-                break;
-            }
-
-            bool success = SpawnNextPlatform();
-            if (!success) break;
-
-            // Cập nhật lại mốc
-            farthestPlatform = activePlatforms[activePlatforms.Count - 1];
-            farthestEdge = GetPlatformRightEdge(farthestPlatform);
+            safetyLoop++;
+            if (safetyLoop > 50) break;
+            if (!SpawnNextBasePlatform()) break;
         }
     }
 
-    private bool SpawnNextPlatform()
+    private bool SpawnNextBasePlatform()
     {
-        Transform lastPlatform = activePlatforms[activePlatforms.Count - 1];
-        float lastEdgeX = GetPlatformRightEdge(lastPlatform);
-        float lastY = lastPlatform.position.y;
+        PlatformData newData = GetRandomBasePlatform();
+        if (newData == null) return false;
 
-        PlatformData newData = GetRandomPlatformData();
-        if (newData == null || newData.prefab == null) return false;
-
-        // 1. Tính Gap
         float gap = 0f;
         if (mapType == MapType.WithPits && playerTransform.position.x > 50f)
         {
             if (Random.Range(0, 100) < pitChance) gap = Random.Range(minGap, maxGap);
         }
 
-        // 2. Tính Height
-        float newY = groundY;
-        if (newData.isFlying)
-        {
-            float heightStep = Random.Range(newData.minHeightDiff, newData.maxHeightDiff);
-            newY = lastY + heightStep;
-            if (newY > maxY) newY = maxY;
-            if (gap < 1f) gap = 1.5f;
-        }
-        else
-        {
-            newY = groundY;
-            if (lastY > groundY + 1f) gap += 2f;
-        }
+        float currentLength = Mathf.Max(newData.length, 1f);
+        float newCenterX = lastEdgeX + gap + (currentLength / 2f);
 
-        // 3. Sinh Object
-        GameObject newObj = Instantiate(newData.prefab, Vector3.zero, Quaternion.identity);
-        if (platformObjs != null) newObj.transform.SetParent(platformObjs.transform);
+        GameObject newObj = Instantiate(newData.prefab, new Vector3(newCenterX, groundY, 0), Quaternion.identity);
+
+        if (basePlatformContainer) newObj.transform.SetParent(basePlatformContainer.transform);
         else newObj.transform.SetParent(this.transform);
 
-        // 4. [QUAN TRỌNG] Xác định chiều dài sử dụng
-        float usedLength = useCommonLength ? commonLength : newData.length;
-        if (usedLength < 1f) usedLength = 1f; // Không bao giờ để < 1
+        SyncColliderSize(newObj, currentLength);
+        activeBasePlatforms.Add(newObj.transform);
 
-        // 5. [FIX LỖI CHỒNG LẤN] Tự động chỉnh Collider khớp với chiều dài nhập tay
-        SyncColliderSize(newObj, usedLength);
+        lastEdgeX = newCenterX + (currentLength / 2f);
 
-        // 6. Tính toán vị trí dựa trên Collider đã chỉnh
-        BoxCollider2D newCol = newObj.GetComponent<BoxCollider2D>();
-        float halfWidth = usedLength / 2;
-        float offsetX = 0f;
-
-        if (newCol != null)
-        {
-            // Tính lại halfWidth chuẩn xác từ collider
-            float scaledSize = newCol.size.x * newObj.transform.localScale.x;
-            halfWidth = scaledSize / 2;
-            offsetX = newCol.offset.x * newObj.transform.localScale.x;
-        }
-
-        float targetLeftEdgeX = lastEdgeX + gap;
-        // Đảm bảo luôn tiến về phía trước ít nhất 0.1f
-        if (targetLeftEdgeX <= lastEdgeX) targetLeftEdgeX = lastEdgeX + 0.1f;
-
-        float finalCenterX = targetLeftEdgeX + (halfWidth - offsetX);
-
-        newObj.transform.position = new Vector3(finalCenterX, newY, 0);
-        activePlatforms.Add(newObj.transform);
-
-        // 7. Bắn sự kiện
-        float width = halfWidth * 2;
-        OnPlatformSpawned?.Invoke(targetLeftEdgeX, targetLeftEdgeX + width, newY);
+        // Báo cho MapGenerator
+        float leftEdge = lastEdgeX - currentLength;
+        OnBasePlatformSpawned?.Invoke(leftEdge, lastEdgeX, groundY);
 
         return true;
     }
 
-    // --- HÀM MỚI: ĐỒNG BỘ COLLIDER VỚI LENGTH NHẬP TAY ---
+    private void CleanupOldMap()
+    {
+        if (activeBasePlatforms.Count == 0) return;
+        Transform oldest = activeBasePlatforms[0];
+        if (oldest == null) { activeBasePlatforms.RemoveAt(0); return; }
+
+        float len = GetPlatformLength(oldest);
+        float oldestEdge = oldest.position.x + (len / 2f);
+
+        if (playerTransform.position.x > oldestEdge + destroyDistanceBehind)
+        {
+            activeBasePlatforms.RemoveAt(0);
+            Destroy(oldest.gameObject);
+        }
+    }
+
     private void SyncColliderSize(GameObject obj, float targetLength)
     {
         BoxCollider2D col = obj.GetComponent<BoxCollider2D>();
         if (col != null)
         {
-            // Tính toán Size X cần thiết: targetLength / localScale.x
-            float requiredSizeX = targetLength / obj.transform.localScale.x;
-
-            // Gán lại size cho collider
-            Vector2 currentSize = col.size;
-            currentSize.x = requiredSizeX;
-            col.size = currentSize;
+            float scaleX = obj.transform.localScale.x;
+            if (scaleX == 0) scaleX = 1;
+            Vector2 s = col.size; s.x = targetLength / scaleX; col.size = s;
+            col.offset = new Vector2(0, col.offset.y);
         }
     }
 
-    private void CleanupOldMap()
+    private float GetPlatformLength(Transform t)
     {
-        if (activePlatforms.Count == 0) return;
-        Transform oldest = activePlatforms[0];
+        BoxCollider2D col = t.GetComponent<BoxCollider2D>();
+        if (col != null) return col.bounds.size.x;
+        return useCommonLength ? commonLength : 20f;
+    }
 
-        if (oldest == null) { activePlatforms.RemoveAt(0); return; }
+    private float GetPlatformRightEdge(Transform t)
+    {
+        BoxCollider2D col = t.GetComponent<BoxCollider2D>();
+        if (col != null) return col.bounds.max.x;
+        return t.position.x + 10f;
+    }
 
-        float edge = GetPlatformRightEdge(oldest);
-        if (playerTransform.position.x > edge + destroyDistanceBehind)
-        {
-            activePlatforms.RemoveAt(0);
-            Destroy(oldest.gameObject);
-        }
+    private PlatformData GetRandomBasePlatform()
+    {
+        if (basePlatformLibrary == null || basePlatformLibrary.Count == 0) return null;
+        float t = 0; foreach (var p in basePlatformLibrary) t += p.spawnWeight;
+        float r = Random.Range(0, t);
+        float c = 0; foreach (var p in basePlatformLibrary) { c += p.spawnWeight; if (r < c) return p; }
+        return basePlatformLibrary[0];
     }
 
     private void HandleGameFlow()
     {
-        float currentDistance = playerTransform.position.x;
-        if (!isTimerRunning && !isWinSpawned && currentDistance >= distanceToTriggerTimer)
+        if (!isTimerRunning && !isWinSpawned && playerTransform.position.x >= distanceToTriggerTimer)
             isTimerRunning = true;
 
         if (isTimerRunning)
         {
             timeRemaining -= Time.deltaTime;
             if (timerText != null) timerText.text = $"Time: {Mathf.Ceil(timeRemaining)}";
-            if (timeRemaining <= 0)
-            {
-                SpawnWinPoint();
-                isTimerRunning = false;
-            }
+            if (timeRemaining <= 0) { SpawnWinPoint(); isTimerRunning = false; }
         }
-    }
-
-    private float GetPlatformRightEdge(Transform platform)
-    {
-        if (platform == null) return 0f;
-        BoxCollider2D col = platform.GetComponent<BoxCollider2D>();
-
-        // Vì ta đã Sync Collider ở trên, nên col.bounds.max.x bây giờ luôn đúng!
-        if (col != null) return col.bounds.max.x;
-
-        // Fallback
-        float len = useCommonLength ? commonLength : 20f;
-        return platform.position.x + (len / 2);
-    }
-
-    private PlatformData GetRandomPlatformData()
-    {
-        if (platformLibrary == null || platformLibrary.Count == 0) return null;
-        float total = 0; foreach (var p in platformLibrary) total += p.spawnWeight;
-        float r = Random.Range(0, total);
-        float c = 0;
-        foreach (var p in platformLibrary) { c += p.spawnWeight; if (r < c) return p; }
-        return platformLibrary[0];
     }
 
     private void SpawnWinPoint()
     {
         if (isWinSpawned) return;
         isWinSpawned = true;
-        Transform lastP = activePlatforms[activePlatforms.Count - 1];
-        float edge = GetPlatformRightEdge(lastP);
-        Vector3 winPos = new Vector3(edge + 10f, lastP.position.y, 0);
+        Vector3 winPos = new Vector3(lastEdgeX + 10f, activeBasePlatforms.Last().position.y, 0);
         Instantiate(winPointPrefab, winPos, Quaternion.identity);
         if (timerText != null) timerText.text = "GOAL!";
     }

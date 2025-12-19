@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: -2204236281080311624}
   m_Layer: 7
   m_Name: MiniPlatform-0 1
-  m_TagString: Untagged
+  m_TagString: MiniPlatform
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

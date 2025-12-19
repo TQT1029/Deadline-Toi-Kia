@@ -24,12 +24,21 @@ public class MapGenerator : MonoBehaviour
 
     [Header("Obstacle Logic")]
     [Range(0, 100)] public int obstacleChance = 60;
-    public float obstacleEdgePadding = 2f; // Cách mép đất tối thiểu
-    public float minObstacleGap = 5f;
+    [SerializeField] private float obstacleEdgePadding = 2f; // Cách mép đất tối thiểu
+    [SerializeField] private float minObstacleGap = 7f;
+    [SerializeField] private float maxObstacleGap = 12f;
 
-    [Header("Mini Platform Logic")]
+    [Header("Mini Platform Bridge")]
     [Range(0, 100)] public int miniPlatformChance = 50;
-    public float bridgeHeight = 0f; // Chiều cao khi bắc qua hố
+    [Tooltip("độ cao so với platform trước đó")]
+    [SerializeField] float minBridgeHeight = -1f; // Chiều cao khi bắc qua hố
+    [SerializeField] float maxBridgeHeight = 2f; // Chiều cao khi bắc qua hố
+
+    [Tooltip("Khoảng cách chênh lệch giữa các tấm cầu")]
+    [SerializeField] private float minGapBridge = 0.5f; // Khoảng cách nhỏ giữa các miếng cầu
+    [SerializeField] private float maxGapBridge = 1.5f; // Khoảng cách nhỏ giữa các miếng cầu
+
+    [Header("Mini Platform Aerial")]
     public float aerialHeight = 3f; // Chiều cao khi bay trên đất
     [SerializeField] private float maxHeightMap = 10f;
 
@@ -39,7 +48,6 @@ public class MapGenerator : MonoBehaviour
     public struct PitSegment { public float startX; public float endX; }
 
     [SerializeField] private List<GroundSegment> currentGrounds = new List<GroundSegment>();
-    [SerializeField] private List<ObstacleSegment> currentObstacles = new List<ObstacleSegment>();
     [SerializeField] private List<PitSegment> currentPits = new List<PitSegment>();
 
     // --- MAIN FUNCTION: Gọi bởi Controller ---
@@ -116,8 +124,8 @@ public class MapGenerator : MonoBehaviour
     {
         foreach (var ground in currentGrounds)
         {
-            float currentX = ground.startX + obstacleEdgePadding;
-            float endLimit = ground.endX - obstacleEdgePadding;
+            float currentX = ground.startX + obstacleEdgePadding * 2;
+            float endLimit = ground.endX - obstacleEdgePadding * 2;
 
             while (currentX < endLimit)
             {
@@ -135,7 +143,7 @@ public class MapGenerator : MonoBehaviour
                         currentX += size.x; // Nhảy qua vật cản
                     }
                 }
-                currentX += Random.Range(minObstacleGap, minObstacleGap * 2);
+                currentX += Random.Range(minObstacleGap, maxObstacleGap);
             }
         }
     }
@@ -146,7 +154,7 @@ public class MapGenerator : MonoBehaviour
         // Ưu tiên 1: Bắc cầu qua hố
         foreach (var pit in currentPits)
         {
-            if (pit.endX - pit.startX >= 20)
+            if (pit.endX - pit.startX >= 10)
                 SpawnBridge(pit.startX, pit.endX);
         }
 
@@ -165,16 +173,18 @@ public class MapGenerator : MonoBehaviour
         float currentX = startX - 1f; // Bắt đầu sớm hơn mép hố
         float limit = endX + 1f;
 
+        float lastY = groundY;
         while (currentX < limit)
         {
             MiniPlatformData data = miniPlatformLibrary[Random.Range(0, miniPlatformLibrary.Count)];
             float len = data.GetLength();
 
-            // Đặt ngay tại groundY (hoặc cao hơn 1 chút để nhảy)
-            Vector3 pos = new Vector3(currentX + len / 2f, groundY + bridgeHeight + 2.0f, 0);
+            // Đặt ngay tại groundY độ cao chênh lệch ngẫu nhiên so với platform trước đó
+            Vector3 pos = new Vector3(currentX + len / 2f, lastY + Random.Range(minBridgeHeight, maxBridgeHeight), 0);
             Instantiate(data.prefab, pos, Quaternion.identity, miniPlatformObjs);
 
-            currentX += len + 0.5f; // Gap nhỏ giữa các miếng cầu
+            lastY = pos.y;
+            currentX += len + Random.Range(minGapBridge, maxGapBridge); // Gap nhỏ giữa các miếng cầu
         }
     }
 
@@ -182,14 +192,15 @@ public class MapGenerator : MonoBehaviour
     {
         // Tìm khoảng trống bằng chọn random và check Overlap
         float tryX = Random.Range(startX + 2f, endX - 2f);
-        MiniPlatformData data = miniPlatformLibrary[Random.Range(0, miniPlatformLibrary.Count)];
+        // chỉ sử dụng 2 platform ngắn
+        MiniPlatformData data = miniPlatformLibrary[Random.Range(1, miniPlatformLibrary.Count)];
         float len = data.GetLength();
 
         Vector3 pos = new Vector3(tryX, groundY + aerialHeight, 0);
 
         // Kiểm tra xem vị trí này có đụng Obstacle bên dưới không
         // Dùng OverlapBox: Center=pos, Size=(len, 10)
-        Collider2D hit = Physics2D.OverlapBox(pos, new Vector2(len + 1, 8f), 0, obstacleLayer);
+        Collider2D hit = Physics2D.OverlapBox(pos, new Vector2(len + 1, 6f), 0, obstacleLayer);
 
         // Nếu không đụng hoặc đụng nhưng ta chấp nhận đặt cao hơn hẳn
         if (hit == null)

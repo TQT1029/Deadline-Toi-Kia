@@ -1411,6 +1411,37 @@ Transform:
   - {fileID: 1754207559}
   m_Father: {fileID: 1002921627}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &304172319
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 304172320}
+  m_Layer: 0
+  m_Name: MiniPlatformObjs
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &304172320
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 304172319}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1002921627}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &306734413
 GameObject:
   m_ObjectHideFlags: 0
@@ -3009,9 +3040,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 058bac9b31a5f7c4a917dc07a4401535, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  basePlatformObjs: {fileID: 0}
-  obstacleObjs: {fileID: 0}
-  miniPlatformObjs: {fileID: 0}
+  basePlatformObjs: {fileID: 125938559}
+  obstacleObjs: {fileID: 1586954303}
+  miniPlatformObjs: {fileID: 304172320}
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 192
@@ -3047,13 +3078,17 @@ MonoBehaviour:
     spawnWeight: 100
   groundY: -5
   pitChance: 30
-  minPitWidth: 10
+  minPitWidth: 7
   maxPitWidth: 30
   obstacleChance: 60
   obstacleEdgePadding: 2
   minObstacleGap: 10
+  maxObstacleGap: 12
   miniPlatformChance: 50
-  bridgeHeight: 1
+  minBridgeHeight: -2
+  maxBridgeHeight: 2
+  minGapBridge: 1
+  maxGapBridge: 0.5
   aerialHeight: 3
   maxHeightMap: 10
 --- !u!114 &1002921626
@@ -3073,6 +3108,7 @@ MonoBehaviour:
   player: {fileID: 1193955504}
   generationDistance: 100
   chunkLength: 50
+  destroyDistanceBehind: 50
 --- !u!4 &1002921627
 Transform:
   m_ObjectHideFlags: 0
@@ -3089,6 +3125,7 @@ Transform:
   - {fileID: 283707766}
   - {fileID: 125938559}
   - {fileID: 1586954303}
+  - {fileID: 304172320}
   - {fileID: 1078367681}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 419799568552821180}
   m_Layer: 7
   m_Name: HighWashing
-  m_TagString: Obstacle
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -174,10 +174,6 @@ PrefabInstance:
     - target: {fileID: 3897467062838213673, guid: eaa2738296cf5e8409bfbfc5ee9f05b1, type: 3}
       propertyPath: m_Name
       value: LowWashing
-      objectReference: {fileID: 0}
-    - target: {fileID: 3897467062838213673, guid: eaa2738296cf5e8409bfbfc5ee9f05b1, type: 3}
-      propertyPath: m_TagString
-      value: Untagged
       objectReference: {fileID: 0}
     - target: {fileID: 8468510312994318316, guid: eaa2738296cf5e8409bfbfc5ee9f05b1, type: 3}
       propertyPath: m_LocalPosition.x

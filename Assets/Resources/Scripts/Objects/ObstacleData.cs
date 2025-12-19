@@ -3,16 +3,24 @@
 [System.Serializable]
 public class ObstacleData
 {
-    public string name;
+    public string id;
     public GameObject prefab;
-    [Tooltip("Chiều rộng của vật cản (để tính khoảng cách né tránh)")]
-    public float width = 2f;
-    [Tooltip("Vị trí độ cao để đặt Item lên nóc (tính từ tâm vật thể)")]
-    public float topHeightOffset = 1.5f;
 
-    [Header("Item Spawn Range")]
-    [Tooltip("Số lượng item tối thiểu có thể xếp trên nóc")]
-    public int minItemsOnTop = 1; 
-    [Tooltip("Số lượng item tối đa có thể xếp trên nóc")]
-    public int maxItemsOnTop = 3; 
+    [Tooltip("Tự động tính chiều rộng và chiều cao từ Collider")]
+    public bool autoCalculateSize = true;
+    public float manualWidth = 2f;
+    public float manualHeight = 2f;
+
+    public Vector2 Size
+    {
+        get
+        {
+            if (autoCalculateSize && prefab != null)
+            {
+                var col = prefab.GetComponent<Collider2D>();
+                if (col != null) return col.bounds.size;
+            }
+            return new Vector2(manualWidth, manualHeight);
+        }
+    }
 }

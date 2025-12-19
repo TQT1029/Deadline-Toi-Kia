@@ -1507,17 +1507,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerTransform: {fileID: 335606032}
   winPointPrefab: {fileID: 1771556728}
-  platformObjs: {fileID: 1792635653}
-  platformLibrary:
-  - id: Platform-0
-    prefab: {fileID: 2637207856109847199, guid: 40933cece314efa4aad9b9d19957a811, type: 3}
-    length: 121.26
+  basePlatformContainer: {fileID: 0}
+  basePlatformLibrary:
+  - id: 
+    prefab: {fileID: 7836390919332838603}
     spawnWeight: 100
-  activePlatforms:
+    itemHeightOffset: 0
+    length: 121.5728
+  activeBasePlatforms:
   - {fileID: 6636799126918728997}
   mapType: 0
   generationDistanceAhead: 80
   destroyDistanceBehind: 30
+  groundY: -4
   useCommonLength: 1
   commonLength: 121.26
   pitChance: 0
@@ -1539,27 +1541,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerTransform: {fileID: 335606032}
-  obstacleObjs: {fileID: 817237136}
-  itemObjs: {fileID: 1695817143}
-  obstacles:
-  - name: LowWashingMachine
-    prefab: {fileID: 3897467062838213673, guid: eaa2738296cf5e8409bfbfc5ee9f05b1, type: 3}
-    width: 7.3
-    topHeightOffset: 3.7
-    minItemsOnTop: 3
-    maxItemsOnTop: 5
-  - name: HighWashingMachine
-    prefab: {fileID: 2554239590043448735, guid: 5fe54466db105164dbb8feb7e8513460, type: 3}
-    width: 16.425
-    topHeightOffset: 6.4
-    minItemsOnTop: 3
-    maxItemsOnTop: 5
-  - name: Table&Bracket
-    prefab: {fileID: 4201045231176910432, guid: 75faf0f1a704e46478075296b7a3b1c3, type: 3}
-    width: 7.3
-    topHeightOffset: 3.7
-    minItemsOnTop: 5
-    maxItemsOnTop: 6
+  objectContainer: {fileID: 0}
+  obstacleLibrary: []
   itemLibrary:
   - name: Coin
     prefab: {fileID: 3501825626615947439, guid: 14bb9858d06c3e04c9a47f46ea37fb09, type: 3}
@@ -1573,19 +1556,26 @@ MonoBehaviour:
     prefab: {fileID: 3501825626615947439, guid: af0e73e5ae7b79440929644bd7bd0792, type: 3}
     scoreValue: 1000
     spawnWeight: 0.1
+  miniPlatformLibrary: []
+  miniPlatformChance: 30
+  minChainLength: 3
+  maxChainLength: 5
+  minChainGap: 2
+  minFirstHeight: 1.5
+  maxFirstHeight: 2.5
+  minStepDiff: 0.5
+  maxStepDiff: 2
+  absoluteMaxHeight: 6
+  heightThresholdForUnderneath: 3
   destroyDistanceBehind: 50
-  groundY: -4.25
-  groundLayer:
-    serializedVersion: 2
-    m_Bits: 192
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 192
   checkRadius: 0.4
   minGap: 12
   maxGap: 17
-  chanceToSpawnObstacle: 75
-  chanceItemOnObstacle: 90
+  spawnObstacleChance: 40
+  itemOnObstacleChance: 70
   itemSpacing: 1.25
 --- !u!1 &759242288
 GameObject:
@@ -6643,7 +6633,7 @@ Transform:
   m_GameObject: {fileID: 7836390919332838603}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -45, y: -5.5, z: 0}
+  m_LocalPosition: {x: -45, y: -4, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -6659,7 +6649,7 @@ Transform:
   m_GameObject: {fileID: 741666588785523640}
   serializedVersion: 2
   m_LocalRotation: {x: 1, y: 0, z: 0, w: 0}
-  m_LocalPosition: {x: 0, y: -2.75, z: 0}
+  m_LocalPosition: {x: 0, y: -5.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6699,17 +6689,17 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: -0.1441381}
+  m_Offset: {x: 0, y: -1.3950001}
   m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
+    border: {x: 0, y: 0, z: 0, w: 0.22000001}
+    pivot: {x: 0.5, y: 1}
     oldSize: {x: 121.57278, y: 2.7900002}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 121.57278, y: 2.5017238}
+  m_Size: {x: 121.57278, y: 2.7900002}
   m_EdgeRadius: 0
 --- !u!1 &7836390919332838603
 GameObject:

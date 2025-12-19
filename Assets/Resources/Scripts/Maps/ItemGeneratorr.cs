@@ -4,248 +4,216 @@ using System.Collections.Generic;
 public class ItemGenerator : MonoBehaviour
 {
     public static ItemGenerator Instance;
+    private void Awake() => Instance = this;
 
-    private void Awake()
-    {
-        if (Instance == null) Instance = this;
-        else Destroy(gameObject);
-    }
+    [Header("References")]
+    public Transform itemContainer;
+    public List<ItemData> commonItems; // Coin, etc.
+    public List<ItemData> rareItems;   // Powerups
+    public List<PatternData> patterns;
 
-    [Header("--- REFERENCES ---")]
-    public Transform playerTransform;
-    public GameObject itemContainer;
-
-    [Header("--- CONFIG ---")]
-    public List<ItemData> itemLibrary;
-    public LayerMask obstacleLayer;
-
-    [Tooltip("Giảm bán kính check để item không bị xóa oan uổng")]
-    public float checkRadius = 0.2f;
+    [Header("Settings")]
     public float itemSpacing = 1.0f;
-    public float destroyDistanceBehind = 20f;
+    public LayerMask obstacleLayer; // Layer của Obstacle và MiniPlatform
+    public float spawnInterval = 15f; // Khoảng cách giữa các pattern trên đường
 
-    private Queue<GameObject> activeItems = new Queue<GameObject>();
-
-    private enum ItemPattern
+    public void SpawnItems(float startX, float endX, float groundY)
     {
-        Line, Grid, Wave, ArrowComplex, Diamond, RectHollow, RectVertical, RectHorizontal,
-        ShapeVLU, ShapeAPlus, Triangle, StairsUp, StairsDown, ZigZag, DoubleLine
-    }
+        float currentX = startX + 5f;
 
-    private void Start()
-    {
-        if (ObstacleGenerator.Instance != null)
+        while (currentX < endX - 5f)
         {
-            ObstacleGenerator.Instance.OnRequestSingleItem += SpawnSingleItem;
-            ObstacleGenerator.Instance.OnRequestItemRow += SpawnItemRow;
-            ObstacleGenerator.Instance.OnRequestItemPattern += SpawnPatternInGap;
-            ObstacleGenerator.Instance.OnRequestItemOnPlatform += SpawnItemOnPlatform;
+            PatternData pattern = GetRandomPattern();
+            if (pattern != null)
+            {
+                Vector3 spawnPos = new Vector3(currentX, groundY + 1f, 0); // Mặc định spawn sát đất
+
+                // 1. Tạo Pattern
+                if (pattern.type == PatternData.PatternType.PrefabBased)
+                {
+                    SpawnPrefabPattern(pattern, spawnPos);
+                }
+                else
+                {
+                    SpawnCodePattern(pattern.codePattern, spawnPos);
+                }
+
+                // Ước lượng độ dài pattern để cộng dồn X
+                currentX += 8f; // Giả sử độ dài trung bình
+            }
+
+            // Check xem có MiniPlatform ở đoạn này không để spawn dưới gầm
+            CheckSpawnUnderPlatform(currentX, groundY);
+
+            currentX += UnityEngine.Random.Range(5f, spawnInterval);
         }
     }
 
-    private void OnDestroy()
+    // --- LOGIC 1: SPAWN PREFAB PATTERN + MUTATION ---
+    private void SpawnPrefabPattern(PatternData data, Vector3 pos)
     {
-        if (ObstacleGenerator.Instance != null)
+        if (data.patternPrefab == null) return;
+
+        // Instantiate tạm để xử lý
+        GameObject patternObj = Instantiate(data.patternPrefab, pos, Quaternion.identity);
+
+        // Xử lý Smart Positioning (Nâng lên nếu đụng Obstacle)
+        Vector3 correctedPos = GetSmartPosition(patternObj, pos);
+        patternObj.transform.position = correctedPos;
+
+        // Xử lý Mutation (Biến đổi item con)
+        foreach (Transform child in patternObj.transform)
         {
-            ObstacleGenerator.Instance.OnRequestSingleItem -= SpawnSingleItem;
-            ObstacleGenerator.Instance.OnRequestItemRow -= SpawnItemRow;
-            ObstacleGenerator.Instance.OnRequestItemPattern -= SpawnPatternInGap;
-            ObstacleGenerator.Instance.OnRequestItemOnPlatform -= SpawnItemOnPlatform;
-        }
-    }
-
-    private void Update()
-    {
-        RemoveOldItems();
-    }
-
-    // --- LOGIC SPAWN ---
-
-    private void SpawnSingleItem(Vector3 pos)
-    {
-        if (IsPositionClear(pos)) SpawnItem(pos);
-    }
-
-    private void SpawnItemRow(Vector3 centerPos, int count, float widthAvailable)
-    {
-        if (count <= 0) return;
-
-        float totalWidth = (count - 1) * itemSpacing;
-        if (totalWidth > widthAvailable)
-        {
-            count = Mathf.FloorToInt(widthAvailable / itemSpacing);
-            totalWidth = (count - 1) * itemSpacing;
+            if (UnityEngine.Random.value < data.mutationChance)
+            {
+                // Thay thế bằng item khác
+                ItemData newItem = GetRandomItem();
+                if (newItem != null)
+                {
+                    Vector3 childPos = child.position;
+                    Destroy(child.gameObject);
+                    GameObject newObj = Instantiate(newItem.prefab, childPos, Quaternion.identity, patternObj.transform);
+                }
+            }
+            // Đảm bảo item con có Collectible script
         }
 
-        float startX = centerPos.x - (totalWidth / 2f);
-
-        for (int i = 0; i < count; i++)
-        {
-            Vector3 pos = new Vector3(startX + (i * itemSpacing), centerPos.y, 0);
-            if (IsPositionClear(pos)) SpawnItem(pos);
-        }
+        // Ungroup (để quản lý dễ hơn hoặc giữ group tùy bạn)
+        // Ở đây tôi giữ group nhưng set parent vào container chính
+        patternObj.transform.SetParent(itemContainer);
     }
 
-    // Biến tấu item trên Mini Platform
-    private void SpawnItemOnPlatform(Vector3 centerPos, float platformLength)
+    // --- LOGIC 2: SPAWN CODE PATTERN ---
+    private void SpawnCodePattern(CodePatternType type, Vector3 origin)
     {
-        int maxItems = Mathf.FloorToInt(platformLength - 0.5f);
-        if (maxItems < 1) maxItems = 1;
-
-        // Nếu sàn ngắn (< 3m) hoặc random -> Spawn đường thẳng gọn gàng
-        if (maxItems < 3 || Random.value < 0.5f)
-        {
-            SpawnItemRow(centerPos, maxItems, platformLength);
-        }
-        else
-        {
-            // Nếu sàn dài -> Spawn hình Cung (Arch)
-            SpawnMiniArch(centerPos, maxItems);
-        }
-    }
-
-    private void SpawnMiniArch(Vector3 center, int count)
-    {
-        float totalWidth = (count - 1) * itemSpacing;
-        float startX = center.x - (totalWidth / 2f);
-        float archHeight = 0.8f;
-
-        for (int i = 0; i < count; i++)
-        {
-            float t = (float)i / (count - 1);
-            float yOffset = 4 * archHeight * t * (1 - t); // Parabol
-
-            Vector3 pos = new Vector3(startX + i * itemSpacing, center.y + yOffset, 0);
-            if (IsPositionClear(pos)) SpawnItem(pos);
-        }
-    }
-
-    private void SpawnPatternInGap(float startX, float endX, float baseHeight)
-    {
-        float width = endX - startX;
-        // Đã giảm điều kiện xuống 2.0f để dễ vẽ hơn
-        if (width < 2.0f) return;
-
-        ItemPattern p = (ItemPattern)Random.Range(0, System.Enum.GetValues(typeof(ItemPattern)).Length);
         List<Vector2> localPoints = new List<Vector2>();
 
-        // Logic vẽ hình (Giữ nguyên đầy đủ)
-        switch (p)
+        // Tạo hình dáng
+        switch (type)
         {
-            case ItemPattern.Line: int c = Random.Range(3, 6); for (int i = 0; i < c; i++) localPoints.Add(new Vector2(i, 0)); break;
-            case ItemPattern.Grid: for (int x = 0; x < 3; x++) for (int y = 0; y < 3; y++) localPoints.Add(new Vector2(x, y - 1)); break;
-            case ItemPattern.Wave: for (int i = 0; i < 8; i++) localPoints.Add(new Vector2(i, Mathf.Sin(i * 0.8f) * 1.5f)); break;
-            case ItemPattern.ArrowComplex: localPoints.Add(new Vector2(0, 1.5f)); localPoints.Add(new Vector2(0, -1.5f)); localPoints.Add(new Vector2(1, 0.8f)); localPoints.Add(new Vector2(1, -0.8f)); localPoints.Add(new Vector2(2, 0)); break;
-            case ItemPattern.Diamond: localPoints.Add(new Vector2(1, 1.5f)); localPoints.Add(new Vector2(1, -1.5f)); localPoints.Add(new Vector2(0, 0)); localPoints.Add(new Vector2(2, 0)); break;
-            case ItemPattern.RectHollow: int rw = 4, rh = 3; for (int rx = 0; rx < rw; rx++) for (int ry = 0; ry < rh; ry++) if (rx == 0 || rx == rw - 1 || ry == 0 || ry == rh - 1) localPoints.Add(new Vector2(rx, ry - (rh - 1) / 2f)); break;
-            case ItemPattern.RectVertical: int vw = Random.Range(2, 4); int vh = Random.Range(3, 6); for (int vx = 0; vx < vw; vx++) for (int vy = 0; vy < vh; vy++) if (vx == 0 || vx == vw - 1 || vy == 0 || vy == vh - 1) localPoints.Add(new Vector2(vx, vy - (vh - 1) / 2f)); break;
-            case ItemPattern.RectHorizontal: int hw = Random.Range(3, 6); int hh = Random.Range(2, 4); for (int hx = 0; hx < hw; hx++) for (int hy = 0; hy < hh; hy++) if (hx == 0 || hx == hw - 1 || hy == 0 || hy == hh - 1) localPoints.Add(new Vector2(hx, hy - (hh - 1) / 2f)); break;
-            case ItemPattern.ShapeVLU: localPoints.AddRange(GetTextPoints("V", 0)); localPoints.AddRange(GetTextPoints("L", 4)); localPoints.AddRange(GetTextPoints("U", 8)); break;
-            case ItemPattern.ShapeAPlus: localPoints.AddRange(GetTextPoints("A", 0)); localPoints.AddRange(GetTextPoints("+", 4)); break;
-            case ItemPattern.Triangle: localPoints.Add(new Vector2(0, 0)); localPoints.Add(new Vector2(1, 0)); localPoints.Add(new Vector2(1, 1)); localPoints.Add(new Vector2(2, 0)); localPoints.Add(new Vector2(2, 1)); localPoints.Add(new Vector2(2, 2)); break;
-            case ItemPattern.StairsUp: for (int i = 0; i < 5; i++) localPoints.Add(new Vector2(i, i * 0.5f)); break;
-            case ItemPattern.StairsDown: for (int i = 0; i < 5; i++) localPoints.Add(new Vector2(i, 2.5f - (i * 0.5f))); break;
-            case ItemPattern.ZigZag: for (int i = 0; i < 6; i++) localPoints.Add(new Vector2(i, (i % 2 == 0) ? 0 : 1.5f)); break;
-            case ItemPattern.DoubleLine: for (int i = 0; i < 5; i++) { localPoints.Add(new Vector2(i, 0)); localPoints.Add(new Vector2(i, 1.5f)); } break;
+            case CodePatternType.Line:
+                for (int i = 0; i < 5; i++) localPoints.Add(new Vector2(i, 0));
+                break;
+            case CodePatternType.Wave:
+                for (int i = 0; i < 6; i++) localPoints.Add(new Vector2(i, Mathf.Sin(i) * 1.5f));
+                break;
+            case CodePatternType.Grid:
+                for (int x = 0; x < 3; x++)
+                    for (int y = 0; y < 2; y++) localPoints.Add(new Vector2(x, y));
+                break;
+                // Thêm các case khác: Parabola, ZigZag...
         }
 
-        // Căn giữa
-        float patternWidthEst = 0f;
-        if (localPoints.Count > 0)
+        // Tính toán vị trí trung tâm thực tế sau khi check va chạm
+        // Tạo một object ảo hoặc tính toán bounds để check va chạm cho toàn bộ pattern
+        // Ở đây ta dùng cách đơn giản: Check từng điểm và lấy độ cao lớn nhất
+
+        float maxLift = 0f;
+        foreach (var p in localPoints)
         {
-            float maxX = 0;
-            foreach (var pnt in localPoints) if (pnt.x > maxX) maxX = pnt.x;
-            patternWidthEst = maxX * itemSpacing;
+            float lift = GetLiftHeight(origin + (Vector3)p * itemSpacing);
+            if (lift > maxLift) maxLift = lift;
         }
 
-        float midX = startX + (width / 2f);
-        float spawnStartX = midX - (patternWidthEst / 2f);
-        float currentBaseY = baseHeight + 1.0f;
-
-        // Smart Lift
-        float lift = CalculateSmartLift(spawnStartX, currentBaseY, localPoints);
-        currentBaseY += lift;
-
-        foreach (Vector2 pt in localPoints)
+        // Spawn từng item
+        foreach (var p in localPoints)
         {
-            Vector3 pos = new Vector3(spawnStartX + pt.x * itemSpacing, currentBaseY + pt.y * itemSpacing, 0);
+            Vector3 finalPos = origin + (Vector3)p * itemSpacing;
+            finalPos.y += maxLift; // Nâng toàn bộ pattern lên độ cao an toàn nhất
 
-            // Check an toàn: nằm trong gap
-            if (pos.x >= startX && pos.x <= endX)
+            // Kiểm tra biên MiniPlatform (nếu item này đang nằm trên mini platform)
+            if (IsOnMiniPlatform(finalPos, out float platformLeft, out float platformRight))
             {
-                if (IsPositionClear(pos)) SpawnItem(pos);
+                // Clamp X để không lòi ra ngoài platform
+                finalPos.x = Mathf.Clamp(finalPos.x, platformLeft, platformRight);
             }
+
+            ItemData itemData = GetRandomItem();
+            GameObject item = Instantiate(itemData.prefab, finalPos, Quaternion.identity);
+            item.transform.SetParent(itemContainer);
         }
     }
 
-    private bool IsPositionClear(Vector3 pos)
+    // --- UTILITIES & SMART LOGIC ---
+
+    // Tính toán độ cao cần nâng lên nếu đụng vật cản
+    private float GetLiftHeight(Vector3 pos)
     {
-        Collider2D hit = Physics2D.OverlapCircle(pos, checkRadius, obstacleLayer);
-        return hit == null;
+        Collider2D hit = Physics2D.OverlapPoint(pos, obstacleLayer);
+        if (hit != null)
+        {
+            // Trả về khoảng cách từ pos.y đến mặt trên của vật cản + padding
+            return (hit.bounds.max.y - pos.y) + 1.0f;
+        }
+        return 0f;
     }
 
-    private float CalculateSmartLift(float x, float y, List<Vector2> localPoints)
+    // Logic căn giữa cho Prefab Pattern
+    private Vector3 GetSmartPosition(GameObject patternObj, Vector3 originalPos)
     {
-        float maxLift = 0;
-        foreach (Vector2 pt in localPoints)
+        // Tính Bounds của toàn bộ pattern
+        Bounds b = new Bounds(originalPos, Vector3.zero);
+        foreach (Renderer r in patternObj.GetComponentsInChildren<Renderer>())
         {
-            Vector2 check = new Vector2(x + pt.x * itemSpacing, y + pt.y * itemSpacing);
-            Collider2D hit = Physics2D.OverlapCircle(check, checkRadius, obstacleLayer);
-            if (hit)
+            b.Encapsulate(r.bounds);
+        }
+
+        // Check va chạm khu vực này
+        Collider2D hit = Physics2D.OverlapArea(b.min, b.max, obstacleLayer);
+        if (hit != null)
+        {
+            // Nếu đụng, dời pattern lên trên đỉnh vật cản đó
+            float newY = hit.bounds.max.y + (b.extents.y) + 1.0f;
+            // Căng giữa theo X của vật cản
+            float newX = hit.bounds.center.x;
+            return new Vector3(newX, newY, 0);
+        }
+        return originalPos;
+    }
+
+    // Logic check xem item có đang lơ lửng trên mini platform không
+    private bool IsOnMiniPlatform(Vector3 pos, out float left, out float right)
+    {
+        // Raycast xuống dưới để xem có phải MiniPlatform không
+        RaycastHit2D hit = Physics2D.Raycast(pos, Vector2.down, 5f, obstacleLayer);
+        if (hit.collider != null && hit.collider.name.Contains("Mini")) // Hoặc dùng Tag/Layer cụ thể
+        {
+            left = hit.collider.bounds.min.x + 0.5f; // Padding
+            right = hit.collider.bounds.max.x - 0.5f;
+            return true;
+        }
+        left = 0; right = 0;
+        return false;
+    }
+
+    // Spawn item dưới gầm
+    private void CheckSpawnUnderPlatform(float x, float groundY)
+    {
+        // Bắn Raycast lên trên xem có platform nào ở trên không
+        RaycastHit2D hit = Physics2D.Raycast(new Vector2(x, groundY), Vector2.up, 10f, obstacleLayer);
+        if (hit.collider != null)
+        {
+            float heightDiff = hit.collider.bounds.min.y - groundY;
+            if (heightDiff > 2.5f) // Đủ cao để đi qua
             {
-                float d = (hit.bounds.max.y + 1f) - check.y;
-                if (d > maxLift) maxLift = d;
+                if (UnityEngine.Random.value > 0.5f)
+                {
+                    ItemData coin = commonItems[0];
+                    Instantiate(coin.prefab, new Vector3(x, groundY + 0.5f, 0), Quaternion.identity, itemContainer);
+                }
             }
-        }
-        return maxLift;
-    }
-
-    private void SpawnItem(Vector3 pos)
-    {
-        ItemData d = GetRandomItem();
-        if (d != null)
-        {
-            GameObject i = Instantiate(d.prefab, pos, Quaternion.identity);
-            if (itemContainer) i.transform.SetParent(itemContainer.transform);
-            else i.transform.SetParent(transform);
-
-            activeItems.Enqueue(i);
-            i.GetComponent<Collectible>()?.Init(d.scoreValue);
-        }
-    }
-
-    private void RemoveOldItems()
-    {
-        if (activeItems.Count > 0)
-        {
-            GameObject o = activeItems.Peek();
-            if (o == null) { activeItems.Dequeue(); return; }
-            if (playerTransform != null && playerTransform.position.x - o.transform.position.x > destroyDistanceBehind)
-                Destroy(activeItems.Dequeue());
         }
     }
 
     private ItemData GetRandomItem()
     {
-        if (itemLibrary == null || itemLibrary.Count == 0) return null;
-        float t = 0; foreach (var i in itemLibrary) t += i.spawnWeight;
-        float r = Random.Range(0, t);
-        float c = 0; foreach (var i in itemLibrary) { c += i.spawnWeight; if (r < c) return i; }
-        return itemLibrary[0];
+        // Logic random cơ bản
+        return commonItems.Count > 0 ? commonItems[0] : null;
     }
 
-    private List<Vector2> GetTextPoints(string charType, int xOffset)
+    private PatternData GetRandomPattern()
     {
-        List<Vector2> pts = new List<Vector2>();
-        switch (charType)
-        {
-            case "V": pts.Add(new Vector2(0, 2)); pts.Add(new Vector2(2, 2)); pts.Add(new Vector2(0, 1)); pts.Add(new Vector2(2, 1)); pts.Add(new Vector2(1, 0)); break;
-            case "L": pts.Add(new Vector2(0, 2)); pts.Add(new Vector2(0, 1)); pts.Add(new Vector2(0, 0)); pts.Add(new Vector2(1, 0)); pts.Add(new Vector2(2, 0)); break;
-            case "U": pts.Add(new Vector2(0, 2)); pts.Add(new Vector2(2, 2)); pts.Add(new Vector2(0, 1)); pts.Add(new Vector2(2, 1)); pts.Add(new Vector2(0, 0)); pts.Add(new Vector2(1, 0)); pts.Add(new Vector2(2, 0)); break;
-            case "A": pts.Add(new Vector2(1, 2)); pts.Add(new Vector2(0, 1)); pts.Add(new Vector2(2, 1)); pts.Add(new Vector2(1, 1)); pts.Add(new Vector2(0, 0)); pts.Add(new Vector2(2, 0)); break;
-            case "+": pts.Add(new Vector2(1, 2)); pts.Add(new Vector2(0, 1)); pts.Add(new Vector2(1, 1)); pts.Add(new Vector2(2, 1)); pts.Add(new Vector2(1, 0)); break;
-        }
-        for (int i = 0; i < pts.Count; i++) pts[i] = new Vector2(pts[i].x + xOffset, pts[i].y);
-        return pts;
+        if (patterns.Count == 0) return null;
+        return patterns[UnityEngine.Random.Range(0, patterns.Count)];
     }
 }

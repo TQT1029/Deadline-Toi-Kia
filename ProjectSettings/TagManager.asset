@@ -6,6 +6,8 @@ TagManager:
   tags:
   - SpawnPoint
   - Bot
+  - Obstacle
+  - MiniPlatform
   layers:
   - Default
   - TransparentFX
@@ -15,7 +17,7 @@ TagManager:
   - UI
   - Platform
   - Obstacle
-  - 
+  - MiniPlatform
   - 
   - 
   - 

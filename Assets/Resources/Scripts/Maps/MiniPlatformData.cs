@@ -7,16 +7,12 @@ public class MiniPlatformData
     public GameObject prefab;
     public float spawnWeight = 10f;
 
-    public float Length
+    public float GetLength()
     {
-        get
-        {
-            if (prefab != null)
-            {
-                var col = prefab.GetComponent<BoxCollider2D>();
-                if (col != null) return col.size.x * prefab.transform.localScale.x;
-            }
-            return 5f; // Mặc định
-        }
+        if (prefab == null) return 5f;
+        var col = prefab.GetComponent<BoxCollider2D>();
+        // Scale mặc định của prefab khi chưa instantiate
+        if (col != null) return col.size.x * prefab.transform.localScale.x;
+        return 5f;
     }
 }

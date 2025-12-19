@@ -1466,7 +1466,6 @@ GameObject:
   m_Component:
   - component: {fileID: 721343294}
   - component: {fileID: 721343296}
-  - component: {fileID: 721343297}
   m_Layer: 0
   m_Name: Map
   m_TagString: Untagged
@@ -1512,8 +1511,7 @@ MonoBehaviour:
   - id: 
     prefab: {fileID: 7836390919332838603}
     spawnWeight: 100
-    itemHeightOffset: 0
-    length: 121.5728
+    manualLength: 20
   activeBasePlatforms:
   - {fileID: 6636799126918728997}
   mapType: 0
@@ -1528,55 +1526,6 @@ MonoBehaviour:
   distanceToTriggerTimer: 500
   countdownTime: 180
   timerText: {fileID: 0}
---- !u!114 &721343297
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 721343293}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 058bac9b31a5f7c4a917dc07a4401535, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerTransform: {fileID: 335606032}
-  objectContainer: {fileID: 0}
-  obstacleLibrary: []
-  itemLibrary:
-  - name: Coin
-    prefab: {fileID: 3501825626615947439, guid: 14bb9858d06c3e04c9a47f46ea37fb09, type: 3}
-    scoreValue: 10
-    spawnWeight: 100
-  - name: Diamond
-    prefab: {fileID: 3501825626615947439, guid: 938ac3824944f37468e6cb0d21478921, type: 3}
-    scoreValue: 50
-    spawnWeight: 2.5
-  - name: APlus
-    prefab: {fileID: 3501825626615947439, guid: af0e73e5ae7b79440929644bd7bd0792, type: 3}
-    scoreValue: 1000
-    spawnWeight: 0.1
-  miniPlatformLibrary: []
-  miniPlatformChance: 30
-  minChainLength: 3
-  maxChainLength: 5
-  minChainGap: 2
-  minFirstHeight: 1.5
-  maxFirstHeight: 2.5
-  minStepDiff: 0.5
-  maxStepDiff: 2
-  absoluteMaxHeight: 6
-  heightThresholdForUnderneath: 3
-  destroyDistanceBehind: 50
-  obstacleLayer:
-    serializedVersion: 2
-    m_Bits: 192
-  checkRadius: 0.4
-  minGap: 12
-  maxGap: 17
-  spawnObstacleChance: 40
-  itemOnObstacleChance: 70
-  itemSpacing: 1.25
 --- !u!1 &759242288
 GameObject:
   m_ObjectHideFlags: 0

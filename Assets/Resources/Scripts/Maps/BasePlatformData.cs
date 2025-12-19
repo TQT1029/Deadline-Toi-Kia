@@ -3,27 +3,22 @@
 [System.Serializable]
 public class BasePlatformData
 {
-    [Header("Identity")]
     public string id;
     public GameObject prefab;
-
-    [Tooltip("Tỉ lệ xuất hiện")]
     public float spawnWeight = 10f;
 
-    [Header("Physics Config")]
-    [Tooltip("Chiều dài của sàn (Nếu để 0 sẽ tự tính từ Collider)")]
-    public float manualLength = 20f;
+    [Tooltip("Nếu = 0 sẽ tự tính từ Collider")]
+    public float manualLength = 0f;
 
-    public float Length
+    public float GetLength()
     {
-        get
-        {
-            if (prefab != null && manualLength <= 0)
-            {
-                var col = prefab.GetComponent<BoxCollider2D>();
-                if (col != null) return col.size.x * prefab.transform.localScale.x;
-            }
-            return Mathf.Max(manualLength, 1f);
-        }
+        if (manualLength > 0) return manualLength;
+        if (prefab == null) return 20f;
+
+        var col = prefab.GetComponent<BoxCollider2D>();
+        // Sử dụng lossyScale để lấy scale toàn cục chính xác nhất
+        if (col != null) return col.size.x * prefab.transform.lossyScale.x;
+
+        return 20f;
     }
 }

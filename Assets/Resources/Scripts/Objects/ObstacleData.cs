@@ -5,22 +5,17 @@ public class ObstacleData
 {
     public string id;
     public GameObject prefab;
-
-    [Tooltip("Tự động tính chiều rộng và chiều cao từ Collider")]
     public bool autoCalculateSize = true;
     public float manualWidth = 2f;
-    public float manualHeight = 2f;
+    public float heightOffset = 0f; // Để chỉnh nếu pivot không nằm ở chân
 
-    public Vector2 Size
+    public float GetWidth()
     {
-        get
-        {
-            if (autoCalculateSize && prefab != null)
-            {
-                var col = prefab.GetComponent<Collider2D>();
-                if (col != null) return col.bounds.size;
-            }
-            return new Vector2(manualWidth, manualHeight);
-        }
+        if (!autoCalculateSize) return manualWidth;
+        if (prefab == null) return 2f;
+
+        var col = prefab.GetComponent<BoxCollider2D>();
+        if (col != null) return col.size.x * prefab.transform.localScale.x;
+        return 2f;
     }
 }

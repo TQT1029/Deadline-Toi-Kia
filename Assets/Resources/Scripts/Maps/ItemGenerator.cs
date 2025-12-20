@@ -7,7 +7,7 @@ public class ItemGenerator : MonoBehaviour
     private void Awake() => Instance = this;
 
     [Header("References")]
-    public Transform container;
+    public Transform itemContainer;
     [Tooltip("Danh sách Coin thường")]
     public List<ItemData> commonItems;
     [Tooltip("Danh sách Power-up (Hiếm)")]
@@ -177,7 +177,7 @@ public class ItemGenerator : MonoBehaviour
         ItemData data = GetRandomItem();
         if (data != null && data.prefab != null)
         {
-            GameObject obj = Instantiate(data.prefab, pos, Quaternion.identity, container);
+            GameObject obj = Instantiate(data.prefab, pos, Quaternion.identity, itemContainer);
             // Setup script Collectible nếu cần
         }
     }

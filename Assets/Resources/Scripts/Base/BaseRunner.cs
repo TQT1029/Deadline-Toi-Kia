@@ -14,7 +14,7 @@ public class BaseRunner : MonoBehaviour
 
     [Header("Ground Detection")]
     public Transform groundCheck;
-    public float groundCheckRadius = 0.2f;
+    public float groundCheckRadius = 0.3f;
     public LayerMask groundLayer;
 
     [Header("Map Safety (Chống rơi khỏi map)")]
@@ -85,7 +85,7 @@ public class BaseRunner : MonoBehaviour
     protected void CheckGround()
     {
         if (groundCheck != null)
-            isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
+            isGrounded = Physics2D.OverlapBox(groundCheck.position, new Vector2(3.7f/2f, groundCheckRadius),0, groundLayer);
     }
 
     protected virtual void CheckStuck()

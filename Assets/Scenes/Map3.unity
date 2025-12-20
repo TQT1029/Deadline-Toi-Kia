@@ -3081,13 +3081,18 @@ MonoBehaviour:
   obstacleEdgePadding: 2
   minObstacleGap: 10
   maxObstacleGap: 12
-  miniPlatformChance: 50
   minBridgeHeight: -1
   maxBridgeHeight: 2
   minGapBridge: 1
   maxGapBridge: 2
+  miniPlatformChance: 20
   aerialHeight: 3
-  maxHeightMap: 10
+  minAerialCount: 3
+  maxAerialCount: 6
+  minAerialHeight: -1
+  maxAerialHeight: 2
+  minGapAerial: 1
+  maxGapAerial: 2
 --- !u!114 &1002921626
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3104,7 +3109,6 @@ MonoBehaviour:
   itemGenerator: {fileID: 1078367682}
   player: {fileID: 1193955504}
   generationDistance: 100
-  chunkLength: 50
   destroyDistanceBehind: 50
 --- !u!4 &1002921627
 Transform:
@@ -3239,7 +3243,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46fffabb10140334a8cc5cb1d17fa10d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  container: {fileID: 1078367681}
+  itemContainer: {fileID: 0}
   commonItems:
   - id: 1
     prefab: {fileID: 3501825626615947439, guid: 14bb9858d06c3e04c9a47f46ea37fb09, type: 3}

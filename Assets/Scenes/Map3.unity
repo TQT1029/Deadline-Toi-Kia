@@ -283,7 +283,7 @@ Transform:
   m_GameObject: {fileID: 14420747}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.07242966, y: 1, z: -10}
+  m_LocalPosition: {x: 7.5724297, y: 1, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -688,7 +688,7 @@ Transform:
   m_GameObject: {fileID: 125938558}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -7.5, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1402,7 +1402,7 @@ Transform:
   m_GameObject: {fileID: 283707765}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -7.5, y: -1.5, z: 0}
+  m_LocalPosition: {x: 0, y: -1.5, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2463,7 +2463,7 @@ Transform:
   m_GameObject: {fileID: 865238309}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -7.5, y: -1.5, z: 0}
+  m_LocalPosition: {x: 0, y: -1.5, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -2816,7 +2816,7 @@ Transform:
   m_GameObject: {fileID: 895793269}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -7.5, y: -1.5, z: 0}
+  m_LocalPosition: {x: 0, y: -1.5, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -2925,7 +2925,7 @@ Transform:
   m_GameObject: {fileID: 920687758}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.07242966, y: 1, z: -10}
+  m_LocalPosition: {x: 7.5724297, y: 1, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3068,27 +3068,24 @@ MonoBehaviour:
     heightOffset: 0
   miniPlatformLibrary:
   - id: m1
-    prefab: {fileID: 2997676687723301785, guid: 85a0f2dbd00cb68498978bf34bbeae87, type: 3}
-    spawnWeight: 20
-  - id: m2
     prefab: {fileID: 7650719088838195618, guid: 3aee55d72242cd94297032aa4bcfc750, type: 3}
     spawnWeight: 50
-  - id: m3
+  - id: m2
     prefab: {fileID: 6899700398074020138, guid: ce1303e226a7f884c9b4ccca49eafe10, type: 3}
     spawnWeight: 100
   groundY: -5
   pitChance: 30
-  minPitWidth: 7
+  minPitWidth: 10
   maxPitWidth: 30
   obstacleChance: 60
   obstacleEdgePadding: 2
   minObstacleGap: 10
   maxObstacleGap: 12
   miniPlatformChance: 50
-  minBridgeHeight: -2
+  minBridgeHeight: -1
   maxBridgeHeight: 2
   minGapBridge: 1
-  maxGapBridge: 0.5
+  maxGapBridge: 2
   aerialHeight: 3
   maxHeightMap: 10
 --- !u!114 &1002921626
@@ -3368,7 +3365,7 @@ Transform:
   m_GameObject: {fileID: 1193955503}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -7.5, y: -1.5, z: 0}
+  m_LocalPosition: {x: 0, y: -1.5, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -3765,7 +3762,7 @@ Transform:
   m_GameObject: {fileID: 1363388291}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -7.5, y: -1.5, z: 0}
+  m_LocalPosition: {x: 0, y: -1.5, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -6468,7 +6465,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!61 &8821387655056186809
 BoxCollider2D:
   m_ObjectHideFlags: 0

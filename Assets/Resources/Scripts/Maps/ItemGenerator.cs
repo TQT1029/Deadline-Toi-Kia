@@ -10,14 +10,22 @@ public class ItemGenerator : MonoBehaviour
     public Transform itemContainer;
     [Tooltip("Danh sách Coin thường")]
     public List<ItemData> commonItems;
-    [Tooltip("Danh sách Power-up (Hiếm)")]
-    public List<ItemData> rareItems;
 
     [Header("Settings")]
     public LayerMask surfaceLayer; // Gồm: Ground, Obstacle, MiniPlatform
     public float itemSpacing = 1.0f; // Khoảng cách giữa các item
     public float liftPadding = 1.0f; // Nâng lên bao nhiêu so với vật cản
     public float checkRadius = 0.2f; // Bán kính check va chạm
+
+    [Space]
+    [Tooltip("Xác suất spawn item trên vật cản (%)")]
+    [SerializeField, Range(0, 100)] private float obstacleChanceItems = 50f;
+    [Tooltip("Xác suất spawn item trên sàn bay (%)")]
+    [SerializeField, Range(0, 100)] private float platformChanceItems = 70f;
+
+    [Space]
+    [Tooltip("Khoảng cách từ mặt đất đến vị trí spawn item")]
+    [SerializeField] private float groundPadding = 1.0f;
 
     // ENUM CÁC PATTERN TỪ SCRIPT GỐC
     public enum ItemPattern
@@ -43,25 +51,27 @@ public class ItemGenerator : MonoBehaviour
                 bool isObstacle = hitObj.CompareTag("Obstacle");
                 bool isPlatform = hitObj.CompareTag("MiniPlatform");
 
-                if (isObstacle || isPlatform)
+                if (isObstacle)
                 {
-                    // --- TRÊN VẬT CẢN / SÀN BAY ---
-                    // Chỉ spawn các hình đơn giản (Line, Cung nhỏ)
-                    // Căn giữa theo vật thể đó
-                    float objectWidth = hit.collider.bounds.size.x;
-                    float objectTop = hit.collider.bounds.max.y;
-                    float objectCenterX = hit.collider.bounds.center.x;
-
-                    SpawnOnTop(objectCenterX, objectTop, objectWidth);
-
+                    // --- TRÊN VẬT CẢN ---
+                    SpawnOnTopChance(obstacleChanceItems, hit);
                     // Nhảy cóc qua vật cản này để không spawn đè lên nó nữa
                     currentX = hit.collider.bounds.max.x + Random.Range(1f, 3f);
+
+                }
+                else if (isPlatform)
+                {
+                    // --- TRÊN SÀN BAY ---
+                    SpawnOnTopChance(platformChanceItems, hit);
+                    // Nhảy cóc qua vật cản này để không spawn đè lên nó nữa
+                    currentX = hit.collider.bounds.max.x + Random.Range(1f, 3f);
+
                 }
                 else
                 {
                     // --- TRÊN MẶT ĐẤT TRỐNG ---
                     // Spawn các hình phức tạp (Wave, Text, Grid...)
-                    float groundY = hit.point.y;
+                    float groundY = hit.point.y + groundPadding;
 
                     // Random khoảng trống an toàn trước khi spawn
                     currentX += Random.Range(1f, 3f);
@@ -77,6 +87,20 @@ public class ItemGenerator : MonoBehaviour
                 currentX += 2f; // Nếu không thấy đất thì đi tiếp
             }
         }
+    }
+
+    private void SpawnOnTopChance(float chance, RaycastHit2D hit)
+    {
+        if (!RandomUtilities.ChancePercent(chance)) return;
+
+        // --- TRÊN VẬT CẢN / SÀN BAY ---
+        // Chỉ spawn các hình đơn giản (Line, Cung nhỏ)
+        // Căn giữa theo vật thể đó
+        float objectWidth = hit.collider.bounds.size.x;
+        float objectTop = hit.collider.bounds.max.y;
+        float objectCenterX = hit.collider.bounds.center.x;
+
+        SpawnOnTop(objectCenterX, objectTop, objectWidth);
     }
 
     // --- LOGIC 1: SPAWN TRÊN ĐỈNH (Đơn giản) ---
@@ -184,9 +208,19 @@ public class ItemGenerator : MonoBehaviour
 
     private ItemData GetRandomItem()
     {
-        if (commonItems.Count == 0) return null;
-        if (rareItems.Count > 0 && Random.value < 0.1f) return rareItems[Random.Range(0, rareItems.Count)];
-        return commonItems[Random.Range(0, commonItems.Count)];
+        if (commonItems.Count == 0 || commonItems == null) return null;
+
+        float totalWeightValue = 0f;
+
+        foreach (var item in commonItems) totalWeightValue += item.spawnWeight;
+
+        for (int i = 0; i < commonItems.Count; i++)
+        {
+            if (RandomUtilities.ChanceWeight(commonItems[i].spawnWeight, totalWeightValue))
+                return commonItems[i];
+        }
+
+        return commonItems[0];
     }
 
     // Hàm vẽ chữ cái cũ của bạn

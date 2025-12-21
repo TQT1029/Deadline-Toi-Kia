@@ -16,37 +16,29 @@ public class EndlessGameController : MonoBehaviour
     [Header("Cleanup Settings")]
     public float destroyDistanceBehind = 50f;
 
-    private float lastEdgeX = 0f; // Mép phải ngoài cùng của bản đồ hiện tại
+    private float lastEdgeX = 0f;
+    private float lastItemEdgeX = 0f;
 
     private void Start()
     {
         if (player == null) player = ReferenceManager.Instance.PlayerTransform;
 
-        // Khởi tạo đoạn đầu tiên (Đất bằng phẳng an toàn)
         int oldPit = mapGenerator.pitChance;
-        mapGenerator.pitChance = 0; // Tắt hố đoạn đầu
+        mapGenerator.pitChance = 0;
 
-        // Spawn 3 đoạn đầu tiên làm nền
         for (int i = 0; i < 3; i++)
         {
             SpawnNextPiece();
-            Physics2D.SyncTransforms(); // Đồng bộ vật lý ngay sau khi spawn đất để tránh lỗi va chạm
-            if (mapGenerator.currentGrounds.ContainsKey(mapGenerator.groundIDCounter) && )
-                SpawnObstacle();
         }
 
-        mapGenerator.pitChance = oldPit; // Bật lại hố
+        mapGenerator.pitChance = oldPit;
     }
 
     private void Update()
     {
-        // Kiểm tra nếu người chơi sắp đi hết đường thì spawn tiếp
         if (player.position.x + generationDistance > lastEdgeX)
         {
             SpawnNextPiece();
-            Physics2D.SyncTransforms(); // Đồng bộ vật lý ngay sau khi spawn đất để tránh lỗi va chạm
-            if (mapGenerator.currentGrounds.ContainsKey(mapGenerator.groundIDCounter - 1))
-                SpawnObstacle();
         }
 
         CleanupOldObjects();
@@ -54,19 +46,20 @@ public class EndlessGameController : MonoBehaviour
 
     private void SpawnNextPiece()
     {
-        float startX = lastEdgeX;
-
-        // BƯỚC 1: Gọi MapGenerator sinh đoạn đất/hố tiếp theo
-        // Hàm này sẽ tự động sinh Obstacle và MiniPlatform đi kèm luôn
-        // và trả về vị trí kết thúc mới (newEdge)
-        float newEdgeX = mapGenerator.SpawnNextSegment(startX);
-        // Cập nhật mép mới
+        // Sinh đất
+        float newEdgeX = mapGenerator.SpawnNextSegment(lastEdgeX);
         lastEdgeX = newEdgeX;
-    }
 
-    private void SpawnObstacle()
-    {
-        mapGenerator.SpawnObstaclesOnSegment(mapGenerator.currentGrounds[mapGenerator.groundIDCounter].startX, mapGenerator.currentGrounds[mapGenerator.groundIDCounter].endX);
+        // Sync lần cuối ở controller để chắc chắn mọi thứ đã khớp collider
+        Physics2D.SyncTransforms();
+
+        // Kiểm tra xem MapGenerator đã "chốt" được đoạn nào chưa (có Obstacle/Platform)
+        // Kể cả đất dài hay hố, nếu LastPopulatedEdge tăng lên, ta rải item
+        if (mapGenerator.LastPopulatedEdge > lastItemEdgeX)
+        {
+            itemGenerator.GenerateItems(lastItemEdgeX, mapGenerator.LastPopulatedEdge);
+            lastItemEdgeX = mapGenerator.LastPopulatedEdge;
+        }
     }
 
     private void CleanupOldObjects()

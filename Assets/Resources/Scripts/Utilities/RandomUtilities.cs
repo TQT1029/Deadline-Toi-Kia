@@ -31,4 +31,30 @@ public static class RandomUtilities
         float result = minInp + randIndex * steps;
         return result;
     }
+
+    /// <summary>
+    /// Hàm tính xác suất dựa trên phần trăm (0-100%).
+    /// </summary>
+    /// <param name="percentage">phần trăm đầu vào.</param>
+    /// <returns>Trả về true nếu giá trị random ra bé hơn phần trăm đầu vào.</returns>
+    public static bool ChancePercent(float percentage)
+    {
+        if (percentage <= 0f) return false;
+        if (percentage >= 100f) return true;
+        float randValue = Random.Range(0f, 100f);
+        return randValue < percentage;
+    }
+
+    /// <summary>
+    /// Hàm tính xác suất dựa trên trọng số (weight) so với tổng trọng số (totalWeight).
+    /// </summary>
+    /// <param name="weight">Trọng số của vật</param>
+    /// <param name="totalWeight">Tổng trọng số tất cả các vật</param>
+    public static bool ChanceWeight(float weight, float totalWeight)
+    {
+        if (weight <= 0f) return false;
+        if (weight >= totalWeight) return true;
+        float randValue = Random.Range(0f, totalWeight);
+        return randValue < weight;
+    }
 }

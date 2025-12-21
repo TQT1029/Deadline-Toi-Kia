@@ -10,7 +10,7 @@ public class MapGenerator : MonoBehaviour
     public Transform basePlatformObjs;
     public Transform obstacleObjs;
     public Transform miniPlatformObjs;
-    public LayerMask obstacleLayer; // Layer của Obstacle/MiniPlatform
+    public LayerMask obstacleLayer;
 
     [Header("Libraries")]
     public List<BasePlatformData> baseLibrary;
@@ -20,125 +20,117 @@ public class MapGenerator : MonoBehaviour
     [Header("Settings")]
     public float groundY = -2f;
     [Range(0, 100)] public int pitChance = 30;
-    public int minPitWidth = 3, maxPitWidth = 6;
+    public float minPitWidth = 3f, maxPitWidth = 6f;
+
+    [Header("Segment Logic")]
+    [Tooltip("Độ dài tối đa của một đoạn đất trước khi buộc phải spawn vật cản")]
+    [SerializeField] private float maxGroundSegmentLength = 75f;
 
     [Header("Obstacle Logic")]
     [Range(0, 100)] public int obstacleChance = 60;
-    [SerializeField] private float obstacleEdgePadding = 2f; // Cách mép đất tối thiểu
+    [SerializeField] private float obstacleEdgePadding = 2f;
     [SerializeField] private float minObstacleGap = 7f;
     [SerializeField] private float maxObstacleGap = 12f;
 
     [Header("Mini Platform Bridge")]
-
-    [Tooltip("độ cao so với platform trước đó")]
-    [SerializeField] private int minBridgeHeight = -1; // Chiều cao khi bắc qua hố
-    [SerializeField] private int maxBridgeHeight = 2; // Chiều cao khi bắc qua hố
-
-    [Tooltip("Khoảng cách gần/xa giữa các tấm cầu")]
-    [SerializeField] private int minGapBridge = 1; // Khoảng cách nhỏ giữa các miếng cầu
-    [SerializeField] private int maxGapBridge = 2; // Khoảng cách nhỏ giữa các miếng cầu
+    [Tooltip("Độ cao so với platform trước đó")]
+    [SerializeField] private float minBridgeHeight = -1f;
+    [SerializeField] private float maxBridgeHeight = 2f;
+    [SerializeField] private float minGapBridge = 0.5f;
+    [SerializeField] private float maxGapBridge = 1.5f;
 
     [Header("Mini Platform Aerial")]
-    [Tooltip("Xác suất spawn mini platform trên đất liền")]
-    [SerializeField, Range(0, 100)] private int miniPlatformChance = 50;
-
-    [SerializeField] private float aerialHeight = 3f; // Chiều cao khi bay trên đất
-    [Tooltip("Số lượng mini platform sẽ spawn")]
+    [Range(0, 100)] public int miniPlatformChance = 50;
+    public float aerialHeight = 3f;
+    [SerializeField] private float minAerialHeight = -1f;
+    [SerializeField] private float maxAerialHeight = 2f;
+    [SerializeField] private float minGapAerial = 1f;
+    [SerializeField] private float maxGapAerial = 2f;
     [SerializeField] private int minAerialCount = 3;
     [SerializeField] private int maxAerialCount = 6;
+    [SerializeField] private float maxHeightMap = 10f;
 
-    [Tooltip("độ cao so với platform trước đó")]
-    [SerializeField] private int minAerialHeight = -1; // Chiều cao khi bắc qua hố
-    [SerializeField] private int maxAerialHeight = 2; // Chiều cao khi bắc qua hố
+    private float currentGroundStart = 0f;
+    public float LastPopulatedEdge { get; private set; } = 0f;
 
-    [Tooltip("Khoảng cách gần/xa giữa các tấm cầu")]
-    [SerializeField] private int minGapAerial = 1; // Khoảng cách nhỏ giữa các miếng cầu
-    [SerializeField] private int maxGapAerial = 2; // Khoảng cách nhỏ giữa các miếng cầu
-
-
-
-    // Struct lưu trữ thông tin đất để dùng cho các bước sau
-    public struct GroundSegment { public float startX; public float endX; }
-
-    public Dictionary<int, GroundSegment> currentGrounds = new Dictionary<int, GroundSegment>();
-
-    public int groundIDCounter = 0;
-    private float startGroundX = 0f;
-    private float endGroundX = 0f;
-
-
-    // --- STEP 1: BASE LAYER ---
-    // Trả về vị trí X kết thúc của đoạn vừa sinh (LastMaxEdge mới)
     public float SpawnNextSegment(float currentX)
     {
-        // 1. Kiểm tra xem có tạo hố không
-        // (Chỉ tạo hố nếu đoạn trước không phải là hố để tránh hố liên hoàn quá khó)
+        if (currentX == 0 && currentGroundStart == 0) currentGroundStart = 0;
+
         bool createPit = Random.Range(0, 100) < pitChance;
 
         if (createPit)
         {
+            // --- GẶP HỐ: CHỐT SỔ ĐOẠN ĐẤT CŨ ---
+            if (currentX > currentGroundStart)
+            {
+                PopulateSegment(currentGroundStart, currentX);
+            }
 
-            groundIDCounter++;
-
-            // --- XỬ LÝ HỐ ---
+            // Tạo Hố & Cầu
             float pitWidth = RandomUtilities.RandomWithSteps(minPitWidth, maxPitWidth, 0.5f);
-            float endX = currentX + pitWidth;
+            float endPitX = currentX + pitWidth;
 
+            SpawnBridge(currentX, endPitX);
 
+            LastPopulatedEdge = endPitX;
+            currentGroundStart = endPitX;
 
-            // Bắt buộc tạo cầu bắc qua hố nếu hố đủ rộng
-            if (pitWidth >= 15)
-                SpawnBridge(currentX, endX);
-
-            startGroundX = endX;
-            CheckCurrentGrounds(groundIDCounter, startGroundX, endGroundX);
-            return endX; // Trả về mép bên kia hố
+            return endPitX;
         }
         else
         {
-            // --- XỬ LÝ ĐẤT LIỀN ---
-            // A. Tạo Base Platform
+            // --- TẠO ĐẤT ---
             BasePlatformData data = baseLibrary[Random.Range(0, baseLibrary.Count)];
-
-            // Tính vị trí tâm để đặt
-            // Lưu ý: Chúng ta chưa biết length thực tế cho đến khi Instantiate xong nếu dùng auto-size
-            // Nên ta tạm lấy length từ data để tính pos, sau đó fix lại nếu cần
             float estimatedLen = data.GetLength();
             Vector3 pos = new Vector3(currentX + estimatedLen / 2f, groundY, 0);
 
             GameObject obj = Instantiate(data.prefab, pos, Quaternion.identity, basePlatformObjs);
 
-            //Lấy size chuẩn xác từ object vừa sinh ra
+            // Fix size & pos
             float actualLen = estimatedLen;
             var col = obj.GetComponent<BoxCollider2D>();
-            if (col != null)
-            {
-                // Cập nhật lại size collider cho khớp data (nếu cần) hoặc lấy size từ collider
-                // Ở đây ta ưu tiên lấy size thực tế của collider * scale
-                actualLen = col.size.x * obj.transform.localScale.x;
-            }
+            if (col != null) actualLen = col.size.x * obj.transform.localScale.x;
 
-            // Nếu actualLen khác estimatedLen, ta cần dời vị trí obj lại cho đúng mép trái
             if (Mathf.Abs(actualLen - estimatedLen) > 0.01f)
             {
                 obj.transform.position = new Vector3(currentX + actualLen / 2f, groundY, 0);
             }
 
-            float endX = currentX + actualLen;
+            float segmentEnd = currentX + actualLen;
 
+            // [NÂNG CẤP] Kiểm tra độ dài đất tích lũy
+            // Nếu đoạn đất hiện tại (từ currentGroundStart đến segmentEnd) quá dài -> Spawn ngay
+            if (segmentEnd - currentGroundStart >= maxGroundSegmentLength)
+            {
+                PopulateSegment(currentGroundStart, segmentEnd);
 
-            endGroundX = endX;
-            CheckCurrentGrounds(groundIDCounter, startGroundX, endGroundX);
-            return endX; // Trả về mép cuối của miếng đất
+                LastPopulatedEdge = segmentEnd;
+                currentGroundStart = segmentEnd; // Reset điểm bắt đầu cho đoạn tiếp theo
+            }
+
+            return segmentEnd;
         }
-
     }
 
-    // --- LOGIC PHỤ: OBSTACLE ---
-    public void SpawnObstaclesOnSegment(float startX, float endX)
+    // Hàm chung để sinh vật cản và sàn bay cho một đoạn đất
+    private void PopulateSegment(float startX, float endX)
     {
-        float currentX = startX + obstacleEdgePadding;
-        float limitX = endX - obstacleEdgePadding;
+        // 1. Sinh Obstacle trước
+        SpawnObstaclesOnSegment(startX, endX);
+
+        // [QUAN TRỌNG] Cập nhật vật lý ngay lập tức 
+        // Để bước SpawnAerial bên dưới có thể Raycast thấy Obstacle vừa tạo
+        Physics2D.SyncTransforms();
+
+        // 2. Sinh Aerial Platform (sẽ né được Obstacle nhờ dòng trên)
+        SpawnAerialOnSegment(startX, endX);
+    }
+
+    private void SpawnObstaclesOnSegment(float startX, float endX)
+    {
+        float currentX = startX + obstacleEdgePadding + RandomUtilities.RandomWithSteps(minObstacleGap, maxObstacleGap);
+        float limitX = endX - obstacleEdgePadding - RandomUtilities.RandomWithSteps(minObstacleGap, maxObstacleGap);
 
         while (currentX < limitX)
         {
@@ -147,7 +139,6 @@ public class MapGenerator : MonoBehaviour
                 ObstacleData obs = obstacleLibrary[Random.Range(0, obstacleLibrary.Count)];
                 Vector2 size = obs.GetSize();
 
-                // Kiểm tra đủ chỗ không
                 if (currentX + size.x <= limitX)
                 {
                     Vector3 pos = new Vector3(currentX + size.x / 2f, groundY, 0);
@@ -155,96 +146,78 @@ public class MapGenerator : MonoBehaviour
                     currentX += size.x;
                 }
             }
-            // Cách ra một đoạn ngẫu nhiên
             currentX += RandomUtilities.RandomWithSteps(minObstacleGap, maxObstacleGap, 0.5f);
         }
     }
 
-    // --- LOGIC PHỤ: MINI PLATFORM ---
+    private void SpawnAerialOnSegment(float startX, float endX)
+    {
+        if (Random.Range(0, 100) < miniPlatformChance)
+        {
+            int count = Random.Range(minAerialCount, maxAerialCount + 1);
+            float tryX = Random.Range(startX + 2f, Mathf.Max(startX + 2f, endX - 5f));
+            float lastY = groundY + aerialHeight;
 
-    // 1. Cầu qua hố
+            for (int i = 0; i < count; i++)
+            {
+                if (tryX > endX - 1f) break;
+
+                MiniPlatformData data = miniPlatformLibrary[Random.Range(0, miniPlatformLibrary.Count)];
+                float len = data.GetLength();
+                Vector3 pos = new Vector3(tryX, lastY, 0);
+
+                // Check va chạm Obstacle
+                Collider2D hit = Physics2D.OverlapBox(pos, new Vector2(len + 1f, 6f), 0, obstacleLayer);
+
+                if (hit == null)
+                {
+                    Instantiate(data.prefab, pos, Quaternion.identity, miniPlatformObjs);
+                    lastY = pos.y + RandomUtilities.RandomWithSteps(minAerialHeight, maxAerialHeight, 0.5f);
+                    tryX += len + RandomUtilities.RandomWithSteps(minGapAerial, maxGapAerial, 1);
+                }
+                else
+                {
+                    // Né Obstacle: Đặt cao hơn
+                    pos.y = hit.bounds.max.y + 2.5f;
+                    pos.x = hit.bounds.max.x + 1f; // Nhích tới 1 chút để không dính
+
+                    if (pos.y < maxHeightMap)
+                    {
+                        Instantiate(data.prefab, pos, Quaternion.identity, miniPlatformObjs);
+                        lastY = pos.y + RandomUtilities.RandomWithSteps(minAerialHeight, maxAerialHeight, 0.5f);
+                        tryX += len + RandomUtilities.RandomWithSteps(minGapAerial, maxGapAerial, 0.5f);
+                    }
+                }
+            }
+        }
+    }
+
     private void SpawnBridge(float startX, float endX)
     {
-        float currentX = startX + 1f; // Lùi vào trong hố một chút
-        float limit = endX - 1f;
+        float currentX = startX + 0.5f;
+        float limit = endX - 0.5f;
         float lastY = groundY;
-
+        int bridgeAttempts = 0;
         while (currentX < limit)
         {
-            MiniPlatformData data = miniPlatformLibrary[Random.Range(0, miniPlatformLibrary.Count)];
+            MiniPlatformData data = miniPlatformLibrary[Random.Range(bridgeAttempts, miniPlatformLibrary.Count)];
             float len = data.GetLength();
 
-            // Tính Y mới
+            // Đảm bảo cầu không vượt quá giới hạn hố
+            while (currentX + len > limit && bridgeAttempts < miniPlatformLibrary.Count - 1)
+            {
+                bridgeAttempts++;
+                if (bridgeAttempts == miniPlatformLibrary.Count) data = miniPlatformLibrary[miniPlatformLibrary.Count];
+                data = miniPlatformLibrary[Random.Range(bridgeAttempts, miniPlatformLibrary.Count)];
+            }
+
             float nextY = lastY + RandomUtilities.RandomWithSteps(minBridgeHeight, maxBridgeHeight, 0.5f);
 
             Vector3 pos = new Vector3(currentX + len / 2f, nextY, 0);
             Instantiate(data.prefab, pos, Quaternion.identity, miniPlatformObjs);
 
             lastY = pos.y;
-            currentX += len + RandomUtilities.RandomWithSteps(minGapBridge, maxGapBridge, 0.5f);
+            currentX += len + RandomUtilities.RandomWithSteps(minGapBridge, maxGapBridge, 1);
         }
-    }
-
-    // 2. Sàn bay trên đất
-    public void SpawnAerialOnSegment(float startX, float endX)
-    {
-        if (Random.Range(0, 100) < miniPlatformChance)
-        {
-            int count = Random.Range(minAerialCount, maxAerialCount + 1);
-
-            // Chọn vị trí ngẫu nhiên trên mặt đất để bắt đầu chuỗi mini platform
-            float tryX = Random.Range(startX + 2f, endX / 2f);
-            float lastY = groundY + aerialHeight;
-            for (int i = 0; i < count; i++)
-            {
-                MiniPlatformData data = miniPlatformLibrary[Random.Range(0, miniPlatformLibrary.Count)];
-                float len = data.GetLength();
-
-                Vector3 pos = new Vector3(tryX, lastY, 0);
-
-                // Kiểm tra va chạm với Obstacle vừa tạo ở bước trước
-                Collider2D hit = Physics2D.OverlapBox(pos, new Vector2(len + 1f, 6f), 0, obstacleLayer);
-
-                if (hit == null)
-                {
-                    // Không vướng -> Spawn bình thường
-                    Instantiate(data.prefab, pos, Quaternion.identity, miniPlatformObjs);
-                    lastY = pos.y + RandomUtilities.RandomWithSteps(minAerialHeight, maxAerialHeight, 0.5f);
-                    tryX += len + RandomUtilities.RandomWithSteps(minGapAerial, maxGapAerial, 0.5f);
-                }
-                else
-                {
-                    // Vướng Obstacle -> Đặt cao lên trên đầu nó và nhích tới
-                    pos.y = hit.bounds.max.y + 2.5f;
-                    pos.x = hit.bounds.max.x + 1f;
-
-                    Instantiate(data.prefab, pos, Quaternion.identity, miniPlatformObjs);
-                    lastY = pos.y + RandomUtilities.RandomWithSteps(minAerialHeight, maxAerialHeight, 0.5f);
-                    tryX += len + RandomUtilities.RandomWithSteps(minGapAerial, maxGapAerial, 0.5f);
-                }
-            }
-        }
-    }
-
-    //--- HELPER FUNCTIONS ---
-
-    /// <summary>
-    /// Hàm tính và lưu trữ thông tin các đoạn đất hiện có theo id
-    /// </summary>
-    /// <param name="groundID">id của đoạn đất</param>
-    /// <param name="startGroundX">điểm bắt đầu</param>
-    /// <param name="endGroundX">điểm kết thúc</param>
-    private void CheckCurrentGrounds(int groundID, float startGroundX, float endGroundX)
-    {
-        if (!currentGrounds.ContainsKey(groundID))
-        {
-            currentGrounds.Add(groundID, new GroundSegment { startX = startGroundX, endX = endGroundX });
-        }
-        else
-        {
-            currentGrounds[groundID] = new GroundSegment { startX = startGroundX, endX = endGroundX };
-        }
-
-        Debug.Log($"Ground ID: {groundID}, StartX: {startGroundX}, EndX: {endGroundX}");
     }
 }

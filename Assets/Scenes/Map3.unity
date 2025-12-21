@@ -2310,7 +2310,7 @@ MonoBehaviour:
   groundCheckRadius: 0.15
   groundLayer:
     serializedVersion: 2
-    m_Bits: 192
+    m_Bits: 448
   fallThresholdY: -10
   adjustDist: 10
   targetPlayer: {fileID: 1193955504}
@@ -2663,7 +2663,7 @@ MonoBehaviour:
   groundCheckRadius: 0.15
   groundLayer:
     serializedVersion: 2
-    m_Bits: 192
+    m_Bits: 448
   fallThresholdY: -10
   adjustDist: 10
   targetPlayer: {fileID: 1193955504}
@@ -3070,9 +3070,11 @@ MonoBehaviour:
   - id: m1
     prefab: {fileID: 7650719088838195618, guid: 3aee55d72242cd94297032aa4bcfc750, type: 3}
     spawnWeight: 20
+    manualLength: 0
   - id: m2
     prefab: {fileID: 6899700398074020138, guid: ce1303e226a7f884c9b4ccca49eafe10, type: 3}
     spawnWeight: 100
+    manualLength: 0
   groundY: -5
   pitChance: 30
   minPitWidth: 10
@@ -3087,7 +3089,7 @@ MonoBehaviour:
   minGapBridge: 1
   maxGapBridge: 2
   miniPlatformChance: 20
-  aerialHeight: 3
+  aerialHeight: 4
   minAerialHeight: -1
   maxAerialHeight: 2
   minGapAerial: 1
@@ -3254,11 +3256,11 @@ MonoBehaviour:
   - id: 2
     prefab: {fileID: 3501825626615947439, guid: 938ac3824944f37468e6cb0d21478921, type: 3}
     scoreValue: 50
-    spawnWeight: 10
+    spawnWeight: 20
   - id: 3
     prefab: {fileID: 3501825626615947439, guid: af0e73e5ae7b79440929644bd7bd0792, type: 3}
     scoreValue: 1000
-    spawnWeight: 0.1
+    spawnWeight: 1
   surfaceLayer:
     serializedVersion: 2
     m_Bits: 192
@@ -3267,6 +3269,7 @@ MonoBehaviour:
   checkRadius: 0.2
   obstacleChanceItems: 50
   platformChanceItems: 70
+  groundPadding: 1
 --- !u!1 &1171249704
 GameObject:
   m_ObjectHideFlags: 0
@@ -3420,7 +3423,7 @@ MonoBehaviour:
   groundCheckRadius: 0.15
   groundLayer:
     serializedVersion: 2
-    m_Bits: 192
+    m_Bits: 448
   fallThresholdY: -10
   accelerationRate: 2
   jumpHoldForce: 2.5
@@ -3616,7 +3619,7 @@ MonoBehaviour:
   groundCheckRadius: 0.15
   groundLayer:
     serializedVersion: 2
-    m_Bits: 192
+    m_Bits: 448
   fallThresholdY: -10
   adjustDist: 10
   targetPlayer: {fileID: 1193955504}

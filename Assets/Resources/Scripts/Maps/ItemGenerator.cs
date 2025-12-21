@@ -30,7 +30,7 @@ public class ItemGenerator : MonoBehaviour
     // ENUM CÁC PATTERN TỪ SCRIPT GỐC
     public enum ItemPattern
     {
-        Line, Grid, Wave, ArrowComplex, Diamond, RectHollow,
+        Line, Grid, Wave, Diamond, RectHollow,
         RectVertical, RectHorizontal, ShapeVLU, ShapeAPlus,
         Triangle, StairsUp, StairsDown, ZigZag, DoubleLine
     }
@@ -145,7 +145,6 @@ public class ItemGenerator : MonoBehaviour
             case ItemPattern.Line: int c = Random.Range(3, 6); for (int i = 0; i < c; i++) localPoints.Add(new Vector2(i, 0)); break;
             case ItemPattern.Grid: for (int x = 0; x < 3; x++) for (int y = 0; y < 3; y++) localPoints.Add(new Vector2(x, y)); break;
             case ItemPattern.Wave: for (int i = 0; i < 8; i++) localPoints.Add(new Vector2(i, Mathf.Sin(i * 0.8f) * 1.5f + 1.5f)); break;
-            case ItemPattern.ArrowComplex: localPoints.Add(new Vector2(0, 1.5f)); localPoints.Add(new Vector2(0, -1.5f)); localPoints.Add(new Vector2(1, 0)); localPoints.Add(new Vector2(2, 0)); break;
             case ItemPattern.Diamond: localPoints.Add(new Vector2(1, 2)); localPoints.Add(new Vector2(0, 1)); localPoints.Add(new Vector2(2, 1)); localPoints.Add(new Vector2(1, 0)); break;
             case ItemPattern.RectHollow: int rw = 4, rh = 3; for (int rx = 0; rx < rw; rx++) for (int ry = 0; ry < rh; ry++) if (rx == 0 || rx == rw - 1 || ry == 0 || ry == rh - 1) localPoints.Add(new Vector2(rx, ry)); break;
             case ItemPattern.RectVertical: int vw = Random.Range(2, 4); int vh = Random.Range(3, 5); for (int vx = 0; vx < vw; vx++) for (int vy = 0; vy < vh; vy++) localPoints.Add(new Vector2(vx, vy)); break;

@@ -155,43 +155,60 @@ public class MapGenerator : MonoBehaviour
         if (Random.Range(0, 100) < miniPlatformChance)
         {
             int count = Random.Range(minAerialCount, maxAerialCount + 1);
-            float tryX = Random.Range(startX + 2f, Mathf.Max(startX + 2f, endX - 5f));
+
+            // [FIX 1] Bắt đầu từ mép trái + padding, thay vì random lung tung
+            float currentX = startX + RandomUtilities.RandomWithSteps(2f, 5f, 0.5f);
             float lastY = groundY + aerialHeight;
 
             for (int i = 0; i < count; i++)
             {
-                if (tryX > endX - 1f) break;
-
                 MiniPlatformData data = miniPlatformLibrary[Random.Range(0, miniPlatformLibrary.Count)];
                 float len = data.GetLength();
-                Vector3 pos = new Vector3(tryX, lastY, 0);
+
+                // [FIX 2] Kiểm tra biên TRƯỚC KHI spawn
+                // Nếu đặt tấm này mà lòi ra ngoài đoạn đất -> Dừng ngay
+                if (currentX + len > endX - 1f) break;
+
+                Vector3 pos = new Vector3(currentX + len / 2f, lastY, 0);
 
                 // Check va chạm Obstacle
-                Collider2D hit = Physics2D.OverlapBox(pos, new Vector2(len + 1f, 6f), 0, obstacleLayer);
+                // Dùng size Y lớn (10f) để quét toàn bộ chiều cao xem có vướng gì không
+                Collider2D hit = Physics2D.OverlapBox(pos, new Vector2(len + 0.5f, 10f), 0, obstacleLayer);
 
                 if (hit == null)
                 {
                     Instantiate(data.prefab, pos, Quaternion.identity, miniPlatformObjs);
+
+                    // Chuẩn bị cho tấm tiếp theo
                     lastY = pos.y + RandomUtilities.RandomWithSteps(minAerialHeight, maxAerialHeight, 0.5f);
-                    tryX += len + RandomUtilities.RandomWithSteps(minGapAerial, maxGapAerial, 1);
+                    // [FIX 3] Cộng dồn X để tấm sau luôn nằm sau tấm trước
+                    currentX += len + RandomUtilities.RandomWithSteps(minGapAerial, maxGapAerial, 0.5f);
                 }
                 else
                 {
-                    // Né Obstacle: Đặt cao hơn
-                    pos.y = hit.bounds.max.y + 2.5f;
-                    pos.x = hit.bounds.max.x + 1f; // Nhích tới 1 chút để không dính
+                    // Vướng Obstacle -> Đặt cao lên trên đầu nó
+                    // Cập nhật lại Y
+                    float newY = hit.bounds.max.y + 2.5f;
 
-                    if (pos.y < maxHeightMap)
+                    // [FIX 4] Không cần dời X (pos.x) vì chúng ta muốn bay trên đầu nó
+                    // Chỉ cần kiểm tra độ cao trần
+                    if (newY < maxHeightMap)
                     {
+                        pos.y = newY;
                         Instantiate(data.prefab, pos, Quaternion.identity, miniPlatformObjs);
+
                         lastY = pos.y + RandomUtilities.RandomWithSteps(minAerialHeight, maxAerialHeight, 0.5f);
-                        tryX += len + RandomUtilities.RandomWithSteps(minGapAerial, maxGapAerial, 0.5f);
+                        currentX += len + RandomUtilities.RandomWithSteps(minGapAerial, maxGapAerial, 0.5f);
+                    }
+                    else
+                    {
+                        // Nếu quá cao -> Bỏ qua tấm này, thử dời X ra xa hơn để tìm chỗ trống khác
+                        currentX += len + 2f;
                     }
                 }
             }
         }
     }
-
     private void SpawnBridge(float startX, float endX)
     {
         float currentX = startX + 0.5f;
@@ -207,8 +224,9 @@ public class MapGenerator : MonoBehaviour
             while (currentX + len > limit && bridgeAttempts < miniPlatformLibrary.Count - 1)
             {
                 bridgeAttempts++;
-                if (bridgeAttempts == miniPlatformLibrary.Count) data = miniPlatformLibrary[miniPlatformLibrary.Count];
                 data = miniPlatformLibrary[Random.Range(bridgeAttempts, miniPlatformLibrary.Count)];
+                len = data.GetLength();
+                if (currentX + len > limit && bridgeAttempts == miniPlatformLibrary.Count) return;
             }
 
             float nextY = lastY + RandomUtilities.RandomWithSteps(minBridgeHeight, maxBridgeHeight, 0.5f);

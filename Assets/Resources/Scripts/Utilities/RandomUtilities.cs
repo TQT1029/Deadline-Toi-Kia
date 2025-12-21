@@ -50,6 +50,7 @@ public static class RandomUtilities
     /// </summary>
     /// <param name="weight">Trọng số của vật</param>
     /// <param name="totalWeight">Tổng trọng số tất cả các vật</param>
+    /// <returns>Trả về true nếu giá trị random ra bé hơn trọng số.</returns>
     public static bool ChanceWeight(float weight, float totalWeight)
     {
         if (weight <= 0f) return false;

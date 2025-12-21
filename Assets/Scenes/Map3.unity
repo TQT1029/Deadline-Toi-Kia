@@ -3093,6 +3093,7 @@ MonoBehaviour:
   maxAerialHeight: 2
   minGapAerial: 1
   maxGapAerial: 2
+  groundIDCounter: 0
 --- !u!114 &1002921626
 MonoBehaviour:
   m_ObjectHideFlags: 0

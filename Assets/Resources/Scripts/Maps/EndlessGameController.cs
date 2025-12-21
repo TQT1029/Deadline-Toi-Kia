@@ -31,7 +31,7 @@ public class EndlessGameController : MonoBehaviour
         {
             SpawnNextPiece();
             Physics2D.SyncTransforms(); // Đồng bộ vật lý ngay sau khi spawn đất để tránh lỗi va chạm
-            if (mapGenerator.currentGrounds.ContainsKey(mapGenerator.groundIDCounter - 1))
+            if (mapGenerator.currentGrounds.ContainsKey(mapGenerator.groundIDCounter) && )
                 SpawnObstacle();
         }
 

@@ -50,6 +50,10 @@ public class MapGenerator : MonoBehaviour
     [SerializeField] private int maxAerialCount = 6;
     [SerializeField] private float maxHeightMap = 10f;
 
+    [Space]
+    [Tooltip("Tỷ lệ phân bổ Vật cản và Sàn bay trong một đoạn đất")]
+    [SerializeField, Range(0, 100)] private int ratioObstacleToAerial = 70;// tỉ lệ vật cản và sàn bay
+
     private float currentGroundStart = 0f;
     public float LastPopulatedEdge { get; private set; } = 0f;
 
@@ -65,6 +69,8 @@ public class MapGenerator : MonoBehaviour
             if (currentX > currentGroundStart)
             {
                 PopulateSegment(currentGroundStart, currentX);
+
+                Debug.Log($"[MapGnerator] Độ dài tích luỹ đoạn đất khi gặp hố {currentX - currentGroundStart}");
             }
 
             // Tạo Hố & Cầu
@@ -93,17 +99,19 @@ public class MapGenerator : MonoBehaviour
             if (col != null) actualLen = col.size.x * obj.transform.localScale.x;
 
             if (Mathf.Abs(actualLen - estimatedLen) > 0.01f)
-            {
                 obj.transform.position = new Vector3(currentX + actualLen / 2f, groundY, 0);
-            }
+
 
             float segmentEnd = currentX + actualLen;
 
-            // [NÂNG CẤP] Kiểm tra độ dài đất tích lũy
+            // Kiểm tra độ dài đất tích lũy
             // Nếu đoạn đất hiện tại (từ currentGroundStart đến segmentEnd) quá dài -> Spawn ngay
             if (segmentEnd - currentGroundStart >= maxGroundSegmentLength)
             {
                 PopulateSegment(currentGroundStart, segmentEnd);
+
+                Debug.Log($"[MapGnerator] Độ dài tích luỹ đoạn đất khi quá dài {currentX - currentGroundStart}");
+
 
                 LastPopulatedEdge = segmentEnd;
                 currentGroundStart = segmentEnd; // Reset điểm bắt đầu cho đoạn tiếp theo
@@ -116,15 +124,18 @@ public class MapGenerator : MonoBehaviour
     // Hàm chung để sinh vật cản và sàn bay cho một đoạn đất
     private void PopulateSegment(float startX, float endX)
     {
-        // 1. Sinh Obstacle trước
-        SpawnObstaclesOnSegment(startX, endX);
 
-        // [QUAN TRỌNG] Cập nhật vật lý ngay lập tức 
-        // Để bước SpawnAerial bên dưới có thể Raycast thấy Obstacle vừa tạo
-        Physics2D.SyncTransforms();
+        if (RandomUtilities.ChancePercent(ratioObstacleToAerial))
+        {
+            SpawnObstaclesOnSegment(startX, endX);
+            Physics2D.SyncTransforms();
+        }
+        else
+        {
+            SpawnAerialOnSegment(startX, endX);
+            Physics2D.SyncTransforms();
+        }
 
-        // 2. Sinh Aerial Platform (sẽ né được Obstacle nhờ dòng trên)
-        SpawnAerialOnSegment(startX, endX);
     }
 
     private void SpawnObstaclesOnSegment(float startX, float endX)
@@ -152,62 +163,66 @@ public class MapGenerator : MonoBehaviour
 
     private void SpawnAerialOnSegment(float startX, float endX)
     {
-        if (Random.Range(0, 100) < miniPlatformChance)
+        int count = Random.Range(minAerialCount, maxAerialCount + 1);
+
+        float minAvailableWidth = miniPlatformLibrary[miniPlatformLibrary.Count - 1].GetLength() * minAerialCount;
+        float maxAvailableWidth = miniPlatformLibrary[0].GetLength() * maxAerialCount;
+        float segmentWidth = endX - startX;
+
+        if (minAvailableWidth < segmentWidth && segmentWidth < maxAvailableWidth)
         {
-            int count = Random.Range(minAerialCount, maxAerialCount + 1);
-
-            // [FIX 1] Bắt đầu từ mép trái + padding, thay vì random lung tung
-            float currentX = startX + RandomUtilities.RandomWithSteps(2f, 5f, 0.5f);
-            float lastY = groundY + aerialHeight;
-
-            for (int i = 0; i < count; i++)
+            if (Random.Range(0, 100) < miniPlatformChance)
             {
-                MiniPlatformData data = miniPlatformLibrary[Random.Range(0, miniPlatformLibrary.Count)];
-                float len = data.GetLength();
 
-                // [FIX 2] Kiểm tra biên TRƯỚC KHI spawn
-                // Nếu đặt tấm này mà lòi ra ngoài đoạn đất -> Dừng ngay
-                if (currentX + len > endX - 1f) break;
+                float currentX = startX + RandomUtilities.RandomWithSteps(2f, 5f, 0.5f);
+                float lastY = groundY + aerialHeight;
 
-                Vector3 pos = new Vector3(currentX + len / 2f, lastY, 0);
-
-                // Check va chạm Obstacle
-                // Dùng size Y lớn (10f) để quét toàn bộ chiều cao xem có vướng gì không
-                Collider2D hit = Physics2D.OverlapBox(pos, new Vector2(len + 0.5f, 10f), 0, obstacleLayer);
-
-                if (hit == null)
+                for (int i = 0; i < count; i++)
                 {
-                    Instantiate(data.prefab, pos, Quaternion.identity, miniPlatformObjs);
+                    MiniPlatformData data = miniPlatformLibrary[Random.Range(0, miniPlatformLibrary.Count)];
+                    float len = data.GetLength();
 
-                    // Chuẩn bị cho tấm tiếp theo
-                    lastY = pos.y + RandomUtilities.RandomWithSteps(minAerialHeight, maxAerialHeight, 0.5f);
-                    // [FIX 3] Cộng dồn X để tấm sau luôn nằm sau tấm trước
-                    currentX += len + RandomUtilities.RandomWithSteps(minGapAerial, maxGapAerial, 0.5f);
-                }
-                else
-                {
-                    // Vướng Obstacle -> Đặt cao lên trên đầu nó
-                    // Cập nhật lại Y
-                    float newY = hit.bounds.max.y + 2.5f;
+                    if (currentX + len > endX - 1f) break;
 
-                    // [FIX 4] Không cần dời X (pos.x) vì chúng ta muốn bay trên đầu nó
-                    // Chỉ cần kiểm tra độ cao trần
-                    if (newY < maxHeightMap)
+                    Vector3 pos = new Vector3(currentX + len / 2f, lastY, 0);
+
+                    // Check va chạm Obstacle
+                    // Dùng size Y lớn (10f) để quét toàn bộ chiều cao xem có vướng gì không
+                    Collider2D hit = Physics2D.OverlapBox(pos, new Vector2(len + 1f, 10f), 0, obstacleLayer);
+
+                    if (hit == null)
                     {
-                        pos.y = newY;
                         Instantiate(data.prefab, pos, Quaternion.identity, miniPlatformObjs);
 
+                        // Chuẩn bị cho tấm tiếp theo
                         lastY = pos.y + RandomUtilities.RandomWithSteps(minAerialHeight, maxAerialHeight, 0.5f);
                         currentX += len + RandomUtilities.RandomWithSteps(minGapAerial, maxGapAerial, 0.5f);
                     }
                     else
                     {
-                        // Nếu quá cao -> Bỏ qua tấm này, thử dời X ra xa hơn để tìm chỗ trống khác
-                        currentX += len + 2f;
+                        // Vướng Obstacle -> Đặt cao lên trên đầu nó
+                        // Cập nhật lại Y
+                        float newY = hit.bounds.max.y + 2.5f;
+
+                        // Chỉ cần kiểm tra độ cao trần
+                        if (newY < maxHeightMap)
+                        {
+                            pos.y = newY;
+                            Instantiate(data.prefab, pos, Quaternion.identity, miniPlatformObjs);
+
+                            lastY = pos.y + RandomUtilities.RandomWithSteps(minAerialHeight, maxAerialHeight, 0.5f);
+                            currentX += len + RandomUtilities.RandomWithSteps(minGapAerial, maxGapAerial, 0.5f);
+                        }
+                        else
+                        {
+                            // Nếu quá cao -> Bỏ qua tấm này, thử dời X ra xa hơn để tìm chỗ trống khác
+                            currentX += len + 2f;
+                        }
                     }
                 }
             }
         }
+        else SpawnObstaclesOnSegment(startX, endX);
     }
     private void SpawnBridge(float startX, float endX)
     {

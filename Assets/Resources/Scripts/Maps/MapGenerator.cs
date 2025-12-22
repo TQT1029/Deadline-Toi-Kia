@@ -203,7 +203,7 @@ public class MapGenerator : MonoBehaviour
                 Instantiate(data.prefab, pos, Quaternion.identity, miniPlatformObjs);
 
                 // Cập nhật Y cho tấm tiếp theo (lên/xuống ngẫu nhiên)
-                lastY += RandomUtilities.RandomWithSteps(minAerialHeight, maxAerialHeight, 0.5f);
+                lastY += RandomUtilities.RandomWithSteps(minAerialHeight, maxAerialHeight, 0.25f);
             }
             else
             {
@@ -218,7 +218,7 @@ public class MapGenerator : MonoBehaviour
                     Instantiate(data.prefab, pos, Quaternion.identity, miniPlatformObjs);
 
                     // Cập nhật lastY theo vị trí mới này để tấm sau nối tiếp hợp lý
-                    lastY = newY + RandomUtilities.RandomWithSteps(minAerialHeight, maxAerialHeight, 0.5f);
+                    lastY = newY + RandomUtilities.RandomWithSteps(minAerialHeight, maxAerialHeight, 0.25f);
                 }
                 // Nếu quá cao (vượt trần) -> Bỏ qua tấm này, không spawn, nhưng vẫn tịnh tiến X
             }
@@ -233,32 +233,51 @@ public class MapGenerator : MonoBehaviour
     }
     private void SpawnBridge(float startX, float endX)
     {
-        float currentX = startX + 0.5f;
-        float limit = endX - 0.5f;
+        float currentX = startX + 0.5f; // Điểm bắt đầu (có padding nhỏ)
+        float limit = endX - 0.5f;      // Điểm kết thúc an toàn
         float lastY = groundY;
-        int bridgeAttempts = 0;
 
         while (currentX < limit)
         {
-            MiniPlatformData data = miniPlatformLibrary[Random.Range(bridgeAttempts, miniPlatformLibrary.Count)];
-            float len = data.GetLength();
+            // Tính khoảng trống còn lại
+            float remainingSpace = limit - currentX;
 
-            // Logic chọn tấm cầu phù hợp
-            while (currentX + len > limit && bridgeAttempts < miniPlatformLibrary.Count - 1)
+            // 1. TÌM KIẾM CÁC TẤM PHÙ HỢP (LỌC)
+            // Duyệt qua thư viện để tìm tất cả các tấm có độ dài <= khoảng trống còn lại
+            List<MiniPlatformData> validCandidates = new List<MiniPlatformData>();
+
+            foreach (var p in miniPlatformLibrary)
             {
-                bridgeAttempts++;
-                data = miniPlatformLibrary[Random.Range(bridgeAttempts, miniPlatformLibrary.Count)];
-                len = data.GetLength();
-                if (currentX + len > limit && bridgeAttempts == miniPlatformLibrary.Count) return;
+                if (p.GetLength() <= remainingSpace)
+                {
+                    validCandidates.Add(p);
+                }
             }
 
+            // 2. XỬ LÝ KẾT QUẢ
+            MiniPlatformData selectedData = null;
+
+            if (validCandidates.Count > 0)
+            {
+                // Nếu có tấm vừa vặn -> Chọn ngẫu nhiên một tấm trong số đó
+                selectedData = validCandidates[Random.Range(0, validCandidates.Count)];
+            }
+            else
+            {
+                // YÊU CẦU CỦA BẠN: Nếu không còn tấm nào vừa -> Dừng spawn ngay lập tức
+                break;
+            }
+
+            // 3. SPAWN
+            float len = selectedData.GetLength();
             float nextY = lastY + RandomUtilities.RandomWithSteps(minBridgeHeight, maxBridgeHeight, 0.5f);
+
             Vector3 pos = new Vector3(currentX + len / 2f, nextY, 0);
+            Instantiate(selectedData.prefab, pos, Quaternion.identity, miniPlatformObjs);
 
-            Instantiate(data.prefab, pos, Quaternion.identity, miniPlatformObjs);
-
+            // Cập nhật vị trí cho lần lặp sau
             lastY = pos.y;
-            currentX += len + RandomUtilities.RandomWithSteps(minGapBridge, maxGapBridge, 1);
+            currentX += len + RandomUtilities.RandomWithSteps(minGapBridge, maxGapBridge, 0.5f);
         }
     }
 }

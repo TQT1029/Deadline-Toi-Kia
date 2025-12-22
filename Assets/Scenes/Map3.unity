@@ -3085,13 +3085,13 @@ MonoBehaviour:
   obstacleEdgePadding: 2
   minObstacleGap: 10
   maxObstacleGap: 12
-  minBridgeHeight: -1
+  minBridgeHeight: 0
   maxBridgeHeight: 2
   minGapBridge: 1
   maxGapBridge: 2
   miniPlatformChance: 100
-  aerialHeight: 5
-  minAerialHeight: -1.5
+  aerialHeight: 3
+  minAerialHeight: -2
   maxAerialHeight: 2.5
   minGapAerial: 1
   maxGapAerial: 2

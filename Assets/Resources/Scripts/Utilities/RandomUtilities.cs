@@ -12,7 +12,7 @@ public static class RandomUtilities
     /// <param name="minInp">Giá trị nhỏ nhất</param>
     /// <param name="maxInp">Giá trị lớn nhất</param>
     /// <param name="steps">Bước nhảy</param>
-    /// <returns>Giá trị float random theo bước</returns>
+    /// <returns>Giá trị float random theo bước nhảy</returns>
     public static float RandomWithSteps(float minInp, float maxInp, float steps=0.5f)
     {
         if (steps <= 0f)

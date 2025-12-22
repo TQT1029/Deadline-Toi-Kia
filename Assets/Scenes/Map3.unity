@@ -3080,6 +3080,7 @@ MonoBehaviour:
   minPitWidth: 10
   maxPitWidth: 30
   maxGroundSegmentLength: 100
+  ratioObstacleToAerial: 0
   obstacleChance: 60
   obstacleEdgePadding: 2
   minObstacleGap: 10
@@ -3089,15 +3090,14 @@ MonoBehaviour:
   minGapBridge: 1
   maxGapBridge: 2
   miniPlatformChance: 100
-  aerialHeight: 4
-  minAerialHeight: -1
-  maxAerialHeight: 2
+  aerialHeight: 5
+  minAerialHeight: -1.5
+  maxAerialHeight: 2.5
   minGapAerial: 1
   maxGapAerial: 2
   minAerialCount: 3
   maxAerialCount: 6
   maxHeightMap: 10
-  ratioObstacleToAerial: 0
 --- !u!114 &1002921626
 MonoBehaviour:
   m_ObjectHideFlags: 0

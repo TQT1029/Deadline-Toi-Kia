@@ -3045,7 +3045,7 @@ MonoBehaviour:
   miniPlatformObjs: {fileID: 304172320}
   obstacleLayer:
     serializedVersion: 2
-    m_Bits: 192
+    m_Bits: 448
   baseLibrary:
   - id: b1
     prefab: {fileID: 2997676687723301785, guid: 8c2038f57ed0fce4388d9bed28cde993, type: 3}
@@ -3091,13 +3091,12 @@ MonoBehaviour:
   maxGapBridge: 2
   miniPlatformChance: 100
   aerialHeight: 3
-  minAerialHeight: -2
-  maxAerialHeight: 2.5
+  minAerialHeight: -1
+  maxAerialHeight: 5
   minGapAerial: 1
   maxGapAerial: 2
-  minAerialCount: 3
-  maxAerialCount: 6
   maxHeightMap: 10
+  terrainRoughness: 0.9
 --- !u!114 &1002921626
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -157,57 +157,80 @@ public class MapGenerator : MonoBehaviour
         }
     }
 
-    // Đã Refactor gọn gàng, loại bỏ tính toán dư thừa và lặp code
+    // --- LOGIC SINH SÀN BAY (ĐÃ TỐI ƯU) ---
     private void SpawnAerialOnSegment(float startX, float endX)
     {
+        // Kiểm tra tỉ lệ xuất hiện
         if (Random.Range(0, 100) >= miniPlatformChance) return;
+        if (miniPlatformLibrary == null || miniPlatformLibrary.Count == 0) return;
 
-        int count = Random.Range(minAerialCount, maxAerialCount + 1);
-        float currentX = startX + RandomUtilities.RandomWithSteps(2f, 5f, 0.5f);
-        float currentY = groundY + aerialHeight; // Độ cao bắt đầu
+        // Bắt đầu cách mép trái một chút
+        float currentX = startX + RandomUtilities.RandomWithSteps(2f, 4f, 0.5f);
+        // Điểm dừng an toàn cách mép phải
+        float limitX = endX - 2f;
 
-        for (int i = 0; i < count; i++)
+        float lastY = groundY + aerialHeight;
+
+        // Vòng lặp chạy xuyên suốt chiều dài đoạn đất
+        while (currentX < limitX)
         {
+            // 1. CHỌN TẤM TỐI ƯU (Tránh lòi ra ngoài)
             MiniPlatformData data = miniPlatformLibrary[Random.Range(0, miniPlatformLibrary.Count)];
             float len = data.GetLength();
+            int attempts = 0;
 
-            // 1. Kiểm tra biên: Nếu hết đất thì dừng luôn
-            if (currentX + len > endX - 1f) break;
-
-            Vector3 spawnPos = new Vector3(currentX + len / 2f, currentY, 0);
-
-            // 2. Kiểm tra va chạm với Obstacle (nếu lỡ có)
-            Collider2D hit = Physics2D.OverlapBox(spawnPos, new Vector2(len + 1f, 10f), 0, obstacleLayer);
-
-            if (hit != null)
+            // Nếu tấm này dài quá so với đất còn lại, thử chọn tấm khác nhỏ hơn
+            // Thử tối đa 10 lần để tránh treo vòng lặp vô tận
+            while (currentX + len > limitX && attempts < 10)
             {
-                // Logic né Obstacle: Đặt cao lên trên đầu nó
-                float obstacleTop = hit.bounds.max.y;
-                spawnPos.y = obstacleTop + 2.5f;
+                data = miniPlatformLibrary[Random.Range(0, miniPlatformLibrary.Count)];
+                len = data.GetLength();
+                attempts++;
             }
 
-            // 3. Kiểm tra trần map và Spawn
-            if (spawnPos.y < maxHeightMap)
+            // Nếu sau khi thử mà vẫn không vừa, nghĩa là hết đất -> Dừng luôn
+            if (currentX + len > limitX) break;
+
+            // 2. TÍNH VỊ TRÍ & CHECK VA CHẠM
+            Vector3 pos = new Vector3(currentX + len / 2f, lastY, 0);
+
+            // Kiểm tra xem có đụng Obstacle nào bên dưới không (quét vùng rộng hơn tấm sàn một chút)
+            Collider2D hit = Physics2D.OverlapBox(pos, new Vector2(len + 0.5f, 8f), 0, obstacleLayer);
+
+            if (hit == null)
             {
-                Instantiate(data.prefab, spawnPos, Quaternion.identity, miniPlatformObjs);
+                // Không vướng -> Spawn bình thường
+                Instantiate(data.prefab, pos, Quaternion.identity, miniPlatformObjs);
 
-                // [GIẢI ĐÁP] Tại sao thẳng hàng?
-                // Dòng dưới đây quyết định độ cao tiếp theo.
-                // Nếu bạn muốn nó nhấp nhô nhiều, hãy tăng range của minAerialHeight/maxAerialHeight trong Inspector.
-                // Nếu bạn muốn nó ngẫu nhiên hoàn toàn (không phụ thuộc tấm trước), hãy dùng logic khác (xem bên dưới).
-                currentY = spawnPos.y + RandomUtilities.RandomWithSteps(minAerialHeight, maxAerialHeight, 0.5f);
-
-                // Di chuyển tới vị trí tiếp theo
-                currentX += len + RandomUtilities.RandomWithSteps(minGapAerial, maxGapAerial, 0.5f);
+                // Cập nhật Y cho tấm tiếp theo (lên/xuống ngẫu nhiên)
+                lastY += RandomUtilities.RandomWithSteps(minAerialHeight, maxAerialHeight, 0.5f);
             }
             else
             {
-                // Nếu quá cao thì bỏ qua tấm này, dời X đi tiếp để tìm chỗ khác
-                currentX += len + 2f;
+                // Vướng Obstacle -> Đặt cao lên trên đầu nó
+                // Tính toán độ cao mới: Đỉnh vật cản + khoảng cách an toàn
+                float newY = hit.bounds.max.y + 2.5f;
+
+                // Chỉ spawn nếu độ cao mới vẫn nằm trong giới hạn cho phép
+                if (newY < maxHeightMap)
+                {
+                    pos.y = newY;
+                    Instantiate(data.prefab, pos, Quaternion.identity, miniPlatformObjs);
+
+                    // Cập nhật lastY theo vị trí mới này để tấm sau nối tiếp hợp lý
+                    lastY = newY + RandomUtilities.RandomWithSteps(minAerialHeight, maxAerialHeight, 0.5f);
+                }
+                // Nếu quá cao (vượt trần) -> Bỏ qua tấm này, không spawn, nhưng vẫn tịnh tiến X
             }
+
+            // Đảm bảo Y không quá thấp (sát đất) hoặc quá cao
+            lastY = Mathf.Clamp(lastY, groundY + 2.5f, maxHeightMap);
+
+            // 3. TỊNH TIẾN X
+            // Cộng thêm chiều dài tấm vừa xét + khoảng nghỉ ngẫu nhiên
+            currentX += len + RandomUtilities.RandomWithSteps(minGapAerial, maxGapAerial, 0.5f);
         }
     }
-
     private void SpawnBridge(float startX, float endX)
     {
         float currentX = startX + 0.5f;

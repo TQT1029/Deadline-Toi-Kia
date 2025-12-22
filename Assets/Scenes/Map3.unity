@@ -283,7 +283,7 @@ Transform:
   m_GameObject: {fileID: 14420747}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 7.5724297, y: 1, z: -10}
+  m_LocalPosition: {x: 7.5724297, y: -0.00000023841858, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2857,7 +2857,7 @@ MonoBehaviour:
   CameraDistance: 10
   DeadZoneDepth: 0
   Composition:
-    ScreenPosition: {x: -0.35, y: 0.25}
+    ScreenPosition: {x: -0.35, y: 0.15}
     DeadZone:
       Enabled: 0
       Size: {x: 0.15, y: 0.5}
@@ -2925,7 +2925,7 @@ Transform:
   m_GameObject: {fileID: 920687758}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 7.5724297, y: 1, z: -10}
+  m_LocalPosition: {x: 7.5724297, y: -0.00000023841858, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3080,7 +3080,7 @@ MonoBehaviour:
   minPitWidth: 10
   maxPitWidth: 30
   maxGroundSegmentLength: 100
-  ratioObstacleToAerial: 0
+  ratioObstacleToAerial: 70
   obstacleChance: 60
   obstacleEdgePadding: 2
   minObstacleGap: 10
@@ -3089,14 +3089,13 @@ MonoBehaviour:
   maxBridgeHeight: 2
   minGapBridge: 1
   maxGapBridge: 2
-  miniPlatformChance: 100
   aerialHeight: 3
-  minAerialHeight: -1
-  maxAerialHeight: 5
-  minGapAerial: 1
+  minAerialHeight: -8
+  maxAerialHeight: -2
+  minGapAerial: -1
   maxGapAerial: 2
   maxHeightMap: 10
-  terrainRoughness: 0.9
+  terrainRoughness: 0.15
 --- !u!114 &1002921626
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3263,7 +3262,7 @@ MonoBehaviour:
     spawnWeight: 1
   surfaceLayer:
     serializedVersion: 2
-    m_Bits: 192
+    m_Bits: 448
   itemSpacing: 1.25
   liftPadding: 1
   checkRadius: 0.2

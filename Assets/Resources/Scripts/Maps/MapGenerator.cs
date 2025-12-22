@@ -44,8 +44,7 @@ public class MapGenerator : MonoBehaviour
     [SerializeField] private float maxGapBridge = 1.5f;
 
     [Header("Mini Platform Aerial")]
-    [Range(0, 100)] public int miniPlatformChance = 50;
-    public float aerialHeight = 3f;
+    [SerializeField] private float aerialHeight = 3f;
     [SerializeField] private float minAerialHeight = -1f;
     [SerializeField] private float maxAerialHeight = 3f; // Tăng biên độ lên chút vì dùng Perlin sẽ mượt hơn
     [SerializeField] private float minGapAerial = 1f;
@@ -59,6 +58,8 @@ public class MapGenerator : MonoBehaviour
     private float noiseOffsetX; // Để mỗi lần chơi là một map khác nhau
 
     private float currentGroundStart = 0f;
+
+    // Giá trị biên cuối cùng đã được "populate" (có Obstacle/Platform)
     public float LastPopulatedEdge { get; private set; } = 0f;
 
     private void Start()
@@ -68,16 +69,14 @@ public class MapGenerator : MonoBehaviour
             miniPlatformBag = new RandomUtilities.ShuffleBag<MiniPlatformData>(miniPlatformLibrary);
 
         // Random offset cho noise
-        noiseOffsetX = Random.Range(0f, 1000f);
+        noiseOffsetX = Random.Range(0f, 10000f);
     }
 
     public float SpawnNextSegment(float currentX)
     {
         if (currentX == 0 && currentGroundStart == 0) currentGroundStart = 0;
 
-        bool createPit = Random.Range(0, 100) < pitChance;
-
-        if (createPit)
+        if (RandomUtilities.ChancePercent(pitChance))
         {
             if (currentX > currentGroundStart)
             {
@@ -89,8 +88,7 @@ public class MapGenerator : MonoBehaviour
             float endPitX = currentX + pitWidth;
 
             SpawnBridge(currentX, endPitX);
-
-            LastPopulatedEdge = endPitX;
+            LastPopulatedEdge = currentX;
             currentGroundStart = endPitX;
 
             return endPitX;
@@ -113,12 +111,13 @@ public class MapGenerator : MonoBehaviour
 
             float segmentEnd = currentX + actualLen;
 
-            if (segmentEnd - currentGroundStart >= maxGroundSegmentLength)
+            if (segmentEnd - currentGroundStart > maxGroundSegmentLength)
             {
                 PopulateSegment(currentGroundStart, segmentEnd);
                 LastPopulatedEdge = segmentEnd;
                 currentGroundStart = segmentEnd;
             }
+
 
             return segmentEnd;
         }
@@ -165,7 +164,6 @@ public class MapGenerator : MonoBehaviour
     // --- LOGIC ĐÃ NÂNG CẤP: Dùng Perlin Noise & Shuffle Bag ---
     private void SpawnAerialOnSegment(float startX, float endX)
     {
-        if (Random.Range(0, 100) >= miniPlatformChance) return;
         if (miniPlatformBag == null) return;
 
         float currentX = startX + RandomUtilities.RandomWithSteps(2f, 4f, 0.5f);

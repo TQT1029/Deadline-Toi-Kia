@@ -1924,6 +1924,37 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 527588848}
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &657521042
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 657521043}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &657521043
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 657521042}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &728820883
 GameObject:
   m_ObjectHideFlags: 0
@@ -3060,18 +3091,32 @@ MonoBehaviour:
     spawnWeight: 30
     manualLength: 0
   obstacleLibrary:
-  - id: f1
-    prefab: {fileID: 7290545855054261292, guid: 7e5583311ee2dfc46bb2619861d19981, type: 3}
+  - id: BlockMachineGroup_Alternating
+    prefab: {fileID: 2370051292434349185, guid: 58b9695c42c43c24f8bc2261543c17f7, type: 3}
     heightOffset: 0
-  - id: f2
-    prefab: {fileID: 7290545855054261292, guid: 81865ca4cc821284d8351f8915691719, type: 3}
+    size: {x: 1, y: 1}
+  - id: BlockMachineGroup_Sync
+    prefab: {fileID: 2370051292434349185, guid: 79cbff482763e2340a97b8681d5c6487, type: 3}
     heightOffset: 0
+    size: {x: 1, y: 1}
+  - id: BlockMachineGroup_Wave
+    prefab: {fileID: 2370051292434349185, guid: 736d6ccd79b6bdf49be12e7ceb80deba, type: 3}
+    heightOffset: 0
+    size: {x: 1, y: 1}
+  - id: BlockMachine
+    prefab: {fileID: 5357453151025752192, guid: e8d1cb84a97bcab4fb8157da6abdbd71, type: 3}
+    heightOffset: 0
+    size: {x: 1, y: 1}
   miniPlatformLibrary:
   - id: m1
-    prefab: {fileID: 7650719088838195618, guid: 3aee55d72242cd94297032aa4bcfc750, type: 3}
+    prefab: {fileID: 2997676687723301785, guid: 85a0f2dbd00cb68498978bf34bbeae87, type: 3}
     spawnWeight: 20
     manualLength: 0
   - id: m2
+    prefab: {fileID: 7650719088838195618, guid: 3aee55d72242cd94297032aa4bcfc750, type: 3}
+    spawnWeight: 40
+    manualLength: 0
+  - id: m3
     prefab: {fileID: 6899700398074020138, guid: ce1303e226a7f884c9b4ccca49eafe10, type: 3}
     spawnWeight: 100
     manualLength: 0
@@ -3080,7 +3125,7 @@ MonoBehaviour:
   minPitWidth: 10
   maxPitWidth: 30
   maxGroundSegmentLength: 100
-  ratioObstacleToAerial: 0
+  ratioObstacleToAerial: 70
   obstacleChance: 60
   obstacleEdgePadding: 2
   minObstacleGap: 10
@@ -6535,3 +6580,4 @@ SceneRoots:
   - {fileID: 1484496647}
   - {fileID: 997249666}
   - {fileID: 728820888}
+  - {fileID: 657521043}

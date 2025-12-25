@@ -60,9 +60,50 @@ public static class RandomUtilities
         return Random.Range(0f, totalWeight) < weight;
     }
 
-    // ========================================================================
-    // CÁC HÀM NÂNG CAO (ADVANCED RANDOMNESS)
-    // ========================================================================
+    /// <summary>
+    /// Tạo độ cao mượt mà với biên độ thay đổi động (Dynamic Amplitude).
+    /// <para><b>Công dụng:</b> Tạo ra các đoạn đường có lúc nhấp nhô rất cao (biên độ lớn), 
+    /// có lúc lại phẳng lặng (biên độ nhỏ), nhưng luôn giữ được sự mượt mà liên kết.</para>
+    /// </summary>
+    /// <param name="x">Vị trí trục X.</param>
+    /// <param name="scale">Độ gắt của địa hình (Tần số).</param>
+    /// <param name="minH">Độ cao thấp nhất tuyệt đối.</param>
+    /// <param name="maxH">Độ cao cao nhất tuyệt đối.</param>
+    /// <param name="step">Bước nhảy làm tròn.</param>
+    public static float GetDynamicWaveHeight(float x, float scale, float minH, float maxH, float step = 0.5f)
+    {
+        // 1. Sóng chính (Base Wave): Tạo ra đường đi mượt mà cơ bản
+        // Trả về giá trị 0..1
+        float baseWave = Mathf.PerlinNoise(x * scale, 0f);
+
+        // 2. Điều biến biên độ (Amplitude Modulation): 
+        // Dùng một lớp noise khác tần số thấp hơn (scale * 0.5) để điều khiển "độ gắt".
+        // offset 100f để nó không trùng với sóng chính.
+        float ampMod = Mathf.PerlinNoise(x * (scale * 0.5f) + 100f, 10f);
+
+        // ampMod = 0 -> Biên độ hẹp (gần trung bình cộng).
+        // ampMod = 1 -> Biên độ rộng (tiến về minH/maxH).
+
+        // Tính trung điểm
+        float midH = (minH + maxH) / 2f;
+
+        // Lerp biên min/max dựa trên ampMod
+        // Nếu ampMod thấp, min/max sẽ co về giữa -> đường đi phẳng hơn.
+        // Nếu ampMod cao, min/max dãn ra -> đường đi dốc hơn, biên độ lớn.
+        float currentMin = Mathf.Lerp(midH, minH, ampMod);
+        float currentMax = Mathf.Lerp(midH, maxH, ampMod);
+
+        // Map sóng chính vào khoảng biên độ động này
+        float rawHeight = Mathf.Lerp(currentMin, currentMax, baseWave);
+
+        // Làm tròn theo step
+        if (step > 0)
+        {
+            float snapped = Mathf.Round(rawHeight / step) * step;
+            return Mathf.Clamp(snapped, minH, maxH);
+        }
+        return Mathf.Clamp(rawHeight, minH, maxH);
+    }
 
     /// <summary>
     /// Tạo độ cao ngẫu nhiên nhưng "mượt mà" và liên kết với nhau (Perlin Noise).

@@ -46,7 +46,7 @@ public class MapGenerator : MonoBehaviour
     [Header("Mini Platform Aerial")]
     [SerializeField] private float aerialHeight = 3f;
     [SerializeField] private float minAerialHeight = -1f;
-    [SerializeField] private float maxAerialHeight = 3f; // Tăng biên độ lên chút vì dùng Perlin sẽ mượt hơn
+    [SerializeField] private float maxAerialHeight = 3f; 
     [SerializeField] private float minGapAerial = 1f;
     [SerializeField] private float maxGapAerial = 3f;
     [SerializeField] private float maxHeightMap = 10f;
@@ -69,7 +69,8 @@ public class MapGenerator : MonoBehaviour
             miniPlatformBag = new RandomUtilities.ShuffleBag<MiniPlatformData>(miniPlatformLibrary);
 
         // Random offset cho noise
-        noiseOffsetX = Random.Range(0f, 10000f);
+        noiseOffsetX = Random.Range(0, 10000);
+        Debug.Log($"[MapGenerator] Noise Offset X: {noiseOffsetX}");
     }
 
     public float SpawnNextSegment(float currentX)
@@ -164,7 +165,7 @@ public class MapGenerator : MonoBehaviour
 
         while (currentX < limitX)
         {
-            if (Random.Range(0, 100) < obstacleChance)
+            if (RandomUtilities.ChancePercent(obstacleChance))
             {
                 ObstacleData obs = obstacleLibrary[Random.Range(0, obstacleLibrary.Count)];
                 Vector2 size = obs.GetSize();
@@ -204,8 +205,19 @@ public class MapGenerator : MonoBehaviour
             }
             if (currentX + len > limitX) break; // Hết cách, dừng lại
 
+            // [THAY ĐỔI Ở ĐÂY] Sử dụng GetDynamicWaveHeight thay vì RandomWithSteps
+            // - currentX + noiseOffsetX: Để đảm bảo vị trí X liên tục tạo ra sóng liên tục
+            // - terrainRoughness: Độ gắt
+            // - minAerialHeight / maxAerialHeight: Biên độ cực đại
+            float noiseHeight = RandomUtilities.GetPerlinHeight(
+                currentX + noiseOffsetX,
+                terrainRoughness,   // Tần số sóng
+                minAerialHeight,    // Đáy sóng (ví dụ -2)
+                maxAerialHeight,    // Đỉnh sóng (ví dụ +5)
+                2f                // Step (bước nhảy độ cao, ví dụ mỗi 1 mét)
+            );
 
-            float targetY = groundY + aerialHeight + RandomUtilities.RandomWithSteps(minAerialHeight, maxAerialHeight, 2f);
+            float targetY = groundY + aerialHeight + noiseHeight;
             targetY = Mathf.Clamp(targetY, groundY + 2f, maxHeightMap);
 
             Vector3 pos = new Vector3(currentX + len / 2f, targetY, 0);
@@ -258,7 +270,7 @@ public class MapGenerator : MonoBehaviour
             // [TỐI ƯU] Cầu cũng dùng Perlin Noise để có độ nhấp nhô nhẹ
             float noiseHeight = RandomUtilities.GetPerlinHeight(
                 currentX + noiseOffsetX,
-                terrainRoughness * 2f, // Cầu gồ ghề hơn chút
+                terrainRoughness, // Cầu gồ ghề hơn chút
                 minBridgeHeight,
                 maxBridgeHeight
             );

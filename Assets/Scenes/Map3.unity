@@ -222,7 +222,7 @@ AudioListener:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 14420747}
-  m_Enabled: 1
+  m_Enabled: 0
 --- !u!20 &14420751
 Camera:
   m_ObjectHideFlags: 0
@@ -3135,12 +3135,12 @@ MonoBehaviour:
   minGapBridge: 1
   maxGapBridge: 2
   aerialHeight: 3
-  minAerialHeight: -4
-  maxAerialHeight: 3
+  minAerialHeight: -2
+  maxAerialHeight: 4
   minGapAerial: -1
   maxGapAerial: 5
   maxHeightMap: 10
-  terrainRoughness: 0.15
+  terrainRoughness: 50
 --- !u!114 &1002921626
 MonoBehaviour:
   m_ObjectHideFlags: 0

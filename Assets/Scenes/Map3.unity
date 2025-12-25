@@ -2318,7 +2318,7 @@ MonoBehaviour:
   viewDistance: 4
   obstacleLayer:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 896
   maxSweepAngle: 30
   pitCheckDistance: 1.5
   pitRayLength: 5
@@ -2671,7 +2671,7 @@ MonoBehaviour:
   viewDistance: 4
   obstacleLayer:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 640
   maxSweepAngle: 30
   pitCheckDistance: 1.5
   pitRayLength: 5
@@ -3080,7 +3080,7 @@ MonoBehaviour:
   minPitWidth: 10
   maxPitWidth: 30
   maxGroundSegmentLength: 100
-  ratioObstacleToAerial: 70
+  ratioObstacleToAerial: 0
   obstacleChance: 60
   obstacleEdgePadding: 2
   minObstacleGap: 10
@@ -3090,10 +3090,10 @@ MonoBehaviour:
   minGapBridge: 1
   maxGapBridge: 2
   aerialHeight: 3
-  minAerialHeight: -8
-  maxAerialHeight: -2
+  minAerialHeight: -4
+  maxAerialHeight: 3
   minGapAerial: -1
-  maxGapAerial: 2
+  maxGapAerial: 5
   maxHeightMap: 10
   terrainRoughness: 0.15
 --- !u!114 &1002921626
@@ -3267,7 +3267,7 @@ MonoBehaviour:
   liftPadding: 1
   checkRadius: 0.2
   obstacleChanceItems: 50
-  platformChanceItems: 70
+  platformChanceItems: 50
   groundPadding: 1
 --- !u!1 &1171249704
 GameObject:
@@ -3626,7 +3626,7 @@ MonoBehaviour:
   viewDistance: 4
   obstacleLayer:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 640
   maxSweepAngle: 30
   pitCheckDistance: 1.5
   pitRayLength: 5

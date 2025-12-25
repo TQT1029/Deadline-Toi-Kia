@@ -78,49 +78,65 @@ public class MapGenerator : MonoBehaviour
 
         if (RandomUtilities.ChancePercent(pitChance))
         {
-            if (currentX > currentGroundStart)
-            {
-                PopulateSegment(currentGroundStart, currentX);
-                // Debug.Log($"[MapGenerator] Đoạn đất xong: {currentX - currentGroundStart}m");
-            }
-
-            float pitWidth = RandomUtilities.RandomWithSteps(minPitWidth, maxPitWidth, 0.5f);
-            float endPitX = currentX + pitWidth;
-
-            SpawnBridge(currentX, endPitX);
-            LastPopulatedEdge = currentX;
-            currentGroundStart = endPitX;
-
-            return endPitX;
+            return GeneratePit(currentX);
         }
         else
         {
             // --- TẠO ĐẤT ---
-            BasePlatformData data = baseLibrary[Random.Range(0, baseLibrary.Count)];
-            float estimatedLen = data.GetLength();
-            Vector3 pos = new Vector3(currentX + estimatedLen / 2f, groundY, 0);
-
-            GameObject obj = Instantiate(data.prefab, pos, Quaternion.identity, basePlatformObjs);
-
-            float actualLen = estimatedLen;
-            var col = obj.GetComponent<BoxCollider2D>();
-            if (col != null) actualLen = col.size.x * obj.transform.localScale.x;
-
-            if (Mathf.Abs(actualLen - estimatedLen) > 0.01f)
-                obj.transform.position = new Vector3(currentX + actualLen / 2f, groundY, 0);
-
-            float segmentEnd = currentX + actualLen;
-
-            if (segmentEnd - currentGroundStart > maxGroundSegmentLength)
-            {
-                PopulateSegment(currentGroundStart, segmentEnd);
-                LastPopulatedEdge = segmentEnd;
-                currentGroundStart = segmentEnd;
-            }
-
-
-            return segmentEnd;
+            return GenerateGround(currentX);
         }
+    }
+
+    private float GeneratePit(float currentX)
+    {
+        //--- Tạo Hố ---
+        if (currentX > currentGroundStart)
+        {
+            PopulateSegment(currentGroundStart, currentX);
+            // Debug.Log($"[MapGenerator] Đoạn đất xong: {currentX - currentGroundStart}m");
+        }
+
+        float pitWidth = RandomUtilities.RandomWithSteps(minPitWidth, maxPitWidth, 0.5f);
+        float endPitX = currentX + pitWidth;
+
+        SpawnBridge(currentX, endPitX);
+        ItemGenerator.Instance.GenerateItems(currentX, endPitX);
+
+        LastPopulatedEdge = currentX;
+        currentGroundStart = endPitX;
+
+
+
+        return endPitX;
+    }
+
+    private float GenerateGround(float currentX)
+    {
+        BasePlatformData data = baseLibrary[Random.Range(0, baseLibrary.Count)];
+        float estimatedLen = data.GetLength();
+        Vector3 pos = new Vector3(currentX + estimatedLen / 2f, groundY, 0);
+
+        GameObject obj = Instantiate(data.prefab, pos, Quaternion.identity, basePlatformObjs);
+
+        float actualLen = estimatedLen;
+        var col = obj.GetComponent<BoxCollider2D>();
+        if (col != null) actualLen = col.size.x * obj.transform.localScale.x;
+
+        if (Mathf.Abs(actualLen - estimatedLen) > 0.01f)
+            obj.transform.position = new Vector3(currentX + actualLen / 2f, groundY, 0);
+
+        float segmentEnd = currentX + actualLen;
+
+        if (segmentEnd - currentGroundStart > maxGroundSegmentLength)
+        {
+            PopulateSegment(currentGroundStart, segmentEnd);
+            LastPopulatedEdge = segmentEnd;
+            currentGroundStart = segmentEnd;
+
+            return GeneratePit(segmentEnd);
+        }
+
+        return segmentEnd;
     }
 
     private void PopulateSegment(float startX, float endX)
@@ -136,6 +152,9 @@ public class MapGenerator : MonoBehaviour
             SpawnAerialOnSegment(startX, endX);
         }
         Physics2D.SyncTransforms();
+
+        ItemGenerator.Instance.GenerateItems(startX, endX);
+
     }
 
     private void SpawnObstaclesOnSegment(float startX, float endX)
@@ -186,8 +205,8 @@ public class MapGenerator : MonoBehaviour
             if (currentX + len > limitX) break; // Hết cách, dừng lại
 
 
-            float targetY = groundY + aerialHeight + RandomUtilities.RandomWithSteps(minAerialHeight, maxAerialHeight, 1f);
-            targetY = Mathf.Clamp(targetY, groundY + 2.5f, maxHeightMap);
+            float targetY = groundY + aerialHeight + RandomUtilities.RandomWithSteps(minAerialHeight, maxAerialHeight, 2f);
+            targetY = Mathf.Clamp(targetY, groundY + 2f, maxHeightMap);
 
             Vector3 pos = new Vector3(currentX + len / 2f, targetY, 0);
 
@@ -210,7 +229,7 @@ public class MapGenerator : MonoBehaviour
             }
 
             // Tịnh tiến X
-            currentX += len + RandomUtilities.RandomWithSteps(minGapAerial, maxGapAerial, 0.5f);
+            currentX += len + RandomUtilities.RandomWithSteps(minGapAerial, maxGapAerial, 1.5f);
         }
     }
 

@@ -85,7 +85,7 @@ public class BaseRunner : MonoBehaviour
     protected void CheckGround()
     {
         if (groundCheck != null)
-            isGrounded = Physics2D.OverlapBox(groundCheck.position, new Vector2(3.7f/2f, groundCheckRadius),0, groundLayer);
+            isGrounded = Physics2D.OverlapBox(groundCheck.position, new Vector2(3.7f/2.5f, groundCheckRadius),0, groundLayer);
     }
 
     protected virtual void CheckStuck()
@@ -133,12 +133,12 @@ public class BaseRunner : MonoBehaviour
 
         // a. Reset vận tốc về 0 để không bị trôi/rơi tiếp
 #if UNITY_6000_0_OR_NEWER
-        _rb.linearVelocity = Vector2.zero;
+        _rb.linearVelocity = Vector2.one;
 #else
         _rb.velocity = Vector2.zero;
 #endif
         // b. Giảm tốc độ chạy (Hình phạt)
-        currentSpeed = baseRunSpeed * 0.5f;
+        currentSpeed = baseRunSpeed * 0.75f;
 
         // c. Reset bộ đếm kẹt
         stuckTimer = 0f;

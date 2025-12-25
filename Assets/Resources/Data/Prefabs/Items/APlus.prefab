@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 8941684854466893304}
   - component: {fileID: 3747808731082775292}
   - component: {fileID: -1135874311429893245}
-  m_Layer: 7
+  m_Layer: 9
   m_Name: APlus
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -178,7 +178,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 0
   scoreValue: 1000
-  collectEffect: {fileID: 0}
 --- !u!95 &-1135874311429893245
 Animator:
   serializedVersion: 7

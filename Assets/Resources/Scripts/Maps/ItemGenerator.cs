@@ -43,8 +43,9 @@ public class ItemGenerator : MonoBehaviour
         while (currentX < endX - 2f)
         {
             // 1. Bắn tia xuống để xem bên dưới là gì
-            RaycastHit2D hit = Physics2D.Raycast(new Vector2(currentX, 20f), Vector2.down, 50f, surfaceLayer);
+            RaycastHit2D[] hits = Physics2D.RaycastAll(new Vector2(currentX, 20f), Vector2.down, 50f, surfaceLayer);
 
+            RaycastHit2D hit = (hits != null && hits.Length > 0) ? hits[Random.Range(0, hits.Length)] : default;
             if (hit.collider != null)
             {
                 GameObject hitObj = hit.collider.gameObject;

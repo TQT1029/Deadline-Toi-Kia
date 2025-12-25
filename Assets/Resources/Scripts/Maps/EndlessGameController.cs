@@ -17,7 +17,6 @@ public class EndlessGameController : MonoBehaviour
     public float destroyDistanceBehind = 50f;
 
     private float lastEdgeX = 0f;
-    private float lastItemEdgeX = 0f;
 
     private void Start()
     {
@@ -50,19 +49,16 @@ public class EndlessGameController : MonoBehaviour
         float newEdgeX = mapGenerator.SpawnNextSegment(lastEdgeX);
         lastEdgeX = newEdgeX;
 
-        // Sync lần cuối ở controller để chắc chắn mọi thứ đã khớp collider
-        Physics2D.SyncTransforms();
-
         // Kiểm tra xem MapGenerator đã "chốt" được đoạn nào chưa (có Obstacle/Platform)
         // Kể cả đất dài hay hố, nếu LastPopulatedEdge tăng lên, ta rải item
 
-
-        if (mapGenerator.LastPopulatedEdge > lastItemEdgeX)
-        {
-            itemGenerator.GenerateItems(lastItemEdgeX, mapGenerator.LastPopulatedEdge);
-            lastItemEdgeX = mapGenerator.LastPopulatedEdge;
-        }
-
+        /*
+                if (mapGenerator.LastPopulatedEdge > lastItemEdgeX)
+                {
+                    itemGenerator.GenerateItems(lastItemEdgeX, mapGenerator.LastPopulatedEdge);
+                    lastItemEdgeX = mapGenerator.LastPopulatedEdge;
+                }
+        */
     }
 
     private void CleanupOldObjects()

@@ -61,50 +61,34 @@ public static class RandomUtilities
     }
 
     /// <summary>
-    /// Tạo độ cao mượt mà với biên độ thay đổi động (Dynamic Amplitude).
-    /// <para><b>Công dụng:</b> Tạo ra các đoạn đường có lúc nhấp nhô rất cao (biên độ lớn), 
-    /// có lúc lại phẳng lặng (biên độ nhỏ), nhưng luôn giữ được sự mượt mà liên kết.</para>
+    /// Tạo độ cao theo hình sóng Sin (Lượn sóng đều đặn).
+    /// <para><b>Công dụng:</b> Tạo ra các platform lên xuống nhịp nhàng. Phù hợp cho các đoạn ngắn cần thay đổi độ cao rõ rệt.</para>
     /// </summary>
     /// <param name="x">Vị trí trục X.</param>
-    /// <param name="scale">Độ gắt của địa hình (Tần số).</param>
-    /// <param name="minH">Độ cao thấp nhất tuyệt đối.</param>
-    /// <param name="maxH">Độ cao cao nhất tuyệt đối.</param>
-    /// <param name="step">Bước nhảy làm tròn.</param>
-    public static float GetDynamicWaveHeight(float x, float scale, float minH, float maxH, float step = 0.5f)
+    /// <param name="frequency">Tần số (Độ gắt). Giá trị càng cao, sóng càng ngắn (nhấp nhô nhanh hơn).</param>
+    /// <param name="minH">Độ cao thấp nhất.</param>
+    /// <param name="maxH">Độ cao cao nhất.</param>
+    /// <param name="phaseOffset">Độ lệch pha (để mỗi lần spawn sóng bắt đầu ở vị trí khác nhau).</param>
+    /// <param name="step">Bước nhảy làm tròn (Grid snapping).</param>
+    public static float GetSineWaveHeight(float x, float frequency, float minH, float maxH, float phaseOffset, float step = 0.5f)
     {
-        // 1. Sóng chính (Base Wave): Tạo ra đường đi mượt mà cơ bản
-        // Trả về giá trị 0..1
-        float baseWave = Mathf.PerlinNoise(x * scale, 0f);
+        // Công thức Sin: sin(x * tần số + pha) -> trả về giá trị từ -1 đến 1
+        float sineValue = Mathf.Sin((x * frequency) + phaseOffset);
 
-        // 2. Điều biến biên độ (Amplitude Modulation): 
-        // Dùng một lớp noise khác tần số thấp hơn (scale * 0.5) để điều khiển "độ gắt".
-        // offset 100f để nó không trùng với sóng chính.
-        float ampMod = Mathf.PerlinNoise(x * (scale * 0.5f) + 100f, 10f);
+        // Chuyển từ khoảng [-1, 1] sang [0, 1] để dễ Lerp
+        float normalizedSine = (sineValue + 1f) / 2f;
 
-        // ampMod = 0 -> Biên độ hẹp (gần trung bình cộng).
-        // ampMod = 1 -> Biên độ rộng (tiến về minH/maxH).
+        // Nội suy ra độ cao thực tế
+        float rawHeight = Mathf.Lerp(minH, maxH, normalizedSine);
 
-        // Tính trung điểm
-        float midH = (minH + maxH) / 2f;
-
-        // Lerp biên min/max dựa trên ampMod
-        // Nếu ampMod thấp, min/max sẽ co về giữa -> đường đi phẳng hơn.
-        // Nếu ampMod cao, min/max dãn ra -> đường đi dốc hơn, biên độ lớn.
-        float currentMin = Mathf.Lerp(midH, minH, ampMod);
-        float currentMax = Mathf.Lerp(midH, maxH, ampMod);
-
-        // Map sóng chính vào khoảng biên độ động này
-        float rawHeight = Mathf.Lerp(currentMin, currentMax, baseWave);
-
-        // Làm tròn theo step
+        // Làm tròn theo step (nếu cần thẳng hàng lối)
         if (step > 0)
         {
             float snapped = Mathf.Round(rawHeight / step) * step;
             return Mathf.Clamp(snapped, minH, maxH);
         }
-        return Mathf.Clamp(rawHeight, minH, maxH);
+        return rawHeight;
     }
-
     /// <summary>
     /// Tạo độ cao ngẫu nhiên nhưng "mượt mà" và liên kết với nhau (Perlin Noise).
     /// <para><b>Công dụng:</b> Thay vì các tấm ván nhảy lung tung (cái cao tít, cái sát đất), 

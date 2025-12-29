@@ -8,6 +8,7 @@ TagManager:
   - Bot
   - MiniPlatform
   - Obstacle
+  - Platform
   layers:
   - Default
   - TransparentFX

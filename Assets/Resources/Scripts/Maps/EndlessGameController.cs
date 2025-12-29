@@ -49,16 +49,6 @@ public class EndlessGameController : MonoBehaviour
         float newEdgeX = mapGenerator.SpawnNextSegment(lastEdgeX);
         lastEdgeX = newEdgeX;
 
-        // Kiểm tra xem MapGenerator đã "chốt" được đoạn nào chưa (có Obstacle/Platform)
-        // Kể cả đất dài hay hố, nếu LastPopulatedEdge tăng lên, ta rải item
-
-        /*
-                if (mapGenerator.LastPopulatedEdge > lastItemEdgeX)
-                {
-                    itemGenerator.GenerateItems(lastItemEdgeX, mapGenerator.LastPopulatedEdge);
-                    lastItemEdgeX = mapGenerator.LastPopulatedEdge;
-                }
-        */
     }
 
     private void CleanupOldObjects()

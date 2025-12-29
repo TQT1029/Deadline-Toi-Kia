@@ -3136,8 +3136,8 @@ MonoBehaviour:
   maxAerialHeight: 4
   minGapAerial: -1
   maxGapAerial: 5
-  maxHeightMap: 10
-  terrainRoughness: 50
+  maxHeightMap: 20
+  waveFrequency: 0.4
 --- !u!114 &1002921626
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3254,7 +3254,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1078367681}
   - component: {fileID: 1078367682}
-  m_Layer: 7
+  m_Layer: 8
   m_Name: ItemObjs
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3306,7 +3306,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 448
   itemSpacing: 1.25
-  liftPadding: 0.5
+  liftPadding: 1
   checkRadius: 0.2
   obstacleChanceItems: 50
   platformChanceItems: 50

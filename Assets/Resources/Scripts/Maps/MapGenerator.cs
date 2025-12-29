@@ -21,7 +21,8 @@ public class MapGenerator : MonoBehaviour
     private RandomUtilities.ShuffleBag<MiniPlatformData> miniPlatformBag;
 
     [Header("Settings")]
-    public float groundY = -2f;
+    [SerializeField] private float groundY = -2f;
+    [SerializeField] private float pitY = -7f;
     [Range(0, 100)] public int pitChance = 30;
     public float minPitWidth = 3f, maxPitWidth = 6f;
 
@@ -46,7 +47,7 @@ public class MapGenerator : MonoBehaviour
     [Header("Mini Platform Aerial")]
     [SerializeField] private float aerialHeight = 3f;
     [SerializeField] private float minAerialHeight = -1f;
-    [SerializeField] private float maxAerialHeight = 3f; 
+    [SerializeField] private float maxAerialHeight = 3f;
     [SerializeField] private float minGapAerial = 1f;
     [SerializeField] private float maxGapAerial = 3f;
     [SerializeField] private float maxHeightMap = 10f;
@@ -100,7 +101,10 @@ public class MapGenerator : MonoBehaviour
         float pitWidth = RandomUtilities.RandomWithSteps(minPitWidth, maxPitWidth, 0.5f);
         float endPitX = currentX + pitWidth;
 
-        SpawnBridge(currentX, endPitX);
+        if (pitWidth > 15)
+            SpawnBridge(currentX, endPitX);
+        else
+            SpawnObstaclesOnPit(currentX, endPitX, pitY);
         ItemGenerator.Instance.GenerateItems(currentX, endPitX);
 
         LastPopulatedEdge = currentX;
@@ -180,7 +184,22 @@ public class MapGenerator : MonoBehaviour
             currentX += RandomUtilities.RandomWithSteps(minObstacleGap, maxObstacleGap, 0.5f);
         }
     }
+    private void SpawnObstaclesOnPit(float startX, float endX, float pitY)
+    {
+        float currentX = startX + obstacleEdgePadding / 2;
+        float limitX = endX - obstacleEdgePadding / 2;
 
+        // [FIX] Nếu hố quá nhỏ để dùng logic Gap thông thường, chuyển sang chế độ "Spawn 1 cái ở giữa"
+        ObstacleData obs = obstacleLibrary[Random.Range(0, obstacleLibrary.Count)];
+
+        // Chỉ spawn nếu vật cản nằm lọt trong hố
+        if (obs.GetSize().x <= (limitX - currentX) + 1f) // +1f du di một chút
+        {
+            // Đặt ngay chính giữa hố
+            Vector3 pos = new Vector3((startX + endX) / 2f, pitY, 0);
+            Instantiate(obs.prefab, pos, Quaternion.identity, obstacleObjs);
+        }
+    }
     // --- LOGIC ĐÃ NÂNG CẤP: Dùng Perlin Noise & Shuffle Bag ---
     private void SpawnAerialOnSegment(float startX, float endX)
     {
@@ -272,7 +291,8 @@ public class MapGenerator : MonoBehaviour
                 currentX + noiseOffsetX,
                 terrainRoughness, // Cầu gồ ghề hơn chút
                 minBridgeHeight,
-                maxBridgeHeight
+                maxBridgeHeight,
+                2f
             );
 
             Vector3 pos = new Vector3(currentX + len / 2f, groundY + noiseHeight, 0);

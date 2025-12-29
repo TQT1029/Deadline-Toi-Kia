@@ -283,7 +283,7 @@ Transform:
   m_GameObject: {fileID: 14420747}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 7.5724297, y: -0.00000023841858, z: -10}
+  m_LocalPosition: {x: 7.388889, y: -0.00000023841858, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2956,7 +2956,7 @@ Transform:
   m_GameObject: {fileID: 920687758}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 7.5724297, y: -0.00000023841858, z: -10}
+  m_LocalPosition: {x: 7.388889, y: -0.00000023841858, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3103,10 +3103,6 @@ MonoBehaviour:
     prefab: {fileID: 2370051292434349185, guid: 736d6ccd79b6bdf49be12e7ceb80deba, type: 3}
     heightOffset: 0
     size: {x: 1, y: 1}
-  - id: BlockMachine
-    prefab: {fileID: 5357453151025752192, guid: e8d1cb84a97bcab4fb8157da6abdbd71, type: 3}
-    heightOffset: 0
-    size: {x: 1, y: 1}
   miniPlatformLibrary:
   - id: m1
     prefab: {fileID: 2997676687723301785, guid: 85a0f2dbd00cb68498978bf34bbeae87, type: 3}
@@ -3121,8 +3117,9 @@ MonoBehaviour:
     spawnWeight: 100
     manualLength: 0
   groundY: -5
+  pitY: -7
   pitChance: 30
-  minPitWidth: 10
+  minPitWidth: 12
   maxPitWidth: 30
   maxGroundSegmentLength: 100
   ratioObstacleToAerial: 70

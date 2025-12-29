@@ -70,17 +70,24 @@ public class ItemGenerator : MonoBehaviour
                 }
                 else
                 {
-                    // --- TRÊN MẶT ĐẤT TRỐNG ---
-                    // Spawn các hình phức tạp (Wave, Text, Grid...)
+                    // --- TRÊN MẶT ĐẤT ---
+
                     float groundY = hit.point.y + groundPadding;
+                    Vector2 spawnOrigin = new Vector2(currentX, groundY);
 
-                    // Random khoảng trống an toàn trước khi spawn
-                    currentX += Random.Range(1f, 3f);
-
-                    // Sinh Pattern và lấy về độ rộng thực tế của nó để cộng dồn X
-                    float patternWidth = SpawnComplexPattern(currentX, groundY, endX);
-
-                    currentX += patternWidth + Random.Range(3f, 6f); // Khoảng nghỉ sau pattern
+                    // KIỂM TRA AN TOÀN TUYỆT ĐỐI
+                    // Chỉ spawn pattern nếu xung quanh an toàn
+                    if (CheckSurroundingSafety(spawnOrigin))
+                    {
+                        // Sinh Pattern
+                        float patternWidth = SpawnComplexPattern(currentX, groundY, endX);
+                        currentX += patternWidth + Random.Range(3f, 6f);
+                    }
+                    else
+                    {
+                        // Nếu vị trí không an toàn (sát vách, mép vực), bỏ qua và đi tiếp một đoạn ngắn
+                        currentX += 2f;
+                    }
                 }
             }
             else
@@ -88,6 +95,48 @@ public class ItemGenerator : MonoBehaviour
                 currentX += 2f; // Nếu không thấy đất thì đi tiếp
             }
         }
+    }
+
+    /// <summary>
+    /// Kiểm tra 5 hướng (Trái, Phải, Dưới, Dưới-Trái, Dưới-Phải) xem có an toàn để đặt Pattern không.
+    /// </summary>
+    private bool CheckSurroundingSafety(Vector2 centerPos)
+    {
+        float checkDist = 1.5f; // Khoảng cách kiểm tra
+
+        // Danh sách các hướng cần kiểm tra
+        Vector2[] directions = {
+            Vector2.left,           // Trái
+            Vector2.right,          // Phải
+            new Vector2(-1, -1),    // Dưới Trái
+            new Vector2(1, -1)      // Dưới Phải
+        };
+
+        foreach (var dir in directions)
+        {
+            // Bắn tia từ vị trí dự kiến spawn
+            RaycastHit2D hit = Physics2D.Raycast(centerPos, dir, checkDist, surfaceLayer);
+
+            // LOGIC AN TOÀN:
+
+            // 1. Kiểm tra hướng ngang (Trái/Phải)
+            if (dir.y == 0)
+            {
+                // Nếu bên cạnh có Obstacle -> Nguy hiểm (dễ bị kẹt hoặc spawn đè vào)
+                if (hit.collider != null && hit.collider.CompareTag("Obstacle"))
+                    return false;
+            }
+
+            // 2. Kiểm tra hướng dưới (Dưới/Chéo Dưới)
+            if (dir.y < 0)
+            {
+                // Nếu bắn xuống mà KHÔNG trúng gì -> Vực thẳm -> Nguy hiểm
+                if (hit.collider != null && hit.collider.CompareTag("Obstacle"))
+                    return false;
+            }
+        }
+
+        return true; // Tất cả các hướng đều ổn
     }
 
     private void SpawnOnTopChance(float chance, RaycastHit2D hit)

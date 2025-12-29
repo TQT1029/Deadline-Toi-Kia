@@ -49,7 +49,7 @@ public class Collectible : MonoBehaviour
             transform.DOScale(Vector3.zero, 0.3f).SetEase(Ease.InBack).OnComplete(() => Destroy(gameObject));
         }
 
-        if (collision.CompareTag("Bot"))
+        if (collision.CompareTag("Bot")||collision.CompareTag("Obstacle")||collision.CompareTag("MiniPlatform"))
         {
             AudioManager.Instance.PlaySFX("CollectItem");
 

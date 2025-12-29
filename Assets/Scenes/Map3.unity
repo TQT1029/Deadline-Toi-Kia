@@ -222,7 +222,7 @@ AudioListener:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 14420747}
-  m_Enabled: 0
+  m_Enabled: 1
 --- !u!20 &14420751
 Camera:
   m_ObjectHideFlags: 0
@@ -3306,11 +3306,11 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 448
   itemSpacing: 1.25
-  liftPadding: 1
+  liftPadding: 0.5
   checkRadius: 0.2
   obstacleChanceItems: 50
   platformChanceItems: 50
-  groundPadding: 1
+  groundPadding: 0.5
 --- !u!1 &1171249704
 GameObject:
   m_ObjectHideFlags: 0

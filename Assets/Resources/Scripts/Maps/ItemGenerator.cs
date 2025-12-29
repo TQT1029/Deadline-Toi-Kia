@@ -14,7 +14,7 @@ public class ItemGenerator : MonoBehaviour
     [Header("Settings")]
     public LayerMask surfaceLayer; // Gồm: Ground, Obstacle, MiniPlatform
     public float itemSpacing = 1.0f; // Khoảng cách giữa các item
-    public float liftPadding = 1.0f; // Nâng lên bao nhiêu so với vật cản
+    public float liftPadding = .5f; // Nâng lên bao nhiêu so với vật cản
     public float checkRadius = 0.2f; // Bán kính check va chạm
 
     [Space]
@@ -25,7 +25,7 @@ public class ItemGenerator : MonoBehaviour
 
     [Space]
     [Tooltip("Khoảng cách từ mặt đất đến vị trí spawn item")]
-    [SerializeField] private float groundPadding = 1.0f;
+    [SerializeField] private float groundPadding = .5f;
 
     // ENUM CÁC PATTERN TỪ SCRIPT GỐC
     public enum ItemPattern
@@ -44,8 +44,23 @@ public class ItemGenerator : MonoBehaviour
         {
             // 1. Bắn tia xuống để xem bên dưới là gì
             RaycastHit2D[] hits = Physics2D.RaycastAll(new Vector2(currentX, 20f), Vector2.down, 50f, surfaceLayer);
+            RaycastHit2D hit = default;
 
-            RaycastHit2D hit = (hits != null && hits.Length > 0) ? hits[Random.Range(0, hits.Length)] : default;
+            if ((hits != null && hits.Length > 0))
+            {
+                hit = hits[Random.Range(0, hits.Length)];
+
+                foreach (var onHit in hits)
+                {
+                    if (onHit.collider.CompareTag("Obstacle"))
+                    {
+                        hit = onHit;
+                        break;
+                    }
+                }
+            }
+
+
             if (hit.collider != null)
             {
                 GameObject hitObj = hit.collider.gameObject;
@@ -75,19 +90,10 @@ public class ItemGenerator : MonoBehaviour
                     float groundY = hit.point.y + groundPadding;
                     Vector2 spawnOrigin = new Vector2(currentX, groundY);
 
-                    // KIỂM TRA AN TOÀN TUYỆT ĐỐI
-                    // Chỉ spawn pattern nếu xung quanh an toàn
-                    if (CheckSurroundingSafety(spawnOrigin))
-                    {
-                        // Sinh Pattern
-                        float patternWidth = SpawnComplexPattern(currentX, groundY, endX);
-                        currentX += patternWidth + Random.Range(3f, 6f);
-                    }
-                    else
-                    {
-                        // Nếu vị trí không an toàn (sát vách, mép vực), bỏ qua và đi tiếp một đoạn ngắn
-                        currentX += 2f;
-                    }
+
+                    // Sinh Pattern
+                    float patternWidth = SpawnComplexPattern(currentX, groundY, endX);
+                    currentX += patternWidth + Random.Range(3f, 6f);
                 }
             }
             else
@@ -95,48 +101,6 @@ public class ItemGenerator : MonoBehaviour
                 currentX += 2f; // Nếu không thấy đất thì đi tiếp
             }
         }
-    }
-
-    /// <summary>
-    /// Kiểm tra 5 hướng (Trái, Phải, Dưới, Dưới-Trái, Dưới-Phải) xem có an toàn để đặt Pattern không.
-    /// </summary>
-    private bool CheckSurroundingSafety(Vector2 centerPos)
-    {
-        float checkDist = 1.5f; // Khoảng cách kiểm tra
-
-        // Danh sách các hướng cần kiểm tra
-        Vector2[] directions = {
-            Vector2.left,           // Trái
-            Vector2.right,          // Phải
-            new Vector2(-1, -1),    // Dưới Trái
-            new Vector2(1, -1)      // Dưới Phải
-        };
-
-        foreach (var dir in directions)
-        {
-            // Bắn tia từ vị trí dự kiến spawn
-            RaycastHit2D hit = Physics2D.Raycast(centerPos, dir, checkDist, surfaceLayer);
-
-            // LOGIC AN TOÀN:
-
-            // 1. Kiểm tra hướng ngang (Trái/Phải)
-            if (dir.y == 0)
-            {
-                // Nếu bên cạnh có Obstacle -> Nguy hiểm (dễ bị kẹt hoặc spawn đè vào)
-                if (hit.collider != null && hit.collider.CompareTag("Obstacle"))
-                    return false;
-            }
-
-            // 2. Kiểm tra hướng dưới (Dưới/Chéo Dưới)
-            if (dir.y < 0)
-            {
-                // Nếu bắn xuống mà KHÔNG trúng gì -> Vực thẳm -> Nguy hiểm
-                if (hit.collider != null && hit.collider.CompareTag("Obstacle"))
-                    return false;
-            }
-        }
-
-        return true; // Tất cả các hướng đều ổn
     }
 
     private void SpawnOnTopChance(float chance, RaycastHit2D hit)
@@ -245,6 +209,67 @@ public class ItemGenerator : MonoBehaviour
         return maxX * itemSpacing; // Trả về chiều dài của pattern để cộng dồn
     }
 
+    // --- HÀM XỬ LÝ ĐẨY ITEM (SMART PUSH) ---
+    private Vector3 ResolveObstacleCollision(Vector3 originalPos)
+    {
+        // Kiểm tra xem tại vị trí dự kiến có đè lên Obstacle nào không
+        // Dùng OverlapCircle để bắt va chạm
+        Collider2D hit = Physics2D.OverlapCircle(originalPos, checkRadius, surfaceLayer);
+
+        // Nếu không đụng gì hoặc đụng đất thường -> Giữ nguyên vị trí
+        if (hit == null || (!hit.CompareTag("Obstacle") && !hit.CompareTag("MiniPlatform")))
+        {
+            return originalPos;
+        }
+
+        // Nếu đụng Obstacle -> Tính toán đẩy ra
+        Bounds b = hit.bounds;
+
+        // Tính khoảng cách tới 3 mép: Trái, Phải, Trên
+        float distToLeft = Mathf.Abs(originalPos.x - b.min.x);
+        float distToRight = Mathf.Abs(originalPos.x - b.max.x);
+        float distToTop = Mathf.Abs(originalPos.y - b.max.y);
+
+        // Kiểm tra xem có nằm ở "Vùng Trung Tâm" không (chiếm 40% ở giữa vật thể)
+        float distFromCenter = Mathf.Abs(originalPos.x - b.center.x);
+        bool isNearCenter = distFromCenter < (b.size.x * 0.2f); // 0.2 mỗi bên = 40% giữa
+
+        Vector3 newPos = originalPos;
+
+        // --- QUY TẮC ĐẨY ---
+        if (isNearCenter)
+        {
+            // 1. Nếu ở giữa -> Bắt buộc đẩy LÊN TRÊN
+            newPos.y = b.max.y + liftPadding;
+            // Giữ nguyên X để pattern không bị méo quá nhiều
+        }
+        else
+        {
+            // 2. Nếu không ở giữa -> Tìm hướng gần nhất để đẩy (Trái, Phải hoặc Trên)
+
+            // Tìm khoảng cách nhỏ nhất trong 3 hướng
+            float min = Mathf.Min(distToLeft, distToRight, distToTop);
+
+            if (min == distToTop)
+            {
+                // Gần nắp nhất -> Đẩy lên
+                newPos.y = b.max.y + liftPadding;
+            }
+            else if (min == distToLeft)
+            {
+                // Gần mép trái nhất -> Đẩy sang trái
+                newPos.x = b.min.x - liftPadding;
+                // Có thể cần chỉnh lại Y một chút cho đẹp nếu muốn, nhưng giữ nguyên Y pattern cũng được
+            }
+            else // min == distToRight
+            {
+                // Gần mép phải nhất -> Đẩy sang phải
+                newPos.x = b.max.x + liftPadding;
+            }
+        }
+
+        return newPos;
+    }
     private void SpawnSingleItem(Vector3 pos)
     {
         ItemData data = GetRandomItem();

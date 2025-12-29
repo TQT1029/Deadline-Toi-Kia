@@ -50,7 +50,7 @@ public class MapGenerator : MonoBehaviour
     [SerializeField] private float maxAerialHeight = 3f;
     [SerializeField] private float minGapAerial = 1f;
     [SerializeField] private float maxGapAerial = 3f;
-    [SerializeField] private float maxHeightMap = 10f;
+    [SerializeField] private float maxHeightMap = 15f;
 
     // [MỚI] Tham số Noise để tạo độ cao tự nhiên
     [Header("Natural Randomness")]
@@ -105,6 +105,9 @@ public class MapGenerator : MonoBehaviour
             SpawnBridge(currentX, endPitX);
         else
             SpawnObstaclesOnPit(currentX, endPitX, pitY);
+
+        Physics2D.SyncTransforms();
+
         ItemGenerator.Instance.GenerateItems(currentX, endPitX);
 
         LastPopulatedEdge = currentX;
@@ -292,7 +295,7 @@ public class MapGenerator : MonoBehaviour
                 terrainRoughness, // Cầu gồ ghề hơn chút
                 minBridgeHeight,
                 maxBridgeHeight,
-                2f
+                1.5f
             );
 
             Vector3 pos = new Vector3(currentX + len / 2f, groundY + noiseHeight, 0);

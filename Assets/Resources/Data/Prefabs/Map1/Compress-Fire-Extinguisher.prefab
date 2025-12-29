@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1103692624741015841}
   m_Layer: 7
   m_Name: Compress-FireExtinguisher (1)
-  m_TagString: Untagged
+  m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -263,7 +263,7 @@ GameObject:
   - component: {fileID: 592409053636583920}
   m_Layer: 7
   m_Name: Compress-FireExtinguisher
-  m_TagString: Untagged
+  m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

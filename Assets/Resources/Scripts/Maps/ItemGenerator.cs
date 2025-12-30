@@ -43,27 +43,22 @@ public class ItemGenerator : MonoBehaviour
     public void GenerateItems(float startX, float endX)
     {
         float currentX = startX + 2f;
+        int loopSafety = 0;
 
         while (currentX < endX - 2f)
         {
-            // 1. Bắn tia xuống để xem bên dưới là gì
-            RaycastHit2D[] hits = Physics2D.RaycastAll(new Vector2(currentX, 20f), Vector2.down, 50f, surfaceLayer);
-            RaycastHit2D hit = default;
-
-            if ((hits != null && hits.Length > 0))
+            if (loopSafety++ > 500)
             {
-                hit = hits[Random.Range(0, hits.Length)];
-
-                foreach (var onHit in hits)
-                {
-                    if (onHit.collider.CompareTag("Obstacle"))
-                    {
-                        hit = onHit;
-                        break;
-                    }
-                }
+                Debug.LogWarning("[ItemGenerator] Infinite Loop Detected! Breaking out.");
+                break;
             }
+            float nextX = currentX; // Giá trị X dự kiến cho vòng sau
 
+            // 1. Bắn tia xuống để xem bên dưới là gì
+            RaycastHit2D hit = GetBestSurfaceHit(currentX);
+
+
+            // 2. Tìm tất cả collider trong vùng OverlapBox dưới điểm hit để xác định loại bề mặt
             Collider2D[] colliderOverLaps = Physics2D.OverlapBoxAll(hit.point, new Vector2(10f, 1f), 0f, surfaceLayer);
             Collider2D colliderOverLap = default;
 
@@ -73,45 +68,42 @@ public class ItemGenerator : MonoBehaviour
 
                 foreach (var onCollider in colliderOverLaps)
                 {
-                    if (onCollider.CompareTag("Obstacle"))
+                    if (onCollider.CompareTag("Obstacle") || onCollider.CompareTag("MiniPlatform"))
                     {
                         colliderOverLap = onCollider;
                         break;
                     }
-                    else if (onCollider.CompareTag("MiniPlatform"))
-                    {
-                        colliderOverLap = onCollider;
-                        break;
-                    }
-
                 }
 
             }
 
 
-
+            // 3. Xử lý tùy theo loại bề mặt
             if (colliderOverLap != null)
             {
-                GameObject colliderObj = colliderOverLap.gameObject;
-                bool isObstacle = colliderObj.CompareTag("Obstacle");
-                bool isPlatform = colliderObj.CompareTag("MiniPlatform");
+                GameObject obj = colliderOverLap.gameObject;
+                bool isObstacle = obj.CompareTag("Obstacle");
+                bool isPlatform = obj.CompareTag("MiniPlatform");
+
+                GameObject objParent = obj.transform.parent.gameObject;
+                Bounds boundsParent = GetBound(objParent);
 
                 if (isObstacle)
                 {
                     // --- TRÊN VẬT CẢN ---
-                    SpawnOnTopChance(obstacleChanceItems, colliderOverLap);
-                    // Nhảy cóc qua vật cản này để không spawn đè lên nó nữa
-                    if (!colliderObj.transform.parent.gameObject.CompareTag("Container"))
-                        currentX = GetMaxBound(colliderObj.transform.parent.gameObject) + RandomUtilities.RandomWithSteps(minGap, maxGap);
-                    currentX += 2f;
+                    SpawnOnTopChance(obstacleChanceItems, boundsParent);
+                    // Nhảy qua vật cản này để không spawn đè lên nó nữa
+                    if (!objParent.CompareTag("Container"))
+                        currentX = boundsParent.max.x + RandomUtilities.RandomWithSteps(minGap, maxGap);
+                    currentX += 5f;
                 }
                 else if (isPlatform)
                 {
                     // --- TRÊN SÀN BAY ---
-                    SpawnOnTopChance(platformChanceItems, colliderOverLap);
-                    // Nhảy cóc qua vật cản này để không spawn đè lên nó nữa
-                    if (!colliderObj.transform.parent.gameObject.CompareTag("Container"))
-                        currentX = GetMaxBound(colliderObj.transform.parent.gameObject) + RandomUtilities.RandomWithSteps(minGap, maxGap);
+                    SpawnOnTopChance(platformChanceItems, boundsParent);
+                    // Nhảy qua vật cản này để không spawn đè lên nó nữa
+                    if (!objParent.CompareTag("Container"))
+                        currentX = boundsParent.max.x + RandomUtilities.RandomWithSteps(minGap, maxGap);
                     currentX += 2f;
 
                 }
@@ -135,10 +127,48 @@ public class ItemGenerator : MonoBehaviour
         }
     }
 
-    private float GetMaxBound(GameObject prefab)
+    private RaycastHit2D GetBestSurfaceHit(float xPos)
     {
-        // 1. Lấy tất cả Collider2D trong prefab (bao gồm cả object cha và các con)
-        var colliders = prefab.GetComponentsInChildren<Collider2D>(true);
+        RaycastHit2D[] hits = Physics2D.RaycastAll(new Vector2(xPos, 20f), Vector2.down, 50f, surfaceLayer);
+
+        // Ưu tiên tìm Obstacle hoặc Platform trước
+        foreach (var h in hits)
+        {
+            if (h.collider.CompareTag("Obstacle") || h.collider.CompareTag("MiniPlatform"))
+                return h;
+        }
+
+        // Nếu không có, lấy bề mặt cao nhất (Ground)
+        if (hits != null && hits.Length > 0) return hits[Random.Range(0, hits.Length)]; // RaycastAll thường trả về theo thứ tự distance, nhưng an toàn thì sort lại nếu cần
+
+        return default;
+    }
+
+    private GameObject GetObstacleRoot(Transform child)
+    {
+        Transform current = child;
+
+        // Duyệt ngược lên trên cho đến khi gặp object cha có Tag là Container 
+        // Hoặc hết cha (null)
+        // Object ngay dưới Container chính là Group Root
+        while (current.parent != null)
+        {
+            if (current.parent.CompareTag("Container") || current.parent.name.Contains("Container"))
+            {
+                // Nếu cha là Container, thì current chính là Root của Obstacle
+                return current.gameObject;
+            }
+            current = current.parent;
+        }
+
+        // Nếu không tìm thấy Container, trả về object ngoài cùng tìm được
+        return current.gameObject;
+    }
+
+    private Bounds GetBound(GameObject obj)
+    {
+        // 1. Lấy tất cả Collider2D trong obj (bao gồm cả object cha và các con)
+        var colliders = obj.GetComponentsInChildren<Collider2D>(true);
 
         if (colliders.Length > 0)
         {
@@ -151,61 +181,59 @@ public class ItemGenerator : MonoBehaviour
                 combinedBounds.Encapsulate(colliders[i].bounds);
             }
 
-            // 3. Trả về kích thước tổng (Width, Height)
-            // Bounds.size trong Unity đã tự động tính toán cả Scale của transform rồi
-            return combinedBounds.max.x;
+            // 3. Trả về bounds tổng
+            return combinedBounds;
         }
 
         // Fallback: Nếu không tìm thấy collider nào, trả về mặc định
-        return 1;
+        return default;
 
     }
 
-    private void SpawnOnTopChance(float chance, Collider2D collider)
+    private void SpawnOnTopChance(float chance, Bounds bound)
     {
         if (!RandomUtilities.ChancePercent(chance)) return;
 
         // --- TRÊN VẬT CẢN / SÀN BAY ---
-        // Chỉ spawn các hình đơn giản (Line, Cung nhỏ)
         // Căn giữa theo vật thể đó
-        float objectMinX = collider.bounds.min.x;
-        float objectTop = collider.bounds.max.y;
-        float objectMaxX = collider.bounds.max.x;
+        float objectMinX = bound.min.x;
+        float objectTop = bound.max.y;
+        float objectMaxX = bound.max.x;
 
         SpawnComplexPattern(objectMinX, objectTop + liftPadding, objectMaxX);
         //SpawnOnTop(objectCenterX, objectTop, objectWidth);
     }
-
-    // --- LOGIC 1: SPAWN TRÊN ĐỈNH (Đơn giản) ---
-    private void SpawnOnTop(float centerX, float topY, float widthAvailable)
-    {
-        // Tính số lượng item tối đa nhét vừa
-        int maxItems = Mathf.FloorToInt(widthAvailable / itemSpacing);
-        if (maxItems < 1) maxItems = 1;
-        if (maxItems > 5) maxItems = 5; // Giới hạn cho đẹp
-
-        float startItemX = centerX - ((maxItems - 1) * itemSpacing) / 2f;
-        float spawnY = topY + liftPadding;
-
-        // 50% là đường thẳng, 50% là hình cung (nếu đủ dài)
-        bool isArch = (maxItems >= 3 && Random.value > 0.5f);
-
-        for (int i = 0; i < maxItems; i++)
+    /*
+        // --- LOGIC 1: SPAWN TRÊN ĐỈNH (Đơn giản) ---
+        private void SpawnOnTop(float centerX, float topY, float widthAvailable)
         {
-            float x = startItemX + i * itemSpacing;
-            float y = spawnY;
+            // Tính số lượng item tối đa nhét vừa
+            int maxItems = Mathf.FloorToInt(widthAvailable / itemSpacing);
+            if (maxItems < 1) maxItems = 1;
+            if (maxItems > 5) maxItems = 5; // Giới hạn cho đẹp
 
-            if (isArch)
+            float startItemX = centerX - ((maxItems - 1) * itemSpacing) / 2f;
+            float spawnY = topY + liftPadding;
+
+            // 50% là đường thẳng, 50% là hình cung (nếu đủ dài)
+            bool isArch = (maxItems >= 3 && Random.value > 0.5f);
+
+            for (int i = 0; i < maxItems; i++)
             {
-                // Parabol: y = 4 * h * t * (1-t)
-                float t = (float)i / (maxItems - 1);
-                y += 1.5f * 4 * t * (1 - t);
+                float x = startItemX + i * itemSpacing;
+                float y = spawnY;
+
+                if (isArch)
+                {
+                    // Parabol: y = 4 * h * t * (1-t)
+                    float t = (float)i / (maxItems - 1);
+                    y += 1.5f * 4 * t * (1 - t);
+                }
+
+                SpawnSingleItem(new Vector3(x, y, 0));
             }
-
-            SpawnSingleItem(new Vector3(x, y, 0));
         }
-    }
-
+    */
     // --- LOGIC 2: SPAWN DƯỚI ĐẤT (Phức tạp - Pattern cũ) ---
     private float SpawnComplexPattern(float startX, float groundY, float limitX)
     {

@@ -24,8 +24,29 @@ public class ObstacleData
     public GameObject prefab;
     public float heightOffset = 0f;
 
+    public Vector2 centerPos = Vector2.zero;
     // Mặc định là (1,1). Nếu bạn set tay giá trị khác trong Inspector, code sẽ dùng giá trị đó thay vì tự tính.
     public Vector2 size = Vector2.one;
+
+    /*    public Vector2 GetCenterPos()
+        {
+            if (prefab == null) return Vector2.zero;
+            if (centerPos != Vector2.zero) return centerPos;
+
+            var colliders = prefab.GetComponentsInChildren<Collider2D>(true);
+            if (colliders.Length > 0)
+            {
+                Bounds combinedBounds = colliders[0].bounds;
+                for (int i = 1; i < colliders.Length; i++)
+                {
+                    combinedBounds.Encapsulate(colliders[i].bounds);
+                }
+                return combinedBounds.center;
+            }
+
+            return Vector2.zero;
+        }
+    */
 
     public Vector2 GetSize()
     {
@@ -58,6 +79,7 @@ public class ObstacleData
         return Vector2.one;
     }
 }
+
 [System.Serializable]
 public class MiniPlatformData
 {

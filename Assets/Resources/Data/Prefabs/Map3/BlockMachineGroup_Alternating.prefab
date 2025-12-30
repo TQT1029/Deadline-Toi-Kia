@@ -227,7 +227,7 @@ MonoBehaviour:
   moveDistance: 2.25
   customMoveOffset: {x: 0, y: -3, z: 0}
   scaleMultiplier: 1.2
-  duration: 1
+  duration: 0.75
   easeType: 4
   waveDelayStep: 0.5
 --- !u!1 &6547288510379847762

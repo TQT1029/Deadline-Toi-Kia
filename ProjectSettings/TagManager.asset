@@ -9,6 +9,7 @@ TagManager:
   - MiniPlatform
   - Obstacle
   - Platform
+  - Container
   layers:
   - Default
   - TransparentFX

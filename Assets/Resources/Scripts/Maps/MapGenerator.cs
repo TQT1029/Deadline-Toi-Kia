@@ -52,14 +52,12 @@ public class MapGenerator : MonoBehaviour
     [SerializeField] private float maxGapAerial = 3f;
     [SerializeField] private float maxHeightMap = 15f;
 
-    [Header("Mini Platform Wave Settings")]
-    // [MỚI] Tham số Noise để tạo độ cao tự nhiên
+    [Space]
     [Header("Natural Randomness")]
-    private float noiseOffsetX; // Để mỗi lần chơi là một map khác nhau
-
     // Tần số sóng: 0.1 = sóng dài, 0.5 = sóng ngắn (gắt)
     // Bạn nên để khoảng 0.3 - 0.5 để thấy rõ lượn sóng trong khoảng cách ngắn
     [SerializeField] private float waveFrequency = 0.4f;
+    private float noiseOffsetX; // Để mỗi lần chơi là một map khác nhau
 
     private float currentGroundStart = 0f;
 

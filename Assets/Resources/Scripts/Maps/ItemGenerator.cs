@@ -55,56 +55,35 @@ public class ItemGenerator : MonoBehaviour
             float nextX = currentX; // Giá trị X dự kiến cho vòng sau
 
             // 1. Bắn tia xuống để xem bên dưới là gì
-            RaycastHit2D hit = GetBestSurfaceHit(currentX);
+            RaycastHit2D hit = GetRandomSurfaceHit(currentX);
 
 
             // 2. Tìm tất cả collider trong vùng OverlapBox dưới điểm hit để xác định loại bề mặt
-            Collider2D[] colliderOverLaps = Physics2D.OverlapBoxAll(hit.point, new Vector2(10f, 1f), 0f, surfaceLayer);
-            Collider2D colliderOverLap = default;
-
-            if ((colliderOverLaps != null && colliderOverLaps.Length > 0))
-            {
-                colliderOverLap = colliderOverLaps[Random.Range(0, colliderOverLaps.Length)];
-
-                foreach (var onCollider in colliderOverLaps)
-                {
-                    if (onCollider.CompareTag("Obstacle") || onCollider.CompareTag("MiniPlatform"))
-                    {
-                        colliderOverLap = onCollider;
-                        break;
-                    }
-                }
-
-            }
+            Collider2D colliderOverLap = GetSurfaceColliderFromHit(hit.point);
 
 
             // 3. Xử lý tùy theo loại bề mặt
             if (colliderOverLap != null)
             {
-                GameObject obj = colliderOverLap.gameObject;
+                GameObject obj = GetObstacleRoot(colliderOverLap.transform);
                 bool isObstacle = obj.CompareTag("Obstacle");
                 bool isPlatform = obj.CompareTag("MiniPlatform");
 
-                GameObject objParent = obj.transform.parent.gameObject;
-                Bounds boundsParent = GetBound(objParent);
-
+                Bounds boundsObj = GetBound(obj);
+                Debug.Log($"[ItemGenerator] max: {boundsObj.max.x } min: { boundsObj.min.x} và {boundsObj.size.x} tên: {obj.name}");
                 if (isObstacle)
                 {
                     // --- TRÊN VẬT CẢN ---
-                    SpawnOnTopChance(obstacleChanceItems, boundsParent);
+                    SpawnOnTopChance(obstacleChanceItems, boundsObj);
                     // Nhảy qua vật cản này để không spawn đè lên nó nữa
-                    if (!objParent.CompareTag("Container"))
-                        currentX = boundsParent.max.x + RandomUtilities.RandomWithSteps(minGap, maxGap);
-                    currentX += 5f;
+                    currentX += boundsObj.size.x + RandomUtilities.RandomWithSteps(minGap, maxGap);
                 }
                 else if (isPlatform)
                 {
                     // --- TRÊN SÀN BAY ---
-                    SpawnOnTopChance(platformChanceItems, boundsParent);
+                    SpawnOnTopChance(platformChanceItems, boundsObj);
                     // Nhảy qua vật cản này để không spawn đè lên nó nữa
-                    if (!objParent.CompareTag("Container"))
-                        currentX = boundsParent.max.x + RandomUtilities.RandomWithSteps(minGap, maxGap);
-                    currentX += 2f;
+                    currentX += boundsObj.size.x + RandomUtilities.RandomWithSteps(minGap, maxGap);
 
                 }
                 else
@@ -127,7 +106,7 @@ public class ItemGenerator : MonoBehaviour
         }
     }
 
-    private RaycastHit2D GetBestSurfaceHit(float xPos)
+    private RaycastHit2D GetRandomSurfaceHit(float xPos)
     {
         RaycastHit2D[] hits = Physics2D.RaycastAll(new Vector2(xPos, 20f), Vector2.down, 50f, surfaceLayer);
 
@@ -143,6 +122,31 @@ public class ItemGenerator : MonoBehaviour
 
         return default;
     }
+
+    private Collider2D GetSurfaceColliderFromHit(Vector2 hitPoint)
+    {
+        // Quét các collider trong vùng ngay dưới điểm raycast hit
+        Collider2D[] overlaps = Physics2D.OverlapBoxAll(
+            hitPoint,
+            new Vector2(10f, 1f),
+            0f,
+            surfaceLayer
+        );
+
+        if (overlaps == null || overlaps.Length == 0)
+            return null;
+
+        // Ưu tiên Obstacle hoặc MiniPlatform
+        foreach (var col in overlaps)
+        {
+            if (col.CompareTag("Obstacle"))
+                return col;
+        }
+
+        // Nếu không có collider ưu tiên, trả về đầu tiên
+        return overlaps[0];
+    }
+
 
     private GameObject GetObstacleRoot(Transform child)
     {

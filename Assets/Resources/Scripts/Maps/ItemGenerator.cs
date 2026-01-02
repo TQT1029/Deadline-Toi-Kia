@@ -1,5 +1,6 @@
-﻿using UnityEngine;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Unity.VisualScripting;
+using UnityEngine;
 
 public class ItemGenerator : MonoBehaviour
 {
@@ -12,10 +13,11 @@ public class ItemGenerator : MonoBehaviour
     public List<ItemData> commonItems;
 
     [Header("Settings")]
-    public LayerMask surfaceLayer; // Gồm: Ground, Obstacle, MiniPlatform
-    public float itemSpacing = 1.0f; // Khoảng cách giữa các item
-    public float liftPadding = .5f; // Nâng lên bao nhiêu so với vật cản
-    public float checkRadius = 0.2f; // Bán kính check va chạm
+    [SerializeField] private LayerMask surfaceLayer; // Gồm: Ground, Obstacle, MiniPlatform
+    [SerializeField] private float itemSpacing = 1.0f; // Khoảng cách giữa các item
+    [SerializeField] private float liftPadding = .5f; // Nâng lên bao nhiêu so với vật cản
+    [SerializeField] private float pushPadding = 0.5f; // Đẩy ngang bao nhiêu so với vật cản
+    [SerializeField] private float checkRadius = 0.2f; // Bán kính check va chạm
 
     [SerializeField] private float minGap = 1.0f;
     [SerializeField] private float maxGap = 3.0f;
@@ -70,7 +72,7 @@ public class ItemGenerator : MonoBehaviour
                 bool isPlatform = obj.CompareTag("MiniPlatform");
 
                 Bounds boundsObj = GetBound(obj);
-                Debug.Log($"[ItemGenerator] max: {boundsObj.max.x } min: { boundsObj.min.x} và {boundsObj.size.x} tên: {obj.name}");
+                Debug.Log($"[ItemGenerator] max: {boundsObj.max.x} min: {boundsObj.min.x} và {boundsObj.size.x} tên: {obj.name}");
                 if (isObstacle)
                 {
                     // --- TRÊN VẬT CẢN ---
@@ -95,7 +97,7 @@ public class ItemGenerator : MonoBehaviour
 
 
                     // Sinh Pattern
-                    float patternWidth = SpawnComplexPattern(currentX, groundY, endX);
+                    float patternWidth = SpawnComplexPatternOnGround(currentX, groundY, endX);
                     currentX += patternWidth + Random.Range(3f, 6f);
                 }
             }
@@ -202,44 +204,13 @@ public class ItemGenerator : MonoBehaviour
         // Căn giữa theo vật thể đó
         float objectMinX = bound.min.x;
         float objectTop = bound.max.y;
-        float objectMaxX = bound.max.x;
 
-        SpawnComplexPattern(objectMinX, objectTop + liftPadding, objectMaxX);
+        SpawnOnTop(objectMinX, objectTop + liftPadding);
         //SpawnOnTop(objectCenterX, objectTop, objectWidth);
     }
-    /*
-        // --- LOGIC 1: SPAWN TRÊN ĐỈNH (Đơn giản) ---
-        private void SpawnOnTop(float centerX, float topY, float widthAvailable)
-        {
-            // Tính số lượng item tối đa nhét vừa
-            int maxItems = Mathf.FloorToInt(widthAvailable / itemSpacing);
-            if (maxItems < 1) maxItems = 1;
-            if (maxItems > 5) maxItems = 5; // Giới hạn cho đẹp
 
-            float startItemX = centerX - ((maxItems - 1) * itemSpacing) / 2f;
-            float spawnY = topY + liftPadding;
-
-            // 50% là đường thẳng, 50% là hình cung (nếu đủ dài)
-            bool isArch = (maxItems >= 3 && Random.value > 0.5f);
-
-            for (int i = 0; i < maxItems; i++)
-            {
-                float x = startItemX + i * itemSpacing;
-                float y = spawnY;
-
-                if (isArch)
-                {
-                    // Parabol: y = 4 * h * t * (1-t)
-                    float t = (float)i / (maxItems - 1);
-                    y += 1.5f * 4 * t * (1 - t);
-                }
-
-                SpawnSingleItem(new Vector3(x, y, 0));
-            }
-        }
-    */
-    // --- LOGIC 2: SPAWN DƯỚI ĐẤT (Phức tạp - Pattern cũ) ---
-    private float SpawnComplexPattern(float startX, float groundY, float limitX)
+    // --- LOGIC 1: SPAWN TRÊN ĐỈNH (Đơn giản) ---
+    private void SpawnOnTop(float startX, float groundY)
     {
         ItemPattern p = (ItemPattern)Random.Range(0, System.Enum.GetValues(typeof(ItemPattern)).Length);
         List<Vector2> localPoints = new List<Vector2>();
@@ -291,76 +262,111 @@ public class ItemGenerator : MonoBehaviour
             Vector3 spawnPos = new Vector3(startX + pt.x * itemSpacing, baseLift + pt.y * itemSpacing, 0);
 
             // Check lần cuối xem có vượt quá giới hạn map sinh ra không
+            SpawnSingleItem(spawnPos);
+
+        }
+
+    }
+
+    // --- LOGIC 2: SPAWN DƯỚI ĐẤT (Phức tạp - Pattern cũ) ---
+    private float SpawnComplexPatternOnGround(float startX, float groundY, float limitX)
+    {
+        ItemPattern p = (ItemPattern)Random.Range(0, System.Enum.GetValues(typeof(ItemPattern)).Length);
+        List<Vector2> localPoints = new List<Vector2>();
+
+        // Tái sử dụng logic sinh điểm cũ của bạn
+        switch (p)
+        {
+            case ItemPattern.Line: int c = Random.Range(3, 6); for (int i = 0; i < c; i++) localPoints.Add(new Vector2(i, 0)); break;
+            case ItemPattern.Grid: for (int x = 0; x < 3; x++) for (int y = 0; y < 3; y++) localPoints.Add(new Vector2(x, y)); break;
+            case ItemPattern.Wave: for (int i = 0; i < 8; i++) localPoints.Add(new Vector2(i, Mathf.Sin(i * 0.8f) * 1.5f + 1.5f)); break;
+            case ItemPattern.Diamond: localPoints.Add(new Vector2(1, 2)); localPoints.Add(new Vector2(0, 1)); localPoints.Add(new Vector2(2, 1)); localPoints.Add(new Vector2(1, 0)); break;
+            case ItemPattern.RectHollow: int rw = 4, rh = 3; for (int rx = 0; rx < rw; rx++) for (int ry = 0; ry < rh; ry++) if (rx == 0 || rx == rw - 1 || ry == 0 || ry == rh - 1) localPoints.Add(new Vector2(rx, ry)); break;
+            case ItemPattern.RectVertical: int vw = Random.Range(2, 4); int vh = Random.Range(3, 5); for (int vx = 0; vx < vw; vx++) for (int vy = 0; vy < vh; vy++) localPoints.Add(new Vector2(vx, vy)); break;
+            case ItemPattern.RectHorizontal: int hw = Random.Range(3, 6); int hh = Random.Range(2, 4); for (int hx = 0; hx < hw; hx++) for (int hy = 0; hy < hh; hy++) localPoints.Add(new Vector2(hx, hy)); break;
+            case ItemPattern.ShapeVLU: localPoints.AddRange(GetTextPoints("V", 0)); localPoints.AddRange(GetTextPoints("L", 4)); localPoints.AddRange(GetTextPoints("U", 8)); break;
+            case ItemPattern.ShapeAPlus: localPoints.AddRange(GetTextPoints("A", 0)); localPoints.AddRange(GetTextPoints("+", 4)); break;
+            case ItemPattern.Triangle: for (int y = 0; y < 3; y++) for (int x = 0; x <= y; x++) localPoints.Add(new Vector2(y, x)); break;
+            case ItemPattern.StairsUp: for (int i = 0; i < 5; i++) localPoints.Add(new Vector2(i, i * 0.5f)); break;
+            case ItemPattern.StairsDown: for (int i = 0; i < 5; i++) localPoints.Add(new Vector2(i, 2.5f - (i * 0.5f))); break;
+            case ItemPattern.ZigZag: for (int i = 0; i < 6; i++) localPoints.Add(new Vector2(i, (i % 2 == 0) ? 0 : 1.5f)); break;
+            case ItemPattern.DoubleLine: for (int i = 0; i < 5; i++) { localPoints.Add(new Vector2(i, 0)); localPoints.Add(new Vector2(i, 1.5f)); } break;
+        }
+
+        // Tính toán vị trí thực tế & Nâng (Smart Lift)
+        float maxX = 0;
+        float baseLift = groundY + 1.0f; // Mặc định cách đất 1m
+
+        // Kiểm tra xem pattern này có bị đè lên vật cản nào phía trước không
+        // Nếu có vật cản chắn ngang pattern, ta nâng toàn bộ pattern lên cao hơn vật cản đó
+        float maxObstacleHeight = baseLift;
+        for (int i = 0; i < localPoints.Count; i++)
+        {
+            // Lấy giá trị ra biến tạm để xử lý
+            Vector2 pt = localPoints[i];
+
+            // Tính vị trí thực tế trong thế giới (World Space)
+            Vector2 checkPos = new Vector2(startX + pt.x * itemSpacing, baseLift + pt.y * itemSpacing);
+
+            Collider2D hit = Physics2D.OverlapCircle(checkPos, checkRadius, surfaceLayer);
+
+            if (hit != null)
+            {
+                if (hit.CompareTag("Obstacle"))
+                {
+                    // --- XỬ LÝ ĐẨY NGANG (Dời điểm pt.x) ---
+
+                    float newWorldX;
+
+                    // Nếu điểm va chạm nằm bên trái tâm vật cản -> Đẩy sang mép trái
+                    if (checkPos.x < hit.bounds.center.x)
+                    {
+                        newWorldX = hit.bounds.min.x - pushPadding;
+                    }
+                    else // Ngược lại -> Đẩy sang mép phải
+                    {
+                        newWorldX = hit.bounds.max.x + pushPadding;
+                    }
+
+                    // [SỬA LỖI 2]: Quy đổi từ World Space về lại Local Space của Pattern
+                    // Công thức: LocalX = (WorldX - StartX) / Spacing
+                    pt.x = (newWorldX - startX) / itemSpacing;
+
+                    // Cập nhật lại vào list
+                    localPoints[i] = pt;
+                }
+                else if (hit.CompareTag("MiniPlatform"))
+                {
+                    // --- XỬ LÝ NÂNG CAO (Dời toàn bộ baseLift) ---
+                    if (hit.bounds.max.y > maxObstacleHeight)
+                    {
+                        maxObstacleHeight = hit.bounds.max.y;
+                    }
+                }
+            }
+
+            // Cập nhật maxX để biết chiều dài tổng của pattern sau khi spawn
+            if (pt.x > maxX) maxX = pt.x;
+        }        // Cập nhật độ cao cơ sở nếu cần nâng
+        if (maxObstacleHeight > baseLift) baseLift = maxObstacleHeight + liftPadding;
+
+        // Spawn Pattern
+        foreach (Vector2 pt in localPoints)
+        {
+            Vector3 spawnPos = new Vector3(startX + pt.x * itemSpacing, baseLift + pt.y * itemSpacing, 0);
+
+            // Check lần cuối xem có vượt quá giới hạn map sinh ra không
             if (spawnPos.x < limitX)
             {
                 SpawnSingleItem(spawnPos);
             }
+
+            //SpawnSingleItem(spawnPos);
         }
 
         return maxX * itemSpacing; // Trả về chiều dài của pattern để cộng dồn
     }
 
-    // --- HÀM XỬ LÝ ĐẨY ITEM (SMART PUSH) ---
-    private Vector3 ResolveObstacleCollision(Vector3 originalPos)
-    {
-        // Kiểm tra xem tại vị trí dự kiến có đè lên Obstacle nào không
-        // Dùng OverlapCircle để bắt va chạm
-        Collider2D hit = Physics2D.OverlapCircle(originalPos, checkRadius, surfaceLayer);
-
-        // Nếu không đụng gì hoặc đụng đất thường -> Giữ nguyên vị trí
-        if (hit == null || (!hit.CompareTag("Obstacle") && !hit.CompareTag("MiniPlatform")))
-        {
-            return originalPos;
-        }
-
-        // Nếu đụng Obstacle -> Tính toán đẩy ra
-        Bounds b = hit.bounds;
-
-        // Tính khoảng cách tới 3 mép: Trái, Phải, Trên
-        float distToLeft = Mathf.Abs(originalPos.x - b.min.x);
-        float distToRight = Mathf.Abs(originalPos.x - b.max.x);
-        float distToTop = Mathf.Abs(originalPos.y - b.max.y);
-
-        // Kiểm tra xem có nằm ở "Vùng Trung Tâm" không (chiếm 40% ở giữa vật thể)
-        float distFromCenter = Mathf.Abs(originalPos.x - b.center.x);
-        bool isNearCenter = distFromCenter < (b.size.x * 0.2f); // 0.2 mỗi bên = 40% giữa
-
-        Vector3 newPos = originalPos;
-
-        // --- QUY TẮC ĐẨY ---
-        if (isNearCenter)
-        {
-            // 1. Nếu ở giữa -> Bắt buộc đẩy LÊN TRÊN
-            newPos.y = b.max.y + liftPadding;
-            // Giữ nguyên X để pattern không bị méo quá nhiều
-        }
-        else
-        {
-            // 2. Nếu không ở giữa -> Tìm hướng gần nhất để đẩy (Trái, Phải hoặc Trên)
-
-            // Tìm khoảng cách nhỏ nhất trong 3 hướng
-            float min = Mathf.Min(distToLeft, distToRight, distToTop);
-
-            if (min == distToTop)
-            {
-                // Gần nắp nhất -> Đẩy lên
-                newPos.y = b.max.y + liftPadding;
-            }
-            else if (min == distToLeft)
-            {
-                // Gần mép trái nhất -> Đẩy sang trái
-                newPos.x = b.min.x - liftPadding;
-                // Có thể cần chỉnh lại Y một chút cho đẹp nếu muốn, nhưng giữ nguyên Y pattern cũng được
-            }
-            else // min == distToRight
-            {
-                // Gần mép phải nhất -> Đẩy sang phải
-                newPos.x = b.max.x + liftPadding;
-            }
-        }
-
-        return newPos;
-    }
     private void SpawnSingleItem(Vector3 pos)
     {
         ItemData data = GetRandomItem();

@@ -1951,7 +1951,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 3, y: 1, z: 1}
+  m_LocalScale: {x: 10, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -3179,7 +3179,7 @@ MonoBehaviour:
   pitY: -7
   pitChance: 30
   minPitWidth: 12
-  maxPitWidth: 30
+  maxPitWidth: 20
   maxGroundSegmentLength: 100
   ratioObstacleToAerial: 70
   obstacleChance: 60
@@ -3366,11 +3366,12 @@ MonoBehaviour:
     m_Bits: 448
   itemSpacing: 1.25
   liftPadding: 1
+  pushPadding: 0.2
   checkRadius: 0.2
-  minGap: 2
-  maxGap: 4
+  minGap: 3
+  maxGap: 5
   obstacleChanceItems: 50
-  platformChanceItems: 50
+  platformChanceItems: 80
   groundPadding: 0.5
 --- !u!1 &1171249704
 GameObject:

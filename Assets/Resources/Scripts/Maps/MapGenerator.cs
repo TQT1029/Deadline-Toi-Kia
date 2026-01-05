@@ -18,7 +18,7 @@ public class MapGenerator : MonoBehaviour
     public List<MiniPlatformData> miniPlatformLibrary;
 
     // [MỚI] Túi tráo bài cho MiniPlatform
-    private RandomUtilities.ShuffleBag<MiniPlatformData> miniPlatformBag;
+    private RandomUtils.ShuffleBag<MiniPlatformData> miniPlatformBag;
 
     [Header("Settings")]
     [SerializeField] private float groundY = -2f;
@@ -66,7 +66,7 @@ public class MapGenerator : MonoBehaviour
     {
         // Khởi tạo túi tráo bài
         if (miniPlatformLibrary != null && miniPlatformLibrary.Count > 0)
-            miniPlatformBag = new RandomUtilities.ShuffleBag<MiniPlatformData>(miniPlatformLibrary);
+            miniPlatformBag = new RandomUtils.ShuffleBag<MiniPlatformData>(miniPlatformLibrary);
 
         // Random offset cho noise
         noiseOffsetX = Random.Range(0, 10000);
@@ -77,7 +77,7 @@ public class MapGenerator : MonoBehaviour
     {
         if (currentX == 0 && currentGroundStart == 0) currentGroundStart = 0;
 
-        if (RandomUtilities.ChancePercent(pitChance))
+        if (RandomUtils.ChancePercent(pitChance))
         {
             return GeneratePit(currentX);
         }
@@ -97,7 +97,7 @@ public class MapGenerator : MonoBehaviour
             // Debug.Log($"[MapGenerator] Đoạn đất xong: {currentX - currentGroundStart}m");
         }
 
-        float pitWidth = RandomUtilities.RandomWithSteps(minPitWidth, maxPitWidth, 0.5f);
+        float pitWidth = RandomUtils.RandomWithSteps(minPitWidth, maxPitWidth, 0.5f);
         float endPitX = currentX + pitWidth;
 
         if (pitWidth > 15)
@@ -107,7 +107,7 @@ public class MapGenerator : MonoBehaviour
 
         Physics2D.SyncTransforms();
 
-        ItemGenerator.Instance.GenerateItems(currentX, endPitX);
+        ItemGenerator.Instance.GenerateItems(currentX, endPitX);//==========
 
         currentGroundStart = endPitX;
 
@@ -146,7 +146,7 @@ public class MapGenerator : MonoBehaviour
 
     private void PopulateSegment(float startX, float endX)
     {
-        bool spawnObstacle = RandomUtilities.ChancePercent(ratioObstacleToAerial);
+        bool spawnObstacle = RandomUtils.ChancePercent(ratioObstacleToAerial);
 
         if (spawnObstacle)
         {
@@ -158,18 +158,18 @@ public class MapGenerator : MonoBehaviour
         }
         Physics2D.SyncTransforms();
 
-        ItemGenerator.Instance.GenerateItems(startX, endX);
+        ItemGenerator.Instance.GenerateItems(startX, endX);//==========
 
     }
 
     private void SpawnObstaclesOnSegment(float startX, float endX)
     {
-        float currentX = startX + obstacleEdgePadding + RandomUtilities.RandomWithSteps(minObstacleGap, maxObstacleGap);
+        float currentX = startX + obstacleEdgePadding + RandomUtils.RandomWithSteps(minObstacleGap, maxObstacleGap);
         float limitX = endX - obstacleEdgePadding;
 
         while (currentX < limitX)
         {
-            if (RandomUtilities.ChancePercent(obstacleChance))
+            if (RandomUtils.ChancePercent(obstacleChance))
             {
                 ObstacleData obs = obstacleLibrary[Random.Range(0, obstacleLibrary.Count)];
                 Vector2 size = obs.GetSize();
@@ -181,7 +181,7 @@ public class MapGenerator : MonoBehaviour
                     currentX += size.x;
                 }
             }
-            currentX += RandomUtilities.RandomWithSteps(minObstacleGap, maxObstacleGap, 0.5f);
+            currentX += RandomUtils.RandomWithSteps(minObstacleGap, maxObstacleGap, 0.5f);
         }
     }
     private void SpawnObstaclesOnPit(float startX, float endX, float pitY)
@@ -205,7 +205,7 @@ public class MapGenerator : MonoBehaviour
     {
         if (miniPlatformBag == null) return;
 
-        float currentX = startX + RandomUtilities.RandomWithSteps(2f, 4f, 0.5f);
+        float currentX = startX + RandomUtils.RandomWithSteps(2f, 4f, 0.5f);
         float limitX = endX - 2f;
 
         // Random một pha sóng ngẫu nhiên cho đoạn này
@@ -230,7 +230,7 @@ public class MapGenerator : MonoBehaviour
 
             // 2. [QUAN TRỌNG] TÍNH TOÁN ĐỘ CAO LƯỢN SÓNG
             // Sử dụng hàm SineWave mới
-            float waveHeight = RandomUtilities.GetSineWaveHeight(
+            float waveHeight = RandomUtils.GetSineWaveHeight(
                 currentX,           // Vị trí hiện tại
                 waveFrequency,      // Tần số (chỉnh trong Inspector, thử 0.4f)
                 minAerialHeight,    // Đáy sóng (VD: -1)
@@ -263,7 +263,7 @@ public class MapGenerator : MonoBehaviour
             }
 
             // Tịnh tiến X
-            currentX += len + RandomUtilities.RandomWithSteps(minGapAerial, maxGapAerial, 1.5f);
+            currentX += len + RandomUtils.RandomWithSteps(minGapAerial, maxGapAerial, 1.5f);
         }
     }
 
@@ -290,7 +290,7 @@ public class MapGenerator : MonoBehaviour
             float len = selectedData.GetLength();
 
             // [TỐI ƯU] Cầu cũng dùng Perlin Noise để có độ nhấp nhô nhẹ
-            float waveHeight = RandomUtilities.GetSineWaveHeight(
+            float waveHeight = RandomUtils.GetSineWaveHeight(
                 currentX + noiseOffsetX,
                 waveFrequency, // Cầu gồ ghề hơn chút
                 minBridgeHeight,
@@ -301,7 +301,7 @@ public class MapGenerator : MonoBehaviour
             Vector3 pos = new Vector3(currentX + len / 2f, groundY + waveHeight, 0);
             Instantiate(selectedData.prefab, pos, Quaternion.identity, miniPlatformObjs);
 
-            currentX += len + RandomUtilities.RandomWithSteps(minGapBridge, maxGapBridge, 0.5f);
+            currentX += len + RandomUtils.RandomWithSteps(minGapBridge, maxGapBridge, 0.5f);
         }
     }
 }

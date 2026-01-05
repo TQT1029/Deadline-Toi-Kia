@@ -48,7 +48,7 @@ public class ObstacleData
                 combinedBounds.Encapsulate(colliders[i].bounds);
             }
 
-            Debug.Log($"[ObstacleData] Calculated size for Obstacle '{id}': {combinedBounds.size}");
+            //Debug.Log($"[ObstacleData] Calculated size for Obstacle '{id}': {combinedBounds.size}");
             // 3. Trả về kích thước tổng (Width, Height)
             // Bounds.size trong Unity đã tự động tính toán cả Scale của transform rồi
             return combinedBounds.size;

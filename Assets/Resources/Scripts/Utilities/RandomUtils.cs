@@ -2,10 +2,32 @@
 using System.Collections.Generic;
 
 /// <summary>
+/// Cơ chế phá hủy khi thay thế GameObject.
+/// </summary>
+public enum ReplaceDestroyMode
+{
+    /// <summary>
+    /// Thay thế ngay lập tức (Instantiate mới → Destroy cũ).
+    /// </summary>
+    Immediate,
+
+    /// <summary>
+    /// Hủy object cũ sau một khoảng delay (dùng cho animation, VFX).
+    /// </summary>
+    Delay,
+
+    /// <summary>
+    /// Không destroy object cũ, chỉ disable (phù hợp object pooling).
+    /// </summary>
+    DisableOnly
+}
+
+
+/// <summary>
 /// Bộ thư viện các hàm Random nâng cao.
 /// Giúp tạo ra sự ngẫu nhiên có kiểm soát, tự nhiên và công bằng hơn cho game.
 /// </summary>
-public static class RandomUtilities
+public static class RandomUtils
 {
     /// <summary>
     /// Random một số float nhưng bị "khóa" vào các bước nhảy (Grid Snapping).
@@ -115,6 +137,76 @@ public static class RandomUtilities
         }
         return rawHeight;
     }
+
+    /// <summary>
+    /// Thay thế một GameObject hiện tại bằng một GameObject khác dựa trên xác suất phần trăm,
+    /// kèm theo cơ chế phá hủy có kiểm soát.
+    /// </summary>
+    /// <para>
+    /// <b>Công dụng:</b>
+    /// - Nâng cấp platform / enemy
+    /// - Biến đổi vật thể theo RNG
+    /// - Kết hợp animation, VFX trước khi phá hủy
+    /// </para>
+    public static GameObject ReplaceWithChance(
+        GameObject original,
+        GameObject replacePrefab,
+        float chancePercent,
+        ReplaceDestroyMode destroyMode = ReplaceDestroyMode.Immediate,
+        float destroyDelay = 0f,
+        bool keepParent = true,
+        System.Action<GameObject> onBeforeDestroy = null
+    )
+    {
+        // Kiểm tra an toàn
+        if (original == null || replacePrefab == null)
+            return original;
+
+        // Không trúng xác suất → giữ nguyên object
+        if (!ChancePercent(chancePercent))
+            return original;
+
+        // Lưu transform gốc
+        Transform oldTransform = original.transform;
+        Transform parent = keepParent ? oldTransform.parent : null;
+        int siblingIndex = oldTransform.GetSiblingIndex();
+
+        // Instantiate object mới
+        GameObject newObj = Object.Instantiate(
+            replacePrefab,
+            oldTransform.position,
+            oldTransform.rotation,
+            parent
+        );
+
+        newObj.transform.localScale = oldTransform.localScale;
+
+        if (keepParent)
+            newObj.transform.SetSiblingIndex(siblingIndex);
+
+        // Callback trước khi phá (rất hữu ích cho animation, VFX, event)
+        onBeforeDestroy?.Invoke(original);
+
+        // Cơ chế phá hủy
+        switch (destroyMode)
+        {
+            case ReplaceDestroyMode.Immediate:
+                Object.Destroy(original);
+                break;
+
+            case ReplaceDestroyMode.Delay:
+                Object.Destroy(original, Mathf.Max(0f, destroyDelay));
+                break;
+
+            case ReplaceDestroyMode.DisableOnly:
+                original.SetActive(false);
+                break;
+        }
+
+        return newObj;
+    }
+
+
 
     /// <summary>
     /// Hệ thống "Túi Tráo Bài" (Shuffle Bag / Deck System).

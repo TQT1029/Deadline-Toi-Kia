@@ -155,7 +155,7 @@ public class BotController : BaseRunner
 
         if (hit.collider != null && isGrounded && !isJumpCooldown)
         {
-            if (hit.collider.CompareTag("MiniPlatform") && RandomUtilities.ChancePercent(50))
+            if (hit.collider.CompareTag("MiniPlatform") && RandomUtils.ChancePercent(50))
             {
                 if (!IsInvoking(nameof(PerformJumpAction)))
                     Invoke(nameof(PerformJumpAction), reactionTime);

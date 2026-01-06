@@ -27,6 +27,7 @@ public class MapGenerator : MonoBehaviour
     public float minPitWidth = 3f, maxPitWidth = 6f;
 
     [Header("Segment Logic")]
+    [SerializeField] private float minGroundSegmentLength = 30f;
     [SerializeField] private float maxGroundSegmentLength = 75f;
 
     [Space]
@@ -77,7 +78,7 @@ public class MapGenerator : MonoBehaviour
     {
         if (currentX == 0 && currentGroundStart == 0) currentGroundStart = 0;
 
-        if (RandomUtils.ChancePercent(pitChance))
+        if (RandomUtils.ChancePercent(pitChance) && currentX - currentGroundStart > minGroundSegmentLength)
         {
             return GeneratePit(currentX);
         }
@@ -118,10 +119,13 @@ public class MapGenerator : MonoBehaviour
 
     private float GenerateGround(float currentX)
     {
+        //--- Tạo Đất ---
+        // Lấy ngẫu nhiên một tấm đất từ thư viện
         BasePlatformData data = baseLibrary[Random.Range(0, baseLibrary.Count)];
         float estimatedLen = data.GetLength();
         Vector3 pos = new Vector3(currentX + estimatedLen / 2f, groundY, 0);
 
+        // Tạo tấm đất
         GameObject obj = Instantiate(data.prefab, pos, Quaternion.identity, basePlatformObjs);
 
         float actualLen = estimatedLen;

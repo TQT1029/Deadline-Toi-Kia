@@ -61,10 +61,10 @@ public class ItemGenerator : MonoBehaviour
 
     public void GenerateItems(float startX, float endX)
     {
-        float currentX = startX + 2f;
+        float currentX = startX + RandomUtils.RandomWithSteps(2f,4f);
         int safetyLoop = 0;
 
-        while (currentX < endX - 2f)
+        while (currentX < endX - 10f)
         {
             if (safetyLoop++ > 1000) { Debug.LogWarning("Safety Break!"); break; }
 
@@ -76,14 +76,29 @@ public class ItemGenerator : MonoBehaviour
                 GameObject obj = GameUtils.GetObstacleRoot(hit.collider.transform);
 
                 // --- XỬ LÝ VẬT CẢN (OBSTACLE / PLATFORM) ---
-                if (obj.CompareTag("Obstacle") || obj.CompareTag("MiniPlatform"))
+                if (obj.CompareTag("Obstacle"))
                 {
                     Bounds obsBounds = GameUtils.GetBounds(obj);
 
                     // Thử spawn pattern đơn giản trên đỉnh vật cản (nếu muốn)
                     if (RandomUtils.ChancePercent(obstacleChanceItems))
                     {
-                        currentX += SpawnOnTop(obsBounds);
+                        currentX = SpawnOnTop(obsBounds);
+                    }
+                    else
+                    {
+                        // Đi tiếp
+                        currentX += 2f; // Fallback
+                    }
+                }
+                else if (obj.CompareTag("MiniPlatform"))
+                {
+                    Bounds obsBounds = GameUtils.GetBounds(obj);
+
+                    // Thử spawn pattern đơn giản trên đỉnh vật cản (nếu muốn)
+                    if (RandomUtils.ChancePercent(platformChanceItems))
+                    {
+                        currentX = SpawnOnTop(obsBounds);
                     }
                     else
                     {
@@ -128,8 +143,7 @@ public class ItemGenerator : MonoBehaviour
     private bool CheckFits(Vector2 centerPos, Vector2 size)
     {
         // Dùng OverlapBox để xem vùng không gian này có dính Obstacle nào không
-        // size * 0.9f để trừ hao một chút tránh va chạm quá gắt
-        Collider2D hit = Physics2D.OverlapBox(centerPos, size * 0.9f, 0f, obstacleLayer);
+        Collider2D hit = Physics2D.OverlapBox(centerPos, size, 0f, obstacleLayer);
         return hit == null;
     }
 
@@ -144,7 +158,7 @@ public class ItemGenerator : MonoBehaviour
 
         SpawnPattern(template, centerPos);
 
-        return hitBounds.size.x + patternPadding + RandomUtils.RandomWithSteps(minGap, maxGap);
+        return hitBounds.max.x + patternPadding + RandomUtils.RandomWithSteps(minGap, maxGap);
     }
 
     private void SpawnPattern(PatternTemplate template, Vector2 position)
@@ -156,11 +170,9 @@ public class ItemGenerator : MonoBehaviour
         // Thay thế ngẫu nhiên các phần tử
         foreach (Transform child in newPattern.transform)
         {
-
             GameObject childObj = child.gameObject;
             int randIndex = Random.Range(1, commonItems.Count);
-            RandomUtils.ReplaceWithChance(childObj, commonItems[randIndex].prefab, commonItems[randIndex].spawnWeight);
-
+            RandomUtils.ReplaceWithChance(childObj, commonItems[randIndex].prefab, commonItems[randIndex].spawnChance);
         }
 
     }

@@ -283,7 +283,7 @@ Transform:
   m_GameObject: {fileID: 14420747}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 7.388889, y: -0.00000023841858, z: -10}
+  m_LocalPosition: {x: 7.5724297, y: -0.00000023841858, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3012,7 +3012,7 @@ Transform:
   m_GameObject: {fileID: 920687758}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 7.388889, y: -0.00000023841858, z: -10}
+  m_LocalPosition: {x: 7.5724297, y: -0.00000023841858, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3180,6 +3180,7 @@ MonoBehaviour:
   pitChance: 30
   minPitWidth: 12
   maxPitWidth: 20
+  minGroundSegmentLength: 30
   maxGroundSegmentLength: 100
   ratioObstacleToAerial: 70
   obstacleChance: 60
@@ -3354,15 +3355,15 @@ MonoBehaviour:
   - id: 1
     prefab: {fileID: 3501825626615947439, guid: 14bb9858d06c3e04c9a47f46ea37fb09, type: 3}
     scoreValue: 10
-    spawnWeight: 100
+    spawnChance: 100
   - id: 2
     prefab: {fileID: 3501825626615947439, guid: 938ac3824944f37468e6cb0d21478921, type: 3}
     scoreValue: 50
-    spawnWeight: 10
+    spawnChance: 10
   - id: 3
     prefab: {fileID: 3501825626615947439, guid: af0e73e5ae7b79440929644bd7bd0792, type: 3}
     scoreValue: 1000
-    spawnWeight: 0.1
+    spawnChance: 0.1
   patternTemplates: []
   surfaceLayer:
     serializedVersion: 2
@@ -3373,8 +3374,8 @@ MonoBehaviour:
   itemSpacing: 1.25
   patternPadding: 2
   groundPadding: 1
-  minGap: 7
-  maxGap: 4
+  minGap: 5
+  maxGap: 7
   obstacleChanceItems: 50
   platformChanceItems: 70
 --- !u!1 &1171249704

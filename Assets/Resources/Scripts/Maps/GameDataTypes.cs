@@ -18,6 +18,29 @@ public class BasePlatformData
 }
 
 [System.Serializable]
+public class MiniPlatformData
+{
+    public string id;
+    public GameObject prefab;
+    public float spawnWeight = 10f;
+    public float manualLength = 0f;
+
+    public float GetLength()
+    {
+        if (prefab == null) return 5f;
+
+        // Nếu đã nhập tay thì lấy luôn, không cần tính
+        if (manualLength > 0f) return manualLength;
+
+        var boxCol = prefab.GetComponent<BoxCollider2D>();
+        if (boxCol != null)
+            return boxCol.size.x * prefab.transform.localScale.x;
+
+        return 5f; // Giá trị mặc định nếu không tìm thấy collider nào
+    }
+}
+
+[System.Serializable]
 public class ObstacleData
 {
     public string id;
@@ -59,28 +82,6 @@ public class ObstacleData
     }
 }
 
-[System.Serializable]
-public class MiniPlatformData
-{
-    public string id;
-    public GameObject prefab;
-    public float spawnWeight = 10f;
-    public float manualLength = 0f;
-
-    public float GetLength()
-    {
-        if (prefab == null) return 5f;
-
-        // Nếu đã nhập tay thì lấy luôn, không cần tính
-        if (manualLength > 0f) return manualLength;
-
-        var boxCol = prefab.GetComponent<BoxCollider2D>();
-        if (boxCol != null)
-            return boxCol.size.x * prefab.transform.localScale.x;
-
-        return 5f; // Giá trị mặc định nếu không tìm thấy collider nào
-    }
-}
 // 4. ITEM DATA CƠ BẢN
 [System.Serializable]
 public class ItemData
@@ -88,5 +89,5 @@ public class ItemData
     public string id;
     public GameObject prefab;
     public int scoreValue = 1;
-    public float spawnWeight = 10f;
+    public float spawnChance = 10f;
 }

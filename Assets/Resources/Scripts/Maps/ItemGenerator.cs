@@ -46,7 +46,7 @@ public class ItemGenerator : MonoBehaviour
     // ENUM
     public enum ItemPattern
     {
-        Line, Grid, Wave, Diamond, RectHollow,
+        Line_1, Grid, Wave, Diamond, RectHollow,
         RectVertical, RectHorizontal, ShapeVLU, ShapeAPlus,
         Triangle, StairsUp, StairsDown, ZigZag, DoubleLine
     }
@@ -70,6 +70,8 @@ public class ItemGenerator : MonoBehaviour
 
             // 1. Check bề mặt bên dưới
             RaycastHit2D hit = GameUtils.GetSurfaceHit(currentX, surfaceLayer);
+
+            //Debug.DrawRay(new Vector2(currentX, 20f), Vector2.down * 50, Color.red, 1f);
 
             if (hit.collider != null)
             {
@@ -334,7 +336,7 @@ public class ItemGenerator : MonoBehaviour
         return pts;
     }
 
-    
+
     private List<Vector2> GetTextPoints(string charType, int xOffset)
     {
         List<Vector2> pts = new List<Vector2>();

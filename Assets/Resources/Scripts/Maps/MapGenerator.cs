@@ -21,6 +21,7 @@ public class MapGenerator : MonoBehaviour
     private RandomUtils.ShuffleBag<MiniPlatformData> miniPlatformBag;
 
     [Header("Settings")]
+    [SerializeField] private bool hasPit = true;
     [SerializeField] private float groundY = -2f;
     [SerializeField] private float pitY = -7f;
     [Range(0, 100)] public int pitChance = 30;
@@ -73,14 +74,14 @@ public class MapGenerator : MonoBehaviour
 
         // Random offset cho noise
         noiseOffsetX = Random.Range(0, 10000);
-        Debug.Log($"[MapGenerator] Noise Offset X: {noiseOffsetX}");
+        //Debug.Log($"[MapGenerator] Noise Offset X: {noiseOffsetX}");
     }
 
     public float SpawnNextSegment(float currentX)
     {
         if (currentX == 0 && currentGroundStart == 0) currentGroundStart = 0;
 
-        if (RandomUtils.ChancePercent(pitChance) && currentX - currentGroundStart > minGroundSegmentLength)
+        if (RandomUtils.ChancePercent(pitChance) && currentX - currentGroundStart > minGroundSegmentLength && hasPit)
         {
             return GeneratePit(currentX);
         }
@@ -145,7 +146,8 @@ public class MapGenerator : MonoBehaviour
             PopulateSegment(currentGroundStart, segmentEnd);
             currentGroundStart = segmentEnd;
 
-            return GeneratePit(segmentEnd);
+            if (hasPit)
+                return GeneratePit(segmentEnd);
         }
 
         return segmentEnd;

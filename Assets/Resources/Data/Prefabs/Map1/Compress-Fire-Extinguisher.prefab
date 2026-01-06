@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7740632456418266745}
   - component: {fileID: 1103692624741015841}
   m_Layer: 7
-  m_Name: Compress-FireExtinguisher (1)
+  m_Name: Fire-Extinguisher (1)
   m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -76,7 +76,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: -1
-  m_Sprite: {fileID: -7161683183935229393, guid: 549f8e932bd3d1441b0c54530344c5dd, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 549f8e932bd3d1441b0c54530344c5dd, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 1
   m_FlipY: 0
@@ -87,7 +87,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!1 &7290545855054261292
+--- !u!1 &7016205904162179651
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -95,41 +95,37 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 336002439034634860}
-  - component: {fileID: 3077214095603263836}
-  - component: {fileID: 4891659461637996590}
-  - component: {fileID: 8398827663975820678}
+  - component: {fileID: 4886118260324869648}
+  - component: {fileID: 1183649539201449312}
   m_Layer: 7
-  m_Name: Compress-Fire-Extinguisher
+  m_Name: Fire-Extinguisher
   m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &336002439034634860
+--- !u!4 &4886118260324869648
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7290545855054261292}
+  m_GameObject: {fileID: 7016205904162179651}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1777228633913128297}
-  - {fileID: 7740632456418266745}
-  m_Father: {fileID: 0}
+  m_Children: []
+  m_Father: {fileID: 336002439034634860}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &3077214095603263836
+--- !u!212 &1183649539201449312
 SpriteRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7290545855054261292}
+  m_GameObject: {fileID: 7016205904162179651}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -166,10 +162,10 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
-  m_Sprite: {fileID: -7161683183935229393, guid: 549f8e932bd3d1441b0c54530344c5dd, type: 3}
+  m_SortingOrder: -1
+  m_Sprite: {fileID: 21300000, guid: 549f8e932bd3d1441b0c54530344c5dd, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 1
+  m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 1.86, y: 4}
@@ -178,6 +174,42 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &7290545855054261292
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 336002439034634860}
+  - component: {fileID: 4891659461637996590}
+  - component: {fileID: 8398827663975820678}
+  m_Layer: 7
+  m_Name: Compress-Fire-Extinguisher
+  m_TagString: Obstacle
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &336002439034634860
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7290545855054261292}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1777228633913128297}
+  - {fileID: 4886118260324869648}
+  - {fileID: 7740632456418266745}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &4891659461637996590
 Rigidbody2D:
   serializedVersion: 5
@@ -262,7 +294,7 @@ GameObject:
   - component: {fileID: 1777228633913128297}
   - component: {fileID: 592409053636583920}
   m_Layer: 7
-  m_Name: Compress-FireExtinguisher
+  m_Name: Fire-Extinguisher (-1)
   m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -327,7 +359,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: -1
-  m_Sprite: {fileID: -7161683183935229393, guid: 549f8e932bd3d1441b0c54530344c5dd, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 549f8e932bd3d1441b0c54530344c5dd, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

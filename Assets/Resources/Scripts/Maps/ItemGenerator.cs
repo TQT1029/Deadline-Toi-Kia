@@ -140,11 +140,11 @@ public class ItemGenerator : MonoBehaviour
 
         // Tính vị trí dự kiến (Pivot là Center)
         float spawnY = hitBounds.max.y + groundPadding + (template.size.y / 2f);
-        Vector2 centerPos = new Vector2(hitBounds.center.x + (template.size.x / 2f), spawnY);
+        Vector2 centerPos = new Vector2(hitBounds.center.x, spawnY);
 
         SpawnPattern(template, centerPos);
 
-        return template.size.x + patternPadding + RandomUtils.RandomWithSteps(minGap, maxGap);
+        return hitBounds.size.x + patternPadding + RandomUtils.RandomWithSteps(minGap, maxGap);
     }
 
     private void SpawnPattern(PatternTemplate template, Vector2 position)
@@ -154,15 +154,15 @@ public class ItemGenerator : MonoBehaviour
         newPattern.SetActive(true);
 
         // Thay thế ngẫu nhiên các phần tử
-        /*        foreach (Transform child in newPattern.transform)
-                {
+        foreach (Transform child in newPattern.transform)
+        {
 
-                    GameObject childObj = child.gameObject;
-                    int randIndex = Random.Range(1, commonItems.Count);
-                    RandomUtils.ReplaceWithChance(childObj, commonItems[randIndex].prefab, commonItems[randIndex].spawnWeight);
+            GameObject childObj = child.gameObject;
+            int randIndex = Random.Range(1, commonItems.Count);
+            RandomUtils.ReplaceWithChance(childObj, commonItems[randIndex].prefab, commonItems[randIndex].spawnWeight);
 
-                }
-        */
+        }
+
     }
 
     // --- PHẦN 2: PRE-BAKE LOGIC (SETUP) ---

@@ -44,6 +44,11 @@ public static class RandomUtils
             Debug.LogWarning("Steps phải lớn hơn 0");
             return minInp;
         }
+        else if (minInp > maxInp)
+        {
+            Debug.LogWarning("minInp phải nhỏ hơn hoặc bằng maxInp");
+            return minInp;
+        }
 
         // Tính xem có bao nhiêu bước nhảy trong khoảng min-max
         int stepCount = Mathf.RoundToInt((maxInp - minInp) / steps);

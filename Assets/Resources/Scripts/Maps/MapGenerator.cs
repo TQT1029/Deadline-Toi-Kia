@@ -35,6 +35,8 @@ public class MapGenerator : MonoBehaviour
 
     [Header("Obstacle Logic")]
     [Range(0, 100)] public int obstacleChance = 60;
+    [SerializeField] private bool obstacleInPit = true;
+
     [SerializeField] private float obstacleEdgePadding = 2f;
     [SerializeField] private float minObstacleGap = 7f;
     [SerializeField] private float maxObstacleGap = 12f;
@@ -101,10 +103,11 @@ public class MapGenerator : MonoBehaviour
         float pitWidth = RandomUtils.RandomWithSteps(minPitWidth, maxPitWidth, 0.5f);
         float endPitX = currentX + pitWidth;
 
-        if (pitWidth > 15)
-            SpawnBridge(currentX, endPitX);
-        else
-            SpawnObstaclesOnPit(currentX, endPitX, pitY);
+        if (obstacleInPit)
+            if (pitWidth > 15)
+                SpawnBridge(currentX, endPitX);
+            else
+                SpawnObstaclesOnPit(currentX, endPitX, pitY);
 
         Physics2D.SyncTransforms();
 

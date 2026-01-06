@@ -334,6 +334,7 @@ public class ItemGenerator : MonoBehaviour
         return pts;
     }
 
+    
     private List<Vector2> GetTextPoints(string charType, int xOffset)
     {
         List<Vector2> pts = new List<Vector2>();

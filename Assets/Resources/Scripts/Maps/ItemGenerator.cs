@@ -46,9 +46,27 @@ public class ItemGenerator : MonoBehaviour
     // ENUM
     public enum ItemPattern
     {
-        Line_1, Grid, Wave, Diamond, RectHollow,
-        RectVertical, RectHorizontal, ShapeVLU, ShapeAPlus,
-        Triangle, StairsUp, StairsDown, ZigZag, DoubleLine
+        Line,
+        Grid,
+        Wave,
+        Diamond,
+        RectHollow,
+        RectVertical,
+        RectHorizontal,
+        ShapeVLU,
+        ShapeAPlus,
+        Triangle,
+        StairsUp,
+        StairsDown,
+        ZigZag,
+        DoubleLine,
+
+        Cross,
+        XShape,
+        Pyramid,
+        Checker,
+        Spiral
+
     }
 
     private void Start()
@@ -145,7 +163,7 @@ public class ItemGenerator : MonoBehaviour
     private bool CheckFits(Vector2 centerPos, Vector2 size)
     {
         // Dùng OverlapBox để xem vùng không gian này có dính Obstacle nào không
-        Collider2D hit = Physics2D.OverlapBox(centerPos, size, 0f, obstacleLayer);
+        Collider2D hit = Physics2D.OverlapBox(centerPos, new Vector2(size.x * 1.1f, size.y * 0.9f), 0f, obstacleLayer);
         return hit == null;
     }
 
@@ -332,6 +350,55 @@ public class ItemGenerator : MonoBehaviour
                     pts.Add(new Vector2(i, 1.5f));
                 }
                 break;
+            //---//
+            case ItemPattern.Cross:
+                for (int i = -2; i <= 2; i++)
+                {
+                    if (i != 0)
+                        pts.Add(new Vector2(0, i));
+                    pts.Add(new Vector2(i, 0));
+                }
+                break;
+            //---//
+            case ItemPattern.XShape:
+                for (int i = 0; i < 5; i++)
+                {
+                    pts.Add(new Vector2(i, i));
+                    pts.Add(new Vector2(i, 4 - i));
+                }
+                break;
+            //---//
+            case ItemPattern.Pyramid:
+                for (int y = 0; y < 4; y++)
+                    for (int x = -y; x <= y; x++)
+                        pts.Add(new Vector2(x + 3, y));
+                break;
+            //---//
+            case ItemPattern.Checker:
+                for (int x = 0; x < 6; x++)
+                    for (int y = 0; y < 6; y++)
+                        if ((x + y) % 2 == 0)
+                            pts.Add(new Vector2(x, y));
+                break;
+            //---//
+            case ItemPattern.Spiral:
+                int size = 5;
+                int minX = 0, minY = 0, maxX = size - 1, maxY = size - 1;
+                while (minX <= maxX && minY <= maxY)
+                {
+                    for (int x = minX; x <= maxX; x++) pts.Add(new Vector2(x, minY));
+                    minY++;
+                    for (int y = minY; y <= maxY; y++) pts.Add(new Vector2(maxX, y));
+                    maxX--;
+                    for (int x = maxX; x >= minX; x--) pts.Add(new Vector2(x, maxY));
+                    maxY--;
+                    for (int y = maxY; y >= minY; y--) pts.Add(new Vector2(minX, y));
+                    minX++;
+                }
+                break;
+
+
+
         }
         return pts;
     }

@@ -3212,7 +3212,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mapGenerator: {fileID: 1002921625}
   itemGenerator: {fileID: 1078367682}
-  player: {fileID: 895793275}
+  player: {fileID: 1193955504}
   generationDistance: 100
   destroyDistanceBehind: 50
 --- !u!4 &1002921627
@@ -3359,11 +3359,11 @@ MonoBehaviour:
   - id: 2
     prefab: {fileID: 3501825626615947439, guid: 938ac3824944f37468e6cb0d21478921, type: 3}
     scoreValue: 50
-    spawnChance: 10
+    spawnChance: 15
   - id: 3
     prefab: {fileID: 3501825626615947439, guid: af0e73e5ae7b79440929644bd7bd0792, type: 3}
     scoreValue: 1000
-    spawnChance: 0.1
+    spawnChance: 0.5
   patternTemplates: []
   surfaceLayer:
     serializedVersion: 2

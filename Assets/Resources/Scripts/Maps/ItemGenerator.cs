@@ -61,7 +61,7 @@ public class ItemGenerator : MonoBehaviour
 
     public void GenerateItems(float startX, float endX)
     {
-        float currentX = startX + RandomUtils.RandomWithSteps(2f,4f);
+        float currentX = startX + RandomUtils.RandomWithSteps(2f, 4f);
         int safetyLoop = 0;
 
         while (currentX < endX - 10f)
@@ -243,9 +243,9 @@ public class ItemGenerator : MonoBehaviour
         switch (p)
         {
             case ItemPattern.Line:
-                for (int c = 3; c <= 6; c++)
-                    for (int i = 0; i < c; i++)
-                        pts.Add(new Vector2(i, 0));
+                int c = 6;
+                for (int i = 0; i < c; i++)
+                    pts.Add(new Vector2(i, 0));
                 break;
             //---//
             case ItemPattern.Grid:

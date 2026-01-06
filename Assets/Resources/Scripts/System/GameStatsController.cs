@@ -32,6 +32,7 @@ public class GameStatsController : MonoBehaviour
     private void Update()
     {
         if (!isGameActive) return;
+
         if (ReferenceManager.Instance.PlayerTransform != null)
         {
             // Dùng linearVelocityX (Unity 6) hoặc velocity.x tùy phiên bản

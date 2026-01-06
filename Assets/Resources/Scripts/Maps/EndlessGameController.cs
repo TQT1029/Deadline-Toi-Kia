@@ -5,6 +5,10 @@ public class EndlessGameController : MonoBehaviour
     public static EndlessGameController Instance;
     private void Awake() => Instance = this;
 
+    [Header("Boss")]
+    private float distanceRun;
+    private bool bossSpawned=false;
+
     [Header("Managers")]
     public MapGenerator mapGenerator;
     public ItemGenerator itemGenerator;
@@ -41,6 +45,14 @@ public class EndlessGameController : MonoBehaviour
         }
 
         CleanupOldObjects();
+
+        distanceRun = GameStatsController.Instance.resultDistance;
+        if (distanceRun > 10 && !bossSpawned)
+        {
+            BossManager.Instance.StartBossFight();
+            bossSpawned = true;
+        }
+
     }
 
     private void SpawnNextPiece()

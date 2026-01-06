@@ -13,10 +13,14 @@ public class ParallaxBackground : MonoBehaviour
 
     [Space(10)]
     [Tooltip("Tốc độ tự động cuộn (Auto Scroll) - Đặt 0 nếu muốn background chỉ chạy khi nhân vật chạy")]
-    [SerializeField] private float baseScrollSpeedX = 0f; // Mặc định để 0 để test theo nhân vật
+    [SerializeField] private float baseScrollSpeedX = 0f;
 
     [Tooltip("Hệ số nhân vận tốc nhân vật (Giá trị càng lớn, background trôi càng nhanh theo nhân vật)")]
-    [SerializeField] private float velocityMultiplierX = 0.5f; // Thay thế số cứng 0.05f cũ
+    [SerializeField] private float velocityMultiplierX = 0.5f;
+
+    [Header("Smoothing & Inertia")] // [MỚI] Phần cài đặt độ mượt
+    [Tooltip("Thời gian để background giảm tốc khi nhân vật dừng lại. 0 = dừng ngay, 0.5 = trôi 1 đoạn rồi dừng.")]
+    [SerializeField] private float smoothTimeX = 0.25f;
 
     [Tooltip("Độ mạnh của hiệu ứng Parallax dọc (0 = không trôi, 1 = trôi theo nhân vật)")]
     [Range(0f, 1f)]
@@ -28,6 +32,10 @@ public class ParallaxBackground : MonoBehaviour
     private BackgroundManager _bgManager;
     private DynamicLayer[] _dynamicLayers;
     private Rigidbody2D _targetRb;
+
+    // [MỚI] Các biến phục vụ tính toán SmoothDamp
+    private float _smoothedVelocityX;
+    private float _velocityRefX; // Biến tham chiếu cho SmoothDamp
 
     private void Awake()
     {
@@ -49,6 +57,30 @@ public class ParallaxBackground : MonoBehaviour
         SetupLayers();
     }
 
+    private void Update()
+    {
+        // [MỚI] Tính toán vận tốc mượt ở mỗi frame trong Update
+        CalculateSmoothedVelocity();
+    }
+
+    private void CalculateSmoothedVelocity()
+    {
+        float targetVelocityX = 0f;
+
+        if (_targetRb != null)
+        {
+#if UNITY_6000_0_OR_NEWER
+            targetVelocityX = _targetRb.linearVelocity.x;
+#else
+            targetVelocityX = _targetRb.velocity.x;
+#endif
+        }
+
+        // Dùng SmoothDamp để chuyển từ vận tốc hiện tại sang vận tốc mục tiêu một cách mượt mà
+        // Điều này tạo ra hiệu ứng quán tính: khi targetVelocityX về 0, _smoothedVelocityX sẽ giảm từ từ.
+        _smoothedVelocityX = Mathf.SmoothDamp(_smoothedVelocityX, targetVelocityX, ref _velocityRefX, smoothTimeX);
+    }
+
     private void SetupLayers()
     {
         _bgManager.FetchLayers();
@@ -65,11 +97,7 @@ public class ParallaxBackground : MonoBehaviour
             }
 
             float ratio = (count <= 1) ? 0f : (float)i / (count - 1);
-
-            // Layer xa chạy chậm (gần 0), layer gần chạy nhanh (gần 1)
             float speedFactorX = Mathf.Lerp(0.05f, 1.0f, ratio);
-
-            // Layer xa ít bị trôi Y, gần bị trôi nhiều
             float parallaxFactorY = Mathf.Lerp(0.05f, verticalParallaxStrength, ratio);
 
             layerScript.Initialize(this, speedFactorX, parallaxFactorY);
@@ -77,26 +105,16 @@ public class ParallaxBackground : MonoBehaviour
         }
     }
 
-    public Vector2 GetTargetVelocity()
+    // [MỚI] Hàm public để DynamicLayer lấy vận tốc đã làm mượt
+    public float GetSmoothedVelocityX()
     {
-        if (_targetRb != null)
-        {
-#if UNITY_6000_0_OR_NEWER
-            return _targetRb.linearVelocity;
-#else
-            return _targetRb.velocity;
-#endif
-        }
-        return Vector2.zero;
+        return _smoothedVelocityX;
     }
 
     public bool IsXEnabled => enableParallaxX;
     public bool IsYEnabled => enableParallaxY;
     public float BaseSpeedX => baseScrollSpeedX;
-
-    // Property mới để DynamicLayer truy cập
     public float VelocityMultiplierX => velocityMultiplierX;
-
     public float SmoothingY => smoothingY;
 
     public float GetTargetPositionY()

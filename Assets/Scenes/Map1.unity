@@ -2726,8 +2726,9 @@ MonoBehaviour:
   targetSubject: {fileID: 1107744927}
   enableParallaxX: 1
   enableParallaxY: 1
-  baseScrollSpeedX: 0
+  baseScrollSpeedX: 0.001
   velocityMultiplierX: 0.05
+  smoothTimeX: 0.25
   verticalParallaxStrength: 0.1
   smoothingY: 10
 --- !u!114 &1022573961

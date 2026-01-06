@@ -6,7 +6,7 @@ public class DynamicLayer : MonoBehaviour
     private Renderer _renderer;
     private Material _material;
 
-    private float _speedFactorX; // Hệ số tốc độ riêng của từng layer (xa chậm, gần nhanh)
+    private float _speedFactorX;
     private float _parallaxFactorY;
 
     private Vector2 _currentTextureOffset;
@@ -21,15 +21,19 @@ public class DynamicLayer : MonoBehaviour
         _parallaxFactorY = parallaxY;
 
         _renderer = GetComponent<Renderer>();
-        _material = _renderer.material;
-        _initialLocalY = transform.localPosition.y;
-
-        _hasMainTexture = _material.HasProperty("_MainTex") || _material.HasProperty("_BaseMap");
-
-        if (_hasMainTexture)
+        if (_renderer != null)
         {
-            _currentTextureOffset = _material.mainTextureOffset;
+            _material = _renderer.material;
+            // Kiểm tra xem material có texture không để tránh lỗi
+            _hasMainTexture = _material.HasProperty("_MainTex") || _material.HasProperty("_BaseMap");
+
+            if (_hasMainTexture)
+            {
+                _currentTextureOffset = _material.mainTextureOffset;
+            }
         }
+
+        _initialLocalY = transform.localPosition.y;
     }
 
     private void Update()
@@ -42,19 +46,19 @@ public class DynamicLayer : MonoBehaviour
 
     private void HandleHorizontalScroll()
     {
-        if (_controller.IsXEnabled && _hasMainTexture)
+        if (_controller.IsXEnabled && _hasMainTexture && _material != null)
         {
-            // 1. Lấy vận tốc hiện tại của nhân vật (có âm, có dương)
-            float playerVelocityX = _controller.GetTargetVelocity().x;
+            // [THAY ĐỔI QUAN TRỌNG] 
+            // Thay vì lấy vận tốc trực tiếp (giật cục), ta lấy vận tốc đã được làm mượt từ Controller
+            float smoothedPlayerVelocityX = _controller.GetSmoothedVelocityX();
 
-            // 2. Tính toán tốc độ trôi dựa trên BaseSpeed + Vận tốc nhân vật
-            // Công thức: (Tốc độ tự động + (Vận tốc nhân vật * Hệ số ảnh hưởng))
-            float totalSpeedX = _controller.BaseSpeedX + (playerVelocityX * _controller.VelocityMultiplierX);
+            // Tính toán tổng tốc độ: Base Speed + (Vận tốc mượt của nhân vật * Hệ số)
+            float totalSpeedX = _controller.BaseSpeedX + (smoothedPlayerVelocityX * _controller.VelocityMultiplierX);
 
-            // 3. Nhân với hệ số riêng của layer (để tạo chiều sâu xa gần)
+            // Nhân với hệ số riêng của layer (xa/gần)
             float moveStep = totalSpeedX * _speedFactorX * Time.deltaTime;
 
-            // 4. Cộng dồn vào Offset
+            // Cộng dồn offset
             _currentTextureOffset.x += moveStep;
 
             _material.mainTextureOffset = _currentTextureOffset;
@@ -75,6 +79,7 @@ public class DynamicLayer : MonoBehaviour
         }
         else
         {
+            // Logic tự động quay về vị trí Y gốc nếu tắt parallax Y
             if (Mathf.Abs(transform.localPosition.y - _initialLocalY) > 0.01f)
             {
                 Vector3 currentPos = transform.localPosition;
@@ -86,6 +91,7 @@ public class DynamicLayer : MonoBehaviour
 
     private void OnDestroy()
     {
+        // Dọn dẹp material instance để tránh memory leak
         if (_material != null)
         {
             Destroy(_material);

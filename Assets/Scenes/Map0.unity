@@ -1325,7 +1325,7 @@ MonoBehaviour:
   itemGenerator: {fileID: 323548174}
   player: {fileID: 335606032}
   generationDistance: 100
-  destroyDistanceBehind: 50
+  destroyDistanceBehind: 75
 --- !u!4 &372212086
 Transform:
   m_ObjectHideFlags: 0
@@ -2456,6 +2456,7 @@ GameObject:
   - component: {fileID: 941845865}
   - component: {fileID: 941845867}
   - component: {fileID: 941845866}
+  - component: {fileID: 941845868}
   m_Layer: 0
   m_Name: BG
   m_TagString: Untagged
@@ -2514,6 +2515,20 @@ MonoBehaviour:
   farthestZ: 100
   nearestZ: 50
   autoSortOnValidate: 1
+--- !u!114 &941845868
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 941845864}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 637b4376f1d4ffc45b4bcbd79a9cd2ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  vCam: {fileID: 1789372412}
+  maintainAspectRatio: 1
 --- !u!1 &949370193
 GameObject:
   m_ObjectHideFlags: 0
@@ -4278,11 +4293,11 @@ Transform:
   m_GameObject: {fileID: 1397899982}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 7.388889, y: 12, z: 0}
+  m_LocalPosition: {x: 0, y: 11, z: 10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 6836523359315799383}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &1397899984
 SpriteRenderer:
@@ -6674,7 +6689,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   obstaclePrefab: {fileID: 6851801325544815183, guid: 5d2c5bf465e7e30468d02ff5e3499277, type: 3}
-  moveDuration: 3
+  baseMoveSpeed: 10
+  baseRotateSpeed: 2
 --- !u!4 &5694686908617468744
 Transform:
   m_ObjectHideFlags: 0
@@ -6721,6 +6737,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5694686908617468744}
+  - {fileID: 1397899983}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7278452314991606448
@@ -6737,7 +6754,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   obstacleController: {fileID: 4621574370228512558}
   bossVisual: {fileID: 1397899983}
-  attackInterval: 4
+  vCam: {fileID: 1789372412}
+  zoomViewport: 7
+  zoomDuration: 1.5
+  minAttackInterval: 3
+  maxAttackInterval: 4
+  bossDepth: 10
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -6746,7 +6768,6 @@ SceneRoots:
   - {fileID: 1789372413}
   - {fileID: 372212086}
   - {fileID: 6836523359315799383}
-  - {fileID: 1397899983}
   - {fileID: 335606032}
   - {fileID: 2054229277}
   - {fileID: 1137751201}

@@ -47,7 +47,7 @@ public class EndlessGameController : MonoBehaviour
         CleanupOldObjects();
 
         distanceRun = GameStatsController.Instance.resultDistance;
-        if (distanceRun > 10 && !bossSpawned)
+        if (distanceRun > 50 && !bossSpawned)
         {
             BossManager.Instance.StartBossFight();
             bossSpawned = true;

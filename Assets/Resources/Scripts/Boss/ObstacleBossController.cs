@@ -6,21 +6,65 @@ public class ObstacleBossController : MonoBehaviour
     [Header("Assets")]
     public MoveObstacleBoss obstaclePrefab;
 
-    [Header("Settings")]
-    public float baseMoveSpeed = 10f;   // Tốc độ di chuyển (Unit/giây)
-    public float baseRotateSpeed = 2f;  // Tốc độ xoay (Vòng/giây)
+    [Header("Adaptive Difficulty Settings")]
+    // Tốc độ cơ bản khi Player đứng yên hoặc chạy chậm
+    public float baseObstacleSpeed = 8f;
+
+    // Tỉ lệ ảnh hưởng của tốc độ Player lên tốc độ đạn Boss (0 = không ảnh hưởng, 1 = tăng tỉ lệ thuận 1:1)
+    [Range(0f, 2f)] public float playerVelocityInfluence = 0.5f;
+
+    // Giới hạn tốc độ tối đa của đạn để không bị quá nhanh không thể né
+    public float maxObstacleSpeed = 25f;
+
+    private float baseRotateSpeed = 2;
+
+    [Header("Spacing & Bounds Settings")]
+    [SerializeField] private float minSafeTimeGap = 0.35f;
+    [SerializeField] private float obstacleHitSize = 1.2f; // Kích thước vật thể để tính toán lề màn hình
+
+    // Lề an toàn (Viewport): 0.1 nghĩa là vật thể sẽ spawn ở 1.1 và destroy ở -0.1
+    // Tự động tính toán dựa trên hitSize, nhưng có thể override
+    private float verticalMargin = 0.2f;
+    private float horizontalMargin = 0.2f;
+
+    [Header("Player Reference")]
+    private float playerForwardSpeed => ReferenceManager.Instance.PlayerRigidbody.linearVelocityX;
+
+    private void Start()
+    {
+        // Tự động tính toán Margin dựa trên kích thước vật thể so với màn hình
+        // Giúp vật thể vừa khuất bóng là destroy luôn, tối ưu hiệu năng
+        CalculateDynamicMargins();
+    }
+
+    private void CalculateDynamicMargins()
+    {
+        Camera cam = Camera.main;
+        if (cam == null) return;
+
+        // Chuyển kích thước vật thể từ World sang Viewport unit (ước lượng)
+        float worldHeight = cam.orthographicSize * 2f;
+        float worldWidth = worldHeight * cam.aspect;
+
+        // Cộng thêm 1 chút dư (buffer)
+        verticalMargin = (obstacleHitSize / worldHeight) + 0.05f;
+        horizontalMargin = (obstacleHitSize / worldWidth) + 0.05f;
+    }
 
     public enum AttackPattern
     {
-        RainDown_AllAtOnce,     // Rơi thẳng hàng cùng lúc
-        RainDown_Wave,          // Rơi lượn sóng (trái qua phải)
-        Side_RightToLeft,       // Bay từ phải sang trái
-        Cross_Screen,           // Bay chéo chữ X
-        Random_Rain             // Rơi vị trí ngẫu nhiên
+        RainDown_AllAtOnce,
+        RainDown_Wave,
+        Side_RightToLeft,
+        Cross_Screen,
+        Random_Rain
     }
 
     public void ExecuteAttack(AttackPattern pattern)
     {
+        // Recalculate margin mỗi lần tấn công phòng trường hợp Camera Zoom thay đổi kích thước Viewport
+        CalculateDynamicMargins();
+
         switch (pattern)
         {
             case AttackPattern.RainDown_AllAtOnce:
@@ -41,83 +85,140 @@ public class ObstacleBossController : MonoBehaviour
         }
     }
 
-    // --- CÁC LOGIC SPAWN ---
+    // --- CÁC LOGIC SPAWN ĐÃ TỐI ƯU ---
 
-    // 1. Rơi từ trên xuống (Thẳng hàng hoặc Lượn sóng)
     private void SpawnVerticalRow(bool isWave)
     {
         int count = 5;
-        float step = 1f / (count - 1);
+        // Padding 2 bên trái phải để không spawn sát mép màn hình quá
+        float paddingX = 0.15f;
+
+        float startY = 1f + verticalMargin; // Spawn ngay trên đỉnh màn hình
+        float endY = 0f - verticalMargin;   // Destroy ngay dưới đáy màn hình
+
+        // Tính tốc độ tối ưu cho khoảng cách này
+        float currentSpeed = CalculateOptimalSpeed(Vector2.up * (startY - endY));
+        float safeDelay = CalculateSafeDelay(currentSpeed);
 
         for (int i = 0; i < count; i++)
         {
-            float viewportX = step * i;
-            float delay = isWave ? i * 0.15f : 0f;
+            float t = (float)i / (count - 1);
+            // Lerp từ trái qua phải (có trừ hao lề)
+            float x = Mathf.Lerp(paddingX, 1f - paddingX, t);
 
-            // Start: Y=1.2 (Trên đỉnh), End: Y=-0.2 (Dưới đáy)
+            float delay = isWave ? (count - i) * safeDelay : 0f;
+
             CreateObstacle(
-                new Vector2(viewportX, 1.2f),
-                new Vector2(viewportX, -0.2f),
-                baseMoveSpeed,
+                new Vector2(x, startY),
+                new Vector2(x, endY),
+                currentSpeed,
                 delay
             );
         }
     }
 
-    // 2. Bay từ Phải sang Trái (Nhiều độ cao khác nhau)
     private void SpawnHorizontalWaves()
     {
-        // Sinh ra 3 vật thể ở 3 độ cao khác nhau
-        float[] heights = { 0.2f, 0.5f, 0.8f }; // Thấp, Giữa, Cao (theo Viewport Y)
+        int count = 4;
+        float paddingY = 0f;
 
-        for (int i = 0; i < heights.Length; i++)
+        float startX = 1f + horizontalMargin;
+        float endX = 0f - horizontalMargin;
+
+        // Tính tốc độ (ưu tiên nhanh hơn 1 chút vì chiều ngang màn hình dài hơn chiều dọc)
+        float distVector = Mathf.Abs(startX - endX);
+        float currentSpeed = CalculateOptimalSpeed(Vector2.right * distVector) * 1.2f;
+        float safeDelay = CalculateSafeDelay(currentSpeed);
+
+        for (int i = 0; i < count; i++)
         {
-            // Start: X=1.2 (Bên phải), End: X=-0.2 (Bên trái)
-            // Delay mỗi dòng 1 chút để người chơi kịp né
+            float t = (float)i / (count - 1);
+            float y = Mathf.Lerp(paddingY, 1f - paddingY, t); // Từ dưới lên trên
+
+            // Delay kiểu sóng
+            float delay = i * safeDelay * 0.8f;
+
             CreateObstacle(
-                new Vector2(1.2f, heights[i]),
-                new Vector2(-0.2f, heights[i]),
-                baseMoveSpeed * 1.2f, // Bay ngang nhanh hơn chút cho khó
-                i * 0.3f // Delay
+                new Vector2(startX, y),
+                new Vector2(endX, y),
+                currentSpeed,
+                delay
             );
         }
     }
 
-    // 3. Bay chéo chữ X (Góc màn hình lao vào góc đối diện)
     private void SpawnCrossPattern()
     {
-        // Trái trên -> Phải dưới
-        CreateObstacle(new Vector2(-0.2f, 1.2f), new Vector2(1.2f, -0.2f), baseMoveSpeed * 1.5f, 0f);
+        // Tính đường chéo view
+        Vector2 start1 = new Vector2(0f - horizontalMargin, 1f + verticalMargin); // Trái Trên
+        Vector2 end1 = new Vector2(1f + horizontalMargin, 0f - verticalMargin);   // Phải Dưới
 
-        // Phải trên -> Trái dưới (Delay 1 tí để không dính nhau)
-        CreateObstacle(new Vector2(1.2f, 1.2f), new Vector2(-0.2f, -0.2f), baseMoveSpeed * 1.5f, 0.3f);
+        Vector2 start2 = new Vector2(1f + horizontalMargin, 1f + verticalMargin); // Phải Trên
+        Vector2 end2 = new Vector2(0f - horizontalMargin, 0f - verticalMargin);   // Trái Dưới
+
+        // Tốc độ chéo cần nhanh hơn vì quãng đường dài nhất
+        float currentSpeed = CalculateOptimalSpeed(start1 - end1) * 1.3f;
+        float safeDelay = CalculateSafeDelay(currentSpeed);
+
+        CreateObstacle(start1, end1, currentSpeed, 0f);
+        CreateObstacle(start2, end2, currentSpeed, safeDelay); // Delay 1 tí để ko đâm nhau giữa màn hình
     }
 
-    // 4. Rơi ngẫu nhiên lả tả
     private void SpawnRandomRain()
     {
         int count = 4;
+
+        float startY = 1f + verticalMargin;
+        float endY = 0f - verticalMargin;
+        float currentSpeed = CalculateOptimalSpeed(Vector2.up * (startY - endY));
+        float safeDelay = CalculateSafeDelay(currentSpeed);
+
         for (int i = 0; i < count; i++)
         {
-            float randomX = Random.Range(0.1f, 0.9f);
-            float randomDelay = Random.Range(0f, 0.5f);
+            // Random X trong vùng an toàn (0.1 -> 0.9)
+            float x = Random.Range(0.1f, 0.9f);
 
             CreateObstacle(
-                new Vector2(randomX, 1.2f),
-                new Vector2(randomX, -0.2f),
-                baseMoveSpeed,
-                randomDelay
+                new Vector2(x, startY),
+                new Vector2(x, endY),
+                currentSpeed,
+                i * safeDelay
             );
         }
     }
 
-    // Hàm helper chung
+    //===== LOGIC TÍNH TOÁN TỐI ƯU (CORE) =====//
+
+    /// <summary>
+    /// Tính toán tốc độ đạn dựa trên vận tốc người chơi.
+    /// Player chạy càng nhanh, đạn bay càng nhanh để duy trì độ khó (Reaction Time).
+    /// </summary>
+    private float CalculateOptimalSpeed(Vector2 viewDistanceVector)
+    {
+        // 1. Tính độ khó hiện tại (Dựa trên tốc độ player)
+        // Nếu player chạy nhanh, ta cộng thêm vận tốc vào đạn
+        float dynamicSpeed = baseObstacleSpeed + (playerForwardSpeed * playerVelocityInfluence);
+
+        // 2. Kẹp giá trị để không quá chậm hoặc quá nhanh
+        dynamicSpeed = Mathf.Clamp(dynamicSpeed, baseObstacleSpeed, maxObstacleSpeed);
+
+        return dynamicSpeed;
+    }
+
+    private float CalculateSafeDelay(float obstacleSpeed)
+    {
+        // Thời gian để vật thể đi qua hết kích thước của chính nó
+        // Time = Distance / Speed
+        float passThroughTime = obstacleHitSize / obstacleSpeed;
+
+        // Đảm bảo delay tối thiểu là minSafeTimeGap
+        return Mathf.Max(minSafeTimeGap, passThroughTime);
+    }
+
     private void CreateObstacle(Vector2 startView, Vector2 endView, float speed, float delay)
     {
         MoveObstacleBoss obj = Instantiate(obstaclePrefab);
-        obj.transform.SetParent(transform);
-
-        // Truyền speed và rotateSpeed vào
+        obj.transform.SetParent(transform); // Gọn hierarchy
         obj.Initialize(startView, endView, speed, baseRotateSpeed, delay);
     }
 }

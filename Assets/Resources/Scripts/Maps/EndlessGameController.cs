@@ -5,9 +5,20 @@ public class EndlessGameController : MonoBehaviour
     public static EndlessGameController Instance;
     private void Awake() => Instance = this;
 
-    [Header("Boss")]
-    private float distanceRun;
-    private bool bossSpawned=false;
+    [Header("Boss Settings")]
+    [SerializeField] private float distanceToBoss = 100f;
+    [SerializeField] private float winPointOffset = 40f; // KHOẢNG CÁCH SAU KHI BOSS CHẾT
+
+    [SerializeField] private float timeToDefeat = 60f;
+
+    private float distanceRan;
+    private float bossDefeatedDistance;
+    private float startBossTime;
+
+    private bool bossSpawned;
+    private bool bossDefeated;
+    private bool winPointSpawned;
+    [SerializeField] private GameObject winPoint; //Prefab của winpoint
 
     [Header("Managers")]
     public MapGenerator mapGenerator;
@@ -46,13 +57,56 @@ public class EndlessGameController : MonoBehaviour
 
         CleanupOldObjects();
 
-        distanceRun = GameStatsController.Instance.resultDistance;
-        if (distanceRun > 50 && !bossSpawned)
+        distanceRan = GameStatsController.Instance.resultDistance;
+
+        HandleBossSpawn();
+        HandleBossFight();
+
+
+    }
+
+    private void HandleBossSpawn()
+    {
+        if (bossSpawned || bossDefeated) return;
+
+        if (distanceRan >= distanceToBoss)
         {
             BossManager.Instance.StartBossFight();
             bossSpawned = true;
+            startBossTime = Time.time;
         }
+    }
 
+    private void HandleBossFight()
+    {
+        if (!bossSpawned || bossDefeated) return;
+
+        if (Time.time - startBossTime >= timeToDefeat)
+        {
+            BossManager.Instance.StopFight();
+
+            bossDefeated = true;
+            bossSpawned = false;
+
+            // LƯU mốc khoảng cách khi boss chết
+            bossDefeatedDistance = distanceRan;
+
+            SpawnWinPoint();
+        }
+    }
+    private void SpawnWinPoint()
+    {
+        if (winPoint == null || winPointSpawned) return;
+
+        float winX = bossDefeatedDistance + winPointOffset;
+
+        Instantiate(
+            winPoint,
+            new Vector2(winX, 0f),
+            Quaternion.identity
+        );
+
+        winPointSpawned = true;
     }
 
     private void SpawnNextPiece()

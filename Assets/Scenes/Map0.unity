@@ -1321,6 +1321,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb24c27e94183b74e8b60bd6100df9cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  distanceToBoss: 50
+  winPointOffset: 40
+  timeToDefeat: 10
+  winPoint: {fileID: 17082852237823415, guid: 9d1732118a1f8374aae96942a875dfbf, type: 3}
   mapGenerator: {fileID: 372212084}
   itemGenerator: {fileID: 323548174}
   player: {fileID: 335606032}
@@ -6689,8 +6693,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   obstaclePrefab: {fileID: 6851801325544815183, guid: 5d2c5bf465e7e30468d02ff5e3499277, type: 3}
-  baseMoveSpeed: 10
-  baseRotateSpeed: 2
+  baseObstacleSpeed: 8
+  playerVelocityInfluence: 0.5
+  maxObstacleSpeed: 25
+  minSafeTimeGap: 0.35
+  obstacleHitSize: 1.2
 --- !u!4 &5694686908617468744
 Transform:
   m_ObjectHideFlags: 0

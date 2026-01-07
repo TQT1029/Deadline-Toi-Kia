@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 4656220640919301514}
   - component: {fileID: 5465225959028554028}
   - component: {fileID: 6851801325544815183}
+  - component: {fileID: 1741608529721398097}
   m_Layer: 0
   m_Name: Block
   m_TagString: Untagged
@@ -175,3 +176,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94c9d9a01625d0f44a1ad72ae5cf4dba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1741608529721398097
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4364660034732778763}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15e7b5999ca621b44850cf90f88994de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  force: 25
+  direction: {x: -1, y: 0}
+  minAmountCoin: 5
+  maxAmountCoin: 30

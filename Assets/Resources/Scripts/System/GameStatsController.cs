@@ -47,6 +47,11 @@ public class GameStatsController : MonoBehaviour
         resultXPScore += amount;
     }
 
+    public void HitObstacleBoss(int minAmount, int maxAmount)
+    {
+        resultCoin = Mathf.Max(0, resultCoin - Random.Range(minAmount, maxAmount + 1));
+    }
+
     public void CollectDoubleXPItem()
     {
         resultXPScore *= 2;

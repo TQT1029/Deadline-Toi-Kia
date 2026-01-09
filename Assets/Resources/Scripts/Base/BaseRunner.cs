@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D), typeof(BoxCollider2D), typeof(SpriteRenderer))]
 public class BaseRunner : MonoBehaviour
@@ -17,6 +18,10 @@ public class BaseRunner : MonoBehaviour
     public float groundCheckRadius = 0.3f;
     public LayerMask groundLayer;
 
+    [Header("Knockback Settings")]
+    [SerializeField] protected float knockbackCooldown = 10f;
+    private float lastKnockbackTime;
+
     [Header("Map Safety (Chống rơi khỏi map)")]
     [Tooltip("Độ sâu mà Runner rơi xuống sẽ bị Respawn (VD: -10)")]
     public float fallThresholdY = -10f;
@@ -27,7 +32,8 @@ public class BaseRunner : MonoBehaviour
     protected BoxCollider2D _collider;
     protected SpriteRenderer _spriteRenderer;
 
-    protected bool isGrounded;
+    protected bool isGrounded = false;
+    protected bool isControlLocked = false;
     protected float currentSpeed;
 
     protected virtual void Awake()
@@ -37,6 +43,7 @@ public class BaseRunner : MonoBehaviour
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _animator = GetComponent<Animator>();
 
+        lastKnockbackTime = Time.time;
         currentSpeed = baseRunSpeed;
     }
 
@@ -81,11 +88,57 @@ public class BaseRunner : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Hàm kiểm tra áp dụng lực đẩy và choáng (knockback + stun).
+    /// </summary>
+    /// <param name="forceDir">Hướng bị đẩy</param>
+    /// <param name="forceStrength">Lực đẩy</param>
+    /// <param name="stunDuration">Thời gian stun</param>
+    public void ApplyKnockback(Vector2 forceDir, float forceStrength, float stunDuration)
+    {
+        // Đang bị stun, bỏ qua
+        if (isControlLocked) return;
+
+        if (Time.time - lastKnockbackTime > knockbackCooldown)
+        {
+            StartCoroutine(KnockbackRoutine(forceDir, forceStrength, stunDuration));
+            lastKnockbackTime = Time.time;
+        }
+
+
+    }
+
+    private IEnumerator KnockbackRoutine(Vector2 dir, float force, float duration)
+    {
+        isControlLocked = true; // 1. Ngắt quyền điều khiển di chuyển
+
+        // 2. Reset vận tốc hiện tại về 0 để lực đẩy có tác dụng rõ rệt
+#if UNITY_6000_0_OR_NEWER
+        _rb.linearVelocity = Vector2.zero;
+#else
+        _rb.velocity = Vector2.zero;
+#endif
+        // 3. Thêm lực đẩy
+        _rb.AddForce(dir * force, ForceMode2D.Impulse);
+
+        //---Tạm ẩn---//
+        //if (_animator) _animator.SetTrigger("isHit"); // Nếu có anim bị thương
+
+        // 4. Chờ hết thời gian choáng
+        yield return new WaitForSeconds(duration);
+
+        // 5. Khôi phục
+        isControlLocked = false;
+
+        // Reset lại vận tốc để chạy tiếp ngay lập tức
+        currentSpeed = baseRunSpeed * 0.8f; // Chạy lại từ từ thôi (optional)
+    }
+
     // --- LOGIC KIỂM TRA & XỬ LÝ SỰ CỐ (KẸT / RƠI) ---
     protected void CheckGround()
     {
         if (groundCheck != null)
-            isGrounded = Physics2D.OverlapBox(groundCheck.position, new Vector2(3.7f/2.5f, groundCheckRadius),0, groundLayer);
+            isGrounded = Physics2D.OverlapBox(groundCheck.position, new Vector2(3.7f / 2.5f, groundCheckRadius), 0, groundLayer);
     }
 
     protected virtual void CheckStuck()

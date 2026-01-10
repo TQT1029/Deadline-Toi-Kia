@@ -12,10 +12,18 @@ public class SelectionArrow : MonoBehaviour
     public float bobDistance = 0.2f;
     public float bobDuration = 0.5f;
 
+    [Header("Audio")]
+    [SerializeField] private string moveSfxId = "Swoosh"; // ID âm thanh di chuyển
+
     public void MoveTo(Transform target)
     {
         transform.DOKill();
         Vector3 targetPos = target.position + offset;
+
+        if (AudioManager.Instance != null && !string.IsNullOrEmpty(moveSfxId))
+        {
+            AudioManager.Instance.PlaySFX(moveSfxId); 
+        }
 
         transform.DOMove(targetPos, moveDuration)
             .SetEase(moveEase)

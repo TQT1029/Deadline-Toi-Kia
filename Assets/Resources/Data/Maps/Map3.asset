@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Map3
   m_EditorClassIdentifier: 
   mapName: Map3
-  idBGM: 
+  idBGM: BGM_Map3
   mapIndex: 3

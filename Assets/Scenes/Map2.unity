@@ -4703,12 +4703,10 @@ MonoBehaviour:
   obstacleLibrary:
   - id: Bed
     prefab: {fileID: 2333592362498116760, guid: d8c5b928608f11544bc81ca646cf10a3, type: 3}
-    heightOffset: 0
-    size: {x: 1, y: 1}
+    manualSize: {x: 0, y: 0}
   - id: Desk
     prefab: {fileID: 3298468444853077915, guid: 52e91c8b1a60e5d44a3a6f0f1ba6387a, type: 3}
-    heightOffset: 0
-    size: {x: 1, y: 1}
+    manualSize: {x: 0, y: 0}
   miniPlatformLibrary: []
   hasPit: 1
   groundY: -5
@@ -4722,8 +4720,8 @@ MonoBehaviour:
   obstacleChance: 60
   obstacleInPit: 0
   obstacleEdgePadding: 2
-  minObstacleGap: 15
-  maxObstacleGap: 21
+  minObstacleGap: 10
+  maxObstacleGap: 17
   minBridgeHeight: 0
   maxBridgeHeight: 2
   minGapBridge: 1

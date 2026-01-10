@@ -3548,7 +3548,7 @@ MonoBehaviour:
   groundCheckRadius: 0.15
   groundLayer:
     serializedVersion: 2
-    m_Bits: 192
+    m_Bits: 448
   knockbackCooldown: 1
   fallThresholdY: -10
   adjustDist: 10
@@ -3557,7 +3557,7 @@ MonoBehaviour:
   viewDistance: 4
   obstacleLayer:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 384
   maxSweepAngle: 30
   pitCheckDistance: 1.5
   pitRayLength: 5
@@ -3827,14 +3827,10 @@ MonoBehaviour:
   obstacleLibrary:
   - id: Compress-Fire-Extinguisher
     prefab: {fileID: 7290545855054261292, guid: 81865ca4cc821284d8351f8915691719, type: 3}
-    heightOffset: 0
-    centerPos: {x: 0, y: 0}
-    size: {x: 0, y: 0}
+    manualSize: {x: 0, y: 0}
   - id: Fire-Extinguisher
     prefab: {fileID: 7290545855054261292, guid: 7e5583311ee2dfc46bb2619861d19981, type: 3}
-    heightOffset: 0
-    centerPos: {x: 0, y: 0}
-    size: {x: 0, y: 0}
+    manualSize: {x: 0, y: 0}
   miniPlatformLibrary: []
   hasPit: 0
   groundY: -5
@@ -3848,7 +3844,7 @@ MonoBehaviour:
   obstacleChance: 60
   obstacleInPit: 0
   obstacleEdgePadding: 2
-  minObstacleGap: 12
+  minObstacleGap: 10
   maxObstacleGap: 17
   minBridgeHeight: 0
   maxBridgeHeight: 2
@@ -5291,7 +5287,7 @@ MonoBehaviour:
   groundCheckRadius: 0.15
   groundLayer:
     serializedVersion: 2
-    m_Bits: 192
+    m_Bits: 448
   knockbackCooldown: 1
   fallThresholdY: -10
   adjustDist: 10
@@ -5300,7 +5296,7 @@ MonoBehaviour:
   viewDistance: 4
   obstacleLayer:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 384
   maxSweepAngle: 30
   pitCheckDistance: 1.5
   pitRayLength: 5
@@ -6139,7 +6135,7 @@ MonoBehaviour:
   groundCheckRadius: 0.15
   groundLayer:
     serializedVersion: 2
-    m_Bits: 192
+    m_Bits: 448
   knockbackCooldown: 1
   fallThresholdY: -10
   adjustDist: 10
@@ -6148,7 +6144,7 @@ MonoBehaviour:
   viewDistance: 4
   obstacleLayer:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 384
   maxSweepAngle: 30
   pitCheckDistance: 1.5
   pitRayLength: 5

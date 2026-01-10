@@ -65,7 +65,7 @@ public class BotController : BaseRunner
         if (!seesObstacle) seesPit = ScanForPits();
 
         // 2. Logic giữ nút nhảy (High Jump)
-        HandleHighJumpLogic(seesObstacle || seesPit);
+        HandleHighJumpLogic();
 
         // 3. Logic đuổi theo Player
         AdjustSpeedTarget();
@@ -139,19 +139,22 @@ public class BotController : BaseRunner
         }
     }
 
-    private void HandleHighJumpLogic(bool needsHighJump)
+    // Xóa tham số bool needsHighJump
+    private void HandleHighJumpLogic()
     {
         if (isHighJumping && !isControlLocked)
         {
-            if (highJumpTimer > 0 && needsHighJump)
+            if (highJumpTimer > 0)
             {
                 _rb.AddForce(Vector2.up * jumpHoldForce, ForceMode2D.Force);
                 highJumpTimer -= Time.fixedDeltaTime;
             }
-            else isHighJumping = false;
+            else
+            {
+                isHighJumping = false;
+            }
         }
     }
-
     private void AdjustSpeedTarget()
     {
         if (targetPlayer == null) { targetRunSpeed = baseRunSpeed; return; }

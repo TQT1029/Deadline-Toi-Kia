@@ -3227,19 +3227,13 @@ MonoBehaviour:
   obstacleLibrary:
   - id: BlockMachineGroup_Alternating
     prefab: {fileID: 2370051292434349185, guid: 58b9695c42c43c24f8bc2261543c17f7, type: 3}
-    heightOffset: 0
-    centerPos: {x: 0, y: 0}
-    size: {x: 1, y: 1}
+    manualSize: {x: 0, y: 0}
   - id: BlockMachineGroup_Sync
     prefab: {fileID: 2370051292434349185, guid: 79cbff482763e2340a97b8681d5c6487, type: 3}
-    heightOffset: 0
-    centerPos: {x: 0, y: 0}
-    size: {x: 1, y: 1}
+    manualSize: {x: 0, y: 0}
   - id: BlockMachineGroup_Wave
     prefab: {fileID: 2370051292434349185, guid: 736d6ccd79b6bdf49be12e7ceb80deba, type: 3}
-    heightOffset: 0
-    centerPos: {x: 0, y: 0}
-    size: {x: 1, y: 1}
+    manualSize: {x: 0, y: 0}
   miniPlatformLibrary:
   - id: m1
     prefab: {fileID: 2997676687723301785, guid: 85a0f2dbd00cb68498978bf34bbeae87, type: 3}
@@ -3262,11 +3256,11 @@ MonoBehaviour:
   minGroundSegmentLength: 30
   maxGroundSegmentLength: 100
   ratioObstacleToAerial: 70
-  obstacleChance: 60
+  obstacleChance: 70
   obstacleInPit: 1
   obstacleEdgePadding: 2
-  minObstacleGap: 12
-  maxObstacleGap: 17
+  minObstacleGap: 8
+  maxObstacleGap: 12
   minBridgeHeight: 0
   maxBridgeHeight: 2
   minGapBridge: 1

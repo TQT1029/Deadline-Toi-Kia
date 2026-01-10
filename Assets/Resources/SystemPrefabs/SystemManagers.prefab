@@ -168,7 +168,7 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 0a38170d8202aff40a8891cc7556455c, type: 3}
     volume: 0.25
     pitch: 1
-  - id: BGM_Map4
+  - id: BGM_Map3
     clip: {fileID: 8300000, guid: 06d7c87ea35ee9c44a2f878589a0764a, type: 3}
     volume: 0.25
     pitch: 1
@@ -187,6 +187,34 @@ MonoBehaviour:
     pitch: 1.5
   - id: CollectItem
     clip: {fileID: 8300000, guid: 9e6f9b8628d7a9e4282f6cf7bce099aa, type: 3}
+    volume: 1
+    pitch: 1
+  - id: ButtonClick_0
+    clip: {fileID: 8300000, guid: c562261235bc5484ea8c1cfa5b3474a3, type: 3}
+    volume: 1
+    pitch: 1
+  - id: ButtonClick_1
+    clip: {fileID: 8300000, guid: 512044aff457cad4ba75e0a5535595ba, type: 3}
+    volume: 1
+    pitch: 1
+  - id: ButtonClick_2
+    clip: {fileID: 8300000, guid: 0b9ecc99bd3b7bb408a7a7cfc354bb64, type: 3}
+    volume: 1
+    pitch: 1
+  - id: ButtonClick_3
+    clip: {fileID: 8300000, guid: cc1937a803a4a414ea9e87293a8a0994, type: 3}
+    volume: 1
+    pitch: 1
+  - id: ButtonClick_4
+    clip: {fileID: 8300000, guid: b697acbb96de3b241bb59f187e7133dc, type: 3}
+    volume: 1
+    pitch: 1
+  - id: ButtonClick_5
+    clip: {fileID: 8300000, guid: aaac28c5968911f4b84190ddcd61d5f2, type: 3}
+    volume: 1
+    pitch: 1
+  - id: Swoosh
+    clip: {fileID: 8300000, guid: cc1937a803a4a414ea9e87293a8a0994, type: 3}
     volume: 1
     pitch: 1
 --- !u!82 &5574078942048712370

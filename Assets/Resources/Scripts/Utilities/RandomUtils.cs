@@ -211,6 +211,48 @@ public static class RandomUtils
         return newObj;
     }
 
+    /// <summary>
+    /// Random số nguyên KHÔNG TRÙNG trong một khoảng [min, max).
+    /// Mỗi số chỉ xuất hiện 1 lần cho tới khi dùng hết thì reset.
+    /// </summary>
+    public class IntShuffleBag
+    {
+        private List<int> bag = new List<int>();
+        private int min;
+        private int max;
+
+        public IntShuffleBag(int minInclusive, int maxExclusive)
+        {
+            min = minInclusive;
+            max = maxExclusive;
+            Refill();
+        }
+
+        /// <summary>
+        /// Lấy số tiếp theo (không trùng).
+        /// </summary>
+        public int Next()
+        {
+            if (bag.Count == 0)
+                Refill();
+
+            int index = Random.Range(0, bag.Count);
+            int value = bag[index];
+            bag.RemoveAt(index);
+
+            return value;
+        }
+
+        /// <summary>
+        /// Nạp lại toàn bộ dãy số và trộn.
+        /// </summary>
+        private void Refill()
+        {
+            bag.Clear();
+            for (int i = min; i < max; i++)
+                bag.Add(i);
+        }
+    }
 
 
     /// <summary>

@@ -47,9 +47,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   obstacleController: {fileID: 5494532552304183894}
-  bossVisual: {fileID: 1884405085493526601}
-  minAttackInterval: 3
-  maxAttackInterval: 4
+  bossVisualTransform: {fileID: 1884405085493526601}
+  bossSpriteRenderer: {fileID: 6346785049893544867}
+  vCam: {fileID: 0}
+  allBosses:
+  - {fileID: 11400000, guid: a4e2733d49b02b94f8a821fef9ef13eb, type: 2}
+  - {fileID: 11400000, guid: 3a08ec0e7d72e844cae6e2e37d944c2b, type: 2}
+  - {fileID: 11400000, guid: 0f237601a7583cd4ab3451fc5ebb6e3c, type: 2}
+  - {fileID: 11400000, guid: 0924827ca36e70f46a84bc3742770282, type: 2}
+  zoomViewport: 7
+  zoomDuration: 1.5
 --- !u!1 &3238123525324062108
 GameObject:
   m_ObjectHideFlags: 0
@@ -182,4 +189,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   obstaclePrefab: {fileID: 6851801325544815183, guid: 5d2c5bf465e7e30468d02ff5e3499277, type: 3}
-  moveDuration: 3
+  baseObstacleSpeed: 8
+  playerVelocityInfluence: 0.5
+  maxObstacleSpeed: 25
+  baseRotateSpeed: 2
+  obstacleHitSize: 2.2
+  spacingDensity: 2
+  screenEdgeMargin: 0
+  minSafeTimeGap: 0.5

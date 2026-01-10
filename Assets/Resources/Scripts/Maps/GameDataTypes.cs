@@ -47,38 +47,44 @@ public class ObstacleData
     public GameObject prefab;
     public float heightOffset = 0f;
 
-    public Vector2 centerPos = Vector2.zero;
     // Mặc định là (1,1). Nếu bạn set tay giá trị khác trong Inspector, code sẽ dùng giá trị đó thay vì tự tính.
     public Vector2 size = Vector2.one;
     public Vector2 GetSize()
     {
         if (prefab == null) return Vector2.one;
 
-        // Nếu đã nhập tay size khác (1,1) thì ưu tiên dùng số nhập tay
+        // Ưu tiên dùng số nhập tay
         if (size != Vector2.one && size != Vector2.zero) return size;
 
-        // 1. Lấy tất cả Collider2D trong prefab (bao gồm cả object cha và các con)
-        var colliders = prefab.GetComponentsInChildren<Collider2D>(true);
+        // --- BƯỚC SỬA: Tạo vật thể tạm ---
+        GameObject tempObj = GameObject.Instantiate(prefab);
+        tempObj.transform.position = Vector3.zero;
+        tempObj.transform.rotation = Quaternion.identity;
+        // Đảm bảo object bật lên để collider hoạt động
+        tempObj.SetActive(true);
+
+        var colliders = tempObj.GetComponentsInChildren<Collider2D>(true);
+        Vector2 finalSize = Vector2.one;
 
         if (colliders.Length > 0)
         {
-            // Khởi tạo bounds bằng collider đầu tiên tìm thấy
             Bounds combinedBounds = colliders[0].bounds;
-
-            // 2. Duyệt qua các collider còn lại và mở rộng bounds để bao trùm tất cả
             for (int i = 1; i < colliders.Length; i++)
             {
                 combinedBounds.Encapsulate(colliders[i].bounds);
             }
-
-            //Debug.Log($"[ObstacleData] Calculated size for Obstacle '{id}': {combinedBounds.size}");
-            // 3. Trả về kích thước tổng (Width, Height)
-            // Bounds.size trong Unity đã tự động tính toán cả Scale của transform rồi
-            return combinedBounds.size;
+            finalSize = combinedBounds.size;
         }
 
-        // Fallback: Nếu không tìm thấy collider nào, trả về mặc định
-        return Vector2.one;
+        // --- Xóa vật thể tạm đi ---
+        // Dùng DestroyImmediate nếu chạy trong Editor/ScriptableObject, Destroy nếu chạy runtime
+#if UNITY_EDITOR
+        GameObject.DestroyImmediate(tempObj);
+#else
+    GameObject.Destroy(tempObj);
+#endif
+
+        return finalSize;
     }
 }
 

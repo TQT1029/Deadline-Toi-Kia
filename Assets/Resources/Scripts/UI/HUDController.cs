@@ -18,6 +18,11 @@ public class HUDController : MonoBehaviour
     [Tooltip("Text hiển thị số '01/25'")]
     [SerializeField] private TMP_Text rankDetailText => UIManager.Instance.RankDetailText;
 
+    [Header("Rank Effect Config")]
+    [SerializeField] private Color rankUpColor = Color.green; // Màu khi lên hạng (Tốt)
+    [SerializeField] private Color rankDownColor = Color.red; // Màu khi tụt hạng (Tệ)
+    [SerializeField] private float blinkDuration = 0.5f; // Thời gian nháy
+
     [Header("End Game Animation")]
     [SerializeField] private GameObject resultPanel => UIManager.Instance.ResultPanel;
     [SerializeField] private GameObject[] stars => UIManager.Instance.Stars;
@@ -29,6 +34,11 @@ public class HUDController : MonoBehaviour
     [SerializeField] private TMP_Text resultCoinText => UIManager.Instance.ResultCoinText;
     [SerializeField] private TMP_Text resultXPScoreText => UIManager.Instance.ResultXPScoreText;
 
+    private int lastRank = -1; // Lưu currentRank frame trước để so sánh
+    private Color originalRankColor; // Lưu màu gốc để trả về
+    private Tween rankColorTween;
+    private Tween rankScaleTween;
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -37,6 +47,11 @@ public class HUDController : MonoBehaviour
             return;
         }
         Instance = this;
+    }
+    private void Start()
+    {
+        // Lưu màu gốc ban đầu của Text Rank
+        if (rankTitleText != null) originalRankColor = rankTitleText.color;
     }
     private void Update()
     {
@@ -49,21 +64,51 @@ public class HUDController : MonoBehaviour
         // Nếu không có RankingManager thì thôi
         if (RankingManager.Instance == null) return;
 
-        int rank = RankingManager.Instance.CurrentRank;
+        int currentRank = RankingManager.Instance.CurrentRank;
         int total = RankingManager.Instance.TotalRacers;
 
-        // 1. Cập nhật chữ TOP (Ví dụ: TOP 1)
-        if (rankTitleText != null)
+        // 1. Cập nhật Text
+        if (rankTitleText != null) rankTitleText.text = $"TOP {currentRank}";
+        if (rankDetailText != null) rankDetailText.text = $"{currentRank:00}/{total:00}";
+
+        // 2. XỬ LÝ HIỆU ỨNG THAY ĐỔI RANK
+        // Chỉ chạy nếu currentRank thay đổi và không phải lần đầu tiên (lastRank != -1)
+        if (lastRank != -1 && currentRank != lastRank)
         {
-            rankTitleText.text = $"TOP {rank}";
+            if (currentRank < lastRank)
+            {
+                // Rank số nhỏ hơn nghĩa là thứ hạng cao hơn (VD: 2 -> 1) => RANK UP (Tốt)
+                PlayRankChangeEffect(rankUpColor);
+            }
+            else
+            {
+                // Rank số lớn hơn nghĩa là tụt hạng (VD: 1 -> 3) => RANK DOWN (Tệ)
+                PlayRankChangeEffect(rankDownColor);
+            }
         }
 
-        // 2. Cập nhật tỉ lệ (Ví dụ: 01/25)
-        if (rankDetailText != null)
-        {
-            // Format "00" để số 1 hiện thành 01
-            rankDetailText.text = $"{rank:00}/{total:00}";
-        }
+        // Cập nhật lại lastRank
+        lastRank = currentRank;
+    }
+
+    private void PlayRankChangeEffect(Color targetColor)
+    {
+        if (rankTitleText == null) return;
+
+        // Kill các tween cũ đang chạy dở để tránh xung đột
+        rankColorTween?.Kill();
+        rankScaleTween?.Kill();
+
+        // Đảm bảo scale về gốc trước khi bump
+        rankTitleText.transform.localScale = Vector3.one;
+        rankTitleText.color = targetColor; // Đổi màu ngay lập tức để người chơi thấy rõ
+
+        // Hiệu ứng Scale: Phóng to lên 1.5 lần rồi thu về 1 (PunchScale)
+        rankScaleTween = rankTitleText.transform.DOPunchScale(Vector3.one * 0.5f, blinkDuration, 10, 1);
+
+        // Hiệu ứng Màu: Từ từ chuyển lại về màu trắng gốc
+        rankColorTween = rankTitleText.DOColor(originalRankColor, blinkDuration)
+            .SetDelay(0.2f); // Delay một chút để giữ màu xanh/đỏ lâu hơn xíu
     }
     public void UpdateHUD(float distance, int learnScore, int xpScore)
     {

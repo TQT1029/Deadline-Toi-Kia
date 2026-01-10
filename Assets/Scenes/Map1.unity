@@ -310,6 +310,67 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 71738049}
   m_CullTransparentMesh: 1
+--- !u!1001 &84079534
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1753746177337257572, guid: 4717c92b81432dd42bcfce374ce863c9, type: 3}
+      propertyPath: m_Name
+      value: BossSystem
+      objectReference: {fileID: 0}
+    - target: {fileID: 5945759347719127087, guid: 4717c92b81432dd42bcfce374ce863c9, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5945759347719127087, guid: 4717c92b81432dd42bcfce374ce863c9, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5945759347719127087, guid: 4717c92b81432dd42bcfce374ce863c9, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5945759347719127087, guid: 4717c92b81432dd42bcfce374ce863c9, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5945759347719127087, guid: 4717c92b81432dd42bcfce374ce863c9, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5945759347719127087, guid: 4717c92b81432dd42bcfce374ce863c9, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5945759347719127087, guid: 4717c92b81432dd42bcfce374ce863c9, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5945759347719127087, guid: 4717c92b81432dd42bcfce374ce863c9, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5945759347719127087, guid: 4717c92b81432dd42bcfce374ce863c9, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5945759347719127087, guid: 4717c92b81432dd42bcfce374ce863c9, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7593597324259874760, guid: 4717c92b81432dd42bcfce374ce863c9, type: 3}
+      propertyPath: vCam
+      value: 
+      objectReference: {fileID: 1773432072}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 4717c92b81432dd42bcfce374ce863c9, type: 3}
 --- !u!1 &99139851
 GameObject:
   m_ObjectHideFlags: 0
@@ -2589,6 +2650,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd3de125cbe61004a98c2dd0b3ae9bea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rankUpColor: {r: 0, g: 1, b: 0, a: 1}
+  rankDownColor: {r: 1, g: 0, b: 0, a: 1}
+  blinkDuration: 0.5
 --- !u!4 &846718331
 Transform:
   m_ObjectHideFlags: 0
@@ -2688,6 +2752,7 @@ GameObject:
   - component: {fileID: 1022573959}
   - component: {fileID: 1022573961}
   - component: {fileID: 1022573960}
+  - component: {fileID: 1022573962}
   m_Layer: 0
   m_Name: BG
   m_TagString: Untagged
@@ -2746,6 +2811,20 @@ MonoBehaviour:
   farthestZ: 100
   nearestZ: 50
   autoSortOnValidate: 1
+--- !u!114 &1022573962
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1022573958}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 637b4376f1d4ffc45b4bcbd79a9cd2ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  vCam: {fileID: 1773432072}
+  maintainAspectRatio: 1
 --- !u!1 &1037212841
 GameObject:
   m_ObjectHideFlags: 0
@@ -3257,6 +3336,7 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 192
+  knockbackCooldown: 1
   fallThresholdY: -10
   accelerationRate: 2
   jumpHoldForce: 2.5
@@ -3469,6 +3549,7 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 192
+  knockbackCooldown: 1
   fallThresholdY: -10
   adjustDist: 10
   targetPlayer: {fileID: 1107744927}
@@ -3482,8 +3563,6 @@ MonoBehaviour:
   pitRayLength: 5
   jumpHoldForce: 5
   maxJumpHoldTime: 0.35
-  respawnHeightOffset: 5
-  penaltyDistance: 5
 --- !u!61 &1115878288
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -3794,6 +3873,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb24c27e94183b74e8b60bd6100df9cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  distanceToBoss: 100
+  winPointOffset: 40
+  timeToDefeat: 60
+  winPoint: {fileID: 17082852237823415, guid: 9d1732118a1f8374aae96942a875dfbf, type: 3}
   mapGenerator: {fileID: 1238888879}
   itemGenerator: {fileID: 884862095}
   player: {fileID: 1107744927}
@@ -5209,6 +5292,7 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 192
+  knockbackCooldown: 1
   fallThresholdY: -10
   adjustDist: 10
   targetPlayer: {fileID: 1107744927}
@@ -5222,8 +5306,6 @@ MonoBehaviour:
   pitRayLength: 5
   jumpHoldForce: 5
   maxJumpHoldTime: 0.35
-  respawnHeightOffset: 5
-  penaltyDistance: 5
 --- !u!61 &1734146680
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -6058,6 +6140,7 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 192
+  knockbackCooldown: 1
   fallThresholdY: -10
   adjustDist: 10
   targetPlayer: {fileID: 1107744927}
@@ -6071,8 +6154,6 @@ MonoBehaviour:
   pitRayLength: 5
   jumpHoldForce: 5
   maxJumpHoldTime: 0.35
-  respawnHeightOffset: 5
-  penaltyDistance: 5
 --- !u!61 &1824995117
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -6559,6 +6640,7 @@ SceneRoots:
   - {fileID: 1773911324}
   - {fileID: 1773432073}
   - {fileID: 1238888881}
+  - {fileID: 84079534}
   - {fileID: 1107744927}
   - {fileID: 1115878291}
   - {fileID: 1734146683}

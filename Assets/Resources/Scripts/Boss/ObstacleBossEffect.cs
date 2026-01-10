@@ -23,7 +23,7 @@ public class ObstacleBossEffect : MonoBehaviour
             {
                 runner.ApplyKnockback(direction.normalized, force, stunDuration);
             }
-
+        
             if (collision.CompareTag("Player"))
             {
                 GameStatsController.Instance.HitObstacleBoss(minAmountCoin, maxAmountCoin);

@@ -173,7 +173,7 @@ public class MapGenerator : MonoBehaviour
 
     private void SpawnObstaclesOnSegment(float startX, float endX)
     {
-        float currentX = startX + obstacleEdgePadding + RandomUtils.RandomWithSteps(minObstacleGap, maxObstacleGap);
+        float currentX = startX + obstacleEdgePadding + RandomUtils.RandomWithSteps(minObstacleGap, maxObstacleGap, 1);
         float limitX = endX - obstacleEdgePadding;
 
         while (currentX < limitX)
@@ -182,7 +182,7 @@ public class MapGenerator : MonoBehaviour
             {
                 ObstacleData obs = obstacleLibrary[Random.Range(0, obstacleLibrary.Count)];
                 Vector2 size = obs.GetSize();
-
+                Debug.LogWarning($"size: {size} ; Obj: {obs.id}");
                 if (currentX + size.x <= limitX)
                 {
                     Vector3 pos = new Vector3(currentX + size.x / 2f, groundY, 0);

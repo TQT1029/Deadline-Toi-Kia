@@ -37,8 +37,10 @@ public class PlayerController : BaseRunner
     // 1. Ghi đè Move để thêm tính năng tăng tốc mượt
     protected override void Move()
     {
-        float scoreBonus = (GameStatsController.Instance != null) ? GameStatsController.Instance.resultDistance / 150f : 0f;
-        targetRunSpeed = baseRunSpeed + scoreBonus;
+        if (isControlLocked) return; // Nếu bị khóa thì không tính toán tốc độ chạy tới
+
+        float distanceBonus = (GameStatsController.Instance != null) ? GameStatsController.Instance.resultDistance / 150f : 0f;
+        targetRunSpeed = baseRunSpeed + distanceBonus;
         currentSpeed = Mathf.MoveTowards(currentSpeed, targetRunSpeed, accelerationRate * Time.fixedDeltaTime);
 
         base.Move();
@@ -46,6 +48,7 @@ public class PlayerController : BaseRunner
 
     private void Update()
     {
+        if (isControlLocked) return;
         HandleInput();
     }
 

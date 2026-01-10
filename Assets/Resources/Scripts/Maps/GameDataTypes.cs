@@ -45,49 +45,66 @@ public class ObstacleData
 {
     public string id;
     public GameObject prefab;
-    public float heightOffset = 0f;
+    public Vector2 manualSize = Vector2.zero; // Đổi tên size cũ thành manualSize để tránh nhầm lẫn
 
-    // Mặc định là (1,1). Nếu bạn set tay giá trị khác trong Inspector, code sẽ dùng giá trị đó thay vì tự tính.
-    public Vector2 size = Vector2.one;
-    public Vector2 GetSize()
+    // BIẾN MỚI ĐỂ LƯU KẾT QUẢ
+    private Vector2 _cachedSize;
+    private bool _isCalculated = false;
+
+    // Hàm khởi tạo (Gọi 1 lần duy nhất lúc Start game)
+    public void Initialize()
     {
-        if (prefab == null) return Vector2.one;
+        if (_isCalculated) return; // Đã tính rồi thì thôi
 
-        // Ưu tiên dùng số nhập tay
-        if (size != Vector2.one && size != Vector2.zero) return size;
-
-        // --- BƯỚC SỬA: Tạo vật thể tạm ---
-        GameObject tempObj = GameObject.Instantiate(prefab);
-        tempObj.transform.position = Vector3.zero;
-        tempObj.transform.rotation = Quaternion.identity;
-        // Đảm bảo object bật lên để collider hoạt động
-        tempObj.SetActive(true);
-
-        var colliders = tempObj.GetComponentsInChildren<Collider2D>(true);
-        Vector2 finalSize = Vector2.one;
-
-        if (colliders.Length > 0)
+        // 1. Nếu có nhập tay thì lấy số nhập tay
+        if (manualSize != Vector2.zero)
         {
-            Bounds combinedBounds = colliders[0].bounds;
-            for (int i = 1; i < colliders.Length; i++)
+            _cachedSize = manualSize;
+        }
+        else if (prefab != null)
+        {
+            // 2. Nếu không nhập tay -> Tính toán chính xác bằng cách tạo vật thể tạm
+            // Vì chỉ chạy 1 lần lúc Loading nên Instantiate thoải mái
+            GameObject temp = GameObject.Instantiate(prefab);
+            temp.transform.position = Vector3.zero;
+            temp.transform.rotation = Quaternion.identity;
+            temp.SetActive(true);
+
+            var colliders = temp.GetComponentsInChildren<Collider2D>(true);
+            if (colliders.Length > 0)
             {
-                combinedBounds.Encapsulate(colliders[i].bounds);
+                Bounds bounds = colliders[0].bounds;
+                for (int i = 1; i < colliders.Length; i++)
+                {
+                    bounds.Encapsulate(colliders[i].bounds);
+                }
+                _cachedSize = bounds.size;
             }
-            finalSize = combinedBounds.size;
+            else
+            {
+                _cachedSize = Vector2.one; // Fallback
+            }
+
+            // Xóa ngay lập tức
+#if UNITY_EDITOR
+            GameObject.DestroyImmediate(temp);
+#else
+            GameObject.Destroy(temp);
+#endif
         }
 
-        // --- Xóa vật thể tạm đi ---
-        // Dùng DestroyImmediate nếu chạy trong Editor/ScriptableObject, Destroy nếu chạy runtime
-#if UNITY_EDITOR
-        GameObject.DestroyImmediate(tempObj);
-#else
-    GameObject.Destroy(tempObj);
-#endif
+        _isCalculated = true; // Đánh dấu là đã tính xong
+        //Debug.Log($"[Cache] Obstacle {id} size: {_cachedSize}");
+    }
 
-        return finalSize;
+    // Hàm GetSize bây giờ siêu nhẹ, chỉ trả về biến đã lưu
+    public Vector2 GetSize()
+    {
+        // Phòng hờ nếu quên gọi Initialize ở Start thì tự tính lần đầu
+        if (!_isCalculated) Initialize();
+        return _cachedSize;
     }
 }
-
 // 4. ITEM DATA CƠ BẢN
 [System.Serializable]
 public class ItemData

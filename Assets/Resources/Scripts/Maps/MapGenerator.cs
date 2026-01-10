@@ -75,6 +75,15 @@ public class MapGenerator : MonoBehaviour
         // Random offset cho noise
         noiseOffsetX = Random.Range(0, 10000);
         //Debug.Log($"[MapGenerator] Noise Offset X: {noiseOffsetX}");
+
+        // Tính toán trước kích thước cho toàn bộ vật cản
+        if (obstacleLibrary != null)
+        {
+            foreach (var obs in obstacleLibrary)
+            {
+                obs.Initialize(); // Tính toán và lưu vào cache ngay lập tức
+            }
+        }
     }
 
     public float SpawnNextSegment(float currentX)
@@ -182,7 +191,7 @@ public class MapGenerator : MonoBehaviour
             {
                 ObstacleData obs = obstacleLibrary[Random.Range(0, obstacleLibrary.Count)];
                 Vector2 size = obs.GetSize();
-                Debug.LogWarning($"size: {size} ; Obj: {obs.id}");
+                //Debug.LogWarning($"size: {size} ; Obj: {obs.id}");
                 if (currentX + size.x <= limitX)
                 {
                     Vector3 pos = new Vector3(currentX + size.x / 2f, groundY, 0);

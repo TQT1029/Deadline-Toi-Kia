@@ -1271,16 +1271,13 @@ MonoBehaviour:
   obstacleLibrary:
   - id: High
     prefab: {fileID: 2554239590043448735, guid: 5fe54466db105164dbb8feb7e8513460, type: 3}
-    heightOffset: 0
-    size: {x: 0, y: 0}
+    manualSize: {x: 0, y: 0}
   - id: Low
     prefab: {fileID: 3897467062838213673, guid: eaa2738296cf5e8409bfbfc5ee9f05b1, type: 3}
-    heightOffset: 0
-    size: {x: 0, y: 0}
+    manualSize: {x: 0, y: 0}
   - id: Racket&Table
     prefab: {fileID: 4201045231176910432, guid: 75faf0f1a704e46478075296b7a3b1c3, type: 3}
-    heightOffset: 0
-    size: {x: 0, y: 0}
+    manualSize: {x: 0, y: 0}
   miniPlatformLibrary: []
   hasPit: 0
   groundY: -5
@@ -1294,8 +1291,8 @@ MonoBehaviour:
   obstacleChance: 60
   obstacleInPit: 0
   obstacleEdgePadding: 2
-  minObstacleGap: 12
-  maxObstacleGap: 17
+  minObstacleGap: 10
+  maxObstacleGap: 15
   minBridgeHeight: 0
   maxBridgeHeight: 2
   minGapBridge: 1
@@ -1319,9 +1316,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb24c27e94183b74e8b60bd6100df9cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  distanceToBoss: 50
-  winPointOffset: 40
-  timeToDefeat: 10
+  distanceToBoss: 250
+  winPointOffset: 250
+  timeToDefeat: 60
   winPoint: {fileID: 17082852237823415, guid: 9d1732118a1f8374aae96942a875dfbf, type: 3}
   mapGenerator: {fileID: 372212084}
   itemGenerator: {fileID: 323548174}

@@ -4,6 +4,7 @@ public class ObstacleBossEffect : MonoBehaviour
 {
     [SerializeField] private float force = 15f;
     [SerializeField] private Vector2 direction = new Vector2(-1, 1);
+    [SerializeField] private float stunDuration = 0.3f;
     [SerializeField] private int minAmountCoin = 5;
     [SerializeField] private int maxAmountCoin = 30;
 
@@ -20,7 +21,7 @@ public class ObstacleBossEffect : MonoBehaviour
 
             if (runner != null)
             {
-                runner.ApplyKnockback(direction.normalized, force, 0.3f);
+                runner.ApplyKnockback(direction.normalized, force, stunDuration);
             }
 
             if (collision.CompareTag("Player"))

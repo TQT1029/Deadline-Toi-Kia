@@ -37,6 +37,7 @@ public class MapGenerator : MonoBehaviour
     [Header("Obstacle Logic")]
     [Range(0, 100)] public int obstacleChance = 60;
     [SerializeField] private bool obstacleInPit = true;
+    [SerializeField] private float pitWidthNeedBridge = 15;
 
     [SerializeField] private float obstacleEdgePadding = 2f;
     [SerializeField] private float minObstacleGap = 7f;
@@ -114,7 +115,7 @@ public class MapGenerator : MonoBehaviour
         float endPitX = currentX + pitWidth;
 
         if (obstacleInPit)
-            if (pitWidth > 15)
+            if (pitWidth > pitWidthNeedBridge)
                 SpawnBridge(currentX, endPitX);
             else
                 SpawnObstaclesOnPit(currentX, endPitX, pitY);

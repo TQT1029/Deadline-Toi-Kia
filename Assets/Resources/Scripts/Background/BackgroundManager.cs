@@ -1,38 +1,40 @@
 ﻿using UnityEngine;
-using System.Collections.Generic; // Cần dùng List
+using System.Collections.Generic;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
 
-// Script chạy trong Editor để tính toán Z-depth tự động
 [ExecuteInEditMode]
 public class BackgroundManager : MonoBehaviour
 {
-    [Header("Z-Sorting Settings")]
-    [Tooltip("Vị trí Z của layer xa nhất (Background)")]
-    [SerializeField] private float farthestZ = 100f;
-    [Tooltip("Vị trí Z của layer gần nhất (Foreground)")]
-    [SerializeField] private float nearestZ = 50f;
+    [Header("Z-Depth Config")]
+    [Tooltip("Z xa nhất của Background")]
+    [SerializeField] private float bgFarthestZ = 100f;
+    [Tooltip("Z gần nhất của Background (sát Player)")]
+    [SerializeField] private float bgNearestZ = 10f;
 
-    [Header("Layer Management")]
-    [SerializeField] private bool autoSortOnValidate = true;
+    [Space]
+    [Tooltip("Số lượng layer dùng làm tiền cảnh (Foreground). Đặt 0 nếu không có.")]
+    [SerializeField] private int foregroundLayerCount = 0;
 
-    // Sử dụng Transform[] để tránh lỗi GameObject đã bị hủy
-    public Transform[] Layers { get; private set; }
+    [Tooltip("Z bắt đầu của Foreground (Ví dụ -5)")]
+    [SerializeField] private float fgStartZ = -5f;
+    [Tooltip("Khoảng cách Z giữa các lớp Foreground (nếu có nhiều lớp)")]
+    [SerializeField] private float fgSpacing = -5f;
+
+    [Header("Editor")]
+    [SerializeField] private bool autoSortOnValidate = false;
+
+    public List<Transform> Layers { get; private set; } = new List<Transform>();
 
     private void Awake()
     {
-        // Fetch Layers an toàn khi bắt đầu chơi
-        if (Application.isPlaying)
-        {
-            FetchLayers();
-        }
+        if (Application.isPlaying) FetchLayers();
     }
 
 #if UNITY_EDITOR
     private void OnValidate()
     {
-        // Chạy trong Editor để cập nhật ngay lập tức khi thay đổi
         if (autoSortOnValidate)
         {
             FetchLayers();
@@ -43,52 +45,54 @@ public class BackgroundManager : MonoBehaviour
 
     public void FetchLayers()
     {
-        // SỬA LỖI: Sử dụng List để lưu trữ tạm thời và lọc các Transform đã bị hủy
-        List<Transform> validLayers = new List<Transform>();
-
-        // Lặp qua tất cả các đối tượng con
+        Layers.Clear();
+        // Lấy tất cả object con đang active
         foreach (Transform child in transform)
         {
-            // Kiểm tra xem đối tượng có null (đã bị hủy) hay không.
-            // Trong Editor, khi xóa object, nó có thể trở thành null trong một vài frame.
-            if (child != null)
-            {
-                validLayers.Add(child);
-            }
+            if (child != null && child.gameObject.activeSelf)
+                Layers.Add(child);
         }
-
-        // Cập nhật mảng Layers
-        Layers = validLayers.ToArray();
     }
 
-    [ContextMenu("Sort Layers Z-Depth")]
+    [ContextMenu("Auto Sort Z-Depth")]
     public void SortLayersDepth()
     {
-        // Đảm bảo Layers được cập nhật trước khi sắp xếp
         FetchLayers();
+        int totalCount = Layers.Count;
+        if (totalCount == 0) return;
 
-        int count = Layers.Length;
-        if (count == 0) return;
+        // Đảm bảo số lượng foreground không vượt quá tổng số layer
+        int safeFgCount = Mathf.Clamp(foregroundLayerCount, 0, totalCount);
+        int bgCount = totalCount - safeFgCount;
 
-        for (int i = 0; i < count; i++)
+        for (int i = 0; i < totalCount; i++)
         {
-            Transform currentLayer = Layers[i];
+            Transform layer = Layers[i];
+            if (layer == null) continue;
 
-            // KIỂM TRA LỖI LẦN NỮA: Đảm bảo Transform vẫn còn tồn tại trước khi truy cập
-            if (currentLayer == null) continue;
+            float zPos;
 
-            // Đổi tên
-            currentLayer.name = $"Layer_{i}";
+            // Xử lý Background (Các layer nằm đầu danh sách)
+            if (i < bgCount)
+            {
+                layer.name = $"Layer_BG_{i:00}";
+                // Phân bố đều từ Xa -> Gần
+                float t = (bgCount <= 1) ? 0f : (float)i / (bgCount - 1);
+                zPos = Mathf.Lerp(bgFarthestZ, bgNearestZ, t);
+            }
+            // Xử lý Foreground (Các layer nằm cuối danh sách)
+            else
+            {
+                int fgIndex = i - bgCount; // Index riêng của nhóm FG (0, 1, 2...)
+                layer.name = $"Layer_FG_{fgIndex:00}";
 
-            // Tính toán Z position
-            // t = tỉ lệ vị trí từ 0 (xa nhất) đến 1 (gần nhất)
-            float t = (count <= 1) ? 0f : (float)i / (count - 1);
-            float zPos = Mathf.Lerp(farthestZ, nearestZ, t);
+                // Foreground càng về sau thì càng gần camera (Z càng âm)
+                zPos = fgStartZ + (fgIndex * fgSpacing);
+            }
 
-            // Cập nhật vị trí Z
-            Vector3 newPos = currentLayer.localPosition;
+            Vector3 newPos = layer.localPosition;
             newPos.z = zPos;
-            currentLayer.localPosition = newPos;
+            layer.localPosition = newPos;
         }
     }
 }

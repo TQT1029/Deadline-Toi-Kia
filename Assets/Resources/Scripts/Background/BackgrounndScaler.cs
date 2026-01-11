@@ -3,45 +3,28 @@ using UnityEngine;
 
 public class BackgroundScaler : MonoBehaviour
 {
-    [Header("Settings")]
-    public CinemachineCamera vCam; // Kéo VCam vào đây
-    public bool maintainAspectRatio = true; // Luôn giữ tỉ lệ khung hình (nên bật)
+    public CinemachineCamera vCam;
+    public bool maintainAspectRatio = true;
 
-    private Vector3 initialScale;
-    private float initialOrthoSize;
+    private Vector3 _initialScale;
+    private float _initialOrthoSize;
 
     void Start()
     {
-        if (vCam == null)
-        {
-            Debug.LogError("Chưa gán CinemachineVirtualCamera cho BackgroundScaler!");
-            enabled = false;
-            return;
-        }
-
-        // 1. Ghi nhớ Scale và Size ban đầu làm "mốc chuẩn"
-        initialScale = transform.localScale;
-        initialOrthoSize = vCam.Lens.OrthographicSize;
+        if (vCam == null) return;
+        _initialScale = transform.localScale;
+        _initialOrthoSize = vCam.Lens.OrthographicSize;
     }
 
     void LateUpdate()
     {
-        if (vCam == null) return;
+        if (vCam == null || _initialOrthoSize == 0) return;
 
-        // 2. Tính tỉ lệ Zoom hiện tại so với ban đầu
-        // Ví dụ: Lúc đầu size 5, giờ size 7 => ratio = 1.4
-        float currentOrthoSize = vCam.Lens.OrthographicSize;
-        float zoomRatio = currentOrthoSize / initialOrthoSize;
+        float zoomRatio = vCam.Lens.OrthographicSize / _initialOrthoSize;
 
-        // 3. Áp dụng tỉ lệ đó vào Scale của Background
         if (maintainAspectRatio)
-        {
-            transform.localScale = initialScale * zoomRatio;
-        }
+            transform.localScale = _initialScale * zoomRatio;
         else
-        {
-            // Nếu bạn chỉ muốn scale chiều Y (chiều cao) còn chiều ngang giữ nguyên (ít dùng)
-            transform.localScale = new Vector3(initialScale.x, initialScale.y * zoomRatio, initialScale.z);
-        }
+            transform.localScale = new Vector3(_initialScale.x, _initialScale.y * zoomRatio, _initialScale.z);
     }
 }

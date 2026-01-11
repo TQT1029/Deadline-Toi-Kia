@@ -310,6 +310,7 @@ MonoBehaviour:
   pressScale: 0.9
   duration: 0.1
   easeType: 6
+  clickDownSoundId: ButtonClick_
 --- !u!114 &67915451
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2357,6 +2358,7 @@ MonoBehaviour:
   pressScale: 0.9
   duration: 0.1
   easeType: 6
+  clickDownSoundId: ButtonClick_
 --- !u!114 &893087226
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2494,10 +2496,10 @@ MonoBehaviour:
   targetSubject: {fileID: 335606032}
   enableParallaxX: 1
   enableParallaxY: 1
-  baseScrollSpeedX: 0.2
-  velocityMultiplierX: 0.001
-  smoothTimeX: 0.25
-  verticalParallaxStrength: 0.1
+  baseScrollSpeedX: 0
+  velocityMultiplierX: 0.05
+  smoothTimeX: 0.5
+  verticalParallaxStrength: 0
   smoothingY: 10
 --- !u!114 &941845867
 MonoBehaviour:
@@ -3417,6 +3419,7 @@ MonoBehaviour:
   pressScale: 0.9
   duration: 0.1
   easeType: 6
+  clickDownSoundId: ButtonClick_
 --- !u!114 &1305735185
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3547,6 +3550,7 @@ MonoBehaviour:
   pressScale: 0.9
   duration: 0.1
   easeType: 6
+  clickDownSoundId: ButtonClick_
 --- !u!114 &1319713703
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3733,6 +3737,7 @@ MonoBehaviour:
   pressScale: 0.9
   duration: 0.1
   easeType: 6
+  clickDownSoundId: ButtonClick_
 --- !u!114 &1348487785
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3938,6 +3943,7 @@ MonoBehaviour:
   pressScale: 0.9
   duration: 0.1
   easeType: 6
+  clickDownSoundId: ButtonClick_
 --- !u!114 &1362427588
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4994,6 +5000,7 @@ MonoBehaviour:
   pressScale: 0.9
   duration: 0.1
   easeType: 6
+  clickDownSoundId: ButtonClick_
 --- !u!114 &1791107669
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5385,6 +5392,7 @@ MonoBehaviour:
   pressScale: 0.9
   duration: 0.1
   easeType: 6
+  clickDownSoundId: ButtonClick_
 --- !u!114 &1921082618
 MonoBehaviour:
   m_ObjectHideFlags: 0

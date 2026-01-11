@@ -1964,6 +1964,7 @@ MonoBehaviour:
   moveEase: 27
   bobDistance: 0.2
   bobDuration: 0.5
+  moveSfxId: Swoosh
 --- !u!114 &642508472
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2150,6 +2151,7 @@ MonoBehaviour:
   pressScale: 0.9
   duration: 0.1
   easeType: 6
+  clickDownSoundId: ButtonClick_
 --- !u!1 &668037950
 GameObject:
   m_ObjectHideFlags: 0
@@ -2279,6 +2281,7 @@ MonoBehaviour:
   pressScale: 0.9
   duration: 0.1
   easeType: 6
+  clickDownSoundId: ButtonClick_
 --- !u!114 &684153559
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2465,6 +2468,7 @@ MonoBehaviour:
   pressScale: 0.9
   duration: 0.1
   easeType: 6
+  clickDownSoundId: ButtonClick_
 --- !u!114 &771131637
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2601,6 +2605,7 @@ MonoBehaviour:
   pressScale: 0.9
   duration: 0.1
   easeType: 6
+  clickDownSoundId: ButtonClick_
 --- !u!114 &783751199
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3440,6 +3445,7 @@ MonoBehaviour:
   pressScale: 0.9
   duration: 0.1
   easeType: 6
+  clickDownSoundId: ButtonClick_
 --- !u!1 &1092452911
 GameObject:
   m_ObjectHideFlags: 0
@@ -3648,6 +3654,7 @@ MonoBehaviour:
   pressScale: 0.9
   duration: 0.1
   easeType: 6
+  clickDownSoundId: ButtonClick_
 --- !u!114 &1138401857
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3853,6 +3860,7 @@ MonoBehaviour:
   pressScale: 0.9
   duration: 0.1
   easeType: 6
+  clickDownSoundId: ButtonClick_
 --- !u!114 &1284777763
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4283,6 +4291,7 @@ MonoBehaviour:
   pressScale: 0.9
   duration: 0.1
   easeType: 6
+  clickDownSoundId: ButtonClick_
 --- !u!1 &1544534247
 GameObject:
   m_ObjectHideFlags: 0
@@ -4337,6 +4346,7 @@ MonoBehaviour:
   pressScale: 0.9
   duration: 0.1
   easeType: 6
+  clickDownSoundId: ButtonClick_
 --- !u!114 &1544534250
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4601,6 +4611,7 @@ MonoBehaviour:
   pressScale: 0.9
   duration: 0.1
   easeType: 6
+  clickDownSoundId: ButtonClick_
 --- !u!114 &1730466646
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4806,6 +4817,7 @@ MonoBehaviour:
   pressScale: 0.9
   duration: 0.1
   easeType: 6
+  clickDownSoundId: ButtonClick_
 --- !u!114 &1825251741
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4967,8 +4979,8 @@ RectTransform:
   m_GameObject: {fileID: 2006958311}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.925, y: 0.925, z: 0.925}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 574288530}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -5025,7 +5037,7 @@ Animator:
   m_GameObject: {fileID: 2006958311}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: e7635c39179de8345b8462ab81974df0, type: 2}
+  m_Controller: {fileID: 9100000, guid: 362e94a77e9e495408b0861454d25a23, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 1
   m_ApplyRootMotion: 0
@@ -5272,6 +5284,7 @@ MonoBehaviour:
   pressScale: 0.9
   duration: 0.1
   easeType: 6
+  clickDownSoundId: ButtonClick_
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

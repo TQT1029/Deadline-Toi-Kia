@@ -191,31 +191,31 @@ MonoBehaviour:
     pitch: 1
   - id: ButtonClick_0
     clip: {fileID: 8300000, guid: c562261235bc5484ea8c1cfa5b3474a3, type: 3}
-    volume: 1
+    volume: 0.5
     pitch: 1
   - id: ButtonClick_1
     clip: {fileID: 8300000, guid: 512044aff457cad4ba75e0a5535595ba, type: 3}
-    volume: 1
+    volume: 0.5
     pitch: 1
   - id: ButtonClick_2
     clip: {fileID: 8300000, guid: 0b9ecc99bd3b7bb408a7a7cfc354bb64, type: 3}
-    volume: 1
+    volume: 0.5
     pitch: 1
   - id: ButtonClick_3
     clip: {fileID: 8300000, guid: cc1937a803a4a414ea9e87293a8a0994, type: 3}
-    volume: 1
+    volume: 0.5
     pitch: 1
   - id: ButtonClick_4
     clip: {fileID: 8300000, guid: b697acbb96de3b241bb59f187e7133dc, type: 3}
-    volume: 1
+    volume: 0.5
     pitch: 1
   - id: ButtonClick_5
     clip: {fileID: 8300000, guid: aaac28c5968911f4b84190ddcd61d5f2, type: 3}
-    volume: 1
+    volume: 0.5
     pitch: 1
   - id: Swoosh
     clip: {fileID: 8300000, guid: cc1937a803a4a414ea9e87293a8a0994, type: 3}
-    volume: 1
+    volume: 0.5
     pitch: 1
 --- !u!82 &5574078942048712370
 AudioSource:

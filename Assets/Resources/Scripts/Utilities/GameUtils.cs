@@ -39,6 +39,16 @@ public static class GameUtils
 
         return combinedBounds;
     }
+    /// <summary>
+    /// Kiểm tra GameObject có thuộc LayerMask không.
+    /// </summary>
+    /// <param name="obj">Obj cần kiểm tra.</param>
+    /// <param name="nameLayer">Layer muốn kiểm tra.</param>
+    /// <returns></returns>
+    public static bool CompareLayer(GameObject obj, string nameLayer)
+    {
+        return obj.layer == LayerMask.NameToLayer(nameLayer);
+    }
 
     /// <summary>
     /// Tìm Object cha cao nhất (Root) đại diện cho vật cản (tránh lấy nhầm child collider).

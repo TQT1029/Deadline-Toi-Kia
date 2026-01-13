@@ -18,7 +18,7 @@ public class EndlessGameController : MonoBehaviour
     private bool bossSpawned;
     private bool bossDefeated;
     private bool winPointSpawned;
-    [SerializeField] private GameObject winPoint; //Prefab của winpoint
+    [SerializeField] private GameObject winPoint; //Obj của winpoint
 
     [Header("Managers")]
     public MapGenerator mapGenerator;
@@ -36,6 +36,8 @@ public class EndlessGameController : MonoBehaviour
     private void Start()
     {
         if (player == null) player = ReferenceManager.Instance.PlayerTransform;
+
+        winPoint.SetActive(false);
 
         int oldPit = mapGenerator.pitChance;
         mapGenerator.pitChance = 0;
@@ -65,6 +67,9 @@ public class EndlessGameController : MonoBehaviour
 
     }
 
+    //============================ Boss Handling ============================//
+
+    // Xử lý sinh boss
     private void HandleBossSpawn()
     {
         if (bossSpawned || bossDefeated) return;
@@ -77,6 +82,7 @@ public class EndlessGameController : MonoBehaviour
         }
     }
 
+    // Xử lý trận đấu với boss
     private void HandleBossFight()
     {
         if (!bossSpawned || bossDefeated) return;
@@ -91,24 +97,27 @@ public class EndlessGameController : MonoBehaviour
             // LƯU mốc khoảng cách khi boss chết
             bossDefeatedDistance = distanceRan;
 
-            SpawnWinPoint();
+            SummonWinPoint();
         }
     }
-    private void SpawnWinPoint()
+
+    // Triệu hồi Win Point
+    private void SummonWinPoint()
     {
         if (winPoint == null || winPointSpawned) return;
 
         float winX = bossDefeatedDistance + winPointOffset;
 
-        Instantiate(
-            winPoint,
-            new Vector2(winX, 0f),
-            Quaternion.identity
-        );
+        winPoint.transform.position = new Vector2(winX, 0f);
+        winPoint.SetActive(true);
 
         winPointSpawned = true;
+
     }
 
+    //============================ Map Generation ============================//
+
+    // Sinh đoạn đất mới
     private void SpawnNextPiece()
     {
         // Sinh đất
@@ -117,6 +126,9 @@ public class EndlessGameController : MonoBehaviour
 
     }
 
+    //============================ Helper ============================//
+
+    // Dọn dẹp các object cũ
     private void CleanupOldObjects()
     {
         Transform[] containers = {

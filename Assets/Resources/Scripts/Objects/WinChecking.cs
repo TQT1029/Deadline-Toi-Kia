@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using DG.Tweening; // 1. Nhớ thêm thư viện này
 
-public class WinPoint : MonoBehaviour
+public class WinChecking : MonoBehaviour
 {
     [SerializeField] private Transform exitGateTrans;
 
@@ -69,21 +69,21 @@ public class WinPoint : MonoBehaviour
 
     }
 
-    private Sequence OnDotweenAnimation(Transform raccer)
+    private Sequence OnDotweenAnimation(Transform racer)
     {
         Sequence seq = DOTween.Sequence();
 
         // Di chuyển theo đường vòng cung (Dùng DOJump là cách dễ nhất để tạo Arc)
-        seq.Join(raccer.DOJump(exitGateTrans.position, arcHeight, 1, animDuration)
+        seq.Join(racer.DOJump(exitGateTrans.position, Mathf.Abs(racer.position.y + exitGateTrans.position.y) / 2 + arcHeight, 1, animDuration)
             .SetEase(Ease.InOutSine));
 
         // Xoay tròn (Vừa bay vừa xoay)
         // RotateMode.FastBeyond360 giúp xoay nhiều vòng đúng hướng
-        seq.Join(raccer.DORotate(new Vector3(0, 0, 360 * rotationLoops), animDuration, RotateMode.FastBeyond360)
+        seq.Join(racer.DORotate(new Vector3(0, 0, 360 * rotationLoops), animDuration, RotateMode.FastBeyond360)
             .SetEase(Ease.Linear));
 
         // Thu nhỏ lại
-        seq.Join(raccer.DOScale(Vector3.zero, animDuration)
+        seq.Join(racer.DOScale(Vector3.zero, animDuration)
             .SetEase(Ease.InBack)); // InBack tạo cảm giác bị hút vào
 
         return seq;

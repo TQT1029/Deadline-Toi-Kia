@@ -8,11 +8,11 @@ public class GameStatsController : MonoBehaviour
     public float scoreMultiplier = 1f;
 
     [Header("Star Thresholds")]
-    public int oneStarScore = 100;
-    public int twoStarScore = 300;
-    public int threeStarScore = 600;
-    public int fourStarScore = 1000;
-    public int fiveStarScore = 1500;
+    [SerializeField] private int oneStarScore = 1000;
+    [SerializeField] private int twoStarScore = 2000;
+    [SerializeField] private int threeStarScore = 3000;
+    [SerializeField] private int fourStarScore = 5000;
+    [SerializeField] private int fiveStarScore = 7000;
 
     public float resultDistance { get; private set; }
     public int resultCoin { get; private set; }

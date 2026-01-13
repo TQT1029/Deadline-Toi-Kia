@@ -52,6 +52,8 @@ public class EndlessGameController : MonoBehaviour
 
     private void Update()
     {
+        if (winPointSpawned) return;
+
         if (player.position.x + generationDistance > lastEdgeX)
         {
             SpawnNextPiece();
@@ -105,6 +107,8 @@ public class EndlessGameController : MonoBehaviour
     private void SummonWinPoint()
     {
         if (winPoint == null || winPointSpawned) return;
+
+        Physics2D.SyncTransforms();
 
         float winX = bossDefeatedDistance + winPointOffset;
 

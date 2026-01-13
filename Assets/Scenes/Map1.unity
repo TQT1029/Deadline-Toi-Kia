@@ -2001,13 +2001,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: WinPoint
       objectReference: {fileID: 0}
+    - target: {fileID: 17082852237823415, guid: 9d1732118a1f8374aae96942a875dfbf, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1860730302114294464, guid: 9d1732118a1f8374aae96942a875dfbf, type: 3}
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 1731157655, guid: 6a03fc7c2d5ac794e8f5dd518b899460, type: 3}
     - target: {fileID: 6261705744089827853, guid: 9d1732118a1f8374aae96942a875dfbf, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.125
+      value: -2.75
       objectReference: {fileID: 0}
     - target: {fileID: 6712505201757990852, guid: 9d1732118a1f8374aae96942a875dfbf, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3412,7 +3416,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   baseRunSpeed: 7
-  jumpForce: 11
+  jumpForce: 10
   timeToStuck: 3
   groundCheck: {fileID: 742951594}
   groundCheckRadius: 0.15
@@ -3422,7 +3426,7 @@ MonoBehaviour:
   knockbackCooldown: 1
   fallThresholdY: -10
   accelerationRate: 2
-  jumpHoldForce: 5
+  jumpHoldForce: 3
   maxJumpHoldTime: 0.3
   jumpCutMultiplier: 0.75
 --- !u!61 &1107744924
@@ -3953,9 +3957,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb24c27e94183b74e8b60bd6100df9cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  distanceToBoss: 100
-  winPointOffset: 40
-  timeToDefeat: 60
+  distanceToBoss: 50
+  winPointOffset: 50
+  timeToDefeat: 5
   winPoint: {fileID: 708458980}
   mapGenerator: {fileID: 1238888879}
   itemGenerator: {fileID: 884862095}
@@ -5844,7 +5848,7 @@ Transform:
   m_GameObject: {fileID: 1773432070}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 7.5724297, y: 1, z: -10}
+  m_LocalPosition: {x: 7.388889, y: 1, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6014,7 +6018,7 @@ Transform:
   m_GameObject: {fileID: 1773911319}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 7.5724297, y: 1, z: -10}
+  m_LocalPosition: {x: 7.388889, y: 1, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

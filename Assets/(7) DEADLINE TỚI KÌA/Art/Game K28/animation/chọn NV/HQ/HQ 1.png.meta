@@ -1,37 +1,37 @@
 fileFormatVersion: 2
-guid: 34670bdfc6506ef459efbe12d2a3e41d
+guid: b5d448b8aedc14c4da1f7468229a02a4
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -6977531974927936652
-    second: LN_0
+      213: -4285869251587037032
+    second: HQ 1_0
   - first:
-      213: -8877490014040466609
-    second: LN_1
+      213: -3213066342022094642
+    second: HQ 1_1
   - first:
-      213: 5074235250517593853
-    second: LN_2
+      213: 3953420313888303006
+    second: HQ 1_2
   - first:
-      213: 1395936101726021826
-    second: LN_3
+      213: -6435114667787347591
+    second: HQ 1_3
   - first:
-      213: -8443838095411585027
-    second: LN_4
+      213: -5295074908028517146
+    second: HQ 1_4
   - first:
-      213: -7252200913681833938
-    second: LN_5
+      213: 2569023107635343622
+    second: HQ 1_5
   - first:
-      213: -7940767153757584547
-    second: LN_6
+      213: -1548146691457250836
+    second: HQ 1_6
   - first:
-      213: -5455927210330848271
-    second: LN_7
+      213: -2395651418570890500
+    second: HQ 1_7
   - first:
-      213: 4880043063148080530
-    second: LN_8
+      213: 6771957507753082336
+    second: HQ 1_8
   - first:
-      213: 1423865158993738015
-    second: LN_9
+      213: -8666384749331794466
+    second: HQ 1_9
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -111,46 +111,7 @@ TextureImporter:
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 4
-    buildTarget: iOS
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: Android
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
     buildTarget: Standalone
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: WindowsStoreApps
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -179,13 +140,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: LN_0
+      name: HQ 1_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 1053
-        width: 867
-        height: 1053
+        x: 131
+        y: 2250
+        width: 500
+        height: 846
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -194,20 +155,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 4739d7923a3da2f90800000000000000
-      internalID: -6977531974927936652
+      spriteID: 898a2698f988584c0800000000000000
+      internalID: -4285869251587037032
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: LN_1
+      name: HQ 1_1
       rect:
         serializedVersion: 2
-        x: 867
-        y: 1053
-        width: 867
-        height: 1053
+        x: 884
+        y: 2250
+        width: 500
+        height: 846
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -216,20 +177,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: f4b5a000ed1dcc480800000000000000
-      internalID: -8877490014040466609
+      spriteID: ec0620c7f25e863d0800000000000000
+      internalID: -3213066342022094642
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: LN_2
+      name: HQ 1_2
       rect:
         serializedVersion: 2
-        x: 1734
-        y: 1053
-        width: 867
-        height: 1053
+        x: 1637
+        y: 2250
+        width: 500
+        height: 846
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -238,20 +199,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: dfecddd631e4b6640800000000000000
-      internalID: 5074235250517593853
+      spriteID: e97202154de5dd630800000000000000
+      internalID: 3953420313888303006
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: LN_3
+      name: HQ 1_3
       rect:
         serializedVersion: 2
-        x: 2601
-        y: 1053
-        width: 867
-        height: 1053
+        x: 2390
+        y: 2250
+        width: 500
+        height: 846
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -260,20 +221,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 2c8e5801d7c5f5310800000000000000
-      internalID: 1395936101726021826
+      spriteID: 97911a9ed41e1b6a0800000000000000
+      internalID: -6435114667787347591
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: LN_4
+      name: HQ 1_4
       rect:
         serializedVersion: 2
-        x: 3468
-        y: 1053
-        width: 867
-        height: 1053
+        x: 131
+        y: 1185
+        width: 500
+        height: 846
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -282,20 +243,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: dffd4165df571da80800000000000000
-      internalID: -8443838095411585027
+      spriteID: 6e440e7fc6d1486b0800000000000000
+      internalID: -5295074908028517146
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: LN_5
+      name: HQ 1_5
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 867
-        height: 1053
+        x: 884
+        y: 1185
+        width: 500
+        height: 846
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -304,20 +265,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: e202b3c51b10b5b90800000000000000
-      internalID: -7252200913681833938
+      spriteID: 601ff56b7e007a320800000000000000
+      internalID: 2569023107635343622
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: LN_6
+      name: HQ 1_6
       rect:
         serializedVersion: 2
-        x: 867
-        y: 0
-        width: 867
-        height: 1053
+        x: 1637
+        y: 1185
+        width: 500
+        height: 846
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -326,20 +287,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: d53803c785abcc190800000000000000
-      internalID: -7940767153757584547
+      spriteID: ce98e7b59c0e38ae0800000000000000
+      internalID: -1548146691457250836
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: LN_7
+      name: HQ 1_7
       rect:
         serializedVersion: 2
-        x: 1734
-        y: 0
-        width: 867
-        height: 1053
+        x: 2390
+        y: 1185
+        width: 500
+        height: 846
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -348,20 +309,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 1f387d3eb17a844b0800000000000000
-      internalID: -5455927210330848271
+      spriteID: cf2eb6e3abfe0ced0800000000000000
+      internalID: -2395651418570890500
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: LN_8
+      name: HQ 1_8
       rect:
         serializedVersion: 2
-        x: 2601
-        y: 0
-        width: 867
-        height: 1053
+        x: 129
+        y: 120
+        width: 500
+        height: 846
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -370,20 +331,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 29dec837f4569b340800000000000000
-      internalID: 4880043063148080530
+      spriteID: 0ed79a35973dafd50800000000000000
+      internalID: 6771957507753082336
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: LN_9
+      name: HQ 1_9
       rect:
         serializedVersion: 2
-        x: 3468
-        y: 0
-        width: 867
-        height: 1053
+        x: 884
+        y: 120
+        width: 500
+        height: 846
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -392,8 +353,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: f1970e171d592c310800000000000000
-      internalID: 1423865158993738015
+      spriteID: ed53739acf0dab780800000000000000
+      internalID: -8666384749331794466
       vertices: []
       indices: 
       edges: []
@@ -402,7 +363,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 7d524edd9d838e74e854be9e59890370
+    spriteID: 7913a7d630cf1ca4db2fbee76aab4707
     internalID: 0
     vertices: []
     indices: 
@@ -410,20 +371,18 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries:
-      - key: SpriteEditor.SliceSettings
-        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":7,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
+      entries: []
     nameFileIdTable:
-      LN_0: -6977531974927936652
-      LN_1: -8877490014040466609
-      LN_2: 5074235250517593853
-      LN_3: 1395936101726021826
-      LN_4: -8443838095411585027
-      LN_5: -7252200913681833938
-      LN_6: -7940767153757584547
-      LN_7: -5455927210330848271
-      LN_8: 4880043063148080530
-      LN_9: 1423865158993738015
+      HQ 1_0: -4285869251587037032
+      HQ 1_1: -3213066342022094642
+      HQ 1_2: 3953420313888303006
+      HQ 1_3: -6435114667787347591
+      HQ 1_4: -5295074908028517146
+      HQ 1_5: 2569023107635343622
+      HQ 1_6: -1548146691457250836
+      HQ 1_7: -2395651418570890500
+      HQ 1_8: 6771957507753082336
+      HQ 1_9: -8666384749331794466
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

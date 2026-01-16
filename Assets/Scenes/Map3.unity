@@ -283,7 +283,7 @@ Transform:
   m_GameObject: {fileID: 14420747}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 7.388889, y: -0.00000023841858, z: -10}
+  m_LocalPosition: {x: 7.5724297, y: -0.00000023841858, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3098,7 +3098,7 @@ Transform:
   m_GameObject: {fileID: 920687758}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 7.388889, y: -0.00000023841858, z: -10}
+  m_LocalPosition: {x: 7.5724297, y: -0.00000023841858, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3293,7 +3293,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb24c27e94183b74e8b60bd6100df9cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  distanceToBoss: 50
+  distanceToBoss: 0
   winPointOffset: 50
   timeToDefeat: 5
   winPoint: {fileID: 1717133354}

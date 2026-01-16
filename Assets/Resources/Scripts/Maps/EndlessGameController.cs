@@ -110,9 +110,45 @@ public class EndlessGameController : MonoBehaviour
 
         Physics2D.SyncTransforms();
 
-        float winX = bossDefeatedDistance + winPointOffset;
+        SpawnNextPiece();
 
-        winPoint.transform.position = new Vector2(winX, 0f);
+        float winXStart = bossDefeatedDistance + winPointOffset;
+
+        float middleX = winXStart + 15;
+
+        float endX = winXStart + 30;
+
+        float distanceRays = 30f;
+
+        RaycastHit2D hit_Start = Physics2D.Raycast(new Vector2(winXStart, 10f), Vector2.down, distanceRays, LayerMask.GetMask("Platform"));
+        RaycastHit2D hit_Middle = Physics2D.Raycast(new Vector2(middleX, 10f), Vector2.down, distanceRays, LayerMask.GetMask("Platform"));
+        RaycastHit2D hit_End = Physics2D.Raycast(new Vector2(endX, 10f), Vector2.down, distanceRays, LayerMask.GetMask("Platform"));
+
+        //Safe check
+        int safetyCounter = 0;
+
+        while (hit_Start == default || hit_Middle == default || hit_End == default)
+        {
+            if (safetyCounter > 50) break;
+
+            winXStart += 10f;
+            middleX = winXStart + 15;
+            endX = winXStart + 30;
+
+            hit_Start = Physics2D.Raycast(new Vector2(winXStart, 10f), Vector2.down, distanceRays, LayerMask.GetMask("Platform"));
+            hit_Middle = Physics2D.Raycast(new Vector2(middleX, 10f), Vector2.down, distanceRays, LayerMask.GetMask("Platform"));
+            hit_End = Physics2D.Raycast(new Vector2(endX, 10f), Vector2.down, distanceRays, LayerMask.GetMask("Platform"));
+
+            Debug.DrawRay(new Vector2(winXStart, 10f), Vector2.down * distanceRays, Color.red, 5f);
+            Debug.DrawRay(new Vector2(middleX, 10f), Vector2.down * distanceRays, Color.green, 5f);
+            Debug.DrawRay(new Vector2(endX, 10f), Vector2.down * distanceRays, Color.blue, 5f);
+
+            safetyCounter++;
+        }
+
+        
+
+        winPoint.transform.position = new Vector2(winXStart, 0f);
         winPoint.SetActive(true);
 
         winPointSpawned = true;

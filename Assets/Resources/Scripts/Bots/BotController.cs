@@ -35,6 +35,16 @@ public class BotController : BaseRunner
     private float phiDelta;
     private float mySweepSpeed;
 
+    [Header("Optimization Settings")]
+    [Tooltip("Khoảng cách tối đa so với Player để Bot còn bật AI. Xa hơn sẽ tắt Raycast.")]
+    [SerializeField] private float cullDistance = 25f;
+
+    [Tooltip("Thời gian giữa các lần quét AI (giây). 0.1 = 10 lần/giây.")]
+    [SerializeField] private float aiUpdateInterval = 0.1f;
+
+    private float nextAiUpdateTime;
+    private bool isAiActive = true; // Cờ kiểm tra xem có nên chạy AI không
+
     protected override void Awake()
     {
         base.Awake();
@@ -45,6 +55,13 @@ public class BotController : BaseRunner
         mySlowDownMult = Random.Range(0.7f, 0.9f);
         myAccelerationRate = Random.Range(1.5f, 3.0f);
         reactionTime = Random.Range(0.05f, 0.15f);
+    }
+
+    protected override void Start()
+    {
+        base.Start();
+        // Random thời gian cập nhật AI ban đầu để tránh đồng bộ
+        nextAiUpdateTime = Time.time + Random.Range(0f, aiUpdateInterval);
     }
 
     protected override void FixedUpdate()
@@ -58,33 +75,79 @@ public class BotController : BaseRunner
 
         base.FixedUpdate();
 
-        // 1. Logic cảm biến
-        bool seesObstacle = PerformRadarScan();
-        bool seesPit = false;
 
-        if (!seesObstacle) seesPit = ScanForPits();
-
-        // 2. Logic giữ nút nhảy (High Jump)
+        // Logic HighJump
         HandleHighJumpLogic();
 
-        // 3. Logic đuổi theo Player
-        AdjustSpeedTarget();
+        float curTime = Time.time;
+
+        // Giãn cách khoảng thời gian cập nhật AI
+        if (curTime >= nextAiUpdateTime)
+        {
+            RunAiLogic();
+            nextAiUpdateTime = curTime + aiUpdateInterval;
+        }
+
+        MoveLogic(curTime);
     }
-
-    protected override void Move()
+    private void MoveLogic(float curTime)
     {
-        if (isControlLocked) return;
-
         // Tính toán vận tốc mong muốn (Rubber Banding)
         float distanceBonus = (GameStatsController.Instance != null) ? GameStatsController.Instance.resultDistance / 150f : 0f;
         float desiredSpeed = targetRunSpeed + distanceBonus;
 
-        // Thêm chút nhiễu (Noise) để bot chạy không quá đều
-        float noise = (Mathf.PerlinNoise(Time.time * 0.5f, speedNoiseSeed) - 0.5f) * 2f;
-        desiredSpeed += noise;
+        if (curTime >= nextAiUpdateTime)
+        {
+            float noise = (Mathf.PerlinNoise(Time.time * 0.5f, speedNoiseSeed) - 0.5f) * 2f; // Giá trị noise từ -1 đến 1
+            desiredSpeed += noise;
+        }
 
         // Lerp speed
         currentSpeed = Mathf.MoveTowards(currentSpeed, desiredSpeed, myAccelerationRate * Time.fixedDeltaTime);
+    }
+
+    private void RunAiLogic()
+    {
+        if (targetPlayer != null)
+        {
+
+            float dist = transform.position.x - targetPlayer.position.x;
+
+
+            if (dist > cullDistance)
+            {
+                isAiActive = false;
+
+                if (transform.position.x < targetPlayer.position.x)
+                    targetRunSpeed = baseRunSpeed * myCatchUpMult;
+                else
+                    targetRunSpeed = baseRunSpeed * mySlowDownMult;
+
+                return;
+
+            }
+            else
+            {
+                isAiActive = true;
+            }
+        }
+
+        if (isAiActive)
+        {
+            bool seesObstacle = PerformRadarScan();
+            bool seesPit = false;
+
+            if (!seesObstacle) seesPit = ScanForPits();
+
+            // Tinh chỉnh tốc độ mục tiêu dựa trên vị trí Player
+            AdjustSpeedTarget();
+
+
+        }
+    }
+    protected override void Move()
+    {
+        if (isControlLocked) return;
 
         base.Move();
     }
@@ -101,7 +164,7 @@ public class BotController : BaseRunner
         // Nếu không chạm gì -> Hố
         if (groundHit.collider == null)
         {
-            if (!IsInvoking(nameof(PerformJumpAction))) Invoke(nameof(PerformJumpAction), 0f); // Phản xạ ngay
+            if (!IsInvoking(nameof(PerformJumpAction))) Invoke(nameof(PerformJumpAction), reactionTime); // Phản xạ ngay
             return true;
         }
         return false;
@@ -109,6 +172,8 @@ public class BotController : BaseRunner
 
     private bool PerformRadarScan()
     {
+        if (!isAiActive) return false;
+
         float currentAngle = Mathf.Sin(Time.time * mySweepSpeed + phiDelta) * maxSweepAngle;
         Vector2 direction = Quaternion.Euler(0, 0, currentAngle) * Vector2.right;
 

@@ -111,7 +111,7 @@ TextureImporter:
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 4
-    buildTarget: iOS
+    buildTarget: Standalone
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -137,33 +137,20 @@ TextureImporter:
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 4
-    buildTarget: Standalone
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: WindowsStoreApps
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
     buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: iOS
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -182,10 +169,10 @@ TextureImporter:
       name: TT_0
       rect:
         serializedVersion: 2
-        x: 271
-        y: 1104
-        width: 398
-        height: 797
+        x: 164
+        y: 2219
+        width: 438
+        height: 809
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -204,10 +191,10 @@ TextureImporter:
       name: TT_1
       rect:
         serializedVersion: 2
-        x: 1125
-        y: 1104
-        width: 398
-        height: 797
+        x: 917
+        y: 2219
+        width: 438
+        height: 809
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -226,10 +213,10 @@ TextureImporter:
       name: TT_2
       rect:
         serializedVersion: 2
-        x: 1970
-        y: 1104
-        width: 398
-        height: 797
+        x: 1670
+        y: 2219
+        width: 438
+        height: 809
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -248,10 +235,10 @@ TextureImporter:
       name: TT_3
       rect:
         serializedVersion: 2
-        x: 2785
-        y: 1104
-        width: 398
-        height: 797
+        x: 2423
+        y: 2219
+        width: 438
+        height: 809
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -270,10 +257,10 @@ TextureImporter:
       name: TT_4
       rect:
         serializedVersion: 2
-        x: 3628
-        y: 1104
-        width: 398
-        height: 797
+        x: 164
+        y: 1154
+        width: 438
+        height: 809
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -292,10 +279,10 @@ TextureImporter:
       name: TT_5
       rect:
         serializedVersion: 2
-        x: 272
-        y: 170
-        width: 398
-        height: 797
+        x: 917
+        y: 1154
+        width: 438
+        height: 809
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -314,10 +301,10 @@ TextureImporter:
       name: TT_6
       rect:
         serializedVersion: 2
-        x: 1123
-        y: 170
-        width: 398
-        height: 797
+        x: 1670
+        y: 1154
+        width: 438
+        height: 809
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -336,10 +323,10 @@ TextureImporter:
       name: TT_7
       rect:
         serializedVersion: 2
-        x: 1970
-        y: 170
-        width: 398
-        height: 797
+        x: 2423
+        y: 1154
+        width: 438
+        height: 809
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -358,10 +345,10 @@ TextureImporter:
       name: TT_8
       rect:
         serializedVersion: 2
-        x: 2785
-        y: 170
-        width: 398
-        height: 797
+        x: 164
+        y: 89
+        width: 438
+        height: 809
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -380,10 +367,10 @@ TextureImporter:
       name: TT_9
       rect:
         serializedVersion: 2
-        x: 3630
-        y: 170
-        width: 398
-        height: 797
+        x: 917
+        y: 89
+        width: 438
+        height: 809
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -402,7 +389,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 89a62f5b7145fef4c90b9cc4d0e29a8d
+    spriteID: 723275adec97f4a4595783dd65a804e9
     internalID: 0
     vertices: []
     indices: 
@@ -410,9 +397,7 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries:
-      - key: SpriteEditor.SliceSettings
-        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":7,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
+      entries: []
     nameFileIdTable:
       TT_0: 700675735990399405
       TT_1: -4115527381368335338

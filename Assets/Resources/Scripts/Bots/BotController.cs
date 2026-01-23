@@ -98,7 +98,7 @@ public class BotController : BaseRunner
 
         if (curTime >= nextAiUpdateTime)
         {
-            float noise = (Mathf.PerlinNoise(Time.time * 0.5f, speedNoiseSeed) - 0.5f) * 2f; // Giá trị noise từ -1 đến 1
+            float noise = (Mathf.PerlinNoise(curTime * 0.5f, speedNoiseSeed) - 0.5f) * 2f; // Giá trị noise từ -1 đến 1
             desiredSpeed += noise;
         }
 
@@ -177,14 +177,12 @@ public class BotController : BaseRunner
         float currentAngle = Mathf.Sin(Time.time * mySweepSpeed + phiDelta) * maxSweepAngle;
         Vector2 direction = Quaternion.Euler(0, 0, currentAngle) * Vector2.right;
 
-        // Debug tia quét để dễ nhìn trong Scene
         Debug.DrawRay(sensorPoint.position, direction * viewDistance, Color.red);
 
         RaycastHit2D hit = Physics2D.Raycast(sensorPoint.position, direction, viewDistance, obstacleLayer);
 
         if (hit.collider != null && isGrounded && !isJumpCooldown)
         {
-            // Delay phản xạ tùy vào loại vật cản
             if (!IsInvoking(nameof(PerformJumpAction)))
                 Invoke(nameof(PerformJumpAction), reactionTime);
             return true;

@@ -2477,7 +2477,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -9.735981, y: 0, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalScale: {x: 0.7, y: 0.7, z: 0.7}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 593688181}
@@ -2991,6 +2991,8 @@ MonoBehaviour:
   pitRayLength: 5
   jumpHoldForce: 5
   maxJumpHoldTime: 0.35
+  cullDistance: 25
+  aiUpdateInterval: 0.1
 --- !u!61 &1137751198
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -4186,6 +4188,8 @@ MonoBehaviour:
   pitRayLength: 5
   jumpHoldForce: 5
   maxJumpHoldTime: 0.35
+  cullDistance: 25
+  aiUpdateInterval: 0.1
 --- !u!61 &1383894663
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -4527,6 +4531,14 @@ PrefabInstance:
       propertyPath: vCam
       value: 
       objectReference: {fileID: 1789372412}
+    - target: {fileID: 7593597324259874760, guid: 4717c92b81432dd42bcfce374ce863c9, type: 3}
+      propertyPath: baseViewport
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 7593597324259874760, guid: 4717c92b81432dd42bcfce374ce863c9, type: 3}
+      propertyPath: zoomViewport
+      value: 10
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -5002,7 +5014,7 @@ MonoBehaviour:
     CustomLookAtTarget: 0
   Lens:
     FieldOfView: 60
-    OrthographicSize: 5
+    OrthographicSize: 7
     NearClipPlane: 0.3
     FarClipPlane: 1000
     Dutch: 0
@@ -5029,7 +5041,7 @@ Transform:
   m_GameObject: {fileID: 1789372410}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 7.5724297, y: 1, z: -10}
+  m_LocalPosition: {x: 10.601401, y: 2, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6154,7 +6166,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 7
   m_Depth: -100
   m_CullingMask:
     serializedVersion: 2
@@ -6179,7 +6191,7 @@ Transform:
   m_GameObject: {fileID: 2037063331}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 7.5724297, y: 1, z: -10}
+  m_LocalPosition: {x: 10.601401, y: 2, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -6318,6 +6330,8 @@ MonoBehaviour:
   pitRayLength: 5
   jumpHoldForce: 5
   maxJumpHoldTime: 0.35
+  cullDistance: 25
+  aiUpdateInterval: 0.1
 --- !u!95 &2054229273
 Animator:
   serializedVersion: 7

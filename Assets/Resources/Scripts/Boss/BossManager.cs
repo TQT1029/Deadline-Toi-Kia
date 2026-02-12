@@ -20,8 +20,8 @@ public class BossManager : MonoBehaviour
     private BossDataSO currentBossData; // Dữ liệu Boss hiện tại đang đánh
 
     [Header("Camera Settings")]
-    private float baseViewport = 5f;
-    [SerializeField] private float zoomViewport = 7f;
+    [SerializeField] private float baseViewport = 7f;
+    [SerializeField] private float zoomViewport = 10f;
     [SerializeField] private float zoomDuration = 1.5f;
 
     [Header("Internal State")]
@@ -34,7 +34,7 @@ public class BossManager : MonoBehaviour
 
     private void Start()
     {
-        if (vCam != null) baseViewport = vCam.Lens.OrthographicSize;
+        if (vCam != null)  baseViewport = vCam.Lens.OrthographicSize;
 
     }
 

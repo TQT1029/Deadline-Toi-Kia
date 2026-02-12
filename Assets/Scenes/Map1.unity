@@ -428,6 +428,14 @@ PrefabInstance:
       propertyPath: vCam
       value: 
       objectReference: {fileID: 1773432072}
+    - target: {fileID: 7593597324259874760, guid: 4717c92b81432dd42bcfce374ce863c9, type: 3}
+      propertyPath: baseViewport
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 7593597324259874760, guid: 4717c92b81432dd42bcfce374ce863c9, type: 3}
+      propertyPath: zoomViewport
+      value: 10
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -4311,8 +4319,8 @@ Transform:
   m_GameObject: {fileID: 1022573958}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -9.735981, y: 0, z: 10}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalPosition: {x: -20, y: 0, z: 10}
+  m_LocalScale: {x: 0.7, y: 0.7, z: 0.7}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1939645293}
@@ -5107,11 +5115,11 @@ MonoBehaviour:
   groundCheckRadius: 0.15
   groundLayer:
     serializedVersion: 2
-    m_Bits: 192
+    m_Bits: 448
   knockbackCooldown: 1
   fallThresholdY: -10
   accelerationRate: 2
-  jumpHoldForce: 3
+  jumpHoldForce: 2.5
   maxJumpHoldTime: 0.3
   jumpCutMultiplier: 0.75
 --- !u!61 &1107744924
@@ -8747,7 +8755,7 @@ MonoBehaviour:
     CustomLookAtTarget: 0
   Lens:
     FieldOfView: 60
-    OrthographicSize: 5
+    OrthographicSize: 7
     NearClipPlane: 0.3
     FarClipPlane: 1000
     Dutch: 0
@@ -8774,7 +8782,7 @@ Transform:
   m_GameObject: {fileID: 1773432070}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 7.5724297, y: 1, z: -10}
+  m_LocalPosition: {x: 10.601401, y: 2, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -8919,7 +8927,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 7
   m_Depth: -100
   m_CullingMask:
     serializedVersion: 2
@@ -8944,7 +8952,7 @@ Transform:
   m_GameObject: {fileID: 1773911319}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 7.5724297, y: 1, z: -10}
+  m_LocalPosition: {x: 10.601401, y: 2, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

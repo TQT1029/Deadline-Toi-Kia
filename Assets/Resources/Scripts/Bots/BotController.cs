@@ -82,13 +82,14 @@ public class BotController : BaseRunner
         float curTime = Time.time;
 
         // Giãn cách khoảng thời gian cập nhật AI
+        MoveLogic(curTime);
+
         if (curTime >= nextAiUpdateTime)
         {
             RunAiLogic();
             nextAiUpdateTime = curTime + aiUpdateInterval;
         }
 
-        MoveLogic(curTime);
     }
     private void MoveLogic(float curTime)
     {
@@ -98,8 +99,9 @@ public class BotController : BaseRunner
 
         if (curTime >= nextAiUpdateTime)
         {
-            float noise = (Mathf.PerlinNoise(curTime * 0.5f, speedNoiseSeed) - 0.5f) * 2f; // Giá trị noise từ -1 đến 1
+            float noise = (Mathf.PerlinNoise(curTime * 0.5f, speedNoiseSeed) - 0.5f) * 6f; // Giá trị noise từ -3 đến 3
             desiredSpeed += noise;
+            Debug.Log(this.name + " speed: " + desiredSpeed);
         }
 
         // Lerp speed

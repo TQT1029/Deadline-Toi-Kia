@@ -44,7 +44,8 @@ public class BaseRunner : MonoBehaviour
         _animator = GetComponent<Animator>();
 
         lastKnockbackTime = -knockbackCooldown; // Fix để có thể bị knockback ngay khi start game nếu cần
-        currentSpeed = baseRunSpeed;
+
+        currentSpeed = baseRunSpeed + RandomUtils.RandomWithSteps(-2, 2, 0.5f); ;
     }
 
     protected virtual void Start()

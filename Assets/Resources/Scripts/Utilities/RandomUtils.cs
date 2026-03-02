@@ -301,5 +301,74 @@ public static class RandomUtils
                 list[randomIndex] = temp;
             }
         }
+    }/// <summary>
+     /// Random chọn 1 phần tử trong danh sách dựa trên tỉ lệ % được chỉ định trước.
+     /// <para><b>Công dụng:</b> Bốc gacha, rớt đồ (loot drop), hoặc chọn quái vật để spawn. 
+     /// Nếu danh sách dài hơn số lượng % truyền vào, số % còn thiếu (để đủ 100%) sẽ được chia đều cho các phần tử còn lại.</para>
+     /// </summary>
+     /// <param name="list">Danh sách các phần tử cần bốc.</param>
+     /// <param name="percentages">Các mức phần trăm tương ứng với từng phần tử (từ trái qua phải).</param>
+     /// <returns>Phần tử được chọn ngẫu nhiên.</returns>
+    public static T RandomWithDistributedPercent<T>(List<T> list, params float[] percentages)
+    {
+        // 1. Kiểm tra an toàn: Nếu list trống hoặc null thì báo lỗi và trả về giá trị mặc định
+        if (list == null || list.Count == 0)
+        {
+            Debug.LogError("RandomUtils: Danh sách truyền vào đang trống!");
+            return default;
+        }
+
+        // Mảng chứa tỉ lệ % CHÍNH THỨC của từng phần tử sau khi đã tính toán
+        float[] finalWeights = new float[list.Count];
+        float givenSum = 0f;
+
+        // 2. Gán % cho các phần tử ĐÃ ĐƯỢC CHỈ ĐỊNH thông qua params
+        int providedCount = Mathf.Min(list.Count, percentages.Length);
+        for (int i = 0; i < providedCount; i++)
+        {
+            float p = Mathf.Max(0f, percentages[i]); // Chống lỗi truyền số âm
+            finalWeights[i] = p;
+            givenSum += p;
+        }
+
+        // 3. Xử lý % còn dư cho các phần tử CHƯA ĐƯỢC GÁN
+        int remainingElements = list.Count - providedCount;
+        if (remainingElements > 0)
+        {
+            // Tính lượng % còn lại (tối thiểu là 0 để không bị âm nếu user nhập lố 100%)
+            float remainingPercent = Mathf.Max(0f, 100f - givenSum);
+
+            // Chia đều cho các phần tử chưa có %
+            float sharedPercent = remainingPercent / remainingElements;
+
+            for (int i = providedCount; i < list.Count; i++)
+            {
+                finalWeights[i] = sharedPercent;
+            }
+        }
+        else if (givenSum > 100f)
+        {
+            // Cảnh báo nếu user nhập danh sách % mà cộng lại vượt quá 100%
+            Debug.LogWarning("RandomUtils: Tổng các % truyền vào lớn hơn 100%! Hàm sẽ tự động quy đổi lại theo tỉ lệ tương đối.");
+        }
+
+        // 4. Bắt đầu quay số ngẫu nhiên (Vòng quay Gacha)
+        // Dùng max(100f, givenSum) để bao hàm trường hợp tổng > 100% thì vẫn lấy random chuẩn xác
+        float totalWeight = Mathf.Max(100f, givenSum);
+        float randomVal = Random.Range(0f, totalWeight);
+        float currentSum = 0f;
+
+        // Dò xem con số random rơi vào "khoảng" của phần tử nào
+        for (int i = 0; i < list.Count; i++)
+        {
+            currentSum += finalWeights[i];
+            if (randomVal <= currentSum)
+            {
+                return list[i]; // Trúng phần tử nào thì trả về phần tử đó
+            }
+        }
+
+        // Fallback an toàn (tránh lỗi float precision ở góc làm tròn cuối cùng)
+        return list[list.Count - 1];
     }
 }

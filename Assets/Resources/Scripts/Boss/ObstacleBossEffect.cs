@@ -3,7 +3,7 @@
 public class ObstacleBossEffect : MonoBehaviour
 {
     [SerializeField] private float force = 15f;
-    [SerializeField] private Vector2 direction = new Vector2(-1, 1);
+    [SerializeField, Tooltip("Direction Knockback")] private Vector2 direction = new Vector2(-1, 1);
     [SerializeField] private float stunDuration = 0.3f;
     [SerializeField] private int minAmountCoin = 5;
     [SerializeField] private int maxAmountCoin = 30;

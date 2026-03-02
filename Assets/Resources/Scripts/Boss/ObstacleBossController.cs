@@ -5,13 +5,13 @@ using System.Collections.Generic;
 public class ObstacleBossController : MonoBehaviour
 {
     [Header("Assets")]
-    public MoveObstacleBoss obstaclePrefab;
+    [SerializeField] private List<MoveObstacleBoss> obstaclePrefabs = new List<MoveObstacleBoss>();
 
     [Header("Settings")]
-    public float baseObstacleSpeed = 8f;
+    [SerializeField] private float baseObstacleSpeed = 8f;
     [Range(0f, 2f)] public float playerVelocityInfluence = 0.5f;
-    public float maxObstacleSpeed = 25f;
-    public float baseRotateSpeed = 2;
+    [SerializeField] private float maxObstacleSpeed = 25f;
+    [SerializeField] private float baseRotateSpeed = 2;
 
     [Header("Dynamic Spacing Settings")]
     [Tooltip("Kích thước va chạm thực tế của vật thể (dùng để tính toán làn)")]
@@ -323,8 +323,13 @@ public class ObstacleBossController : MonoBehaviour
 
     private void CreateObstacle(Vector2 startView, Vector2 endView, float speed, float delay)
     {
-        MoveObstacleBoss obj = Instantiate(obstaclePrefab);
+        MoveObstacleBoss obj = GetObstacleBoss();
         obj.transform.SetParent(transform);
         obj.Initialize(startView, endView, speed, baseRotateSpeed, delay);
+    }
+
+    private MoveObstacleBoss GetObstacleBoss()
+    {
+        return Instantiate(RandomUtils.RandomWithDistributedPercent(obstaclePrefabs, 70, 30));
     }
 }

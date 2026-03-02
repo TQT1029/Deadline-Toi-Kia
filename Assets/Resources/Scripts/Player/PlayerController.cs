@@ -41,6 +41,7 @@ public class PlayerController : BaseRunner
 
         float distanceBonus = (GameStatsController.Instance != null) ? GameStatsController.Instance.resultDistance / 150f : 0f;
         targetRunSpeed = baseRunSpeed + distanceBonus;
+
         currentSpeed = Mathf.MoveTowards(currentSpeed, targetRunSpeed, accelerationRate * Time.fixedDeltaTime);
 
         base.Move();

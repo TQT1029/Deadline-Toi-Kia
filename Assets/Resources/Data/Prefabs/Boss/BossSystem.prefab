@@ -55,6 +55,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 3a08ec0e7d72e844cae6e2e37d944c2b, type: 2}
   - {fileID: 11400000, guid: 0f237601a7583cd4ab3451fc5ebb6e3c, type: 2}
   - {fileID: 11400000, guid: 0924827ca36e70f46a84bc3742770282, type: 2}
+  baseViewport: 7
   zoomViewport: 7
   zoomDuration: 1.5
 --- !u!1 &3238123525324062108
@@ -188,7 +189,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7c38d8f2a8c39a4d875f5f836b279a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  obstaclePrefab: {fileID: 6851801325544815183, guid: 5d2c5bf465e7e30468d02ff5e3499277, type: 3}
+  obstaclePrefabs:
+  - {fileID: 6851801325544815183, guid: 5d2c5bf465e7e30468d02ff5e3499277, type: 3}
+  - {fileID: 6851801325544815183, guid: 319b1741f52f46f4199893e19bde5915, type: 3}
   baseObstacleSpeed: 8
   playerVelocityInfluence: 0.5
   maxObstacleSpeed: 25

@@ -23,7 +23,7 @@ public class MoveObstacleBoss : MonoBehaviour
         startWorldPos.z = 0;
         endWorldPos.z = 0;
 
-        // 3. Tính Duration chuẩn xác
+        // 3. Tính Duration
         float distance = Vector3.Distance(startWorldPos, endWorldPos);
 
         // Bảo vệ chia cho 0

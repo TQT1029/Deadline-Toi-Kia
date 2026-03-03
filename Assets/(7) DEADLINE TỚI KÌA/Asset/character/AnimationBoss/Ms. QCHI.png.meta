@@ -1,0 +1,496 @@
+fileFormatVersion: 2
+guid: 22938ec3b3757d242b134ca6285a4f36
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -2238465595591547633
+    second: Ms. QCHI_0
+  - first:
+      213: 4312609535324146964
+    second: Ms. QCHI_1
+  - first:
+      213: 4611401243898469066
+    second: Ms. QCHI_2
+  - first:
+      213: -4820840977220163324
+    second: Ms. QCHI_3
+  - first:
+      213: 1851061861435612106
+    second: Ms. QCHI_4
+  - first:
+      213: 2624366834487475610
+    second: Ms. QCHI_5
+  - first:
+      213: 6231671357759278400
+    second: Ms. QCHI_6
+  - first:
+      213: -1876017963450077655
+    second: Ms. QCHI_7
+  - first:
+      213: -3506601763224595360
+    second: Ms. QCHI_8
+  - first:
+      213: 4180634298654063394
+    second: Ms. QCHI_9
+  - first:
+      213: 8183531474911941328
+    second: Ms. QCHI_10
+  - first:
+      213: 933989958851405977
+    second: Ms. QCHI_11
+  - first:
+      213: -7488471441043001758
+    second: Ms. QCHI_12
+  - first:
+      213: -3015281012712671995
+    second: Ms. QCHI_13
+  - first:
+      213: -4360996165851519652
+    second: Ms. QCHI_14
+  - first:
+      213: 2168673791248667511
+    second: Ms. QCHI_15
+  - first:
+      213: 1318403362436457139
+    second: Ms. QCHI_16
+  - first:
+      213: 1568598654834457342
+    second: Ms. QCHI_17
+  - first:
+      213: -1302876690014823078
+    second: Ms. QCHI_18
+  - first:
+      213: 7695685916062934829
+    second: Ms. QCHI_19
+  - first:
+      213: -3354964965184811388
+    second: Ms. QCHI_20
+  - first:
+      213: 3626473623259340922
+    second: Ms. QCHI_21
+  - first:
+      213: -471802994760213164
+    second: Ms. QCHI_22
+  - first:
+      213: 4291700602476259545
+    second: Ms. QCHI_23
+  - first:
+      213: 1179610854354302673
+    second: Ms. QCHI_24
+  - first:
+      213: 5895513132752033024
+    second: Ms. QCHI_25
+  - first:
+      213: -1222701329128839830
+    second: Ms. QCHI_26
+  - first:
+      213: -531526553850066382
+    second: Ms. QCHI_27
+  - first:
+      213: -7596819149014621702
+    second: Ms. QCHI_28
+  - first:
+      213: -1718081457216118466
+    second: Ms. QCHI_29
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Ms. QCHI_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 4004
+        width: 2002
+        height: 2002
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f0525d4966f5fe0e0800000000000000
+      internalID: -2238465595591547633
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ms. QCHI_1
+      rect:
+        serializedVersion: 2
+        x: 2002
+        y: 4004
+        width: 2002
+        height: 2002
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 41d45ffe58779db30800000000000000
+      internalID: 4312609535324146964
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ms. QCHI_2
+      rect:
+        serializedVersion: 2
+        x: 4004
+        y: 4004
+        width: 2002
+        height: 2002
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: acadc53cffcfeff30800000000000000
+      internalID: 4611401243898469066
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ms. QCHI_3
+      rect:
+        serializedVersion: 2
+        x: 6006
+        y: 4004
+        width: 2002
+        height: 2002
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 40925225caee81db0800000000000000
+      internalID: -4820840977220163324
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ms. QCHI_4
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 2002
+        width: 2002
+        height: 2002
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: acb9424a4fa40b910800000000000000
+      internalID: 1851061861435612106
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ms. QCHI_5
+      rect:
+        serializedVersion: 2
+        x: 2002
+        y: 2002
+        width: 2002
+        height: 2002
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a9d31f14bbf9b6420800000000000000
+      internalID: 2624366834487475610
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ms. QCHI_6
+      rect:
+        serializedVersion: 2
+        x: 4004
+        y: 2002
+        width: 2002
+        height: 2002
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 04dc73445185b7650800000000000000
+      internalID: 6231671357759278400
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ms. QCHI_7
+      rect:
+        serializedVersion: 2
+        x: 6006
+        y: 2002
+        width: 2002
+        height: 2002
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 92e6e401a9b07f5e0800000000000000
+      internalID: -1876017963450077655
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ms. QCHI_8
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 2002
+        height: 2002
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0645d3e664c065fc0800000000000000
+      internalID: -3506601763224595360
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ms. QCHI_9
+      rect:
+        serializedVersion: 2
+        x: 2002
+        y: 0
+        width: 2002
+        height: 2002
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 22bf613aeb8940a30800000000000000
+      internalID: 4180634298654063394
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ms. QCHI_10
+      rect:
+        serializedVersion: 2
+        x: 4004
+        y: 0
+        width: 2002
+        height: 2002
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0d2da5aa48eb19170800000000000000
+      internalID: 8183531474911941328
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ms. QCHI_11
+      rect:
+        serializedVersion: 2
+        x: 6006
+        y: 0
+        width: 2002
+        height: 2002
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 998ae194be236fc00800000000000000
+      internalID: 933989958851405977
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 7bc9ce1c7a052d9468706a95076287c4
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Ms. QCHI_0: -2238465595591547633
+      Ms. QCHI_1: 4312609535324146964
+      Ms. QCHI_10: 8183531474911941328
+      Ms. QCHI_11: 933989958851405977
+      Ms. QCHI_2: 4611401243898469066
+      Ms. QCHI_3: -4820840977220163324
+      Ms. QCHI_4: 1851061861435612106
+      Ms. QCHI_5: 2624366834487475610
+      Ms. QCHI_6: 6231671357759278400
+      Ms. QCHI_7: -1876017963450077655
+      Ms. QCHI_8: -3506601763224595360
+      Ms. QCHI_9: 4180634298654063394
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

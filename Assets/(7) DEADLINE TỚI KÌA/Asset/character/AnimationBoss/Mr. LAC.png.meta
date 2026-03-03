@@ -1,0 +1,1186 @@
+fileFormatVersion: 2
+guid: e6c5499a0d3319a408cbd7fade1615f5
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -5931756210273359630
+    second: Mr. LAC_0
+  - first:
+      213: -4760689413998322414
+    second: Mr. LAC_1
+  - first:
+      213: 8124125780536969504
+    second: Mr. LAC_2
+  - first:
+      213: -1207808409787048501
+    second: Mr. LAC_3
+  - first:
+      213: -7555659523857038198
+    second: Mr. LAC_4
+  - first:
+      213: -2714279648210380049
+    second: Mr. LAC_5
+  - first:
+      213: 1423905093800756290
+    second: Mr. LAC_6
+  - first:
+      213: 6773346343412681674
+    second: Mr. LAC_7
+  - first:
+      213: -4028116435362870800
+    second: Mr. LAC_8
+  - first:
+      213: 1816317570670545038
+    second: Mr. LAC_9
+  - first:
+      213: -2427352530399308515
+    second: Mr. LAC_10
+  - first:
+      213: 6557682934648004215
+    second: Mr. LAC_11
+  - first:
+      213: -5625086247270129720
+    second: Mr. LAC_12
+  - first:
+      213: -594815169180995217
+    second: Mr. LAC_13
+  - first:
+      213: 6824573497770708621
+    second: Mr. LAC_14
+  - first:
+      213: -7205439164776097003
+    second: Mr. LAC_15
+  - first:
+      213: -4251104879540864014
+    second: Mr. LAC_16
+  - first:
+      213: 2437998891020179417
+    second: Mr. LAC_17
+  - first:
+      213: -2272301365311561642
+    second: Mr. LAC_18
+  - first:
+      213: -1624014896175026297
+    second: Mr. LAC_19
+  - first:
+      213: -9106610116965546866
+    second: Mr. LAC_20
+  - first:
+      213: 2793577000024803145
+    second: Mr. LAC_21
+  - first:
+      213: 3922387143952834733
+    second: Mr. LAC_22
+  - first:
+      213: -1224379788268355221
+    second: Mr. LAC_23
+  - first:
+      213: 1992727920293629588
+    second: Mr. LAC_24
+  - first:
+      213: 764133859348856867
+    second: Mr. LAC_25
+  - first:
+      213: -5163673653016250311
+    second: Mr. LAC_26
+  - first:
+      213: 7068977835395616088
+    second: Mr. LAC_27
+  - first:
+      213: 3962873835406858675
+    second: Mr. LAC_28
+  - first:
+      213: -5752281681198699037
+    second: Mr. LAC_29
+  - first:
+      213: -9202270731541840555
+    second: Mr. LAC_30
+  - first:
+      213: 8510651519294589554
+    second: Mr. LAC_31
+  - first:
+      213: 7040127705095807972
+    second: Mr. LAC_32
+  - first:
+      213: -2217273093018268438
+    second: Mr. LAC_33
+  - first:
+      213: 375711172264243884
+    second: Mr. LAC_34
+  - first:
+      213: -5057254774648802965
+    second: Mr. LAC_35
+  - first:
+      213: -4733501953748888289
+    second: Mr. LAC_36
+  - first:
+      213: 2622184182451684931
+    second: Mr. LAC_37
+  - first:
+      213: 1495798678904872910
+    second: Mr. LAC_38
+  - first:
+      213: -7771330110854474938
+    second: Mr. LAC_39
+  - first:
+      213: 9154420684834934450
+    second: Mr. LAC_40
+  - first:
+      213: -742583963186613714
+    second: Mr. LAC_41
+  - first:
+      213: 6195888190845966834
+    second: Mr. LAC_42
+  - first:
+      213: -4990576292332022360
+    second: Mr. LAC_43
+  - first:
+      213: -8033713934386523758
+    second: Mr. LAC_44
+  - first:
+      213: -7051004637615793546
+    second: Mr. LAC_45
+  - first:
+      213: 652361984220291782
+    second: Mr. LAC_46
+  - first:
+      213: 5614882240744649751
+    second: Mr. LAC_47
+  - first:
+      213: -8124186525155941031
+    second: Mr. LAC_48
+  - first:
+      213: -675544027702571383
+    second: Mr. LAC_49
+  - first:
+      213: -2867232442436772052
+    second: Mr. LAC_50
+  - first:
+      213: 3769415520431224968
+    second: Mr. LAC_51
+  - first:
+      213: 5827704630156144990
+    second: Mr. LAC_52
+  - first:
+      213: 32119638261461972
+    second: Mr. LAC_53
+  - first:
+      213: 5101351099446742608
+    second: Mr. LAC_54
+  - first:
+      213: 6494600249239889807
+    second: Mr. LAC_55
+  - first:
+      213: -5314166297123398829
+    second: Mr. LAC_56
+  - first:
+      213: 6367677592658483360
+    second: Mr. LAC_57
+  - first:
+      213: -7594078572879251684
+    second: Mr. LAC_58
+  - first:
+      213: -6127158127675516002
+    second: Mr. LAC_59
+  - first:
+      213: -3641222297049816006
+    second: Mr. LAC_60
+  - first:
+      213: 7475425040225008324
+    second: Mr. LAC_61
+  - first:
+      213: 8198788401980530880
+    second: Mr. LAC_62
+  - first:
+      213: -8778599291165108253
+    second: Mr. LAC_63
+  - first:
+      213: -2277624019633438827
+    second: Mr. LAC_64
+  - first:
+      213: -370653941333598158
+    second: Mr. LAC_65
+  - first:
+      213: 6418408012960966277
+    second: Mr. LAC_66
+  - first:
+      213: -8482581863482916306
+    second: Mr. LAC_67
+  - first:
+      213: -6572071294961289299
+    second: Mr. LAC_68
+  - first:
+      213: 3851530140092258925
+    second: Mr. LAC_69
+  - first:
+      213: -4624262477217758146
+    second: Mr. LAC_70
+  - first:
+      213: -5055554408766521915
+    second: Mr. LAC_71
+  - first:
+      213: 8629316779319650853
+    second: Mr. LAC_72
+  - first:
+      213: 54088869924032554
+    second: Mr. LAC_73
+  - first:
+      213: 2101401965376464500
+    second: Mr. LAC_74
+  - first:
+      213: 4248161724419135220
+    second: Mr. LAC_75
+  - first:
+      213: 5157461843737727629
+    second: Mr. LAC_76
+  - first:
+      213: -5392192470050166312
+    second: Mr. LAC_77
+  - first:
+      213: -6303791059608764903
+    second: Mr. LAC_78
+  - first:
+      213: 8322165136032544678
+    second: Mr. LAC_79
+  - first:
+      213: -1151089061381078874
+    second: Mr. LAC_80
+  - first:
+      213: -9085860568233266411
+    second: Mr. LAC_81
+  - first:
+      213: -9191374967590296991
+    second: Mr. LAC_82
+  - first:
+      213: -4841419662165620661
+    second: Mr. LAC_83
+  - first:
+      213: -5979942680789603258
+    second: Mr. LAC_84
+  - first:
+      213: 1984960334252425950
+    second: Mr. LAC_85
+  - first:
+      213: 4443942982888415501
+    second: Mr. LAC_86
+  - first:
+      213: 5372036211197370890
+    second: Mr. LAC_87
+  - first:
+      213: 2760492963963047546
+    second: Mr. LAC_88
+  - first:
+      213: 5212267780518334170
+    second: Mr. LAC_89
+  - first:
+      213: -2666254951241070467
+    second: Mr. LAC_90
+  - first:
+      213: -5654204495478791302
+    second: Mr. LAC_91
+  - first:
+      213: -1273126395777915725
+    second: Mr. LAC_92
+  - first:
+      213: 2464101904396697665
+    second: Mr. LAC_93
+  - first:
+      213: -3067096989097329771
+    second: Mr. LAC_94
+  - first:
+      213: 3883209713601041027
+    second: Mr. LAC_95
+  - first:
+      213: -9192318408446966481
+    second: Mr. LAC_96
+  - first:
+      213: -8277548211472275145
+    second: Mr. LAC_97
+  - first:
+      213: 3339545994146132787
+    second: Mr. LAC_98
+  - first:
+      213: -3147838996545335749
+    second: Mr. LAC_99
+  - first:
+      213: 4862922014228055578
+    second: Mr. LAC_100
+  - first:
+      213: -4965757952978736440
+    second: Mr. LAC_101
+  - first:
+      213: -8916353910252947098
+    second: Mr. LAC_102
+  - first:
+      213: -2949455799074767105
+    second: Mr. LAC_103
+  - first:
+      213: 2442760400025073871
+    second: Mr. LAC_104
+  - first:
+      213: 477937674295791061
+    second: Mr. LAC_105
+  - first:
+      213: -5984225302127413508
+    second: Mr. LAC_106
+  - first:
+      213: -3126041946066209743
+    second: Mr. LAC_107
+  - first:
+      213: 7494618958012183978
+    second: Mr. LAC_108
+  - first:
+      213: -3412539722384358974
+    second: Mr. LAC_109
+  - first:
+      213: -6726255383394021154
+    second: Mr. LAC_110
+  - first:
+      213: 7617950343959993767
+    second: Mr. LAC_111
+  - first:
+      213: -2723215078467547248
+    second: Mr. LAC_112
+  - first:
+      213: -7839785947491747592
+    second: Mr. LAC_113
+  - first:
+      213: -924784370636755520
+    second: Mr. LAC_114
+  - first:
+      213: -1491984479251393738
+    second: Mr. LAC_115
+  - first:
+      213: 2228319435266037736
+    second: Mr. LAC_116
+  - first:
+      213: 5239547070787152293
+    second: Mr. LAC_117
+  - first:
+      213: 85155182627791644
+    second: Mr. LAC_118
+  - first:
+      213: 895733761021292421
+    second: Mr. LAC_119
+  - first:
+      213: 2661164023180310683
+    second: Mr. LAC_120
+  - first:
+      213: 4668279827121434940
+    second: Mr. LAC_121
+  - first:
+      213: 1812741149007542628
+    second: Mr. LAC_122
+  - first:
+      213: 8284946952053107479
+    second: Mr. LAC_123
+  - first:
+      213: -3104114817235436647
+    second: Mr. LAC_124
+  - first:
+      213: 1250519157952421095
+    second: Mr. LAC_125
+  - first:
+      213: -5738200980404284766
+    second: Mr. LAC_126
+  - first:
+      213: 5655444653376807480
+    second: Mr. LAC_127
+  - first:
+      213: -2986354956701724222
+    second: Mr. LAC_128
+  - first:
+      213: -171058990600503419
+    second: Mr. LAC_129
+  - first:
+      213: 3521355000756728810
+    second: Mr. LAC_130
+  - first:
+      213: 1382758925577478260
+    second: Mr. LAC_131
+  - first:
+      213: 1268969134276744554
+    second: Mr. LAC_132
+  - first:
+      213: -6275400341784863989
+    second: Mr. LAC_133
+  - first:
+      213: -4814107710739292321
+    second: Mr. LAC_134
+  - first:
+      213: 3352047466415121842
+    second: Mr. LAC_135
+  - first:
+      213: 526579760381934202
+    second: Mr. LAC_136
+  - first:
+      213: -678990438332213438
+    second: Mr. LAC_137
+  - first:
+      213: 7282972594475692548
+    second: Mr. LAC_138
+  - first:
+      213: -8112303039994414894
+    second: Mr. LAC_139
+  - first:
+      213: 5481530063856846701
+    second: Mr. LAC_140
+  - first:
+      213: -6960343530449074015
+    second: Mr. LAC_141
+  - first:
+      213: 791223516616880915
+    second: Mr. LAC_142
+  - first:
+      213: -6029140730588028588
+    second: Mr. LAC_143
+  - first:
+      213: -4661165597686810763
+    second: Mr. LAC_144
+  - first:
+      213: -6482640686174389886
+    second: Mr. LAC_145
+  - first:
+      213: -2765049198840326273
+    second: Mr. LAC_146
+  - first:
+      213: -1498594861591138495
+    second: Mr. LAC_147
+  - first:
+      213: -5970346417022683800
+    second: Mr. LAC_148
+  - first:
+      213: 271130760748745349
+    second: Mr. LAC_149
+  - first:
+      213: -2299993138010727369
+    second: Mr. LAC_150
+  - first:
+      213: -2753799989316823118
+    second: Mr. LAC_151
+  - first:
+      213: -4163045848307810952
+    second: Mr. LAC_152
+  - first:
+      213: 3215969471046658380
+    second: Mr. LAC_153
+  - first:
+      213: -2685070063280662130
+    second: Mr. LAC_154
+  - first:
+      213: 4586101800579336487
+    second: Mr. LAC_155
+  - first:
+      213: 7384996370828585885
+    second: Mr. LAC_156
+  - first:
+      213: -8122005774823699333
+    second: Mr. LAC_157
+  - first:
+      213: 6381079577086708520
+    second: Mr. LAC_158
+  - first:
+      213: 5788255595005555565
+    second: Mr. LAC_159
+  - first:
+      213: 8863421728755490036
+    second: Mr. LAC_160
+  - first:
+      213: 5150190208898193192
+    second: Mr. LAC_161
+  - first:
+      213: -9006800250222174879
+    second: Mr. LAC_162
+  - first:
+      213: 3838494294478921251
+    second: Mr. LAC_163
+  - first:
+      213: 1333737272063455619
+    second: Mr. LAC_164
+  - first:
+      213: 2823586121864636027
+    second: Mr. LAC_165
+  - first:
+      213: -6187337090624199635
+    second: Mr. LAC_166
+  - first:
+      213: -4112346346561198188
+    second: Mr. LAC_167
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Mr. LAC_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 8008
+        width: 2002
+        height: 2002
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2f86070972b2eada0800000000000000
+      internalID: -5931756210273359630
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr. LAC_1
+      rect:
+        serializedVersion: 2
+        x: 2002
+        y: 8008
+        width: 2002
+        height: 2002
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 21ddaa08332aeedb0800000000000000
+      internalID: -4760689413998322414
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr. LAC_2
+      rect:
+        serializedVersion: 2
+        x: 4004
+        y: 8008
+        width: 2002
+        height: 2002
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 029cf7b9a51beb070800000000000000
+      internalID: 8124125780536969504
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr. LAC_3
+      rect:
+        serializedVersion: 2
+        x: 6006
+        y: 8008
+        width: 2002
+        height: 2002
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bcdd9e986a00d3fe0800000000000000
+      internalID: -1207808409787048501
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr. LAC_4
+      rect:
+        serializedVersion: 2
+        x: 8008
+        y: 8008
+        width: 2002
+        height: 2002
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a8444b4d1b7e42790800000000000000
+      internalID: -7555659523857038198
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr. LAC_5
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 6006
+        width: 2002
+        height: 2002
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fea19537a01f45ad0800000000000000
+      internalID: -2714279648210380049
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr. LAC_6
+      rect:
+        serializedVersion: 2
+        x: 2002
+        y: 6006
+        width: 2002
+        height: 2002
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2440ddd732ab2c310800000000000000
+      internalID: 1423905093800756290
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr. LAC_7
+      rect:
+        serializedVersion: 2
+        x: 4004
+        y: 6006
+        width: 2002
+        height: 2002
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: acbcdc3dc92cffd50800000000000000
+      internalID: 6773346343412681674
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr. LAC_8
+      rect:
+        serializedVersion: 2
+        x: 6006
+        y: 6006
+        width: 2002
+        height: 2002
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0f98844a1714918c0800000000000000
+      internalID: -4028116435362870800
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr. LAC_9
+      rect:
+        serializedVersion: 2
+        x: 8008
+        y: 6006
+        width: 2002
+        height: 2002
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e884e1f053bd43910800000000000000
+      internalID: 1816317570670545038
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr. LAC_10
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 4004
+        width: 2002
+        height: 2002
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d1557e8fbbf405ed0800000000000000
+      internalID: -2427352530399308515
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr. LAC_11
+      rect:
+        serializedVersion: 2
+        x: 2002
+        y: 4004
+        width: 2002
+        height: 2002
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 77ed55d82e1910b50800000000000000
+      internalID: 6557682934648004215
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr. LAC_12
+      rect:
+        serializedVersion: 2
+        x: 4004
+        y: 4004
+        width: 2002
+        height: 2002
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8cf57807cddafe1b0800000000000000
+      internalID: -5625086247270129720
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr. LAC_13
+      rect:
+        serializedVersion: 2
+        x: 6006
+        y: 4004
+        width: 2002
+        height: 2002
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f61f3fd41caceb7f0800000000000000
+      internalID: -594815169180995217
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr. LAC_14
+      rect:
+        serializedVersion: 2
+        x: 8008
+        y: 4004
+        width: 2002
+        height: 2002
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d8e0b262071c5be50800000000000000
+      internalID: 6824573497770708621
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr. LAC_15
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 2002
+        width: 2002
+        height: 2002
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 51b55d47143210c90800000000000000
+      internalID: -7205439164776097003
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr. LAC_16
+      rect:
+        serializedVersion: 2
+        x: 2002
+        y: 2002
+        width: 2002
+        height: 2002
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2fb7908a2aa0105c0800000000000000
+      internalID: -4251104879540864014
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr. LAC_17
+      rect:
+        serializedVersion: 2
+        x: 4004
+        y: 2002
+        width: 2002
+        height: 2002
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9d7dd06031385d120800000000000000
+      internalID: 2437998891020179417
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr. LAC_18
+      rect:
+        serializedVersion: 2
+        x: 6006
+        y: 2002
+        width: 2002
+        height: 2002
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 65028f982f92770e0800000000000000
+      internalID: -2272301365311561642
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr. LAC_19
+      rect:
+        serializedVersion: 2
+        x: 8008
+        y: 2002
+        width: 2002
+        height: 2002
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 78f6b8b6e075679e0800000000000000
+      internalID: -1624014896175026297
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr. LAC_20
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 2002
+        height: 2002
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e844a46f852de9180800000000000000
+      internalID: -9106610116965546866
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr. LAC_21
+      rect:
+        serializedVersion: 2
+        x: 2002
+        y: 0
+        width: 2002
+        height: 2002
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9470e230b77c4c620800000000000000
+      internalID: 2793577000024803145
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr. LAC_22
+      rect:
+        serializedVersion: 2
+        x: 4004
+        y: 0
+        width: 2002
+        height: 2002
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: da02ed2635e1f6630800000000000000
+      internalID: 3922387143952834733
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr. LAC_23
+      rect:
+        serializedVersion: 2
+        x: 6006
+        y: 0
+        width: 2002
+        height: 2002
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b61c812d111220fe0800000000000000
+      internalID: -1224379788268355221
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 748657f8013abcb4c816c86280914a2d
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Mr. LAC_0: -5931756210273359630
+      Mr. LAC_1: -4760689413998322414
+      Mr. LAC_10: -2427352530399308515
+      Mr. LAC_11: 6557682934648004215
+      Mr. LAC_12: -5625086247270129720
+      Mr. LAC_13: -594815169180995217
+      Mr. LAC_14: 6824573497770708621
+      Mr. LAC_15: -7205439164776097003
+      Mr. LAC_16: -4251104879540864014
+      Mr. LAC_17: 2437998891020179417
+      Mr. LAC_18: -2272301365311561642
+      Mr. LAC_19: -1624014896175026297
+      Mr. LAC_2: 8124125780536969504
+      Mr. LAC_20: -9106610116965546866
+      Mr. LAC_21: 2793577000024803145
+      Mr. LAC_22: 3922387143952834733
+      Mr. LAC_23: -1224379788268355221
+      Mr. LAC_3: -1207808409787048501
+      Mr. LAC_4: -7555659523857038198
+      Mr. LAC_5: -2714279648210380049
+      Mr. LAC_6: 1423905093800756290
+      Mr. LAC_7: 6773346343412681674
+      Mr. LAC_8: -4028116435362870800
+      Mr. LAC_9: 1816317570670545038
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

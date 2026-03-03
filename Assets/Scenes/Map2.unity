@@ -4841,7 +4841,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb24c27e94183b74e8b60bd6100df9cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  distanceToBoss: 250
+  distanceToBoss: 50
   winPointOffset: 50
   timeToDefeat: 30
   winPoint: {fileID: 852447028}

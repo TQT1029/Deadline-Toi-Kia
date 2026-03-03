@@ -11,8 +11,9 @@ public class BossManager : MonoBehaviour
 
     [Header("References")]
     public ObstacleBossController obstacleController;
-    public Transform bossVisualTransform; // Transform cha để di chuyển
+    public Transform bossVisualTransform; 
     [SerializeField] private SpriteRenderer bossSpriteRenderer; // Sprite con để hiển thị ảnh
+    [SerializeField] private Animator bossAnimator;
     [SerializeField] private CinemachineCamera vCam;
 
     [Header("Data")]
@@ -26,7 +27,7 @@ public class BossManager : MonoBehaviour
 
     [Header("Internal State")]
     private bool isFighting = false;
-    private Vector3 currentViewportPos = new Vector3(0.8f, 1.5f, 0f);
+    private Vector3 currentViewportPos = new Vector3(0.8f, 5f, 0f);
     private float bossDepth = 10f;
 
     private Tween idleTween;
@@ -34,7 +35,7 @@ public class BossManager : MonoBehaviour
 
     private void Start()
     {
-        if (vCam != null)  baseViewport = vCam.Lens.OrthographicSize;
+        if (vCam != null) baseViewport = vCam.Lens.OrthographicSize;
 
     }
 
@@ -67,7 +68,12 @@ public class BossManager : MonoBehaviour
         // 2. Setup Visual
         if (bossSpriteRenderer != null && currentBossData.bossSprite != null)
         {
-            bossSpriteRenderer.sprite = currentBossData.bossSprite;
+            bossSpriteRenderer.flipX = currentBossData.flipXAnimator;
+        }
+
+        if (bossAnimator!= null)
+        {
+            bossAnimator.runtimeAnimatorController = currentBossData.bossAnimation;
         }
 
         bossVisualTransform.gameObject.SetActive(true);
@@ -80,12 +86,12 @@ public class BossManager : MonoBehaviour
     private void EnterBossSequence()
     {
         currentViewportPos = new Vector3(0.5f, 1.5f, 0f);
-        DOTween.To(() => currentViewportPos, x => currentViewportPos = x, new Vector3(0.5f, 0.75f, 0f), 2f)
+        DOTween.To(() => currentViewportPos, x => currentViewportPos = x, new Vector3(0.75f, 0.5f, 0f), 2f)
             .SetEase(Ease.OutBack)
             .OnComplete(() =>
             {
                 isFighting = true;
-                StartBossIdleMotion();
+                //StartBossIdleMotion();
                 StartCoroutine(CombatLoop());
             });
     }

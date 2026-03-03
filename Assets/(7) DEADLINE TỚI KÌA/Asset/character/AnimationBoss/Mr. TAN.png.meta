@@ -1,0 +1,922 @@
+fileFormatVersion: 2
+guid: 6427683d5b47e9c4cbf07ff40b8e614c
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 6405312078064323135
+    second: Mr. TAN_0
+  - first:
+      213: 665290057062280566
+    second: Mr. TAN_1
+  - first:
+      213: 2563123310954129045
+    second: Mr. TAN_2
+  - first:
+      213: -2444301807345358894
+    second: Mr. TAN_3
+  - first:
+      213: 8105749511400790859
+    second: Mr. TAN_4
+  - first:
+      213: 4948113684632860041
+    second: Mr. TAN_5
+  - first:
+      213: 505905651245984324
+    second: Mr. TAN_6
+  - first:
+      213: 8243063450030182337
+    second: Mr. TAN_7
+  - first:
+      213: 5770189378845794198
+    second: Mr. TAN_8
+  - first:
+      213: 1722484733581868571
+    second: Mr. TAN_9
+  - first:
+      213: 1240941565789185583
+    second: Mr. TAN_10
+  - first:
+      213: -815310984773844951
+    second: Mr. TAN_11
+  - first:
+      213: 4132240427832369105
+    second: Mr. TAN_12
+  - first:
+      213: 5890717641735108200
+    second: Mr. TAN_13
+  - first:
+      213: 8522527293493834144
+    second: Mr. TAN_14
+  - first:
+      213: -3534638010390115842
+    second: Mr. TAN_15
+  - first:
+      213: -929012406967799815
+    second: Mr. TAN_16
+  - first:
+      213: -3388472265802216150
+    second: Mr. TAN_17
+  - first:
+      213: -8404968622758848061
+    second: Mr. TAN_18
+  - first:
+      213: 5683020486278138628
+    second: Mr. TAN_19
+  - first:
+      213: -3777090482709874639
+    second: Mr. TAN_20
+  - first:
+      213: 1301218571949054292
+    second: Mr. TAN_21
+  - first:
+      213: 3664014663785394162
+    second: Mr. TAN_22
+  - first:
+      213: 7118696538142379698
+    second: Mr. TAN_23
+  - first:
+      213: -4814300820979931178
+    second: Mr. TAN_24
+  - first:
+      213: 7719814882369781925
+    second: Mr. TAN_25
+  - first:
+      213: 2505180638340287704
+    second: Mr. TAN_26
+  - first:
+      213: -3108967853427060494
+    second: Mr. TAN_27
+  - first:
+      213: 5051164658723422923
+    second: Mr. TAN_28
+  - first:
+      213: 7394317527651163039
+    second: Mr. TAN_29
+  - first:
+      213: -2827698004272833475
+    second: Mr. TAN_30
+  - first:
+      213: 2534704120884500438
+    second: Mr. TAN_31
+  - first:
+      213: -715835190602963183
+    second: Mr. TAN_32
+  - first:
+      213: 6334127261404413722
+    second: Mr. TAN_33
+  - first:
+      213: 7854784209087486064
+    second: Mr. TAN_34
+  - first:
+      213: -5484356821929610492
+    second: Mr. TAN_35
+  - first:
+      213: 3654677896418684229
+    second: Mr. TAN_36
+  - first:
+      213: 7257888972978346994
+    second: Mr. TAN_37
+  - first:
+      213: 4945427321992202392
+    second: Mr. TAN_38
+  - first:
+      213: 250373023086586677
+    second: Mr. TAN_39
+  - first:
+      213: 4678920621672640883
+    second: Mr. TAN_40
+  - first:
+      213: -4393811856633191833
+    second: Mr. TAN_41
+  - first:
+      213: -7385244152854751661
+    second: Mr. TAN_42
+  - first:
+      213: 3713503774910924407
+    second: Mr. TAN_43
+  - first:
+      213: -1143594522183672012
+    second: Mr. TAN_44
+  - first:
+      213: 2770276050501252772
+    second: Mr. TAN_45
+  - first:
+      213: -5120840164012235348
+    second: Mr. TAN_46
+  - first:
+      213: 6447282620848659216
+    second: Mr. TAN_47
+  - first:
+      213: 2005873607815996959
+    second: Mr. TAN_48
+  - first:
+      213: 4686323486173999091
+    second: Mr. TAN_49
+  - first:
+      213: -2660653897548859192
+    second: Mr. TAN_50
+  - first:
+      213: 1317338318268611487
+    second: Mr. TAN_51
+  - first:
+      213: -7778602839263197400
+    second: Mr. TAN_52
+  - first:
+      213: -4953314547080634166
+    second: Mr. TAN_53
+  - first:
+      213: -4850766378658539256
+    second: Mr. TAN_54
+  - first:
+      213: -5873620207999526849
+    second: Mr. TAN_55
+  - first:
+      213: -3960797138126047053
+    second: Mr. TAN_56
+  - first:
+      213: 7543736485589213187
+    second: Mr. TAN_57
+  - first:
+      213: -3957025650523552809
+    second: Mr. TAN_58
+  - first:
+      213: 7659363191169573608
+    second: Mr. TAN_59
+  - first:
+      213: -1536023963131520410
+    second: Mr. TAN_60
+  - first:
+      213: 3236405624744547065
+    second: Mr. TAN_61
+  - first:
+      213: 3442632588394794368
+    second: Mr. TAN_62
+  - first:
+      213: -8567147384612851842
+    second: Mr. TAN_63
+  - first:
+      213: 2206374693174637748
+    second: Mr. TAN_64
+  - first:
+      213: 2478449879603720911
+    second: Mr. TAN_65
+  - first:
+      213: 5171454618563582490
+    second: Mr. TAN_66
+  - first:
+      213: -3997675018607738895
+    second: Mr. TAN_67
+  - first:
+      213: 8404239780073987800
+    second: Mr. TAN_68
+  - first:
+      213: 7185166457034820883
+    second: Mr. TAN_69
+  - first:
+      213: 2361032808759795045
+    second: Mr. TAN_70
+  - first:
+      213: 1127352247220405597
+    second: Mr. TAN_71
+  - first:
+      213: 4195643180552453102
+    second: Mr. TAN_72
+  - first:
+      213: 6578810051217322245
+    second: Mr. TAN_73
+  - first:
+      213: 4702342700208197470
+    second: Mr. TAN_74
+  - first:
+      213: -2378006781887959898
+    second: Mr. TAN_75
+  - first:
+      213: 6891474119186948225
+    second: Mr. TAN_76
+  - first:
+      213: 6655721753474846202
+    second: Mr. TAN_77
+  - first:
+      213: -476724951976576186
+    second: Mr. TAN_78
+  - first:
+      213: 3991641874718765116
+    second: Mr. TAN_79
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Mr. TAN_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 8008
+        width: 2002
+        height: 2002
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f3a0b80f56d34e850800000000000000
+      internalID: 6405312078064323135
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr. TAN_1
+      rect:
+        serializedVersion: 2
+        x: 2002
+        y: 8008
+        width: 2002
+        height: 2002
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 67debc338c59b3900800000000000000
+      internalID: 665290057062280566
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr. TAN_2
+      rect:
+        serializedVersion: 2
+        x: 4004
+        y: 8008
+        width: 2002
+        height: 2002
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 596a1f0421b029320800000000000000
+      internalID: 2563123310954129045
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr. TAN_3
+      rect:
+        serializedVersion: 2
+        x: 6006
+        y: 8008
+        width: 2002
+        height: 2002
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2d7a559e478141ed0800000000000000
+      internalID: -2444301807345358894
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr. TAN_4
+      rect:
+        serializedVersion: 2
+        x: 8008
+        y: 8008
+        width: 2002
+        height: 2002
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b4b17590c386d7070800000000000000
+      internalID: 8105749511400790859
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr. TAN_5
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 6006
+        width: 2002
+        height: 2002
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9857ac01e2b3ba440800000000000000
+      internalID: 4948113684632860041
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr. TAN_6
+      rect:
+        serializedVersion: 2
+        x: 2002
+        y: 6006
+        width: 2002
+        height: 2002
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 44a21686286550700800000000000000
+      internalID: 505905651245984324
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr. TAN_7
+      rect:
+        serializedVersion: 2
+        x: 4004
+        y: 6006
+        width: 2002
+        height: 2002
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1cf0e00c88e356270800000000000000
+      internalID: 8243063450030182337
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr. TAN_8
+      rect:
+        serializedVersion: 2
+        x: 6006
+        y: 6006
+        width: 2002
+        height: 2002
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 69fd5d41ba4d31050800000000000000
+      internalID: 5770189378845794198
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr. TAN_9
+      rect:
+        serializedVersion: 2
+        x: 8008
+        y: 6006
+        width: 2002
+        height: 2002
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b1e3e243dbe77e710800000000000000
+      internalID: 1722484733581868571
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr. TAN_10
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 4004
+        width: 2002
+        height: 2002
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f26a1ef77c5b83110800000000000000
+      internalID: 1240941565789185583
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr. TAN_11
+      rect:
+        serializedVersion: 2
+        x: 2002
+        y: 4004
+        width: 2002
+        height: 2002
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 920c413aafe6fa4f0800000000000000
+      internalID: -815310984773844951
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr. TAN_12
+      rect:
+        serializedVersion: 2
+        x: 4004
+        y: 4004
+        width: 2002
+        height: 2002
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1dfd47b86caa85930800000000000000
+      internalID: 4132240427832369105
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr. TAN_13
+      rect:
+        serializedVersion: 2
+        x: 6006
+        y: 4004
+        width: 2002
+        height: 2002
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8667fbb1c7800c150800000000000000
+      internalID: 5890717641735108200
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr. TAN_14
+      rect:
+        serializedVersion: 2
+        x: 8008
+        y: 4004
+        width: 2002
+        height: 2002
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0a1754d4b69164670800000000000000
+      internalID: 8522527293493834144
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr. TAN_15
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 2002
+        width: 2002
+        height: 2002
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ef98a15f47172fec0800000000000000
+      internalID: -3534638010390115842
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr. TAN_16
+      rect:
+        serializedVersion: 2
+        x: 2002
+        y: 2002
+        width: 2002
+        height: 2002
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9ffe0c2532c7b13f0800000000000000
+      internalID: -929012406967799815
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr. TAN_17
+      rect:
+        serializedVersion: 2
+        x: 4004
+        y: 2002
+        width: 2002
+        height: 2002
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a2d88995d6ab9f0d0800000000000000
+      internalID: -3388472265802216150
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr. TAN_18
+      rect:
+        serializedVersion: 2
+        x: 6006
+        y: 2002
+        width: 2002
+        height: 2002
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3c9972ca19d8b5b80800000000000000
+      internalID: -8404968622758848061
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr. TAN_19
+      rect:
+        serializedVersion: 2
+        x: 8008
+        y: 2002
+        width: 2002
+        height: 2002
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 40b40e7b5052ede40800000000000000
+      internalID: 5683020486278138628
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr. TAN_20
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 2002
+        height: 2002
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 138b195c734159bc0800000000000000
+      internalID: -3777090482709874639
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr. TAN_21
+      rect:
+        serializedVersion: 2
+        x: 2002
+        y: 0
+        width: 2002
+        height: 2002
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4591a24a56bde0210800000000000000
+      internalID: 1301218571949054292
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr. TAN_22
+      rect:
+        serializedVersion: 2
+        x: 4004
+        y: 0
+        width: 2002
+        height: 2002
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2ff20c68ce139d230800000000000000
+      internalID: 3664014663785394162
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr. TAN_23
+      rect:
+        serializedVersion: 2
+        x: 6006
+        y: 0
+        width: 2002
+        height: 2002
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2be87c3f8c0bac260800000000000000
+      internalID: 7118696538142379698
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 50f691eb550e760479e1153515eee83e
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Mr. TAN_0: 6405312078064323135
+      Mr. TAN_1: 665290057062280566
+      Mr. TAN_10: 1240941565789185583
+      Mr. TAN_11: -815310984773844951
+      Mr. TAN_12: 4132240427832369105
+      Mr. TAN_13: 5890717641735108200
+      Mr. TAN_14: 8522527293493834144
+      Mr. TAN_15: -3534638010390115842
+      Mr. TAN_16: -929012406967799815
+      Mr. TAN_17: -3388472265802216150
+      Mr. TAN_18: -8404968622758848061
+      Mr. TAN_19: 5683020486278138628
+      Mr. TAN_2: 2563123310954129045
+      Mr. TAN_20: -3777090482709874639
+      Mr. TAN_21: 1301218571949054292
+      Mr. TAN_22: 3664014663785394162
+      Mr. TAN_23: 7118696538142379698
+      Mr. TAN_3: -2444301807345358894
+      Mr. TAN_4: 8105749511400790859
+      Mr. TAN_5: 4948113684632860041
+      Mr. TAN_6: 505905651245984324
+      Mr. TAN_7: 8243063450030182337
+      Mr. TAN_8: 5770189378845794198
+      Mr. TAN_9: 1722484733581868571
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -1,0 +1,970 @@
+fileFormatVersion: 2
+guid: e5ea8416f1a3c054a9833bb91c89c069
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -4715714106661617732
+    second: Ms. TRINH_0
+  - first:
+      213: 2013549095857449389
+    second: Ms. TRINH_1
+  - first:
+      213: 377257894025164417
+    second: Ms. TRINH_2
+  - first:
+      213: -1059534207248497599
+    second: Ms. TRINH_3
+  - first:
+      213: 4981293029916854981
+    second: Ms. TRINH_4
+  - first:
+      213: -8835868099088663407
+    second: Ms. TRINH_5
+  - first:
+      213: -3553362664915094689
+    second: Ms. TRINH_6
+  - first:
+      213: 6881783599558668766
+    second: Ms. TRINH_7
+  - first:
+      213: 6176953055178695093
+    second: Ms. TRINH_8
+  - first:
+      213: -5614623911292916896
+    second: Ms. TRINH_9
+  - first:
+      213: 2138431665979995849
+    second: Ms. TRINH_10
+  - first:
+      213: -2580958803947870465
+    second: Ms. TRINH_11
+  - first:
+      213: -5542724736520343228
+    second: Ms. TRINH_12
+  - first:
+      213: 5697068719813027569
+    second: Ms. TRINH_13
+  - first:
+      213: -1364491993230191204
+    second: Ms. TRINH_14
+  - first:
+      213: -5462927957373659561
+    second: Ms. TRINH_15
+  - first:
+      213: 7663712263100592521
+    second: Ms. TRINH_16
+  - first:
+      213: -4505993240135302233
+    second: Ms. TRINH_17
+  - first:
+      213: -1334023877152169816
+    second: Ms. TRINH_18
+  - first:
+      213: -2273320762844108590
+    second: Ms. TRINH_19
+  - first:
+      213: 449506863443649259
+    second: Ms. TRINH_20
+  - first:
+      213: -8724096127207935463
+    second: Ms. TRINH_21
+  - first:
+      213: 8839871405180633936
+    second: Ms. TRINH_22
+  - first:
+      213: -293013374237102290
+    second: Ms. TRINH_23
+  - first:
+      213: -4213341920805599282
+    second: Ms. TRINH_24
+  - first:
+      213: 1970753287690846232
+    second: Ms. TRINH_25
+  - first:
+      213: 8073375268610887695
+    second: Ms. TRINH_26
+  - first:
+      213: -4778359559423621044
+    second: Ms. TRINH_27
+  - first:
+      213: -7728329007896592577
+    second: Ms. TRINH_28
+  - first:
+      213: 8021004417989860844
+    second: Ms. TRINH_29
+  - first:
+      213: 7847187763459488844
+    second: Ms. TRINH_30
+  - first:
+      213: -2580585970908902768
+    second: Ms. TRINH_31
+  - first:
+      213: -1841801455182106765
+    second: Ms. TRINH_32
+  - first:
+      213: -6461059872817046863
+    second: Ms. TRINH_33
+  - first:
+      213: -4814177712801204366
+    second: Ms. TRINH_34
+  - first:
+      213: -7433612963933128441
+    second: Ms. TRINH_35
+  - first:
+      213: 7940972266657349101
+    second: Ms. TRINH_36
+  - first:
+      213: -7905320966934975438
+    second: Ms. TRINH_37
+  - first:
+      213: 3540764792393555703
+    second: Ms. TRINH_38
+  - first:
+      213: 5590564525325945515
+    second: Ms. TRINH_39
+  - first:
+      213: 2595886121950413352
+    second: Ms. TRINH_40
+  - first:
+      213: -6295313991102992619
+    second: Ms. TRINH_41
+  - first:
+      213: -7083180927772723151
+    second: Ms. TRINH_42
+  - first:
+      213: 5381159052076182662
+    second: Ms. TRINH_43
+  - first:
+      213: 7692246332425605481
+    second: Ms. TRINH_44
+  - first:
+      213: 4748136578653468423
+    second: Ms. TRINH_45
+  - first:
+      213: -6760251595450551529
+    second: Ms. TRINH_46
+  - first:
+      213: -4069983120895434116
+    second: Ms. TRINH_47
+  - first:
+      213: 7572940128980751708
+    second: Ms. TRINH_48
+  - first:
+      213: -6959695712300622952
+    second: Ms. TRINH_49
+  - first:
+      213: -6362672068462301917
+    second: Ms. TRINH_50
+  - first:
+      213: -8280336466410952442
+    second: Ms. TRINH_51
+  - first:
+      213: 2590640978807933790
+    second: Ms. TRINH_52
+  - first:
+      213: 4140735444341329054
+    second: Ms. TRINH_53
+  - first:
+      213: -2432003036790592926
+    second: Ms. TRINH_54
+  - first:
+      213: 3132311544306559467
+    second: Ms. TRINH_55
+  - first:
+      213: 7887286213929362714
+    second: Ms. TRINH_56
+  - first:
+      213: 6944401613115535267
+    second: Ms. TRINH_57
+  - first:
+      213: -7599916470922718115
+    second: Ms. TRINH_58
+  - first:
+      213: 4915570850245501500
+    second: Ms. TRINH_59
+  - first:
+      213: -6048384830707242575
+    second: Ms. TRINH_60
+  - first:
+      213: 6036882433526664853
+    second: Ms. TRINH_61
+  - first:
+      213: 5463702719119614881
+    second: Ms. TRINH_62
+  - first:
+      213: 1180963246040256857
+    second: Ms. TRINH_63
+  - first:
+      213: -2812579849824809016
+    second: Ms. TRINH_64
+  - first:
+      213: 9009728619564083842
+    second: Ms. TRINH_65
+  - first:
+      213: 917156795299910797
+    second: Ms. TRINH_66
+  - first:
+      213: 3587154139588574608
+    second: Ms. TRINH_67
+  - first:
+      213: 7377177739483690290
+    second: Ms. TRINH_68
+  - first:
+      213: -6385722868972178203
+    second: Ms. TRINH_69
+  - first:
+      213: -2426805066292396108
+    second: Ms. TRINH_70
+  - first:
+      213: 5927650433895585234
+    second: Ms. TRINH_71
+  - first:
+      213: -5979796416952928508
+    second: Ms. TRINH_72
+  - first:
+      213: -8635540880485587600
+    second: Ms. TRINH_73
+  - first:
+      213: -7622006409965793399
+    second: Ms. TRINH_74
+  - first:
+      213: 4777922489256534720
+    second: Ms. TRINH_75
+  - first:
+      213: 3247581279810149390
+    second: Ms. TRINH_76
+  - first:
+      213: 3641227391261685426
+    second: Ms. TRINH_77
+  - first:
+      213: -492136320670514388
+    second: Ms. TRINH_78
+  - first:
+      213: 4199314034264799840
+    second: Ms. TRINH_79
+  - first:
+      213: 4977406237154230277
+    second: Ms. TRINH_80
+  - first:
+      213: -2498464612495102328
+    second: Ms. TRINH_81
+  - first:
+      213: -572688534511461999
+    second: Ms. TRINH_82
+  - first:
+      213: -6752023179663558248
+    second: Ms. TRINH_83
+  - first:
+      213: 5601750716929381233
+    second: Ms. TRINH_84
+  - first:
+      213: -7488411288714650809
+    second: Ms. TRINH_85
+  - first:
+      213: -8003883847963472357
+    second: Ms. TRINH_86
+  - first:
+      213: -6666010678924388889
+    second: Ms. TRINH_87
+  - first:
+      213: 7636442072195195326
+    second: Ms. TRINH_88
+  - first:
+      213: 2016030272392150809
+    second: Ms. TRINH_89
+  - first:
+      213: -727590896990080997
+    second: Ms. TRINH_90
+  - first:
+      213: 5826202232271296302
+    second: Ms. TRINH_91
+  - first:
+      213: 2934045752383710124
+    second: Ms. TRINH_92
+  - first:
+      213: -2258923502642832002
+    second: Ms. TRINH_93
+  - first:
+      213: 5604843368489855712
+    second: Ms. TRINH_94
+  - first:
+      213: -1665147860628706029
+    second: Ms. TRINH_95
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Ms. TRINH_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 8008
+        width: 2002
+        height: 2002
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cbfb222410b6e8eb0800000000000000
+      internalID: -4715714106661617732
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ms. TRINH_1
+      rect:
+        serializedVersion: 2
+        x: 2002
+        y: 8008
+        width: 2002
+        height: 2002
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: da964640c3091fb10800000000000000
+      internalID: 2013549095857449389
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ms. TRINH_2
+      rect:
+        serializedVersion: 2
+        x: 4004
+        y: 8008
+        width: 2002
+        height: 2002
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 186f41a4e0a4c3500800000000000000
+      internalID: 377257894025164417
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ms. TRINH_3
+      rect:
+        serializedVersion: 2
+        x: 6006
+        y: 8008
+        width: 2002
+        height: 2002
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 144049d8047cb41f0800000000000000
+      internalID: -1059534207248497599
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ms. TRINH_4
+      rect:
+        serializedVersion: 2
+        x: 8008
+        y: 8008
+        width: 2002
+        height: 2002
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5cac2526e9b112540800000000000000
+      internalID: 4981293029916854981
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ms. TRINH_5
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 6006
+        width: 2002
+        height: 2002
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 19c3d9f37c0b06580800000000000000
+      internalID: -8835868099088663407
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ms. TRINH_6
+      rect:
+        serializedVersion: 2
+        x: 2002
+        y: 6006
+        width: 2002
+        height: 2002
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f53b9979b7befaec0800000000000000
+      internalID: -3553362664915094689
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ms. TRINH_7
+      rect:
+        serializedVersion: 2
+        x: 4004
+        y: 6006
+        width: 2002
+        height: 2002
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ed1bdc8f8b1018f50800000000000000
+      internalID: 6881783599558668766
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ms. TRINH_8
+      rect:
+        serializedVersion: 2
+        x: 6006
+        y: 6006
+        width: 2002
+        height: 2002
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5b1a038a312f8b550800000000000000
+      internalID: 6176953055178695093
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ms. TRINH_9
+      rect:
+        serializedVersion: 2
+        x: 8008
+        y: 6006
+        width: 2002
+        height: 2002
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 06ba8fbdc49d412b0800000000000000
+      internalID: -5614623911292916896
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ms. TRINH_10
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 4004
+        width: 2002
+        height: 2002
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9c63f23354c3dad10800000000000000
+      internalID: 2138431665979995849
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ms. TRINH_11
+      rect:
+        serializedVersion: 2
+        x: 2002
+        y: 4004
+        width: 2002
+        height: 2002
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ff625ce64a79e2cd0800000000000000
+      internalID: -2580958803947870465
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ms. TRINH_12
+      rect:
+        serializedVersion: 2
+        x: 4004
+        y: 4004
+        width: 2002
+        height: 2002
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4413feff7394413b0800000000000000
+      internalID: -5542724736520343228
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ms. TRINH_13
+      rect:
+        serializedVersion: 2
+        x: 6006
+        y: 4004
+        width: 2002
+        height: 2002
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1f6e179f0dd001f40800000000000000
+      internalID: 5697068719813027569
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ms. TRINH_14
+      rect:
+        serializedVersion: 2
+        x: 8008
+        y: 4004
+        width: 2002
+        height: 2002
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c9556a4f2c9501de0800000000000000
+      internalID: -1364491993230191204
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ms. TRINH_15
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 2002
+        width: 2002
+        height: 2002
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 756513377f7cf24b0800000000000000
+      internalID: -5462927957373659561
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ms. TRINH_16
+      rect:
+        serializedVersion: 2
+        x: 2002
+        y: 2002
+        width: 2002
+        height: 2002
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9817aeef2b9fa5a60800000000000000
+      internalID: 7663712263100592521
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ms. TRINH_17
+      rect:
+        serializedVersion: 2
+        x: 4004
+        y: 2002
+        width: 2002
+        height: 2002
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7a38c69950f7771c0800000000000000
+      internalID: -4505993240135302233
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ms. TRINH_18
+      rect:
+        serializedVersion: 2
+        x: 6006
+        y: 2002
+        width: 2002
+        height: 2002
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8a0a4780a589c7de0800000000000000
+      internalID: -1334023877152169816
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ms. TRINH_19
+      rect:
+        serializedVersion: 2
+        x: 8008
+        y: 2002
+        width: 2002
+        height: 2002
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2d8282e8fca8370e0800000000000000
+      internalID: -2273320762844108590
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ms. TRINH_20
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 2002
+        height: 2002
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: be2a8a75c18fc3600800000000000000
+      internalID: 449506863443649259
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ms. TRINH_21
+      rect:
+        serializedVersion: 2
+        x: 2002
+        y: 0
+        width: 2002
+        height: 2002
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 912f8676bc8cde680800000000000000
+      internalID: -8724096127207935463
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ms. TRINH_22
+      rect:
+        serializedVersion: 2
+        x: 4004
+        y: 0
+        width: 2002
+        height: 2002
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 053cce515388daa70800000000000000
+      internalID: 8839871405180633936
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ms. TRINH_23
+      rect:
+        serializedVersion: 2
+        x: 6006
+        y: 0
+        width: 2002
+        height: 2002
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e2fa82a73e10febf0800000000000000
+      internalID: -293013374237102290
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 85f42f506e2a31b4090359f014cf2a3b
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Ms. TRINH_0: -4715714106661617732
+      Ms. TRINH_1: 2013549095857449389
+      Ms. TRINH_10: 2138431665979995849
+      Ms. TRINH_11: -2580958803947870465
+      Ms. TRINH_12: -5542724736520343228
+      Ms. TRINH_13: 5697068719813027569
+      Ms. TRINH_14: -1364491993230191204
+      Ms. TRINH_15: -5462927957373659561
+      Ms. TRINH_16: 7663712263100592521
+      Ms. TRINH_17: -4505993240135302233
+      Ms. TRINH_18: -1334023877152169816
+      Ms. TRINH_19: -2273320762844108590
+      Ms. TRINH_2: 377257894025164417
+      Ms. TRINH_20: 449506863443649259
+      Ms. TRINH_21: -8724096127207935463
+      Ms. TRINH_22: 8839871405180633936
+      Ms. TRINH_23: -293013374237102290
+      Ms. TRINH_3: -1059534207248497599
+      Ms. TRINH_4: 4981293029916854981
+      Ms. TRINH_5: -8835868099088663407
+      Ms. TRINH_6: -3553362664915094689
+      Ms. TRINH_7: 6881783599558668766
+      Ms. TRINH_8: 6176953055178695093
+      Ms. TRINH_9: -5614623911292916896
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

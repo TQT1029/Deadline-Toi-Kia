@@ -1,0 +1,529 @@
+fileFormatVersion: 2
+guid: cbe1a91118d4c734096e2b60bc8f63a9
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -9060839077166104383
+    second: Ms. KHANH_0
+  - first:
+      213: 2964958292500544226
+    second: Ms. KHANH_1
+  - first:
+      213: -8950470253180318111
+    second: Ms. KHANH_2
+  - first:
+      213: -737925166548528825
+    second: Ms. KHANH_3
+  - first:
+      213: -5212788302987118683
+    second: Ms. KHANH_4
+  - first:
+      213: 854434384382444085
+    second: Ms. KHANH_5
+  - first:
+      213: 3622622144251561612
+    second: Ms. KHANH_6
+  - first:
+      213: -2991790175519839163
+    second: Ms. KHANH_7
+  - first:
+      213: -4714018549593858977
+    second: Ms. KHANH_8
+  - first:
+      213: -6270295758841691127
+    second: Ms. KHANH_9
+  - first:
+      213: -9060194606941593823
+    second: Ms. KHANH_10
+  - first:
+      213: 8468405246063741023
+    second: Ms. KHANH_11
+  - first:
+      213: 9110636442314335656
+    second: Ms. KHANH_12
+  - first:
+      213: -348895478369441623
+    second: Ms. KHANH_13
+  - first:
+      213: 5266760662688586330
+    second: Ms. KHANH_14
+  - first:
+      213: 901247695367125319
+    second: Ms. KHANH_15
+  - first:
+      213: 3958381229396125946
+    second: Ms. KHANH_16
+  - first:
+      213: 4570716658289655184
+    second: Ms. KHANH_17
+  - first:
+      213: 1622586095765539965
+    second: Ms. KHANH_18
+  - first:
+      213: 3270023283777359481
+    second: Ms. KHANH_19
+  - first:
+      213: 1992371485086972460
+    second: Ms. KHANH_20
+  - first:
+      213: 9116052349616453116
+    second: Ms. KHANH_21
+  - first:
+      213: -6755371366536953578
+    second: Ms. KHANH_22
+  - first:
+      213: 3613664368991828975
+    second: Ms. KHANH_23
+  - first:
+      213: 8382405267830011330
+    second: Ms. KHANH_24
+  - first:
+      213: 6449057967045460260
+    second: Ms. KHANH_25
+  - first:
+      213: -3780941704933479694
+    second: Ms. KHANH_26
+  - first:
+      213: -165952710943621183
+    second: Ms. KHANH_27
+  - first:
+      213: 8473351246769572258
+    second: Ms. KHANH_28
+  - first:
+      213: 2527497938157009784
+    second: Ms. KHANH_29
+  - first:
+      213: 2462790363105417314
+    second: Ms. KHANH_30
+  - first:
+      213: -2576278191615379066
+    second: Ms. KHANH_31
+  - first:
+      213: -5799037868122465111
+    second: Ms. KHANH_32
+  - first:
+      213: 7796029265478036505
+    second: Ms. KHANH_33
+  - first:
+      213: 7684488078183944223
+    second: Ms. KHANH_34
+  - first:
+      213: -8452693637373669481
+    second: Ms. KHANH_35
+  - first:
+      213: -6752881365462212689
+    second: Ms. KHANH_36
+  - first:
+      213: 7456509488013605787
+    second: Ms. KHANH_37
+  - first:
+      213: 4445130953260205509
+    second: Ms. KHANH_38
+  - first:
+      213: 2859916095714765567
+    second: Ms. KHANH_39
+  - first:
+      213: -2707201307129005919
+    second: Ms. KHANH_40
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Ms. KHANH_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 4004
+        width: 2002
+        height: 2002
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1c0498e9dde614280800000000000000
+      internalID: -9060839077166104383
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ms. KHANH_1
+      rect:
+        serializedVersion: 2
+        x: 2002
+        y: 4004
+        width: 2002
+        height: 2002
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2eaf756abd5a52920800000000000000
+      internalID: 2964958292500544226
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ms. KHANH_2
+      rect:
+        serializedVersion: 2
+        x: 4004
+        y: 4004
+        width: 2002
+        height: 2002
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 16e8c72f9ba89c380800000000000000
+      internalID: -8950470253180318111
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ms. KHANH_3
+      rect:
+        serializedVersion: 2
+        x: 6006
+        y: 4004
+        width: 2002
+        height: 2002
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 741dd0188fc52c5f0800000000000000
+      internalID: -737925166548528825
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ms. KHANH_4
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 2002
+        width: 2002
+        height: 2002
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5a7342f28a478a7b0800000000000000
+      internalID: -5212788302987118683
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ms. KHANH_5
+      rect:
+        serializedVersion: 2
+        x: 2002
+        y: 2002
+        width: 2002
+        height: 2002
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 532cefcab8f8bdb00800000000000000
+      internalID: 854434384382444085
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ms. KHANH_6
+      rect:
+        serializedVersion: 2
+        x: 4004
+        y: 2002
+        width: 2002
+        height: 2002
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c86049f85a3264230800000000000000
+      internalID: 3622622144251561612
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ms. KHANH_7
+      rect:
+        serializedVersion: 2
+        x: 6006
+        y: 2002
+        width: 2002
+        height: 2002
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 54ce2a1cfa60b76d0800000000000000
+      internalID: -2991790175519839163
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ms. KHANH_8
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 2002
+        height: 2002
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f5c1bd6ea11749eb0800000000000000
+      internalID: -4714018549593858977
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ms. KHANH_9
+      rect:
+        serializedVersion: 2
+        x: 2002
+        y: 0
+        width: 2002
+        height: 2002
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9044a919a3f6bf8a0800000000000000
+      internalID: -6270295758841691127
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ms. KHANH_10
+      rect:
+        serializedVersion: 2
+        x: 4004
+        y: 0
+        width: 2002
+        height: 2002
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 12f16590209b34280800000000000000
+      internalID: -9060194606941593823
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ms. KHANH_11
+      rect:
+        serializedVersion: 2
+        x: 6006
+        y: 0
+        width: 2002
+        height: 2002
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f580fa924b1d58570800000000000000
+      internalID: 8468405246063741023
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 82ca656faf67f454d8b5ae6140054b5e
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Ms. KHANH_0: -9060839077166104383
+      Ms. KHANH_1: 2964958292500544226
+      Ms. KHANH_10: -9060194606941593823
+      Ms. KHANH_11: 8468405246063741023
+      Ms. KHANH_2: -8950470253180318111
+      Ms. KHANH_3: -737925166548528825
+      Ms. KHANH_4: -5212788302987118683
+      Ms. KHANH_5: 854434384382444085
+      Ms. KHANH_6: 3622622144251561612
+      Ms. KHANH_7: -2991790175519839163
+      Ms. KHANH_8: -4714018549593858977
+      Ms. KHANH_9: -6270295758841691127
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

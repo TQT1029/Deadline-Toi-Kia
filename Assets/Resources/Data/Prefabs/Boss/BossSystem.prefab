@@ -49,6 +49,7 @@ MonoBehaviour:
   obstacleController: {fileID: 5494532552304183894}
   bossVisualTransform: {fileID: 1884405085493526601}
   bossSpriteRenderer: {fileID: 6346785049893544867}
+  bossAnimator: {fileID: 4549971991487660846}
   vCam: {fileID: 0}
   allBosses:
   - {fileID: 11400000, guid: a4e2733d49b02b94f8a821fef9ef13eb, type: 2}
@@ -68,6 +69,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1884405085493526601}
   - component: {fileID: 6346785049893544867}
+  - component: {fileID: 4549971991487660846}
   m_Layer: 0
   m_Name: Boss
   m_TagString: Untagged
@@ -85,7 +87,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 5945759347719127087}
@@ -145,6 +147,28 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!95 &4549971991487660846
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3238123525324062108}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 2bfee37d8ad866f449abbaaff716ee63, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &6687186540907293833
 GameObject:
   m_ObjectHideFlags: 0

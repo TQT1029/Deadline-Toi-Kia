@@ -1,0 +1,640 @@
+fileFormatVersion: 2
+guid: 4c8197228a3af314aa5832fff660388e
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 6309872934937388488
+    second: Mr. MAU_0
+  - first:
+      213: 6942078088216328636
+    second: Mr. MAU_1
+  - first:
+      213: 3731666868774711669
+    second: Mr. MAU_2
+  - first:
+      213: -3957751637380704720
+    second: Mr. MAU_3
+  - first:
+      213: -3574796088850219769
+    second: Mr. MAU_4
+  - first:
+      213: 6766421333275339802
+    second: Mr. MAU_5
+  - first:
+      213: 7807229699747390882
+    second: Mr. MAU_6
+  - first:
+      213: 5581780384905801062
+    second: Mr. MAU_7
+  - first:
+      213: -5264784654061937486
+    second: Mr. MAU_8
+  - first:
+      213: -1839100819986928176
+    second: Mr. MAU_9
+  - first:
+      213: -6935000687943344232
+    second: Mr. MAU_10
+  - first:
+      213: -207589409143267056
+    second: Mr. MAU_11
+  - first:
+      213: 9079877156842752404
+    second: Mr. MAU_12
+  - first:
+      213: 342123498895441006
+    second: Mr. MAU_13
+  - first:
+      213: 3342151256316862096
+    second: Mr. MAU_14
+  - first:
+      213: -5303149480891972473
+    second: Mr. MAU_15
+  - first:
+      213: -6970901834398275308
+    second: Mr. MAU_16
+  - first:
+      213: 1292182063762401250
+    second: Mr. MAU_17
+  - first:
+      213: 3770841665624535177
+    second: Mr. MAU_18
+  - first:
+      213: -7660421396646093829
+    second: Mr. MAU_19
+  - first:
+      213: 2324106742322026986
+    second: Mr. MAU_20
+  - first:
+      213: -8622219496483435357
+    second: Mr. MAU_21
+  - first:
+      213: -4956593551105815098
+    second: Mr. MAU_22
+  - first:
+      213: -1929066961836132550
+    second: Mr. MAU_23
+  - first:
+      213: 6212097743064479113
+    second: Mr. MAU_24
+  - first:
+      213: 6488487121749934755
+    second: Mr. MAU_25
+  - first:
+      213: -317648348783441573
+    second: Mr. MAU_26
+  - first:
+      213: 5875081900577203082
+    second: Mr. MAU_27
+  - first:
+      213: 1242284925395027904
+    second: Mr. MAU_28
+  - first:
+      213: 7173082318032693593
+    second: Mr. MAU_29
+  - first:
+      213: -144416709374677346
+    second: Mr. MAU_30
+  - first:
+      213: -3765108971413618978
+    second: Mr. MAU_31
+  - first:
+      213: 3417798241830529513
+    second: Mr. MAU_32
+  - first:
+      213: 4925037804345010344
+    second: Mr. MAU_33
+  - first:
+      213: -5743023501779743388
+    second: Mr. MAU_34
+  - first:
+      213: -8816037271936221323
+    second: Mr. MAU_35
+  - first:
+      213: -4254972164152989344
+    second: Mr. MAU_36
+  - first:
+      213: 7159913022802527881
+    second: Mr. MAU_37
+  - first:
+      213: -6683355086733225529
+    second: Mr. MAU_38
+  - first:
+      213: 6941755302264884148
+    second: Mr. MAU_39
+  - first:
+      213: 8355429297020127249
+    second: Mr. MAU_40
+  - first:
+      213: 1142277877944740732
+    second: Mr. MAU_41
+  - first:
+      213: 7896732668453989551
+    second: Mr. MAU_42
+  - first:
+      213: -7798531886028079453
+    second: Mr. MAU_43
+  - first:
+      213: -2980679033730916512
+    second: Mr. MAU_44
+  - first:
+      213: -7796694825766509397
+    second: Mr. MAU_45
+  - first:
+      213: 3123581132985412353
+    second: Mr. MAU_46
+  - first:
+      213: 1992042811488272568
+    second: Mr. MAU_47
+  - first:
+      213: -3921551911438763036
+    second: Mr. MAU_48
+  - first:
+      213: 3840006336787032722
+    second: Mr. MAU_49
+  - first:
+      213: 1855763035743033811
+    second: Mr. MAU_50
+  - first:
+      213: 320822200544600451
+    second: Mr. MAU_51
+  - first:
+      213: -1669137196663756090
+    second: Mr. MAU_52
+  - first:
+      213: 574836076379303072
+    second: Mr. MAU_53
+  - first:
+      213: 2434760941279673453
+    second: Mr. MAU_54
+  - first:
+      213: 3906032357729225372
+    second: Mr. MAU_55
+  - first:
+      213: -1339237142601792798
+    second: Mr. MAU_56
+  - first:
+      213: 5228534957409707826
+    second: Mr. MAU_57
+  - first:
+      213: 7654052145790510800
+    second: Mr. MAU_58
+  - first:
+      213: -3999621327387508303
+    second: Mr. MAU_59
+  - first:
+      213: -5575662226579559435
+    second: Mr. MAU_60
+  - first:
+      213: 5978015690881282047
+    second: Mr. MAU_61
+  - first:
+      213: 9162824561705538605
+    second: Mr. MAU_62
+  - first:
+      213: 8194376875249496852
+    second: Mr. MAU_63
+  - first:
+      213: 6366034166909700145
+    second: Mr. MAU_64
+  - first:
+      213: 6985121490841364140
+    second: Mr. MAU_65
+  - first:
+      213: 4254296145029943700
+    second: Mr. MAU_66
+  - first:
+      213: 1589040308745581268
+    second: Mr. MAU_67
+  - first:
+      213: 4660296818390501327
+    second: Mr. MAU_68
+  - first:
+      213: 5762110803983090454
+    second: Mr. MAU_69
+  - first:
+      213: 5354785463966699734
+    second: Mr. MAU_70
+  - first:
+      213: -5166278343646046218
+    second: Mr. MAU_71
+  - first:
+      213: -8767203823299123772
+    second: Mr. MAU_72
+  - first:
+      213: 5460540851491347621
+    second: Mr. MAU_73
+  - first:
+      213: -5793181512260384500
+    second: Mr. MAU_74
+  - first:
+      213: -9087983562550352267
+    second: Mr. MAU_75
+  - first:
+      213: -1756538944289668458
+    second: Mr. MAU_76
+  - first:
+      213: -4890341368796188017
+    second: Mr. MAU_77
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Mr. MAU_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 4004
+        width: 2002
+        height: 2002
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8c56bc0d00c219750800000000000000
+      internalID: 6309872934937388488
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr. MAU_1
+      rect:
+        serializedVersion: 2
+        x: 2002
+        y: 4004
+        width: 2002
+        height: 2002
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cb938239d37375060800000000000000
+      internalID: 6942078088216328636
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr. MAU_2
+      rect:
+        serializedVersion: 2
+        x: 4004
+        y: 4004
+        width: 2002
+        height: 2002
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5713965fe3b89c330800000000000000
+      internalID: 3731666868774711669
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr. MAU_3
+      rect:
+        serializedVersion: 2
+        x: 6006
+        y: 4004
+        width: 2002
+        height: 2002
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 036d3b8dadd3319c0800000000000000
+      internalID: -3957751637380704720
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr. MAU_4
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 2002
+        width: 2002
+        height: 2002
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 70d70a3b5e5c36ec0800000000000000
+      internalID: -3574796088850219769
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr. MAU_5
+      rect:
+        serializedVersion: 2
+        x: 2002
+        y: 2002
+        width: 2002
+        height: 2002
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a1c60824a5827ed50800000000000000
+      internalID: 6766421333275339802
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr. MAU_6
+      rect:
+        serializedVersion: 2
+        x: 4004
+        y: 2002
+        width: 2002
+        height: 2002
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2a5a2552c0ad85c60800000000000000
+      internalID: 7807229699747390882
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr. MAU_7
+      rect:
+        serializedVersion: 2
+        x: 6006
+        y: 2002
+        width: 2002
+        height: 2002
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 66dad80cfa7767d40800000000000000
+      internalID: 5581780384905801062
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr. MAU_8
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 2002
+        height: 2002
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2bcd5bb404abfe6b0800000000000000
+      internalID: -5264784654061937486
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr. MAU_9
+      rect:
+        serializedVersion: 2
+        x: 2002
+        y: 0
+        width: 2002
+        height: 2002
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0ddac865c833a76e0800000000000000
+      internalID: -1839100819986928176
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr. MAU_10
+      rect:
+        serializedVersion: 2
+        x: 4004
+        y: 0
+        width: 2002
+        height: 2002
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 89f1c061e9de1cf90800000000000000
+      internalID: -6935000687943344232
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mr. MAU_11
+      rect:
+        serializedVersion: 2
+        x: 6006
+        y: 0
+        width: 2002
+        height: 2002
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 011e1e0488e7e1df0800000000000000
+      internalID: -207589409143267056
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 788a511ffa1c4af48b34a34aebfad297
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Mr. MAU_0: 6309872934937388488
+      Mr. MAU_1: 6942078088216328636
+      Mr. MAU_10: -6935000687943344232
+      Mr. MAU_11: -207589409143267056
+      Mr. MAU_2: 3731666868774711669
+      Mr. MAU_3: -3957751637380704720
+      Mr. MAU_4: -3574796088850219769
+      Mr. MAU_5: 6766421333275339802
+      Mr. MAU_6: 7807229699747390882
+      Mr. MAU_7: 5581780384905801062
+      Mr. MAU_8: -5264784654061937486
+      Mr. MAU_9: -1839100819986928176
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

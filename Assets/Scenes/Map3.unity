@@ -1322,7 +1322,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7593597324259874760, guid: 4717c92b81432dd42bcfce374ce863c9, type: 3}
       propertyPath: zoomViewport
-      value: 9
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3206,6 +3206,7 @@ GameObject:
   - component: {fileID: 1002921627}
   - component: {fileID: 1002921626}
   - component: {fileID: 1002921625}
+  - component: {fileID: 1002921628}
   m_Layer: 0
   m_Name: Map
   m_TagString: Untagged
@@ -3289,7 +3290,7 @@ MonoBehaviour:
   aerialHeight: 3
   minAerialHeight: -2
   maxAerialHeight: 4
-  minGapAerial: -1
+  minGapAerial: -2
   maxGapAerial: 5
   maxHeightMap: 20
   waveFrequency: 0.4
@@ -3305,9 +3306,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb24c27e94183b74e8b60bd6100df9cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  distanceToBoss: 100
-  winPointOffset: 20
-  timeToDefeat: 10
+  distanceToBoss: 1000
+  winPointOffset: 250
+  timeToDefeat: 45
   winPoint: {fileID: 1717133354}
   mapGenerator: {fileID: 1002921625}
   itemGenerator: {fileID: 1078367682}
@@ -3336,6 +3337,27 @@ Transform:
   - {fileID: 1484294922}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1002921628
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1002921624}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb24c27e94183b74e8b60bd6100df9cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  distanceToBoss: 250
+  winPointOffset: 250
+  timeToDefeat: 45
+  winPoint: {fileID: 1717133354}
+  mapGenerator: {fileID: 1002921625}
+  itemGenerator: {fileID: 1078367682}
+  player: {fileID: 1193955504}
+  generationDistance: 130
+  destroyDistanceBehind: 50
 --- !u!1 &1018827348
 GameObject:
   m_ObjectHideFlags: 0

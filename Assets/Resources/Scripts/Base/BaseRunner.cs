@@ -32,6 +32,8 @@ public class BaseRunner : MonoBehaviour
     protected BoxCollider2D _collider;
     protected SpriteRenderer _spriteRenderer;
 
+    private RandomUtils.FloatShuffleBag floatShuffleBag = new RandomUtils.FloatShuffleBag(-3f, 3f, 0.5f);
+
     protected bool isGrounded = false;
     protected bool isControlLocked = false;
     protected float currentSpeed;
@@ -45,7 +47,7 @@ public class BaseRunner : MonoBehaviour
 
         lastKnockbackTime = -knockbackCooldown; // Fix để có thể bị knockback ngay khi start game nếu cần
 
-        currentSpeed = baseRunSpeed + RandomUtils.RandomWithSteps(-2, 2, 0.5f); ;
+        currentSpeed = baseRunSpeed + floatShuffleBag.Next();
     }
 
     protected virtual void Start()

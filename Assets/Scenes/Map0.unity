@@ -1289,7 +1289,7 @@ MonoBehaviour:
   minGroundSegmentLength: 30
   maxGroundSegmentLength: 100
   ratioObstacleToAerial: 100
-  obstacleChance: 60
+  obstacleChance: 80
   obstacleInPit: 0
   pitWidthNeedBridge: 15
   obstacleEdgePadding: 2
@@ -1318,9 +1318,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb24c27e94183b74e8b60bd6100df9cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  distanceToBoss: 50
-  winPointOffset: 50
-  timeToDefeat: 5
+  distanceToBoss: 250
+  winPointOffset: 250
+  timeToDefeat: 45
   winPoint: {fileID: 1070279715}
   mapGenerator: {fileID: 372212084}
   itemGenerator: {fileID: 323548174}
@@ -2709,6 +2709,10 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: -6856045383788176096, guid: 15fa773b13a0cd54c999eb81f5c7947c, type: 3}
+    - target: {fileID: 4537125605790527049, guid: 9d1732118a1f8374aae96942a875dfbf, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6261705744089827853, guid: 9d1732118a1f8374aae96942a875dfbf, type: 3}
       propertyPath: m_LocalPosition.y
       value: 0.0625
@@ -4537,7 +4541,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7593597324259874760, guid: 4717c92b81432dd42bcfce374ce863c9, type: 3}
       propertyPath: zoomViewport
-      value: 10
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

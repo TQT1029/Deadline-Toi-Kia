@@ -34,30 +34,30 @@ public static class RandomUtils
     /// <para><b>Công dụng:</b> Dùng để đặt vị trí vật thể sao cho thẳng hàng lối, không bị lẻ số. 
     /// Ví dụ: steps=0.5 thì kết quả chỉ có thể là 1.0, 1.5, 2.0... (không bao giờ ra 1.234).</para>
     /// </summary>
-    /// <param name="minInp">Giá trị nhỏ nhất.</param>
-    /// <param name="maxInp">Giá trị lớn nhất.</param>
+    /// <param name="min">Giá trị nhỏ nhất.</param>
+    /// <param name="max">Giá trị lớn nhất.</param>
     /// <param name="steps">Bước nhảy (Khoảng cách giữa các giá trị).</param>
-    public static float RandomWithSteps(float minInp, float maxInp, float steps = 0.5f)
+    public static float RandomWithSteps(float min, float max, float steps = 0.5f)
     {
         if (steps <= 0f)
         {
             Debug.LogWarning("Steps phải lớn hơn 0");
-            return minInp;
+            return min;
         }
-        else if (minInp > maxInp)
+        else if (min > max)
         {
-            Debug.LogWarning("minInp phải nhỏ hơn hoặc bằng maxInp");
-            return minInp;
+            Debug.LogWarning("min phải nhỏ hơn hoặc bằng max");
+            return min;
         }
 
         // Tính xem có bao nhiêu bước nhảy trong khoảng min-max
-        int stepCount = Mathf.RoundToInt((maxInp - minInp) / steps);
+        int stepCount = Mathf.RoundToInt((max - min) / steps);
 
         // Random chọn một bước thứ n
         int randIndex = Random.Range(0, stepCount + 1);
 
         // Tính ra giá trị thực tế
-        return minInp + randIndex * steps;
+        return min + randIndex * steps;
     }
 
     /// <summary>
@@ -209,6 +209,64 @@ public static class RandomUtils
         }
 
         return newObj;
+    }
+    /// <summary>
+    /// Random số thực (float) KHÔNG TRÙNG trong một khoảng [min, max] dựa theo bước nhảy (step).
+    /// Mỗi mức giá trị chỉ xuất hiện 1 lần cho tới khi bốc hết thì tự động nạp lại túi.
+    /// </summary>
+    /// <para><b>Ví dụ:</b> min=0, max=1, step=0.5 -> Túi sẽ có [0.0, 0.5, 1.0].</para>
+    public class FloatShuffleBag
+    {
+        private List<float> bag = new List<float>();
+        private float min;
+        private float max;
+        private float step;
+
+        public FloatShuffleBag(float minInclusive, float maxInclusive, float stepSize)
+        {
+            min = minInclusive;
+            max = maxInclusive;
+            step = stepSize;
+            Refill();
+        }
+
+        /// <summary>
+        /// Lấy giá trị float tiếp theo trong túi.
+        /// </summary>
+        public float Next()
+        {
+            if (bag.Count == 0)
+                Refill();
+
+            int index = Random.Range(0, bag.Count);
+            float value = bag[index];
+            bag.RemoveAt(index);
+
+            return value;
+        }
+
+        /// <summary>
+        /// Nạp lại toàn bộ dãy số và trộn.
+        /// </summary>
+        private void Refill()
+        {
+            bag.Clear();
+
+            if (step <= 0f)
+            {
+                Debug.LogWarning("FloatShuffleBag: Step phải lớn hơn 0!");
+                bag.Add(min);
+                return;
+            }
+
+            int stepCount = Mathf.RoundToInt((max - min) / step);
+
+            for (int i = 0; i <= stepCount; i++)
+            {
+                // Công thức này đảm bảo không bao giờ bị dồn sai số float
+                bag.Add(min + i * step);
+            }
+        }
     }
 
     /// <summary>

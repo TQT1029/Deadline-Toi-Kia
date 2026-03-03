@@ -52,4 +52,23 @@ public static class MathUtils
         float safeNoise = Mathf.Clamp01(rawNoise);
         return Mathf.Lerp(minNoise, maxNoise, safeNoise);
     }
+
+    /// <summary>
+    /// Làm tròn một số float theo các bước nhảy (step) tùy chỉnh.
+    /// <para><b>Công dụng:</b> Dùng để khóa (snap) vị trí, thanh máu UI, hoặc tạo lưới grid. 
+    /// Ví dụ: value = 1.3, step = 0.5 -> Kết quả sẽ làm tròn thành 1.5.</para>
+    /// </summary>
+    /// <param name="value">Giá trị gốc cần làm tròn.</param>
+    /// <param name="step">Bước nhảy mong muốn (ví dụ: 0.25, 0.5, 1.0).</param>
+    /// <returns>Giá trị đã được làm tròn chính xác theo step.</returns>
+    public static float RoundToStep(float value, float step)
+    {
+        if (step <= 0f)
+        {
+            Debug.LogWarning("MathUtils.RoundToStep: Step phải lớn hơn 0! Đang trả về giá trị gốc.");
+            return value;
+        }
+
+        return Mathf.Round(value / step) * step;
+    }
 }

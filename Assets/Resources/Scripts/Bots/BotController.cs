@@ -42,8 +42,13 @@ public class BotController : BaseRunner
     [Tooltip("Thời gian giữa các lần quét AI (giây). 0.1 = 10 lần/giây.")]
     [SerializeField] private float aiUpdateInterval = 0.1f;
 
+    private float nextNoiseUpdate = 0;
+    private float noise = 0;
+
     private float nextAiUpdateTime;
-    private bool isAiActive = true; // Cờ kiểm tra xem có nên chạy AI không
+    private bool isAiActive = true;
+
+    private RandomUtils.FloatShuffleBag floatShuffleBag = new RandomUtils.FloatShuffleBag(-1f, 1f, 0.25f);
 
     protected override void Awake()
     {
@@ -54,7 +59,7 @@ public class BotController : BaseRunner
         myCatchUpMult = Random.Range(1.2f, 1.5f);
         mySlowDownMult = Random.Range(0.7f, 0.9f);
         myAccelerationRate = Random.Range(1.5f, 3.0f);
-        reactionTime = Random.Range(0.05f, 0.15f);
+        reactionTime = Random.Range(0.15f, 0.35f);
     }
 
     protected override void Start()
@@ -75,7 +80,6 @@ public class BotController : BaseRunner
 
         base.FixedUpdate();
 
-
         // Logic HighJump
         HandleHighJumpLogic();
 
@@ -89,22 +93,22 @@ public class BotController : BaseRunner
             RunAiLogic();
             nextAiUpdateTime = curTime + aiUpdateInterval;
         }
-
     }
     private void MoveLogic(float curTime)
     {
         // Tính toán vận tốc mong muốn (Rubber Banding)
         float distanceBonus = (GameStatsController.Instance != null) ? GameStatsController.Instance.resultDistance / 150f : 0f;
         float desiredSpeed = targetRunSpeed + distanceBonus;
-
-        if (curTime >= nextAiUpdateTime)
+        if (curTime >= nextNoiseUpdate)
         {
-            float noise = (Mathf.PerlinNoise(curTime * 0.5f, speedNoiseSeed) - 0.5f) * 6f; // Giá trị noise từ -3 đến 3
-            desiredSpeed += noise;
-            Debug.Log(this.name + " speed: " + desiredSpeed);
+            noise = floatShuffleBag.Next();
+
+            nextNoiseUpdate = curTime + 2.5f; // Cập nhật noise mỗi 5 giây
         }
+        desiredSpeed += noise;
 
         // Lerp speed
+        Debug.Log(this.name + " Speed: " + desiredSpeed);
         currentSpeed = Mathf.MoveTowards(currentSpeed, desiredSpeed, myAccelerationRate * Time.fixedDeltaTime);
     }
 

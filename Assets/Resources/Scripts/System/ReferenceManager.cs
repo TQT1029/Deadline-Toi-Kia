@@ -9,18 +9,18 @@ using UnityEngine.SceneManagement;
 public class ReferenceManager : Singleton<ReferenceManager>
 {
     [Header("Runtime References")]
-    public Camera MainCamera;
-    public Transform PlayerTransform;
-    public Rigidbody2D PlayerRigidbody;
+    public Camera MainCamera { get; private set; }
+    public Transform PlayerTransform { get; private set; }
+    public Rigidbody2D PlayerRigidbody { get; private set; }
 
-    public Transform SpawnTrans;
-    public Transform RespawnTrans;
+    public Transform SpawnTrans { get; private set; }
+    public Transform RespawnTrans { get; private set; }
 
     [Header("Data Library")]
     [Tooltip("Kéo tất cả CharacterProfile vào đây")]
-    public CharacterProfile[] AllCharacters;
+    public CharacterProfile[] AllCharacters { get; private set; }
     [Tooltip("Kéo tất cả MapProfile vào đây")]
-    public MapProfile[] AllMaps;
+    public MapProfile[] AllMaps { get; private set; }
 
     [Header("Current Session")]
     public CharacterProfile CurrentSelectedProfile;

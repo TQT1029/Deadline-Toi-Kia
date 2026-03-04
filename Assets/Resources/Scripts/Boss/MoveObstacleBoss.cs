@@ -1,66 +1,76 @@
 ﻿using UnityEngine;
-using DG.Tweening;
+using DG.Tweening; // Giữ lại chỉ để dùng cho Rotate (Xoay)
 
 public class MoveObstacleBoss : MonoBehaviour
 {
-    private Tween moveTween;
+    // --- KHÔNG CÒN moveTween ---
     private Tween rotateTween;
 
-    public void Initialize(Vector2 startViewportPos, Vector2 endViewportPos, float speed, float rotateSpeed, float delayTime)
+    // --- CÁC BIẾN MỚI CHO LOGIC VECTOR ---
+    private Vector3 moveDirection;
+    private float moveSpeed;
+    private bool isMoving = false;
+
+    // Thời gian tối đa tồn tại (để tránh rác bộ nhớ nếu vật bay ra khỏi màn hình quá xa)
+    private float maxLifetime = 3f;
+
+    /// <summary>
+    /// Khởi tạo vật thể với logic Vector.
+    /// Lưu ý: Đầu vào nên là World Position (đã được convert ở Controller) để tối ưu.
+    /// </summary>
+    public void Initialize(Vector3 startWorldPos, Vector3 targetWorldPos, float speed, float rotateSpeed, float delayTime)
     {
-        Camera cam = Camera.main;
-        float depth = 10f;
-
-        // 1. Chuyển đổi Viewport -> World
-        // Controller đã tính toán margin (lề) rồi nên ở đây ta chuyển đổi trực tiếp
-        Vector3 startWorldPos = cam.ViewportToWorldPoint(new Vector3(startViewportPos.x, startViewportPos.y, depth));
-        Vector3 endWorldPos = cam.ViewportToWorldPoint(new Vector3(endViewportPos.x, endViewportPos.y, depth));
-
-        // 2. Đặt vị trí
+        // 1. Đặt vị trí xuất phát ngay lập tức
         transform.position = startWorldPos;
 
-        // Đảm bảo Z luôn đúng (phòng hờ Z bị lệch do ViewportToWorldPoint lấy Z của Cam)
-        startWorldPos.z = 0;
-        endWorldPos.z = 0;
+        // 2. Tính toán Hướng di chuyển (Normalized để chỉ lấy hướng, độ dài = 1)
+        // Công thức: Đích - Đầu
+        moveDirection = (targetWorldPos - startWorldPos).normalized;
+        moveSpeed = speed;
 
-        // 3. Tính Duration
-        float distance = Vector3.Distance(startWorldPos, endWorldPos);
+        // 3. Bắt đầu quy trình (Delay -> Hiện -> Bay & Xoay)
+        StartCoroutine(StartMovingProcess(delayTime, rotateSpeed));
+    }
 
-        // Bảo vệ chia cho 0
-        if (speed <= 0) speed = 1f;
-        float calculatedDuration = distance / speed;
+    private System.Collections.IEnumerator StartMovingProcess(float delay, float rotateSpeed)
+    {
+        // Chờ delay
+        if (delay > 0) yield return new WaitForSeconds(delay);
 
-        // 4. Di chuyển
-        // Ẩn trước khi delay xong
-        gameObject.SetActive(false);
+        // Kích hoạt vật thể
+        gameObject.SetActive(true);
+        isMoving = true;
 
-        moveTween = transform.DOMove(endWorldPos, calculatedDuration)
-            .SetDelay(delayTime)
-            .SetEase(Ease.Linear)
-            .OnStart(() =>
-            {
-                gameObject.SetActive(true);
-                StartRotation(rotateSpeed);
-            })
-            .OnComplete(() =>
-            {
-                // Tự hủy khi đến đích (đích đã được tính là nằm ngoài màn hình)
-                Destroy(gameObject);
-            });
+        // Bắt đầu xoay (Dùng Dotween cho việc này rất tốt vì nó mượt)
+        StartRotation(rotateSpeed);
+
+        // Tự hủy sau 10s (Cơ chế dọn rác an toàn)
+        Destroy(gameObject, maxLifetime);
+    }
+
+    // --- LOGIC DI CHUYỂN MỚI ---
+    private void Update()
+    {
+        // Chỉ di chuyển khi đã hết thời gian delay
+        if (!isMoving) return;
+
+        // Công thức Vector: Vị trí mới = Vị trí cũ + (Hướng * Tốc độ * Thời gian)
+        transform.position += moveDirection * moveSpeed * Time.deltaTime;
     }
 
     private void StartRotation(float rotateSpeed)
     {
         if (rotateSpeed <= 0) return;
 
+        // Logic xoay giữ nguyên, nhưng thêm SetEase(Ease.Linear) để xoay đều
         rotateTween = transform.DORotate(new Vector3(0, 0, 360), 1f / rotateSpeed, RotateMode.FastBeyond360)
             .SetLoops(-1, LoopType.Incremental)
             .SetEase(Ease.Linear);
     }
 
-    private void OnDestroy()
+    private void OnDisable()
     {
-        moveTween?.Kill();
+        // Khi object bị tắt hoặc hủy, phải giết tween xoay để tránh lỗi
         rotateTween?.Kill();
     }
 }

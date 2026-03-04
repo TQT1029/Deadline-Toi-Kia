@@ -51,13 +51,13 @@ public class BotController : BaseRunner
     protected override void Awake()
     {
         base.Awake();
-        speedNoiseSeed = Random.Range(0f, 100f);
+        speedNoiseSeed = Random.Range(0f, 100000f);
         phiDelta = Random.Range(0f, 180f);
         mySweepSpeed = Random.Range(8f, 15f);
         myCatchUpMult = Random.Range(1.2f, 1.5f);
         mySlowDownMult = Random.Range(0.7f, 0.9f);
         myAccelerationRate = Random.Range(1.5f, 3.0f);
-        reactionTime = Random.Range(0.15f, 0.35f);
+        reactionTime = Random.Range(0.05f, 0.35f);
     }
 
     protected override void Start()
@@ -246,7 +246,7 @@ public class BotController : BaseRunner
         {
             // Logic phạt: Đặt Bot ra sau Player một đoạn
             float safeY = Mathf.Max(targetPlayer.position.y, -2f) + 5f;
-            float punishX = targetPlayer.position.x - 5f;
+            float punishX = targetPlayer.position.x - 7.5f;
 
             transform.position = new Vector3(punishX, safeY, 0);
             isHighJumping = false;

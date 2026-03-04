@@ -58,14 +58,14 @@ public class ObstacleBossController : MonoBehaviour
         RecalculateScreenParams();
     }
 
-    // --- LOGIC CỐT LÕI: TÍNH TOÁN SỐ LÀN DỰA TRÊN MÀN HÌNH ---
+    // ---  TÍNH TOÁN SỐ LÀN DỰA TRÊN MÀN HÌNH ---
     private void RecalculateScreenParams()
     {
         Camera cam = Camera.main;
         if (cam == null) return;
 
         // 1. Tính kích thước thế giới thực của màn hình
-        float worldHeight = cam.orthographicSize * 2f;
+        float worldHeight = cam.orthographicSize * 2.5f;
         float worldWidth = worldHeight * cam.aspect;
 
         // 2. Tính lề an toàn để spawn object ngoài màn hình
@@ -410,7 +410,7 @@ public class ObstacleBossController : MonoBehaviour
     private void SpawnSniperShot()
     {
         Vector3 playerViewport = Camera.main.WorldToViewportPoint(ReferenceManager.Instance.PlayerRigidbody.position);
-        float targetX = Mathf.Clamp(playerViewport.x, 0.1f, 0.9f);
+        float targetX = Mathf.Clamp(playerViewport.x + 0.1f, 0.1f, 0.9f);
         float speed = CalculateSpeed(Vector2.up) * 1.5f;
 
         for (int i = 0; i < 3; i++)
@@ -451,11 +451,25 @@ public class ObstacleBossController : MonoBehaviour
         return Mathf.Max(minSafeTimeGap, obstacleHitSize / obstacleSpeed);
     }
 
+    // Trong ObstacleBossController.cs
     private void CreateObstacle(Vector2 startView, Vector2 endView, float speed, float delay)
     {
         MoveObstacleBoss obj = GetObstacleBoss();
         obj.transform.SetParent(transform);
-        obj.Initialize(startView, endView, speed, baseRotateSpeed, delay);
+
+        Camera cam = Camera.main;
+        float zDepth = 10f; // Hoặc -cam.transform.position.z
+
+        // Controller chịu trách nhiệm chuyển đổi tọa độ
+        Vector3 startWorld = cam.ViewportToWorldPoint(new Vector3(startView.x, startView.y, zDepth));
+        Vector3 endWorld = cam.ViewportToWorldPoint(new Vector3(endView.x, endView.y, zDepth));
+
+        // Đảm bảo Z = 0
+        startWorld.z = 0;
+        endWorld.z = 0;
+
+        // Truyền tọa độ World vào script MoveObstacleBoss mới
+        obj.Initialize(startWorld, endWorld, speed, baseRotateSpeed, delay);
     }
 
     private MoveObstacleBoss GetObstacleBoss()

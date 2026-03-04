@@ -183,7 +183,6 @@ public class BaseRunner : MonoBehaviour
 
     protected virtual void OnRespawn()
     {
-        // QUAN TRỌNG: Khi hồi sinh phải ngắt Coroutine knockback cũ 
         // để tránh việc nhân vật hồi sinh xong vẫn đứng đơ ra chờ chạm đất
         StopAllCoroutines();
 

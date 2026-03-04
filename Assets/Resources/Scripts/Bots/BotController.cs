@@ -48,8 +48,6 @@ public class BotController : BaseRunner
     private float nextAiUpdateTime;
     private bool isAiActive = true;
 
-    private RandomUtils.FloatShuffleBag floatShuffleBag = new RandomUtils.FloatShuffleBag(-1f, 1f, 0.25f);
-
     protected override void Awake()
     {
         base.Awake();
@@ -101,14 +99,14 @@ public class BotController : BaseRunner
         float desiredSpeed = targetRunSpeed + distanceBonus;
         if (curTime >= nextNoiseUpdate)
         {
-            noise = floatShuffleBag.Next();
+            noise = MathUtils.ClampPerlinNoise1D(curTime, -1.5f, 1.5f, speedNoiseSeed);
 
-            nextNoiseUpdate = curTime + 2.5f; // Cập nhật noise mỗi 5 giây
+            Debug.Log(this.name + " Noise: " + noise);
+
+            nextNoiseUpdate = curTime + 0.1f; // Cập nhật noise mỗi 0.1 giây
         }
         desiredSpeed += noise;
 
-        // Lerp speed
-        Debug.Log(this.name + " Speed: " + desiredSpeed);
         currentSpeed = Mathf.MoveTowards(currentSpeed, desiredSpeed, myAccelerationRate * Time.fixedDeltaTime);
     }
 

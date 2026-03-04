@@ -18,16 +18,17 @@ public static class MathUtils
     {
         float rawNoise;
         if (seed == 0f)
-        {
             rawNoise = Mathf.PerlinNoise1D(x);
-        }
         else
-        {
             rawNoise = Mathf.PerlinNoise(x, seed);
-        }
+
         float safeNoise = Mathf.Clamp01(rawNoise);
 
-        return Mathf.Lerp(minNoise, maxNoise, safeNoise);
+        if (Mathf.Abs(minNoise) == maxNoise && maxNoise!=0)
+            return (safeNoise * 2f - 1f) * maxNoise;
+        else
+            return Mathf.Lerp(minNoise, maxNoise, safeNoise);
+
     }
 
     /// <summary>

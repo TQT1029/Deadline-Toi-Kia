@@ -66,7 +66,7 @@ public class BossManager : MonoBehaviour
         }
 
         // 2. Setup Visual
-        if (bossSpriteRenderer != null && currentBossData.bossSprite != null)
+        if (bossSpriteRenderer != null)
         {
             bossSpriteRenderer.flipX = currentBossData.flipXAnimator;
         }

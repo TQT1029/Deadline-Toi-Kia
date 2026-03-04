@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 406a6f444664796488e8a2a1d2e32696, type: 3}
   m_Name: TRINH
   m_EditorClassIdentifier: 
-  bossName: 
+  bossName: TRINH
   bossSprite: {fileID: -3530720302699838993, guid: 7cf6a7bc2d81ba04c8a1b0ba93bd86a8, type: 3}
   bossAnimation: {fileID: 9100000, guid: 2bfee37d8ad866f449abbaaff716ee63, type: 2}
   flipXAnimator: 0

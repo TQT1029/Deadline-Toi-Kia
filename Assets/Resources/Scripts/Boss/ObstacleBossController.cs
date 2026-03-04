@@ -46,6 +46,11 @@ public class ObstacleBossController : MonoBehaviour
         Double_Cross_Fast,
         Horizontal_Stream,
         Fan_Spread_Down,
+        Tunnel_Vision,      // 1. Ép 2 bên lề, chỉ chừa đường giữa
+        Alternating_Checkers, // 2. Thả bàn cờ so le (mật độ cao)
+        Converging_Stream,  // 3. Hai dòng chảy từ góc chụm vào giữa
+        Spiral_Rain,        // 4. Mưa xoắn ốc (Sine wave)
+        Corner_Ambush       // 5. Tấn công chéo từ 4 góc
     }
 
     private void Start()
@@ -105,12 +110,17 @@ public class ObstacleBossController : MonoBehaviour
             case AttackPattern.Double_Cross_Fast: SpawnDoubleCrossFast(); break;
             case AttackPattern.Horizontal_Stream: SpawnHorizontalStream(); break;
             case AttackPattern.Fan_Spread_Down: SpawnFanSpread(); break;
+            case AttackPattern.Tunnel_Vision: SpawnTunnelVision(); break;
+            case AttackPattern.Alternating_Checkers: SpawnAlternatingCheckers(); break;
+            case AttackPattern.Converging_Stream: SpawnConvergingStream(); break;
+            case AttackPattern.Spiral_Rain: SpawnSpiralRain(); break;
+            case AttackPattern.Corner_Ambush: SpawnCornerAmbush(); break;
         }
     }
 
     // ================= IMPLEMENT DYNAMIC PATTERNS =================
 
-    // 1. Grid Wall: Bàn cờ (Tự động scale theo số làn)
+    // 1. Grid Wall: Bàn cờ 
     private void SpawnGridWall()
     {
         float startY = 1f + verticalMargin;
@@ -272,7 +282,123 @@ public class ObstacleBossController : MonoBehaviour
         }
     }
 
-    // --- CÁC CHIÊU GIỮ NGUYÊN LOGIC ---
+    // 7. Tunnel Vision: Tạo 2 bức tường dày ở 2 bên lề, ép người chơi chạy vào giữa
+    private void SpawnTunnelVision()
+    {
+        float startY = 1f + verticalMargin;
+        float endY = 0f - verticalMargin;
+        float speed = CalculateOptimalSpeed(Vector2.up) * 1.1f;
+
+        // Chỉ chừa lại khoảng 1-2 làn ở giữa là an toàn
+        int centerIndex = currentLaneCount / 2;
+        int safeWidth = 1; // Số làn an toàn ở giữa
+
+        for (int i = 0; i < currentLaneCount; i++)
+        {
+            // Nếu làn hiện tại nằm trong vùng an toàn ở giữa -> Bỏ qua
+            if (Mathf.Abs(i - centerIndex) <= safeWidth / 2) continue;
+
+            // Spawn liên tiếp 3 object để tạo thành bức tường dài
+            for (int j = 0; j < 3; j++)
+            {
+                CreateObstacle(
+                    new Vector2(GetLaneCenterViewport(i), startY + (j * 0.25f)), // Spawn chồng lên nhau theo trục Y
+                    new Vector2(GetLaneCenterViewport(i), endY),
+                    speed,
+                    j * 0.1f // Delay nhỏ để tạo hiệu ứng dây chuyền
+                );
+            }
+        }
+    }
+
+    // 8. Alternating Checkers: Thả 2 lớp so le chẵn lẻ với tốc độ cao (Khó hơn Grid Wall cũ)
+    private void SpawnAlternatingCheckers()
+    {
+        float startY = 1f + verticalMargin;
+        float endY = 0f - verticalMargin;
+        float speed = CalculateOptimalSpeed(Vector2.up) * 1.2f; // Nhanh hơn bình thường
+
+        // Lớp 1: Các làn Chẵn (0, 2, 4...)
+        for (int i = 0; i < currentLaneCount; i += 2)
+        {
+            CreateObstacle(new Vector2(GetLaneCenterViewport(i), startY), new Vector2(GetLaneCenterViewport(i), endY), speed, 0f);
+        }
+
+        // Lớp 2: Các làn Lẻ (1, 3, 5...) - Delay ngắn để người chơi phải lạng lách nhanh
+        for (int i = 1; i < currentLaneCount; i += 2)
+        {
+            CreateObstacle(new Vector2(GetLaneCenterViewport(i), startY), new Vector2(GetLaneCenterViewport(i), endY), speed, 0.35f);
+        }
+
+        // Lớp 3 (Optional): Lặp lại Chẵn để ép góc thêm lần nữa
+        for (int i = 0; i < currentLaneCount; i += 2)
+        {
+            CreateObstacle(new Vector2(GetLaneCenterViewport(i), startY), new Vector2(GetLaneCenterViewport(i), endY), speed, 0.7f);
+        }
+    }
+
+    // 9. Converging Stream: Hai luồng đạn từ 2 góc trên lao chéo vào giữa đáy màn hình
+    private void SpawnConvergingStream()
+    {
+        Vector2 targetBottom = new Vector2(0.5f, -0.2f); // Điểm hội tụ
+        float speed = CalculateSpeed(Vector2.up) * 1.3f;
+        int bulletCount = 4; // Số lượng đạn mỗi bên
+
+        for (int i = 0; i < bulletCount; i++)
+        {
+            float delay = i * 0.2f;
+
+            // Luồng bên Trái: Từ (0, 1.2) -> Giữa đáy
+            CreateObstacle(new Vector2(0f, 1.2f), targetBottom, speed, delay);
+
+            // Luồng bên Phải: Từ (1, 1.2) -> Giữa đáy
+            CreateObstacle(new Vector2(1f, 1.2f), targetBottom, speed, delay);
+        }
+    }
+
+    // 10. Spiral Rain: Rơi từ trên xuống nhưng vị trí X uốn lượn theo hình Sin (như con rắn)
+    private void SpawnSpiralRain()
+    {
+        float startY = 1f + verticalMargin;
+        float endY = 0f - verticalMargin;
+        float speed = CalculateOptimalSpeed(Vector2.up);
+
+        int count = 6; // Số lượng vật thể
+
+        for (int i = 0; i < count; i++)
+        {
+            // Tính toán vị trí X dựa trên hàm Sin
+            // i càng lớn thì góc càng thay đổi -> tạo hình lượn sóng
+            float t = (float)i / count; // 0 -> 1
+            float sinX = 0.5f + (Mathf.Sin(t * Mathf.PI * 2) * 0.4f); // Dao động quanh trục 0.5 với biên độ 0.4
+
+            // Kẹp vào trong màn hình cho an toàn
+            sinX = Mathf.Clamp(sinX, screenEdgeMargin, 1f - screenEdgeMargin);
+
+            CreateObstacle(new Vector2(sinX, startY), new Vector2(sinX, endY), speed, i * 0.15f);
+        }
+    }
+
+    // 11. Corner Ambush: 4 vật thể bay từ 4 góc màn hình cắt chéo qua tâm
+    private void SpawnCornerAmbush()
+    {
+        float speed = CalculateSpeed(Vector2.up) * 1.5f; // Tốc độ rất nhanh
+        float delayStep = 0.25f;
+
+        // Góc trên trái -> Góc dưới phải
+        CreateObstacle(new Vector2(0f, 1.2f), new Vector2(1f, -0.2f), speed, 0f);
+
+        // Góc trên phải -> Góc dưới trái
+        CreateObstacle(new Vector2(1f, 1.2f), new Vector2(0f, -0.2f), speed, delayStep);
+
+        // (Khó hơn) Góc dưới trái -> Góc trên phải (Bay ngược lên)
+        CreateObstacle(new Vector2(0f, -0.2f), new Vector2(1f, 1.2f), speed, delayStep * 2);
+
+        // (Khó hơn) Góc dưới phải -> Góc trên trái
+        CreateObstacle(new Vector2(1f, -0.2f), new Vector2(0f, 1.2f), speed, delayStep * 3);
+    }
+
+    // 12.
     private void SpawnCrossPattern()
     {
         float speed = CalculateOptimalSpeed(Vector2.up) * 1.3f;
@@ -280,6 +406,7 @@ public class ObstacleBossController : MonoBehaviour
         CreateObstacle(new Vector2(1f, 1.2f), new Vector2(0f, -0.2f), speed, 0.5f);
     }
 
+    // 13.
     private void SpawnSniperShot()
     {
         Vector3 playerViewport = Camera.main.WorldToViewportPoint(ReferenceManager.Instance.PlayerRigidbody.position);
@@ -290,17 +417,20 @@ public class ObstacleBossController : MonoBehaviour
             CreateObstacle(new Vector2(targetX, 1.2f), new Vector2(targetX, -0.2f), speed, i * 0.4f);
     }
 
+    // 14.
     private void SpawnBigCenter()
     {
         CreateObstacle(new Vector2(0.5f, 1.2f), new Vector2(0.5f, -0.2f), CalculateSpeed(Vector2.up) * 0.8f, 0f);
     }
 
+    // 15.
     private void SpawnDoubleCrossFast()
     {
         CreateObstacle(new Vector2(0f, 1.2f), new Vector2(1f, -0.2f), CalculateSpeed(Vector2.up) * 1.8f, 0f);
         CreateObstacle(new Vector2(1f, 1.2f), new Vector2(0f, -0.2f), CalculateSpeed(Vector2.up) * 1.8f, 0f);
     }
 
+    // 16.
     private void SpawnHorizontalStream()
     {
         for (int i = 0; i < 3; i++)

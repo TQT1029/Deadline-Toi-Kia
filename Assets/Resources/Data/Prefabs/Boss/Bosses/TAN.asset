@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 406a6f444664796488e8a2a1d2e32696, type: 3}
   m_Name: TAN
   m_EditorClassIdentifier: 
-  bossName: 
+  bossName: TAN
   bossSprite: {fileID: -5458868284251092219, guid: 9437ef110d24bf748b2e0ef80d043c90, type: 3}
   bossAnimation: {fileID: 9100000, guid: 0d18f5c1a906fe24d9ec57651b45685a, type: 2}
   flipXAnimator: 1

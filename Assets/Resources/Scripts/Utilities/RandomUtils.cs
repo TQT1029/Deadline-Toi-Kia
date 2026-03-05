@@ -324,7 +324,7 @@ public static class RandomUtils
         private List<T> originalData; // Dữ liệu gốc để nạp lại khi túi rỗng
         private List<T> currentBag;   // Cái túi hiện tại đang rút dần
 
-        public ShuffleBag(List<T> initialData)
+        public ShuffleBag(IEnumerable<T> initialData)
         {
             this.originalData = new List<T>(initialData);
             this.currentBag = new List<T>();

@@ -17,7 +17,6 @@ public class MapGenerator : MonoBehaviour
     public List<ObstacleData> obstacleLibrary;
     public List<MiniPlatformData> miniPlatformLibrary;
 
-    // [MỚI] Túi tráo bài cho MiniPlatform
     private RandomUtils.ShuffleBag<MiniPlatformData> miniPlatformBag;
 
     [Header("Settings")]

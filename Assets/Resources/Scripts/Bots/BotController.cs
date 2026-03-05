@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using UnityEditor.Animations;
+using UnityEngine;
 
 public class BotController : BaseRunner
 {
@@ -14,18 +15,18 @@ public class BotController : BaseRunner
     private float myAccelerationRate;
 
     [Header("AI Sensors")]
-    public Transform sensorPoint;
-    public float viewDistance = 5.0f;
-    public LayerMask obstacleLayer;
-    public float maxSweepAngle = 30f;
+    [SerializeField] private Transform sensorPoint;
+    [SerializeField] private float viewDistance = 5.0f;
+    [SerializeField] private LayerMask obstacleLayer;
+    [SerializeField] private float maxSweepAngle = 30f;
 
     // Pit Check
-    public float pitCheckDistance = 1.5f;
-    public float pitRayLength = 5.0f;
+    [SerializeField] private float pitCheckDistance = 1.5f;
+    [SerializeField] private float pitRayLength = 5.0f;
 
     [Header("High Jump")]
-    public float jumpHoldForce = 5f;
-    public float maxJumpHoldTime = 0.35f;
+    [SerializeField] private float jumpHoldForce = 5f;
+    private float maxJumpHoldTime = 0.35f;
     private bool isHighJumping = false;
     private float highJumpTimer;
 
@@ -34,6 +35,11 @@ public class BotController : BaseRunner
     private float targetRunSpeed;
     private float phiDelta;
     private float mySweepSpeed;
+
+    [Header("Animation NPC")]
+    [SerializeField] private RuntimeAnimatorController[] npcAnimations = new RuntimeAnimatorController[12];
+    [SerializeField] private Animator animator;
+    private RandomUtils.ShuffleBag<RuntimeAnimatorController> randomAnimations;
 
     [Header("Optimization Settings")]
     [Tooltip("Khoảng cách tối đa so với Player để Bot còn bật AI. Xa hơn sẽ tắt Raycast.")]
@@ -51,6 +57,11 @@ public class BotController : BaseRunner
     protected override void Awake()
     {
         base.Awake();
+        if (npcAnimations != null && npcAnimations.Length > 0)
+        {
+            randomAnimations = new RandomUtils.ShuffleBag<RuntimeAnimatorController>(npcAnimations);
+        }
+
         speedNoiseSeed = Random.Range(0f, 100000f);
         phiDelta = Random.Range(0f, 180f);
         mySweepSpeed = Random.Range(8f, 15f);
@@ -63,6 +74,19 @@ public class BotController : BaseRunner
     protected override void Start()
     {
         base.Start();
+
+
+
+        if (targetPlayer == null)
+            targetPlayer = GameObject.FindGameObjectWithTag("Player")?.transform;
+
+        if (animator == null)
+            animator = GetComponent<Animator>();
+
+        if (animator != null)
+        {
+            animator.runtimeAnimatorController = randomAnimations.Next();
+        }
         // Random thời gian cập nhật AI ban đầu để tránh đồng bộ
         nextAiUpdateTime = Time.time + Random.Range(0f, aiUpdateInterval);
     }
@@ -88,6 +112,9 @@ public class BotController : BaseRunner
 
         if (curTime >= nextAiUpdateTime)
         {
+            // Thay đổi thời gian phản ứng
+            reactionTime = Random.Range(0.05f, 0.35f);
+
             RunAiLogic();
             nextAiUpdateTime = curTime + aiUpdateInterval;
         }
@@ -99,9 +126,9 @@ public class BotController : BaseRunner
         float desiredSpeed = targetRunSpeed + distanceBonus;
         if (curTime >= nextNoiseUpdate)
         {
-            noise = MathUtils.ClampPerlinNoise1D(curTime, -1.5f, 1.5f, speedNoiseSeed);
+            noise = MathUtils.ClampPerlinNoise1D(curTime, -2f, 2f, speedNoiseSeed);
 
-            Debug.Log(this.name + " Noise: " + noise);
+            //Debug.Log(this.name + " Noise: " + noise);
 
             nextNoiseUpdate = curTime + 0.1f; // Cập nhật noise mỗi 0.1 giây
         }
@@ -244,11 +271,17 @@ public class BotController : BaseRunner
         base.OnRespawn();
         if (targetPlayer != null)
         {
-            // Logic phạt: Đặt Bot ra sau Player một đoạn
+
             float safeY = Mathf.Max(targetPlayer.position.y, -2f) + 5f;
-            float punishX = targetPlayer.position.x - 7.5f;
+            float punishX = 0f;
+            
+            // Nếu Rớt phìa sau player quá xa mới cần tp lại
+            if (transform.position.x < targetPlayer.position.x - 10)
+                punishX = targetPlayer.position.x - 8f;
 
             transform.position = new Vector3(punishX, safeY, 0);
+
+
             isHighJumping = false;
             highJumpTimer = 0;
             isJumpCooldown = false;

@@ -7,7 +7,7 @@ public class EndlessGameController : MonoBehaviour
 
     [Header("Boss Settings")]
     [SerializeField] private float distanceToBoss = 100f;
-    [SerializeField] private float winPointOffset = 40f; // KHOẢNG CÁCH SAU KHI BOSS CHẾT
+    [SerializeField] private float winPointOffset = 40f;
 
     [SerializeField] private float timeToDefeat = 60f;
 
@@ -69,7 +69,7 @@ public class EndlessGameController : MonoBehaviour
 
     }
 
-    //============================ Boss Handling ============================//
+    //============================ Boss Defeat Handling ============================//
 
     // Xử lý sinh boss
     private void HandleBossSpawn()
@@ -98,6 +98,7 @@ public class EndlessGameController : MonoBehaviour
 
             // LƯU mốc khoảng cách khi boss chết
             bossDefeatedDistance = distanceRan;
+            Debug.Log(bossDefeatedDistance);
 
             SummonWinPoint();
         }
@@ -113,6 +114,8 @@ public class EndlessGameController : MonoBehaviour
         SpawnNextPiece();
 
         float winXStart = bossDefeatedDistance + winPointOffset;
+
+        Debug.Log(winXStart);
 
         float middleX = winXStart + 15;
 

@@ -113,13 +113,13 @@ public class BossManager : MonoBehaviour
     {
         while (isFighting)
         {
-            // 1. Chọn random 1 chiêu TRONG LIST CỦA BOSS ĐÓ (chứ không phải tất cả enum)
+            // 1. Chọn random 1 chiêu trong list skill của boss
             ObstacleBossController.AttackPattern selectedPattern = GetRandomPatternFromData();
 
-            // 2. Thực thi
+            // 2. Tung chiêu
             obstacleController.ExecuteAttack(selectedPattern);
 
-            // 3. Nghỉ theo config của Boss Data
+            // 3. Countdown skill
             float waitTime = Random.Range(currentBossData.minAttackInterval, currentBossData.maxAttackInterval);
             yield return new WaitForSeconds(waitTime);
         }

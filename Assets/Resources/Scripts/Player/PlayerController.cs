@@ -69,8 +69,6 @@ public class PlayerController : BaseRunner
         }
     }
 
-    // Lưu ý: Player không cần override OnStuck nữa vì BaseRunner đã gọi OnRespawn trong đó rồi.
-
     private void HandleInput()
     {
         // Input Nhảy (Click/Touch)

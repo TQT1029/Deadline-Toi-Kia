@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody2D), typeof(BoxCollider2D), typeof(SpriteRenderer))]
+[RequireComponent(typeof(Rigidbody2D), typeof(CapsuleCollider2D), typeof(SpriteRenderer))]
 public class BaseRunner : MonoBehaviour
 {
     [Header("Base Stats")]
@@ -19,7 +19,7 @@ public class BaseRunner : MonoBehaviour
     public LayerMask groundLayer;
 
     [Header("Knockback Settings")]
-    [SerializeField] protected float knockbackCooldown = 1.0f; // Giảm cooldown xuống hợp lý hơn (ví dụ 1s)
+    [SerializeField] protected float knockbackCooldown = 1.0f; 
     private float lastKnockbackTime;
 
     [Header("Map Safety (Chống rơi khỏi map)")]
@@ -29,7 +29,7 @@ public class BaseRunner : MonoBehaviour
     // Components
     protected Rigidbody2D _rb;
     protected Animator _animator;
-    protected BoxCollider2D _collider;
+    protected CapsuleCollider2D _collider;
     protected SpriteRenderer _spriteRenderer;
 
     private RandomUtils.FloatShuffleBag floatShuffleBag = new RandomUtils.FloatShuffleBag(-3f, 3f, 0.5f);
@@ -41,7 +41,7 @@ public class BaseRunner : MonoBehaviour
     protected virtual void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
-        _collider = GetComponent<BoxCollider2D>();
+        _collider = GetComponent<CapsuleCollider2D>();
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _animator = GetComponent<Animator>();
 
@@ -52,7 +52,7 @@ public class BaseRunner : MonoBehaviour
 
     protected virtual void Start()
     {
-        UpdateColliderSize();
+        //UpdateColliderSize();
     }
 
     protected virtual void FixedUpdate()

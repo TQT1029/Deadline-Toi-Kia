@@ -17,5 +17,8 @@ MonoBehaviour:
   bossAnimation: {fileID: 9100000, guid: ca269d2598e92454ba58c622efe78722, type: 2}
   flipXAnimator: 0
   availablePatterns: 0a000000080000000600000009000000
+  projectiesObstacle:
+  - {fileID: 6851801325544815183, guid: 5d2c5bf465e7e30468d02ff5e3499277, type: 3}
+  - {fileID: 6851801325544815183, guid: a2ec0dea304768845bec7690bca6bfec, type: 3}
   minAttackInterval: 3
   maxAttackInterval: 4

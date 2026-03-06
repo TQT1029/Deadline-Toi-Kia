@@ -4,9 +4,6 @@ using System.Collections.Generic;
 
 public class ObstacleBossController : MonoBehaviour
 {
-    [Header("Assets")]
-    [SerializeField] private List<MoveObstacleBoss> obstaclePrefabs = new List<MoveObstacleBoss>();
-
     [Header("Settings")]
     [SerializeField] private float baseObstacleSpeed = 8f;
     [Range(0f, 2f)] public float playerVelocityInfluence = 0.5f;
@@ -474,6 +471,6 @@ public class ObstacleBossController : MonoBehaviour
 
     private MoveObstacleBoss GetObstacleBoss()
     {
-        return Instantiate(RandomUtils.RandomWithDistributedPercent(obstaclePrefabs, 70, 30));
+        return Instantiate(RandomUtils.RandomWithDistributedPercent(BossManager.currentBossData.projectiesObstacle, 80, 20));
     }
 }

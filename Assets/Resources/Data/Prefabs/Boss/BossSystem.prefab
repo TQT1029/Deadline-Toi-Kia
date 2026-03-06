@@ -60,9 +60,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 0924827ca36e70f46a84bc3742770282, type: 2}
   - {fileID: 11400000, guid: 3a08ec0e7d72e844cae6e2e37d944c2b, type: 2}
   - {fileID: 11400000, guid: fd5bd523f9f69a04d9c34aa42d24547c, type: 2}
-  baseViewport: 7
-  zoomViewport: 7
+  baseViewport: 9
+  zoomViewport: 9
   zoomDuration: 1.5
+  positionDamping: 0.2
 --- !u!1 &3238123525324062108
 GameObject:
   m_ObjectHideFlags: 0
@@ -90,8 +91,8 @@ Transform:
   m_GameObject: {fileID: 3238123525324062108}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 300, z: 0}
+  m_LocalScale: {x: 1.1, y: 1.1, z: 1.1}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 5945759347719127087}
@@ -217,9 +218,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7c38d8f2a8c39a4d875f5f836b279a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  obstaclePrefabs:
-  - {fileID: 6851801325544815183, guid: 5d2c5bf465e7e30468d02ff5e3499277, type: 3}
-  - {fileID: 6851801325544815183, guid: 319b1741f52f46f4199893e19bde5915, type: 3}
   baseObstacleSpeed: 8
   playerVelocityInfluence: 0.5
   maxObstacleSpeed: 25

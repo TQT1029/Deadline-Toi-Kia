@@ -16,6 +16,10 @@ public class BossDataSO : ScriptableObject
     // Mỗi Boss sẽ có danh sách các chiêu thức riêng mà nó được phép dùng
     public List<ObstacleBossController.AttackPattern> availablePatterns;
 
+    [Header("Projecties")]
+    public List<MoveObstacleBoss> projectiesObstacle;
+
+
     [Tooltip("Thời gian nghỉ tối thiểu giữa các đòn đánh")]
     public float minAttackInterval = 1.5f;
     [Tooltip("Thời gian nghỉ tối đa")]

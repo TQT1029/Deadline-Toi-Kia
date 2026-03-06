@@ -11,19 +11,25 @@ public class BossManager : MonoBehaviour
 
     [Header("References")]
     public ObstacleBossController obstacleController;
-    public Transform bossVisualTransform; 
+    public Transform bossVisualTransform;
     [SerializeField] private SpriteRenderer bossSpriteRenderer; // Sprite con để hiển thị ảnh
     [SerializeField] private Animator bossAnimator;
     [SerializeField] private CinemachineCamera vCam;
 
     [Header("Data")]
     public List<BossDataSO> allBosses;
-    private BossDataSO currentBossData; // Dữ liệu Boss hiện tại đang đánh
+    public static BossDataSO currentBossData { get; private set; } // Dữ liệu Boss hiện tại đang đánh
 
     [Header("Camera Settings")]
     [SerializeField] private float baseViewport = 7f;
     [SerializeField] private float zoomViewport = 10f;
     [SerializeField] private float zoomDuration = 1.5f;
+
+    [Header("Movement Settings")]
+    [Tooltip("Thời gian để Boss đuổi kịp Camera. Càng lớn càng trễ (mềm), càng nhỏ càng cứng. Gợi ý: 0.1 - 0.3")]
+    [SerializeField] private float positionDamping = 0.2f;
+
+    private Vector3 currentVelocity = Vector3.zero;
 
     [Header("Internal State")]
     private bool isFighting = false;
@@ -45,7 +51,13 @@ public class BossManager : MonoBehaviour
         {
             Camera cam = Camera.main;
             Vector3 targetWorldPos = cam.ViewportToWorldPoint(new Vector3(currentViewportPos.x, currentViewportPos.y, bossDepth));
-            bossVisualTransform.position = targetWorldPos;
+
+            bossVisualTransform.position = Vector3.SmoothDamp(
+                bossVisualTransform.position,
+                targetWorldPos,
+                ref currentVelocity,
+                positionDamping
+                );
         }
     }
 
@@ -65,13 +77,16 @@ public class BossManager : MonoBehaviour
             currentBossData = allBosses[Random.Range(0, allBosses.Count)];
         }
 
+        // Nạp dữ liệu cho Class Controll
+
+
         // 2. Setup Visual
         if (bossSpriteRenderer != null)
         {
             bossSpriteRenderer.flipX = currentBossData.flipXAnimator;
         }
 
-        if (bossAnimator!= null)
+        if (bossAnimator != null)
         {
             bossAnimator.runtimeAnimatorController = currentBossData.bossAnimation;
         }
@@ -152,7 +167,7 @@ public class BossManager : MonoBehaviour
 
         HandleCameraZoom(baseViewport);
 
-        DOTween.To(() => currentViewportPos, x => currentViewportPos = x, new Vector3(0.5f, 1.5f, 0f), 1f)
+        DOTween.To(() => currentViewportPos, x => currentViewportPos = x, new Vector3(0.5f, 3f, 0f), 2f)
             .SetEase(Ease.InBack)
             .OnComplete(() => bossVisualTransform.gameObject.SetActive(false));
     }

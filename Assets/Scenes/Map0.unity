@@ -1162,9 +1162,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb24c27e94183b74e8b60bd6100df9cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  distanceToBoss: 250
+  distanceToBoss: 50
   winPointOffset: 250
-  timeToDefeat: 90
+  timeToDefeat: 10
   winPoint: {fileID: 1070279715}
   mapGenerator: {fileID: 372212084}
   itemGenerator: {fileID: 323548174}
@@ -2518,7 +2518,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -9.735981, y: 0, z: 0}
-  m_LocalScale: {x: 0.7, y: 0.7, z: 0.7}
+  m_LocalScale: {x: 0.9, y: 0.9, z: 0.9}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 593688181}
@@ -4250,6 +4250,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: BossSystem
       objectReference: {fileID: 0}
+    - target: {fileID: 1884405085493526601, guid: 4717c92b81432dd42bcfce374ce863c9, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1884405085493526601, guid: 4717c92b81432dd42bcfce374ce863c9, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1884405085493526601, guid: 4717c92b81432dd42bcfce374ce863c9, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5945759347719127087, guid: 4717c92b81432dd42bcfce374ce863c9, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -4296,11 +4308,11 @@ PrefabInstance:
       objectReference: {fileID: 1789372412}
     - target: {fileID: 7593597324259874760, guid: 4717c92b81432dd42bcfce374ce863c9, type: 3}
       propertyPath: baseViewport
-      value: 7
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 7593597324259874760, guid: 4717c92b81432dd42bcfce374ce863c9, type: 3}
       propertyPath: zoomViewport
-      value: 7
+      value: 9
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -4891,7 +4903,7 @@ MonoBehaviour:
     CustomLookAtTarget: 0
   Lens:
     FieldOfView: 60
-    OrthographicSize: 7
+    OrthographicSize: 9
     NearClipPlane: 0.3
     FarClipPlane: 1000
     Dutch: 0
@@ -4918,7 +4930,7 @@ Transform:
   m_GameObject: {fileID: 1789372410}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 10.344444, y: 2, z: -10}
+  m_LocalPosition: {x: 13.3, y: 3, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5981,7 +5993,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 7
+  orthographic size: 9
   m_Depth: -100
   m_CullingMask:
     serializedVersion: 2
@@ -6006,7 +6018,7 @@ Transform:
   m_GameObject: {fileID: 2037063331}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 10.344444, y: 2, z: -10}
+  m_LocalPosition: {x: 13.3, y: 3, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

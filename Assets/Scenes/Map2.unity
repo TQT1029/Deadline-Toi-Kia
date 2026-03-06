@@ -4695,7 +4695,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   distanceToBoss: 250
-  winPointOffset: 100
+  winPointOffset: 250
   timeToDefeat: 90
   winPoint: {fileID: 852447028}
   mapGenerator: {fileID: 1476928721}

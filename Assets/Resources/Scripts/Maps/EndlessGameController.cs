@@ -134,7 +134,7 @@ public class EndlessGameController : MonoBehaviour
         {
             if (safetyCounter > 50) break;
 
-            winXStart += 10f;
+            winXStart -= 10f;
             middleX = winXStart + 15;
             endX = winXStart + 30;
 

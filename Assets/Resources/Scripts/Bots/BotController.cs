@@ -126,7 +126,7 @@ public class BotController : BaseRunner
         float desiredSpeed = targetRunSpeed + distanceBonus;
         if (curTime >= nextNoiseUpdate)
         {
-            noise = MathUtils.ClampPerlinNoise1D(curTime, -2f, 2f, speedNoiseSeed);
+            noise = MathUtils.ClampPerlinNoise1D(curTime, -1.5f, 1.5f, speedNoiseSeed);
 
             //Debug.Log(this.name + " Noise: " + noise);
 

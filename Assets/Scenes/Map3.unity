@@ -283,7 +283,7 @@ Transform:
   m_GameObject: {fileID: 14420747}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 10.344444, y: 0.59999967, z: -10}
+  m_LocalPosition: {x: 10.601401, y: 0.59999967, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1677,7 +1677,7 @@ Animator:
   m_GameObject: {fileID: 306734413}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 88cf5d960a1966c47ab6e9f365946d9a, type: 2}
+  m_Controller: {fileID: 9100000, guid: b1b1798ccb088d7458a4cb52c7ab8e63, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 2
   m_ApplyRootMotion: 0
@@ -2937,7 +2937,7 @@ Transform:
   m_GameObject: {fileID: 920687758}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 10.344444, y: 0.59999967, z: -10}
+  m_LocalPosition: {x: 10.601401, y: 0.59999967, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3134,7 +3134,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   distanceToBoss: 250
   winPointOffset: 100
-  timeToDefeat: 45
+  timeToDefeat: 90
   winPoint: {fileID: 1717133354}
   mapGenerator: {fileID: 1002921625}
   itemGenerator: {fileID: 1078367682}

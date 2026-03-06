@@ -161,6 +161,8 @@ public class UIManager : Singleton<UIManager>
     public void SelectCharacterByIndex(int index)
     {
         var lib = ReferenceManager.Instance.AllCharacters;
+
+        Debug.Log(lib);
         if (lib == null || index < 0 || index >= lib.Length) return;
 
         var profile = lib[index];

@@ -18,9 +18,9 @@ public class ReferenceManager : Singleton<ReferenceManager>
 
     [Header("Data Library")]
     [Tooltip("Kéo tất cả CharacterProfile vào đây")]
-    public CharacterProfile[] AllCharacters { get; private set; }
+    [field: SerializeField] public CharacterProfile[] AllCharacters { get; private set; }
     [Tooltip("Kéo tất cả MapProfile vào đây")]
-    public MapProfile[] AllMaps { get; private set; }
+    [field: SerializeField] public MapProfile[] AllMaps { get; private set; }
 
     [Header("Current Session")]
     public CharacterProfile CurrentSelectedProfile;

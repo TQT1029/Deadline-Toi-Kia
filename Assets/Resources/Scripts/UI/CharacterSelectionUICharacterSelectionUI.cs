@@ -13,7 +13,6 @@ public class CharacterSelectionUI : MonoBehaviour
         SelectCharacter(0);
     }
 
-    // Gán hàm này vào Buttons chọn nhân vật: 0, 1, 2...
     public void SelectCharacter(int index)
     {
         // 1. Cập nhật Data

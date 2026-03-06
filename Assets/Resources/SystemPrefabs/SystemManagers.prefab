@@ -77,19 +77,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 084de830668177c46a286f8881ef821d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MainCamera: {fileID: 0}
-  PlayerTransform: {fileID: 0}
-  PlayerRigidbody: {fileID: 0}
-  SpawnTrans: {fileID: 0}
-  RespawnTrans: {fileID: 0}
-  AllCharacters:
+  <AllCharacters>k__BackingField:
   - {fileID: 11400000, guid: 852f9a9523fbaaf429d0ddbb9c5337ad, type: 2}
   - {fileID: 11400000, guid: 0091282184277724ba7c14a87a042393, type: 2}
   - {fileID: 11400000, guid: 1b11e5dccf71969419f8e82f4333711e, type: 2}
   - {fileID: 11400000, guid: 61c6229ee848fa249a2c0ab986ff3f94, type: 2}
   - {fileID: 11400000, guid: 36d8557022a7e9142acc768f91c739bf, type: 2}
   - {fileID: 11400000, guid: 2a966ac66603df74497a6b9af3db693f, type: 2}
-  AllMaps:
+  <AllMaps>k__BackingField:
   - {fileID: 11400000, guid: 14a1f2a293a287b4c96cecb4a2229c67, type: 2}
   - {fileID: 11400000, guid: 0f0c83c9367aea547837104ac529af91, type: 2}
   - {fileID: 11400000, guid: a7f176c202e888147b8b91650119ed1d, type: 2}

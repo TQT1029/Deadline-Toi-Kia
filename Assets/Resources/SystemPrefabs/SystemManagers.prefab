@@ -163,8 +163,16 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 0a38170d8202aff40a8891cc7556455c, type: 3}
     volume: 0.25
     pitch: 1
+  - id: BGM_Map2
+    clip: {fileID: 8300000, guid: 06d7c87ea35ee9c44a2f878589a0764a, type: 3}
+    volume: 0.25
+    pitch: 1
   - id: BGM_Map3
     clip: {fileID: 8300000, guid: 06d7c87ea35ee9c44a2f878589a0764a, type: 3}
+    volume: 0.25
+    pitch: 1
+  - id: BGM_Default
+    clip: {fileID: 8300000, guid: c32651c4d74325242b80b4f409901182, type: 3}
     volume: 0.25
     pitch: 1
   sfxLibrary:

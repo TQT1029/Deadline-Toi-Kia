@@ -4,10 +4,11 @@ using UnityEngine.SceneManagement;
 
 public class SceneLoader : MonoBehaviour
 {
-    public void PlayGame()
+    public void LoadSceneSelection()
     {
         // Vào màn chọn tướng
         Time.timeScale = 1f;
+        GameManager.Instance.ChangeState(GameState.Menu);
         SceneManager.LoadScene(GameConstants.SCENE_SELECTION);
     }
 

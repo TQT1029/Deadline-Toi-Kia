@@ -67,7 +67,7 @@ public class UIManager : Singleton<UIManager>
         {
             MainMenuPanel = FindObj("MainMenuPanel");
             SettingPanel = FindObj("SettingPanel");
-            GameManager.Instance.ChangeState(GameState.MainMenu);
+            GameManager.Instance.ChangeState(GameState.Menu);
         }
         else if (sName == GameConstants.SCENE_SELECTION)
         {
@@ -128,7 +128,7 @@ public class UIManager : Singleton<UIManager>
 
         switch (newState)
         {
-            case GameState.MainMenu:
+            case GameState.Menu:
                 if (MainMenuPanel) MainMenuPanel.SetActive(true);
                 break;
             case GameState.Playing:

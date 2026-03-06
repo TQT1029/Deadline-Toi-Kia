@@ -3,7 +3,7 @@ using UnityEngine;
 
 public enum GameState
 {
-    MainMenu,
+    Menu,
     Playing,
     Paused,
     Victory,
@@ -23,7 +23,7 @@ public class GameManager : Singleton<GameManager>
     protected override void OnAwake()
     {
         // Mặc định ban đầu
-        ChangeState(GameState.MainMenu);
+        ChangeState(GameState.Menu);
     }
 
     public void ChangeState(GameState newState)
@@ -33,7 +33,8 @@ public class GameManager : Singleton<GameManager>
         // Tự động xử lý TimeScale
         switch (newState)
         {
-            case GameState.MainMenu:
+            case GameState.Menu:
+                AudioManager.Instance.PlayMusic("BGM_Default");
                 Time.timeScale = 1f;
                 break;
             case GameState.Playing:

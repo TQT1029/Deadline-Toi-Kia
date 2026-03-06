@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
+[DefaultExecutionOrder(-11)]
 public class AudioManager : Singleton<AudioManager>
 {
 

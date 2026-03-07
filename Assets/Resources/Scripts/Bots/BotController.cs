@@ -1,4 +1,5 @@
-﻿using UnityEditor.Animations;
+﻿using DG.Tweening;
+using UnityEditor.Animations;
 using UnityEngine;
 
 public class BotController : BaseRunner
@@ -144,7 +145,7 @@ public class BotController : BaseRunner
 
             float dist = transform.position.x - targetPlayer.position.x;
 
-
+            //Debug.Log("dist: " + dist);
             if (dist > cullDistance)
             {
                 isAiActive = false;
@@ -271,16 +272,14 @@ public class BotController : BaseRunner
         base.OnRespawn();
         if (targetPlayer != null)
         {
-
             float safeY = Mathf.Max(targetPlayer.position.y, -2f) + 5f;
-            float punishX = 0f;
-            
+            float punishX = transform.position.x;
+
             // Nếu Rớt phìa sau player quá xa mới cần tp lại
-            if (transform.position.x < targetPlayer.position.x - 10)
+            if (transform.position.x - targetPlayer.transform.position.x < -10)
                 punishX = targetPlayer.position.x - 8f;
 
             transform.position = new Vector3(punishX, safeY, 0);
-
 
             isHighJumping = false;
             highJumpTimer = 0;

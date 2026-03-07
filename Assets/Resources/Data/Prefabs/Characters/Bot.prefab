@@ -210,6 +210,7 @@ MonoBehaviour:
     m_Bits: 448
   knockbackCooldown: 1
   fallThresholdY: -10
+  spawnPoint: {fileID: 0}
   adjustDist: 10
   targetPlayer: {fileID: 0}
   sensorPoint: {fileID: 2782050469338715646}
@@ -235,7 +236,7 @@ MonoBehaviour:
   - {fileID: 9100000, guid: 0c760937c327c6a4ea84ea3bcf681c4e, type: 2}
   - {fileID: 9100000, guid: dbb3980b8529c7a4ea059af193860407, type: 2}
   animator: {fileID: 8765889324860102716}
-  cullDistance: 25
+  cullDistance: 30
   aiUpdateInterval: 0.1
 --- !u!95 &8765889324860102716
 Animator:

@@ -19,7 +19,7 @@ public class BaseRunner : MonoBehaviour
     public LayerMask groundLayer;
 
     [Header("Knockback Settings")]
-    [SerializeField] protected float knockbackCooldown = 1.0f; 
+    [SerializeField] protected float knockbackCooldown = 1.0f;
     private float lastKnockbackTime;
 
     [Header("Map Safety (Chống rơi khỏi map)")]
@@ -27,6 +27,7 @@ public class BaseRunner : MonoBehaviour
     public float fallThresholdY = -10f;
 
     // Components
+    [SerializeField] private Transform spawnPoint;
     protected Rigidbody2D _rb;
     protected Animator _animator;
     protected CapsuleCollider2D _collider;
@@ -40,19 +41,24 @@ public class BaseRunner : MonoBehaviour
 
     protected virtual void Awake()
     {
+        if (spawnPoint == null) spawnPoint = GameObject.FindGameObjectWithTag("SpawnPoint")?.transform;
         _rb = GetComponent<Rigidbody2D>();
         _collider = GetComponent<CapsuleCollider2D>();
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _animator = GetComponent<Animator>();
 
-        lastKnockbackTime = -knockbackCooldown; // Fix để có thể bị knockback ngay khi start game nếu cần
+        lastKnockbackTime = -knockbackCooldown; 
 
         currentSpeed = baseRunSpeed + floatShuffleBag.Next();
+
     }
 
     protected virtual void Start()
     {
         //UpdateColliderSize();
+        transform.position = spawnPoint.position;
+
+        
     }
 
     protected virtual void FixedUpdate()
@@ -178,6 +184,7 @@ public class BaseRunner : MonoBehaviour
 
     protected virtual void OnStuck()
     {
+        Debug.Log("Stucked");
         OnRespawn();
     }
 

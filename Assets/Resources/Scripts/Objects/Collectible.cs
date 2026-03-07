@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using DG.Tweening; // Bắt buộc
 
 public enum ItemType
@@ -63,8 +64,14 @@ public class Collectible : MonoBehaviour
         Destroy(gameObject);
     }
 
+    private void OnDisable()
+    {
+        transform.DOKill();
+    }
+
     private void OnDestroy()
     {
         transform.DOKill();
     }
+
 }

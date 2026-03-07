@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using DG.Tweening;
+using UnityEngine;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(Image))]
@@ -29,9 +30,10 @@ public class AutoNativeSizeAnimator : MonoBehaviour
     private void UpdateSize()
     {
         _targetImage.SetNativeSize();
+    }
 
-        // Mẹo nhỏ: Đôi khi NativeSize quá to hoặc quá nhỏ so với UI
-        // Bạn có thể chỉnh Scale của GameObject này (ví dụ 0.5, 0.5, 1) trong Editor
-        // Script này chỉ thay đổi width/height (RectTransform), không đổi Scale.
+    private void OnDestroy()
+    {
+        transform.DOKill();
     }
 }

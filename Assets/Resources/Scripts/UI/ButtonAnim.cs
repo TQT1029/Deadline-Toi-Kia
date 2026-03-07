@@ -49,4 +49,9 @@ public class ButtonAnim : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         transform.DOScale(originalScale, duration)
                  .SetEase(Ease.OutElastic).SetUpdate(true);
     }
+
+    private void OnDestroy()
+    {
+        transform.DOKill();
+    }
 }

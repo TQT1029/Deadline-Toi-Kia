@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-[RequireComponent (typeof(GroundGenerator), typeof(PitObjectGenerator))]
+[RequireComponent(typeof(GroundGenerator), typeof(PitObjectGenerator))]
 [RequireComponent(typeof(ObstacleGenerator), typeof(ItemGenerator))]
 public class EndlessGameController : MonoBehaviour
 {
@@ -38,40 +38,48 @@ public class EndlessGameController : MonoBehaviour
 
     private float lastEdgeX = 0f;
 
+    private float cleanUpTime = 0f;
+
     private void Start()
     {
         if (player == null) player = ReferenceManager.Instance.PlayerTransform;
         winPoint.SetActive(false);
 
-        // [SYNC] Thay đổi PitChance thông qua Config
-        // Lưu lại giá trị gốc
-        int oldPit = MapGlobalConfig.Instance.pitChance;
+        // [OPTIMIZED] Logic an toàn để tắt hố ở đoạn đầu
+        // Sử dụng cờ tạm thời hoặc biến cục bộ để không ghi đè dữ liệu gốc nếu có lỗi
+        int originalPitChance = MapGlobalConfig.Instance.pitChance;
 
-        // Set về 0 để 3 đoạn đầu không có hố
-        MapGlobalConfig.Instance.pitChance = 0;
-
-        for (int i = 0; i < 3; i++)
+        try
         {
-            SpawnNextPiece();
+            MapGlobalConfig.Instance.pitChance = 0; // Tắt hố
+            for (int i = 0; i < 3; i++)
+            {
+                SpawnNextPiece();
+            }
         }
-
-        // Trả lại giá trị gốc
-        MapGlobalConfig.Instance.pitChance = oldPit;
+        finally
+        {
+            // Luôn luôn trả lại giá trị gốc dù có lỗi xảy ra ở SpawnNextPiece
+            MapGlobalConfig.Instance.pitChance = originalPitChance;
+        }
     }
-
     private void Update()
     {
         if (winPointSpawned) return;
 
+        // Chỉ spawn khi cần thiết
         if (player.position.x + generationDistance > lastEdgeX)
         {
             SpawnNextPiece();
         }
 
-        CleanupOldObjects();
+        if (Time.time > cleanUpTime)
+        {
+            CleanupOldObjects();
+            cleanUpTime = Time.time + 0.25f;
+        }
 
         distanceRan = GameStatsController.Instance.resultDistance;
-
         HandleBossSpawn();
         HandleBossFight();
     }
@@ -80,33 +88,25 @@ public class EndlessGameController : MonoBehaviour
 
     private void SpawnNextPiece()
     {
-        // BƯỚC 1: Tạo Đất hoặc Hố (GroundGenerator)
-        // Hàm này trả về info: loại gì (Đất/Hố), bắt đầu từ đâu, kết thúc ở đâu
-        var resultSegmment = groundGenerator.SpawnNextSegment(lastEdgeX);
+        // BƯỚC 1: Tạo Đất/Hố
+        var result = groundGenerator.SpawnNextSegment(lastEdgeX);
+        lastEdgeX = result.endX;
 
-        // Cập nhật mốc biên map mới
-        lastEdgeX = resultSegmment.endX;
-
-        // BƯỚC 2 & 3: Dựa vào loại map vừa tạo để gọi Generator phù hợp
-        if (resultSegmment.type == GroundGenerator.SegmentType.Pit)
+        // BƯỚC 2: Tạo vật thể trên segment đó
+        if (result.type == GroundGenerator.SegmentType.Pit)
         {
-            // Nếu là Hố -> Gọi PitObjectGenerator để tạo cầu hoặc vật cản bay giữa hố
-            pitObjectGenerator.GenerateObjectsInPit(resultSegmment.startX, resultSegmment.endX);
+            pitObjectGenerator.GenerateObjectsInPit(result.startX, result.endX);
         }
-        else // resultSegmment.type == Ground
+        else
         {
-            // Nếu là Đất liền -> Gọi ObstacleGenerator để tạo chướng ngại vật hoặc sàn bay
-            obstacleGenerator.GenerateObstaclesOnGround(resultSegmment.startX, resultSegmment.endX);
+            obstacleGenerator.GenerateObstaclesOnGround(result.startX, result.segmentLenght);
         }
 
-        // BƯỚC 4: Tạo Items (ItemGenerator)
-        // Item luôn được tạo sau cùng để đảm bảo nó nằm trên các object vừa sinh ra
-        Physics2D.SyncTransforms(); // Cập nhật vật lý để ItemGenerator Raycast chính xác
-        itemGenerator.GenerateItems(resultSegmment.startX, resultSegmment.endX);
-
-        Debug.Log("Last Edge: "+lastEdgeX);
+        // BƯỚC 3: Đồng bộ vật lý và tạo Item
+        // Bắt buộc phải sync để Collider cập nhật vị trí mới nhất cho Raycast của ItemGenerator
+        Physics2D.SyncTransforms();
+        itemGenerator.GenerateItems(result.startX, result.endX);
     }
-
     //============================ Boss Logic ============================//
 
     private void HandleBossSpawn()
@@ -139,58 +139,60 @@ public class EndlessGameController : MonoBehaviour
         if (winPoint == null || winPointSpawned) return;
 
         Physics2D.SyncTransforms();
-        SpawnNextPiece(); 
+        SpawnNextPiece();
 
         float winXStart = bossDefeatedDistance + winPointOffset;
 
-        float middleX = winXStart + 15;
-        float endX = winXStart + 30;
-        float distanceRays = 30f;
-
-        RaycastHit2D hit_Start = Physics2D.Raycast(new Vector2(winXStart, 10f), Vector2.down, distanceRays, LayerMask.GetMask("Platform"));
-        RaycastHit2D hit_Middle = Physics2D.Raycast(new Vector2(middleX, 10f), Vector2.down, distanceRays, LayerMask.GetMask("Platform"));
-        RaycastHit2D hit_End = Physics2D.Raycast(new Vector2(endX, 10f), Vector2.down, distanceRays, LayerMask.GetMask("Platform"));
-
-        int safetyCounter = 0;
-        while (hit_Start == default || hit_Middle == default || hit_End == default)
+        for (int i = 0; i < 50; i++)
         {
-            if (safetyCounter > 50) break;
-            winXStart -= 10f; // Lùi lại tìm đất
-            middleX = winXStart + 15;
-            endX = winXStart + 30;
-
-            hit_Start = Physics2D.Raycast(new Vector2(winXStart, 10f), Vector2.down, distanceRays, LayerMask.GetMask("Platform"));
-            hit_Middle = Physics2D.Raycast(new Vector2(middleX, 10f), Vector2.down, distanceRays, LayerMask.GetMask("Platform"));
-            hit_End = Physics2D.Raycast(new Vector2(endX, 10f), Vector2.down, distanceRays, LayerMask.GetMask("Platform"));
-            safetyCounter++;
+            if (CheckWinPointValid(winXStart)) break;
+            winXStart -= 10f;
         }
+
+
 
         winPoint.transform.position = new Vector2(winXStart, 0f);
         winPoint.SetActive(true);
         winPointSpawned = true;
     }
 
+
     //============================ Helper ============================//
+    private bool CheckWinPointValid(float startX)
+    {
+        float middleX = startX + 15;
+        float endX = startX + 30;
+        float distanceRays = 30f;
+
+        RaycastHit2D hit_Start = Physics2D.Raycast(new Vector2(startX, 10f), Vector2.down, distanceRays, LayerMask.GetMask("Platform"));
+        RaycastHit2D hit_Middle = Physics2D.Raycast(new Vector2(middleX, 10f), Vector2.down, distanceRays, LayerMask.GetMask("Platform"));
+        RaycastHit2D hit_End = Physics2D.Raycast(new Vector2(endX, 10f), Vector2.down, distanceRays, LayerMask.GetMask("Platform"));
+
+        return hit_Start && hit_Middle && hit_End;
+    }
 
     private void CleanupOldObjects()
     {
-        // Cần cleanup từ tất cả các nguồn
+        // Gom mảng vào local để loop cho gọn
         Transform[] containers = {
             groundGenerator.basePlatformObjs,
             pitObjectGenerator.obstacleObjs,
             pitObjectGenerator.miniPlatformObjs,
-            obstacleGenerator.obstacleObjs,    
+            obstacleGenerator.obstacleObjs,
             obstacleGenerator.miniPlatformObjs,
             itemGenerator.itemContainer
         };
 
+        float killX = player.position.x - destroyDistanceBehind;
+
         foreach (Transform container in containers)
         {
             if (container == null) continue;
+            // Loop ngược là đúng chuẩn khi Destroy
             for (int i = container.childCount - 1; i >= 0; i--)
             {
                 Transform child = container.GetChild(i);
-                if (player.position.x - child.position.x > destroyDistanceBehind)
+                if (child.position.x < killX)
                 {
                     Destroy(child.gameObject);
                 }

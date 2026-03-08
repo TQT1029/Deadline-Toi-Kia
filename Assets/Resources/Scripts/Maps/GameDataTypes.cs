@@ -65,9 +65,8 @@ public class ObstacleData
         {
             // 2. Nếu không nhập tay -> Tính toán chính xác bằng cách tạo vật thể tạm
             // Vì chỉ chạy 1 lần lúc Loading nên Instantiate thoải mái
-            GameObject temp = GameObject.Instantiate(prefab);
-            temp.transform.position = Vector3.zero;
-            temp.transform.rotation = Quaternion.identity;
+            GameObject temp = GameObject.Instantiate(prefab,  Vector3.zero, Quaternion.identity);
+
             temp.SetActive(true);
 
             var colliders = temp.GetComponentsInChildren<Collider2D>(true);

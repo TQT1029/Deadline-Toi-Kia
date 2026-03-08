@@ -26,6 +26,7 @@ public class GroundGenerator : MonoBehaviour
         public SegmentType type;
         public float startX;
         public float endX;
+        public float segmentLenght;
     }
 
     public GenerationResult SpawnNextSegment(float currentX)
@@ -33,6 +34,7 @@ public class GroundGenerator : MonoBehaviour
         bool configHasPit = MapGlobalConfig.Instance.hasPit;
         int configPitChance = MapGlobalConfig.Instance.pitChance;
 
+        // Nếu config cấm hố, tạo đất luôn
         if (!configHasPit) return GenerateGround(currentX);
 
         bool forcePit = currentSegmentLength > maxGroundSegmentLength;
@@ -50,45 +52,69 @@ public class GroundGenerator : MonoBehaviour
 
     private GenerationResult GeneratePit(float currentX)
     {
+        // Tính độ rộng hố
         float pitWidth = RandomUtils.RandomWithSteps(minPitWidth, maxPitWidth, 0.5f);
         float endX = currentX + pitWidth;
 
+        // Reset bộ đếm độ dài đất liền
         currentSegmentLength = 0f;
 
         return new GenerationResult
         {
             type = SegmentType.Pit,
             startX = currentX,
-            endX = endX
+            endX = endX,
+            segmentLenght = currentSegmentLength,
         };
     }
 
     private GenerationResult GenerateGround(float currentX)
     {
-        // [SYNC] Lấy groundY từ Global Config
         float groundY = MapGlobalConfig.Instance.groundY;
 
+        // Lấy data ngẫu nhiên
         BasePlatformData data = baseLibrary[Random.Range(0, baseLibrary.Count)];
-        float estimatedLen = data.GetLength();
-        Vector3 pos = new Vector3(currentX + estimatedLen / 2f, groundY, 0);
 
-        GameObject obj = Instantiate(data.prefab, pos, Quaternion.identity, basePlatformObjs);
+        // Lấy length dự kiến từ config/data
+        float length = data.GetLength();
 
-        float actualLen = estimatedLen;
+        // [LOGIC CHÍNH XÁC]: Pivot thường ở tâm (Center), nên vị trí đặt = currentX + nửa chiều dài
+        Vector3 spawnPos = new Vector3(currentX + length / 2f, groundY, 0);
+
+        GameObject obj = Instantiate(data.prefab, spawnPos, Quaternion.identity, basePlatformObjs);
+
+        // [AUTO CORRECTION]: Kiểm tra lại bằng Collider thực tế để đảm bảo không bị hở map
+        // Nếu file ảnh dài hơn collider hoặc ngược lại, ta tin vào Collider để tính va chạm
+        float actualLen = length;
         var col = obj.GetComponent<BoxCollider2D>();
-        if (col != null) actualLen = col.size.x * obj.transform.localScale.x;
 
-        if (Mathf.Abs(actualLen - estimatedLen) > 0.01f)
-            obj.transform.position = new Vector3(currentX + actualLen / 2f, groundY, 0);
+        if (col != null)
+        {
+            // Tính length thực tế dựa trên scale
+            actualLen = col.size.x * obj.transform.localScale.x;
 
+            // Nếu có sự chênh lệch lớn giữa config và thực tế, ta cần chỉnh lại vị trí obj
+            // để mép trái của nó trùng khít với currentX
+            if (Mathf.Abs(actualLen - length) > 0.05f)
+            {
+                // Dời vị trí sao cho mép trái (min X) = currentX
+                // CenterX = MinX + HalfLength
+                float correctedX = currentX + actualLen / 2f;
+                obj.transform.position = new Vector3(correctedX, groundY, 0);
+            }
+        }
+
+        // Điểm kết thúc của segment này (chính là điểm bắt đầu của segment sau)
         float endX = currentX + actualLen;
+
         currentSegmentLength += actualLen;
 
         return new GenerationResult
         {
             type = SegmentType.Ground,
             startX = currentX,
-            endX = endX
+            endX = endX,
+            segmentLenght = currentSegmentLength,
         };
     }
 }

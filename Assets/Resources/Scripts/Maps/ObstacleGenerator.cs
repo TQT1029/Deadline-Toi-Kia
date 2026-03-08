@@ -57,7 +57,7 @@ public class ObstacleGenerator : MonoBehaviour
     {
         float groundY = MapGlobalConfig.Instance.groundY;
 
-        float currentX = startX + obstacleEdgePadding + RandomUtils.RandomWithSteps(minObstacleGap, maxObstacleGap, 1);
+        float currentX = startX + obstacleEdgePadding + RandomUtils.RandomWithSteps(minObstacleGap, maxObstacleGap, 1f);
         float limitX = endX - obstacleEdgePadding;
 
         while (currentX < limitX)
@@ -67,12 +67,15 @@ public class ObstacleGenerator : MonoBehaviour
                 ObstacleData obs = obstacleLibrary[Random.Range(0, obstacleLibrary.Count)];
                 Vector2 size = obs.GetSize();
 
+
                 if (currentX + size.x <= limitX)
                 {
                     Vector3 pos = new Vector3(currentX + size.x / 2f, groundY, 0);
                     Instantiate(obs.prefab, pos, Quaternion.identity, obstacleObjs);
                     currentX += size.x;
+                    Debug.Log(pos);
                 }
+                
             }
             currentX += RandomUtils.RandomWithSteps(minObstacleGap, maxObstacleGap, 0.5f);
         }

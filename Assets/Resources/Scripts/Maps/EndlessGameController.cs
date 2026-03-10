@@ -89,7 +89,9 @@ public class EndlessGameController : MonoBehaviour
     private void SpawnNextPiece()
     {
         // BƯỚC 1: Tạo Đất/Hố
+
         var result = groundGenerator.SpawnNextSegment(lastEdgeX);
+
         lastEdgeX = result.endX;
 
         // BƯỚC 2: Tạo vật thể trên segment đó
@@ -99,7 +101,7 @@ public class EndlessGameController : MonoBehaviour
         }
         else
         {
-            obstacleGenerator.GenerateObstaclesOnGround(result.startX, result.segmentLenght);
+            obstacleGenerator.GenerateObstaclesOnGround(result.startX, result.endX);
         }
 
         // BƯỚC 3: Đồng bộ vật lý và tạo Item

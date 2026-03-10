@@ -146,8 +146,7 @@ MonoBehaviour:
   <obstacleLibrary>k__BackingField: []
   <miniPlatformLibrary>k__BackingField: []
   ratioObstacleToAerial: 70
-  obstacleChance: 60
-  obstacleEdgePadding: 2
+  obstacleEdgePadding: 4
   minObstacleGap: 7
   maxObstacleGap: 12
   aerialHeight: 3
@@ -155,6 +154,8 @@ MonoBehaviour:
   maxAerialHeight: 3
   minGapAerial: 1
   maxGapAerial: 3
+  minZoneLength: 30
+  maxZoneLength: 70
 --- !u!114 &1116954769656626785
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -194,7 +195,7 @@ MonoBehaviour:
   groundPadding: 1
   minGap: 5
   maxGap: 7
-  obstacleChanceItems: 50
+  obstacleChanceItems: 70
   platformChanceItems: 70
 --- !u!1 &2164284286076984572
 GameObject:

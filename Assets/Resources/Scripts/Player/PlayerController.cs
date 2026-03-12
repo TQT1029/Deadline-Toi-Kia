@@ -47,8 +47,9 @@ public class PlayerController : BaseRunner
         base.Move();
     }
 
-    private void Update()
+    protected override void Update()
     {
+        base.Update();
         if (isControlLocked) return;
         HandleInput();
     }
@@ -59,9 +60,9 @@ public class PlayerController : BaseRunner
         // Gọi base để reset vận tốc và trừ tốc độ chạy
         base.OnRespawn();
 
-        if (ReferenceManager.Instance != null && ReferenceManager.Instance.RespawnTrans != null)
+        if (respawnPosition!=null)
         {
-            transform.position = new Vector3(ReferenceManager.Instance.RespawnTrans.position.x, ReferenceManager.Instance.RespawnTrans.position.y, 0);
+            transform.position = respawnPosition;
 
             // Reset trạng thái Input nhảy
             isJumping = false;

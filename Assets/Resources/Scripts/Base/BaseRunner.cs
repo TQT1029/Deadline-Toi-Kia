@@ -5,29 +5,32 @@ using UnityEngine;
 public class BaseRunner : MonoBehaviour
 {
     [Header("Base Stats")]
-    public float baseRunSpeed = 5f;
-    public float jumpForce = 10f;
+    [SerializeField] protected float baseRunSpeed = 5f;
+    [SerializeField] protected float jumpForce = 10f;
 
     [Header("Auto Collider & Stuck Config")]
     [Tooltip("Thời gian đứng yên tối đa trước khi bị coi là Kẹt")]
-    public float timeToStuck = 1.0f;
+    protected float timeToStuck = 1.0f;
     protected float stuckTimer;
 
     [Header("Ground Detection")]
-    public Transform groundCheck;
-    public float groundCheckRadius = 0.3f;
-    public LayerMask groundLayer;
+    [SerializeField] protected Transform groundCheckPos;
+    protected float groundCheckRadius = 0.3f;
+    [SerializeField] protected LayerMask groundLayer;
 
     [Header("Knockback Settings")]
     [SerializeField] protected float knockbackCooldown = 1.0f;
     private float lastKnockbackTime;
 
-    [Header("Map Safety (Chống rơi khỏi map)")]
+    [Header("Map Safety")]
     [Tooltip("Độ sâu mà Runner rơi xuống sẽ bị Respawn (VD: -10)")]
-    public float fallThresholdY = -10f;
+    [SerializeField] protected float fallThresholdY = -10f;
+    [SerializeField] protected float respawnFallTime = 1f; // Thời gian delay trước khi respawn sau khi rơi 
+    [SerializeField] protected Vector2 respawnPosition = Vector2.zero;
+
 
     // Components
-    [SerializeField] private Transform spawnPoint;
+    [SerializeField] private Transform startPoint; // Điểm bắt đầu của Runner
     protected Rigidbody2D _rb;
     protected Animator _animator;
     protected CapsuleCollider2D _collider;
@@ -41,13 +44,13 @@ public class BaseRunner : MonoBehaviour
 
     protected virtual void Awake()
     {
-        if (spawnPoint == null) spawnPoint = GameObject.FindGameObjectWithTag("SpawnPoint")?.transform;
+        if (startPoint == null) startPoint = GameObject.FindGameObjectWithTag("SpawnPoint")?.transform;
         _rb = GetComponent<Rigidbody2D>();
         _collider = GetComponent<CapsuleCollider2D>();
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _animator = GetComponent<Animator>();
 
-        lastKnockbackTime = -knockbackCooldown; 
+        lastKnockbackTime = -knockbackCooldown;
 
         currentSpeed = baseRunSpeed + floatShuffleBag.Next();
 
@@ -56,16 +59,22 @@ public class BaseRunner : MonoBehaviour
     protected virtual void Start()
     {
         //UpdateColliderSize();
-        transform.position = spawnPoint.position;
+        transform.position = startPoint.position;
 
-        
+
     }
-
+    protected virtual void Update()
+    {
+        if (isGrounded && transform.position.y >= MapGlobalConfig.Instance.groundY)
+        {
+            respawnPosition = transform.position;
+        }
+    }
     protected virtual void FixedUpdate()
     {
         CheckGround();
         CheckStuck();
-        CheckPitFall();
+        OnPitFall();
         Move();
     }
 
@@ -143,8 +152,10 @@ public class BaseRunner : MonoBehaviour
     // --- LOGIC KIỂM TRA ---
     protected void CheckGround()
     {
-        if (groundCheck != null)
-            isGrounded = Physics2D.OverlapBox(groundCheck.position, new Vector2(3.7f / 2.5f, groundCheckRadius), 0, groundLayer);
+        if (groundCheckPos != null)
+        {
+            isGrounded = Physics2D.OverlapBox(groundCheckPos.position, new Vector2(3.7f / 2.5f, groundCheckRadius), 0, groundLayer);
+        }
     }
 
     protected virtual void CheckStuck()
@@ -157,11 +168,8 @@ public class BaseRunner : MonoBehaviour
         }
 
         float vX = 0f;
-#if UNITY_6000_0_OR_NEWER
         vX = _rb.linearVelocity.x;
-#else
-        vX = _rb.velocity.x;
-#endif
+
         if (Mathf.Abs(vX) < 0.1f && currentSpeed > 1f)
         {
             stuckTimer += Time.fixedDeltaTime;
@@ -174,7 +182,7 @@ public class BaseRunner : MonoBehaviour
         else stuckTimer = 0f;
     }
 
-    protected virtual void CheckPitFall()
+    protected virtual void OnPitFall()
     {
         if (transform.position.y < fallThresholdY)
         {
@@ -184,7 +192,6 @@ public class BaseRunner : MonoBehaviour
 
     protected virtual void OnStuck()
     {
-        Debug.Log("Stucked");
         OnRespawn();
     }
 
@@ -196,11 +203,8 @@ public class BaseRunner : MonoBehaviour
         // Reset trạng thái
         isControlLocked = false;
 
-#if UNITY_6000_0_OR_NEWER
         _rb.linearVelocity = Vector2.zero; // Sửa lại thành zero cho an toàn
-#else
-        _rb.velocity = Vector2.zero;
-#endif
+
         currentSpeed = baseRunSpeed * 0.75f;
         stuckTimer = 0f;
     }

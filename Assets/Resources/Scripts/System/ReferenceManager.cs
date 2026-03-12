@@ -14,7 +14,6 @@ public class ReferenceManager : Singleton<ReferenceManager>
     public Rigidbody2D PlayerRigidbody { get; private set; }
 
     public Transform SpawnTrans { get; private set; }
-    public Transform RespawnTrans { get; private set; }
 
     [Header("Data Library")]
     [Tooltip("Kéo tất cả CharacterProfile vào đây")]
@@ -35,7 +34,6 @@ public class ReferenceManager : Singleton<ReferenceManager>
 
         // Tìm lại Spawn và Respawn
         SpawnTrans = GameObject.FindGameObjectWithTag(GameConstants.TAG_SPAWNPOINT)?.transform;
-        RespawnTrans = GameObject.FindGameObjectWithTag(GameConstants.TAG_RESPAWN)?.transform;
 
     }
 

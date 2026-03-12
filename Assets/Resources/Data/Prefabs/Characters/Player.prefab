@@ -199,16 +199,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1591f15334f1c844e8866745a86cdf78, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseRunSpeed: 7
-  jumpForce: 10
-  timeToStuck: 3
-  groundCheck: {fileID: 5938229336881462026}
-  groundCheckRadius: 0.15
+  groundCheckPos: {fileID: 5938229336881462026}
   groundLayer:
     serializedVersion: 2
     m_Bits: 448
   knockbackCooldown: 1
   fallThresholdY: -10
+  respawnFallTime: 1
+  respawnPosition: {x: 0, y: 0}
+  startPoint: {fileID: 0}
   accelerationRate: 2
   jumpHoldForce: 2.5
   maxJumpHoldTime: 0.3

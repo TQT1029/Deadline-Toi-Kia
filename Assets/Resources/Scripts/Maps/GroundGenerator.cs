@@ -10,7 +10,7 @@ public class GroundGenerator : MonoBehaviour
     [field: SerializeField] public Transform basePlatformObjs { get; private set; }
     [field: SerializeField] public List<BasePlatformData> baseLibrary { get; private set; }
 
-    [Header("Segment Logic (Riêng biệt)")]
+    [Header("Segment Logic ")]
     // Các biến này chỉ dùng cho việc tính toán độ dài đoạn đất -> Giữ nguyên
     [SerializeField] private float minGroundSegmentLength = 30f;
     [SerializeField] private float maxGroundSegmentLength = 75f;

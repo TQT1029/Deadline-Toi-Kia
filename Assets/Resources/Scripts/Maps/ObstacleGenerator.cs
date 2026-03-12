@@ -1,5 +1,6 @@
-using UnityEngine;
 using System.Collections.Generic;
+using System.Drawing;
+using UnityEngine;
 
 public class ObstacleGenerator : MonoBehaviour
 {
@@ -15,15 +16,16 @@ public class ObstacleGenerator : MonoBehaviour
 
     private RandomUtils.ShuffleBag<MiniPlatformData> miniPlatformBag;
 
-    [Header("Obstacle Settings (Riêng biệt)")]
+    [Header("Obstacle Settings ")]
     [SerializeField, Range(0, 100)] private int ratioObstacleToAerial = 70;
+    [SerializeField, Range(0, 100)] private int changeSpawnObstacle = 80;
 
-    [Header("Layout Logic (Riêng biệt)")]
+    [Header("Layout Logic ")]
     [SerializeField] private float obstacleEdgePadding = 2f;
     [SerializeField] private float minObstacleGap = 7f;
     [SerializeField] private float maxObstacleGap = 12f;
 
-    [Header("Aerial Logic (Riêng biệt)")]
+    [Header("Aerial Logic ")]
     [SerializeField] private float aerialHeight = 3f;
     [SerializeField] private float minAerialHeight = -1f;
     [SerializeField] private float maxAerialHeight = 3f;
@@ -56,7 +58,7 @@ public class ObstacleGenerator : MonoBehaviour
             currentZone = RandomUtils.ChancePercent(ratioObstacleToAerial) ? ZoneType.GroundObstacles : ZoneType.AerialPlatforms;
 
             // Đặt giới hạn cho Zone này (Zone này sẽ kéo dài qua nhiều mảnh đất)
-            zoneEndX = startX + Random.Range(minZoneLength, maxZoneLength);
+            zoneEndX = startX + RandomUtils.RandomWithSteps(minZoneLength, maxZoneLength, 0.5f);
 
             // Chỉ thêm Padding ở ĐẦU của một Zone mới
             nextSpawnX = startX + obstacleEdgePadding;
@@ -85,27 +87,32 @@ public class ObstacleGenerator : MonoBehaviour
 
         while (nextSpawnX < limitX)
         {
-
-            ObstacleData obs = obstacleLibrary[Random.Range(0, obstacleLibrary.Count)];
-            Vector2 size = obs.GetSize();
-
-            // NẾU VẬT CẢN VỪA KHÍT TRONG MẢNH ĐẤT NÀY -> RẢI
-            if (nextSpawnX + size.x <= limitX)
+            if (RandomUtils.ChancePercent(changeSpawnObstacle))
             {
-                Vector3 pos = new Vector3(nextSpawnX + size.x / 2f, groundY, 0);
-                Instantiate(obs.prefab, pos, Quaternion.identity, obstacleObjs);
+                ObstacleData obs = obstacleLibrary[Random.Range(0, obstacleLibrary.Count)];
+                Vector2 size = obs.GetSize();
 
-                // Cộng dồn X cho vật tiếp theo
-                nextSpawnX += size.x + RandomUtils.RandomWithSteps(minObstacleGap, maxObstacleGap, 0.5f);
+                // NẾU VẬT CẢN VỪA KHÍT TRONG MẢNH ĐẤT NÀY -> RẢI
+                if (nextSpawnX + size.x <= limitX)
+                {
+                    Vector3 pos = new Vector3(nextSpawnX + size.x / 2f, groundY, 0);
+                    Instantiate(obs.prefab, pos, Quaternion.identity, obstacleObjs);
+
+                    // Cộng dồn X cho vật tiếp theo
+                    nextSpawnX += size.x + RandomUtils.RandomWithSteps(minObstacleGap, maxObstacleGap, 0.5f);
+                }
+                else
+                {
+                    // NẾU KHÔNG VỪA -> DỪNG LẠI (Break). 
+                    // Tọa độ nextSpawnX vẫn được giữ nguyên. 
+                    // Khi mảnh đất tiếp theo sinh ra, vòng lặp này sẽ chạy tiếp từ đúng điểm đang chờ!
+                    break;
+                }
             }
             else
             {
-                // NẾU KHÔNG VỪA -> DỪNG LẠI (Break). 
-                // Tọa độ nextSpawnX vẫn được giữ nguyên. 
-                // Khi mảnh đất tiếp theo sinh ra, vòng lặp này sẽ chạy tiếp từ đúng điểm đang chờ!
-                break;
+                nextSpawnX += RandomUtils.RandomWithSteps(minObstacleGap, maxObstacleGap, 0.5f);
             }
-
         }
     }
 

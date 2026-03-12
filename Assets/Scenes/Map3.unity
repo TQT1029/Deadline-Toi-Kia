@@ -2945,6 +2945,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 5938229336881462026, guid: f92725ec08211b44886b69386569a94b, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 7283999904708901516, guid: f92725ec08211b44886b69386569a94b, type: 3}
       propertyPath: m_Name
       value: Player
@@ -2993,6 +2997,10 @@ PrefabInstance:
       propertyPath: spawnPoint
       value: 
       objectReference: {fileID: 283707766}
+    - target: {fileID: 8490645043864566016, guid: f92725ec08211b44886b69386569a94b, type: 3}
+      propertyPath: groundCheckPos
+      value: 
+      objectReference: {fileID: 1458409390}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -4048,6 +4056,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1456120403}
   m_CullTransparentMesh: 1
+--- !u!4 &1458409390 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5938229336881462026, guid: f92725ec08211b44886b69386569a94b, type: 3}
+  m_PrefabInstance: {fileID: 1065457515}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1482329902
 GameObject:
   m_ObjectHideFlags: 0

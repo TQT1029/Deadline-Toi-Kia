@@ -200,17 +200,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 959891521226ab64aa523874a77efe8b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseRunSpeed: 7
-  jumpForce: 10
-  timeToStuck: 3
-  groundCheck: {fileID: 1011772252885186266}
-  groundCheckRadius: 0.15
+  groundCheckPos: {fileID: 1011772252885186266}
   groundLayer:
     serializedVersion: 2
     m_Bits: 448
   knockbackCooldown: 1
   fallThresholdY: -10
-  spawnPoint: {fileID: 0}
+  respawnFallTime: 1
+  respawnPosition: {x: 0, y: 0}
+  startPoint: {fileID: 0}
   adjustDist: 10
   targetPlayer: {fileID: 0}
   sensorPoint: {fileID: 2782050469338715646}

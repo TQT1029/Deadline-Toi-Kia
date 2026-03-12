@@ -14,11 +14,11 @@ public class PitObjectGenerator : MonoBehaviour
 
     // [REMOVED] groundY, pitY, waveFrequency đã chuyển sang MapGlobalConfig
 
-    [Header("Pit Logic (Riêng biệt)")]
+    [Header("Pit Logic ")]
     [SerializeField] private bool obstacleInPit = true;
     [SerializeField] private float pitWidthNeedBridge = 15;
 
-    [Header("Bridge Settings (Riêng biệt)")]
+    [Header("Bridge Settings ")]
     [SerializeField] private float minBridgeHeight = -1f;
     [SerializeField] private float maxBridgeHeight = 2f;
     [SerializeField] private float minGapBridge = 0.5f;

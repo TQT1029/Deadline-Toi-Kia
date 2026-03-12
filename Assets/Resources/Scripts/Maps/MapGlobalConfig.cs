@@ -4,7 +4,7 @@ using UnityEngine;
 public class MapGlobalConfig : MonoBehaviour
 {
     public static MapGlobalConfig Instance;
-    private void Awake() => Instance = this;
+    private void Awake() => Instance = this; 
 
     [Header("Coordinate Settings (Dùng chung)")]
     public float groundY = -5f;      // Độ cao mặt đất

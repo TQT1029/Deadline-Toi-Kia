@@ -32,9 +32,6 @@ public class PlayerController : BaseRunner
             UIManager.Instance.MainInfo.sprite = profile.mainInfo;
     }
 
-    // --- LOGIC RIÊNG CỦA PLAYER ---
-
-    // 1. Ghi đè Move để thêm tính năng tăng tốc mượt
     protected override void Move()
     {
         if (isControlLocked) return; // Nếu bị khóa thì không tính toán tốc độ chạy tới
@@ -54,20 +51,14 @@ public class PlayerController : BaseRunner
         HandleInput();
     }
 
-    // 2. Ghi đè OnRespawn để đặt vị trí về Checkpoint
     protected override void OnRespawn()
     {
+        // Reset trạng thái Input nhảy
+        isJumping = false;
+        jumpTimeCounter = 0;
+
         // Gọi base để reset vận tốc và trừ tốc độ chạy
         base.OnRespawn();
-
-        if (respawnPosition!=null)
-        {
-            transform.position = respawnPosition;
-
-            // Reset trạng thái Input nhảy
-            isJumping = false;
-            jumpTimeCounter = 0;
-        }
     }
 
     private void HandleInput()

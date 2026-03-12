@@ -31,6 +31,15 @@ public class BotController : BaseRunner
     private bool isHighJumping = false;
     private float highJumpTimer;
 
+    [Header("Random Jump Behavior")]
+    [Tooltip("Tỷ lệ phần trăm (0-100) cơ bản để nhảy ngẫu nhiên mỗi giây")]
+    [SerializeField] private float baseRandomJumpChance = 5f;
+    [Tooltip("Tốc độ bắt đầu giảm tỷ lệ nhảy ngẫu nhiên")]
+    [SerializeField] private float speedToReduceJumpChance = 15f;
+    [Tooltip("Khoảng thời gian (giây) tối thiểu giữa 2 lần nhảy ngẫu nhiên (để tránh nhảy liên tục như thỏ)")]
+    [SerializeField] private float randomJumpCooldown = 1f;
+    private float nextRandomJumpTime;
+
     // Internal State
     private bool isJumpCooldown = false;
     private float targetRunSpeed;
@@ -69,7 +78,7 @@ public class BotController : BaseRunner
         myCatchUpMult = Random.Range(1.2f, 1.5f);
         mySlowDownMult = Random.Range(0.7f, 0.9f);
         myAccelerationRate = Random.Range(1.5f, 3.0f);
-        reactionTime = Random.Range(0.05f, 0.35f);
+        reactionTime = Random.Range(0.05f, 0.25f);
     }
 
     protected override void Start()
@@ -114,7 +123,7 @@ public class BotController : BaseRunner
         if (curTime >= nextAiUpdateTime)
         {
             // Thay đổi thời gian phản ứng
-            reactionTime = Random.Range(0.05f, 0.35f);
+            reactionTime = Random.Range(0.05f, 0.25f);
 
             RunAiLogic();
             nextAiUpdateTime = curTime + aiUpdateInterval;
@@ -171,6 +180,12 @@ public class BotController : BaseRunner
 
             if (!seesObstacle) seesPit = ScanForPits();
 
+            // MỚI: Nếu không thấy nguy hiểm gì cả, thử nhảy random
+            if (!seesObstacle && !seesPit)
+            {
+                HandleRandomJump();
+            }
+
             // Tinh chỉnh tốc độ mục tiêu dựa trên vị trí Player
             AdjustSpeedTarget();
 
@@ -185,6 +200,32 @@ public class BotController : BaseRunner
     }
 
     // --- SENSORS & AI LOGIC ---
+
+    private void HandleRandomJump()
+    {
+        // Kiểm tra xem đã hết thời gian chờ giữa các lần nhảy random chưa và bot có đang trên mặt đất không
+        if (Time.time < nextRandomJumpTime || !isGrounded || isJumpCooldown || isControlLocked) return;
+
+        // Tính toán tỷ lệ dựa trên frame rate / AI Update Interval
+        // Ví dụ: base là 5%/giây. AI update 10 lần/giây (0.1s). Tỷ lệ mỗi lần check = 0.5%
+        float chancePerCheck = baseRandomJumpChance * aiUpdateInterval;
+
+        // Giảm tỷ lệ nếu chạy quá nhanh
+        if (currentSpeed > speedToReduceJumpChance)
+        {
+            // Càng nhanh, tỷ lệ càng giảm dần về 0
+            float speedPenalty = speedToReduceJumpChance / currentSpeed;
+            chancePerCheck *= speedPenalty;
+        }
+            
+        // Đổ xúc xắc
+        if (Random.Range(0f, 100f) < chancePerCheck)
+        {
+            PerformJumpAction();
+
+            nextRandomJumpTime = Time.time + randomJumpCooldown + Random.Range(0f, 2f);
+        }
+    }
 
     private bool ScanForPits()
     {
@@ -270,20 +311,43 @@ public class BotController : BaseRunner
     protected override void OnRespawn()
     {
         base.OnRespawn();
+
+        isHighJumping = false;
+        highJumpTimer = 0;
+        isJumpCooldown = false;
+    }
+
+    protected override void RespawnFromPit()
+    {
+        if (targetPlayer == null) base.RespawnFromPit();
+
+        // Nếu Rớt phìa sau player quá xa mới cần tp lại
+        if (transform.position.x - targetPlayer.transform.position.x < -10)
+        {
+            float safeY = Mathf.Max(targetPlayer.position.y, -2f) + 5f;
+            float punishX = targetPlayer.position.x - 8f;
+
+            transform.position = new Vector3(punishX, safeY, 0);
+        }
+        else base.RespawnFromPit();
+    }
+
+    protected override void RespawnFromStuck()
+    {
         if (targetPlayer != null)
         {
             float safeY = Mathf.Max(targetPlayer.position.y, -2f) + 5f;
-            float punishX = transform.position.x;
+            float punishX = transform.position.x - 3f;
 
             // Nếu Rớt phìa sau player quá xa mới cần tp lại
             if (transform.position.x - targetPlayer.transform.position.x < -10)
                 punishX = targetPlayer.position.x - 8f;
 
             transform.position = new Vector3(punishX, safeY, 0);
-
-            isHighJumping = false;
-            highJumpTimer = 0;
-            isJumpCooldown = false;
+        }
+        else
+        {
+            base.RespawnFromStuck();
         }
     }
 }

@@ -200,13 +200,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 959891521226ab64aa523874a77efe8b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  baseRunSpeed: 7
+  jumpForce: 10
+  timeToStuck: 1
   groundCheckPos: {fileID: 1011772252885186266}
   groundLayer:
     serializedVersion: 2
     m_Bits: 448
   knockbackCooldown: 1
   fallThresholdY: -10
-  respawnFallTime: 1
+  respawnDelay: 1
   respawnPosition: {x: 0, y: 0}
   startPoint: {fileID: 0}
   adjustDist: 10
@@ -220,6 +223,9 @@ MonoBehaviour:
   pitCheckDistance: 1.5
   pitRayLength: 5
   jumpHoldForce: 5
+  baseRandomJumpChance: 50
+  speedToReduceJumpChance: 15
+  randomJumpCooldown: 2
   npcAnimations:
   - {fileID: 9100000, guid: daf6f0b46dc7177438b3813901ab4f70, type: 2}
   - {fileID: 9100000, guid: 64314f7a15da07f41aeac4e41b1874b9, type: 2}

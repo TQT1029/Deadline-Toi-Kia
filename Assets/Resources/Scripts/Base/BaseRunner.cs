@@ -10,7 +10,7 @@ public class BaseRunner : MonoBehaviour
 
     [Header("Auto Collider & Stuck Config")]
     [Tooltip("Thời gian đứng yên tối đa trước khi bị coi là Kẹt")]
-    protected float timeToStuck = 1.0f;
+    [SerializeField] protected float timeToStuck = 1.0f;
     protected float stuckTimer;
 
     [Header("Ground Detection")]
@@ -25,8 +25,9 @@ public class BaseRunner : MonoBehaviour
     [Header("Map Safety")]
     [Tooltip("Độ sâu mà Runner rơi xuống sẽ bị Respawn (VD: -10)")]
     [SerializeField] protected float fallThresholdY = -10f;
-    [SerializeField] protected float respawnFallTime = 1f; // Thời gian delay trước khi respawn sau khi rơi 
+    [SerializeField] protected float respawnDelay = 1f; // Thời gian delay trước khi respawn sau khi rơi 
     [SerializeField] protected Vector2 respawnPosition = Vector2.zero;
+
 
 
     // Components
@@ -40,6 +41,7 @@ public class BaseRunner : MonoBehaviour
 
     protected bool isGrounded = false;
     protected bool isControlLocked = false;
+    protected bool isRespawning = false;
     protected float currentSpeed;
 
     protected virtual void Awake()
@@ -65,16 +67,16 @@ public class BaseRunner : MonoBehaviour
     }
     protected virtual void Update()
     {
-        if (isGrounded && transform.position.y >= MapGlobalConfig.Instance.groundY)
+        if (isGrounded && !isControlLocked && !isRespawning && transform.position.y >= MapGlobalConfig.Instance.groundY)
         {
-            respawnPosition = transform.position;
+            respawnPosition = new Vector2(transform.position.x - 3f, transform.position.y + 1f);
         }
     }
     protected virtual void FixedUpdate()
     {
         CheckGround();
         CheckStuck();
-        OnPitFall();
+        if (!isRespawning && transform.position.y < fallThresholdY) StartCoroutine(PitFallRoutine());
         Move();
     }
 
@@ -167,8 +169,7 @@ public class BaseRunner : MonoBehaviour
             return;
         }
 
-        float vX = 0f;
-        vX = _rb.linearVelocity.x;
+        float vX = _rb.linearVelocity.x;
 
         if (Mathf.Abs(vX) < 0.1f && currentSpeed > 1f)
         {
@@ -182,16 +183,25 @@ public class BaseRunner : MonoBehaviour
         else stuckTimer = 0f;
     }
 
-    protected virtual void OnPitFall()
+    protected virtual IEnumerator PitFallRoutine()
     {
-        if (transform.position.y < fallThresholdY)
-        {
-            OnRespawn();
-        }
+        isControlLocked = true; // Khóa điều khiển ngay khi rớt
+        isRespawning = true;
+        // Ngừng gia tốc rơi trước khi dịch chuyển
+        _rb.linearVelocity = Vector2.zero;
+
+        // Dịch chuyển nhân vật ngay lập tức về vị trí an toàn
+        RespawnFromPit();
+
+        // Chờ một khoảng thời gian trước khi đưa nhân vật lên
+        yield return new WaitForSeconds(respawnDelay);
+
+        OnRespawn();
     }
 
     protected virtual void OnStuck()
     {
+        RespawnFromStuck();
         OnRespawn();
     }
 
@@ -200,8 +210,9 @@ public class BaseRunner : MonoBehaviour
         // để tránh việc nhân vật hồi sinh xong vẫn đứng đơ ra chờ chạm đất
         StopAllCoroutines();
 
-        // Reset trạng thái
+        // Reset trạng thái 
         isControlLocked = false;
+        isRespawning = false;
 
         _rb.linearVelocity = Vector2.zero; // Sửa lại thành zero cho an toàn
 
@@ -209,6 +220,15 @@ public class BaseRunner : MonoBehaviour
         stuckTimer = 0f;
     }
 
+    protected virtual void RespawnFromPit()
+    {
+        transform.position = respawnPosition;
+    }
+
+    protected virtual void RespawnFromStuck()
+    {
+        transform.position = new Vector2(transform.position.x - 3f, transform.position.y + 5f);
+    }
     protected void UpdateColliderSize()
     {
         if (_spriteRenderer.sprite != null)

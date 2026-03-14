@@ -35,6 +35,7 @@ public class ObstacleGenerator : MonoBehaviour
     [Header("Zone Config")]
     [SerializeField] private float minZoneLength = 30f; // Độ dài tối thiểu của 1 khu vực (để tránh bị đổi qua lại liên tục)
     [SerializeField] private float maxZoneLength = 60f;
+    private float noiseOffsetX = 0;
     private enum ZoneType { None, GroundObstacles, AerialPlatforms }
     private ZoneType currentZone = ZoneType.None;
     private float zoneEndX = 0f;
@@ -44,6 +45,8 @@ public class ObstacleGenerator : MonoBehaviour
     {
         if (miniPlatformLibrary != null && miniPlatformLibrary.Count > 0)
             miniPlatformBag = new RandomUtils.ShuffleBag<MiniPlatformData>(miniPlatformLibrary);
+
+        noiseOffsetX = Random.Range(-100000f,100000f);
 
         if (obstacleLibrary != null)
             foreach (var obs in obstacleLibrary) obs.Initialize();
@@ -121,12 +124,16 @@ public class ObstacleGenerator : MonoBehaviour
         if (miniPlatformBag == null || miniPlatformLibrary == null) return;
 
         float groundY = MapGlobalConfig.Instance.groundY;
-        float waveFreq = MapGlobalConfig.Instance.waveFrequency;
+
+        // Sử dụng waveFrequency như độ giãn của Perlin Noise. 
+        // Giá trị càng nhỏ (ví dụ 0.05 - 0.1), địa hình càng thoai thoải.
+        // Giá trị lớn (0.3 - 0.5) tạo ra đồi núi nhấp nhô liên tục.
+        float noiseScale = MapGlobalConfig.Instance.waveFrequency;
+
         float maxH = MapGlobalConfig.Instance.maxHeightMap;
 
         if (nextSpawnX < startX) nextSpawnX = startX;
         float limitX = endX;
-        float segmentPhase = Random.Range(0f, Mathf.PI * 2);
 
         while (nextSpawnX < limitX)
         {
@@ -145,14 +152,22 @@ public class ObstacleGenerator : MonoBehaviour
             // Nếu tấm nhỏ nhất cũng không vừa -> Chờ mảnh đất tiếp theo
             if (nextSpawnX + len > limitX) break;
 
-            float waveHeight = RandomUtils.GetSineWaveHeight(
-                nextSpawnX, waveFreq, minAerialHeight, maxAerialHeight, segmentPhase, 1.0f
+            // --- THAY ĐỔI CHÍNH NẰM Ở ĐÂY ---
+            // Sử dụng GetPerlinHeight thay vì GetSineWaveHeight
+            // Cộng thêm noiseOffsetX để mỗi lần chơi map sẽ có hình dáng đồi núi khác nhau
+            float waveHeight = RandomUtils.GetPerlinHeight(
+                nextSpawnX + noiseOffsetX, // xPosition: dùng tọa độ thực tế + khoảng dịch ngẫu nhiên ban đầu
+                noiseScale,                // scale: độ gắt của địa hình
+                minAerialHeight,           // minHeight
+                maxAerialHeight,           // maxHeight
+                1.0f                       // step: làm tròn từng 1 mét để dễ nhảy
             );
 
             float targetY = groundY + aerialHeight + waveHeight;
             targetY = Mathf.Clamp(targetY, groundY + 2f, maxH);
             Vector3 pos = new Vector3(nextSpawnX + len / 2f, targetY, 0);
 
+            // Kiểm tra va chạm với vật cản bên dưới
             Collider2D hit = Physics2D.OverlapBox(pos, new Vector2(len + 0.5f, 3f), 0, obstacleLayer);
 
             if (hit == null)
@@ -161,6 +176,7 @@ public class ObstacleGenerator : MonoBehaviour
             }
             else
             {
+                // Nếu đụng, đẩy lên trên đầu vật cản
                 float newY = hit.bounds.max.y + 2.5f;
                 if (newY < maxH)
                 {
@@ -169,7 +185,7 @@ public class ObstacleGenerator : MonoBehaviour
                 }
             }
 
-            // Cộng dồn X
+            // Cộng dồn X cho bệ đỡ tiếp theo
             nextSpawnX += len + RandomUtils.RandomWithSteps(minGapAerial, maxGapAerial, 1.5f);
         }
     }

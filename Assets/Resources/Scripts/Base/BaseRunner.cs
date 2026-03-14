@@ -69,7 +69,7 @@ public class BaseRunner : MonoBehaviour
     {
         if (isGrounded && !isControlLocked && !isRespawning && transform.position.y >= MapGlobalConfig.Instance.groundY)
         {
-            respawnPosition = new Vector2(transform.position.x - 3f, transform.position.y + 1f);
+            respawnPosition = new Vector2(transform.position.x - 3f, transform.position.y + 2f);
         }
     }
     protected virtual void FixedUpdate()

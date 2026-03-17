@@ -85,7 +85,7 @@ public class PitObjectGenerator : MonoBehaviour
             float len = selectedData.GetLength();
 
             // Sử dụng Wave Frequency chung
-            float waveHeight = RandomUtils.GetSineWaveHeight(
+            float waveHeight = RandomUtils.GetPerlinHeight(
                 currentX + noiseOffsetX,
                 waveFreq,
                 minBridgeHeight,

@@ -61,7 +61,7 @@ public class ObstacleGenerator : MonoBehaviour
             currentZone = RandomUtils.ChancePercent(ratioObstacleToAerial) ? ZoneType.GroundObstacles : ZoneType.AerialPlatforms;
 
             // Đặt giới hạn cho Zone này (Zone này sẽ kéo dài qua nhiều mảnh đất)
-            zoneEndX = startX + RandomUtils.RandomWithSteps(minZoneLength, maxZoneLength, 0.5f);
+            zoneEndX = startX + RandomUtils.RandomWithSteps(minZoneLength, maxZoneLength, 1f);
 
             // Chỉ thêm Padding ở ĐẦU của một Zone mới
             nextSpawnX = startX + obstacleEdgePadding;

@@ -33,7 +33,7 @@ public static class RandomUtils
     /// Random một số float nhưng bị "khóa" vào các bước nhảy (Grid Snapping).
     /// <para><b>Công dụng:</b> Dùng để đặt vị trí vật thể sao cho thẳng hàng lối, không bị lẻ số. 
     /// Ví dụ: steps=0.5 thì kết quả chỉ có thể là 1.0, 1.5, 2.0... (không bao giờ ra 1.234).</para>
-    /// </summary>
+    /// </summary>  
     /// <param name="min">Giá trị nhỏ nhất.</param>
     /// <param name="max">Giá trị lớn nhất.</param>
     /// <param name="steps">Bước nhảy (Khoảng cách giữa các giá trị).</param>

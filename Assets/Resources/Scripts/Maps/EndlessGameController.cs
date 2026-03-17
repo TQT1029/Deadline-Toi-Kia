@@ -54,7 +54,7 @@ public class EndlessGameController : MonoBehaviour
             MapGlobalConfig.Instance.pitChance = 0; // Tắt hố
             for (int i = 0; i < 3; i++)
             {
-                SpawnNextPiece();
+                StartGenerate();
             }
         }
         finally
@@ -105,6 +105,20 @@ public class EndlessGameController : MonoBehaviour
         }
 
         // BƯỚC 3: Đồng bộ vật lý và tạo Item
+        // Bắt buộc phải sync để Collider cập nhật vị trí mới nhất cho Raycast của ItemGenerator
+        Physics2D.SyncTransforms();
+        itemGenerator.GenerateItems(result.startX, result.endX);
+    }
+
+    private void StartGenerate()
+    {
+        // BƯỚC 1: Tạo Đất/Hố
+
+        var result = groundGenerator.SpawnNextSegment(lastEdgeX);
+
+        lastEdgeX = result.endX;
+
+        // BƯỚC 2: Đồng bộ vật lý và tạo Item
         // Bắt buộc phải sync để Collider cập nhật vị trí mới nhất cho Raycast của ItemGenerator
         Physics2D.SyncTransforms();
         itemGenerator.GenerateItems(result.startX, result.endX);

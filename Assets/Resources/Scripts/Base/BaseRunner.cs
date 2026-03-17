@@ -69,7 +69,7 @@ public class BaseRunner : MonoBehaviour
     {
         if (isGrounded && !isControlLocked && !isRespawning && transform.position.y >= MapGlobalConfig.Instance.groundY)
         {
-            respawnPosition = new Vector2(transform.position.x - 3f, transform.position.y + 2f);
+            respawnPosition = new Vector2(transform.position.x - 3f, transform.position.y + 3f);
         }
     }
     protected virtual void FixedUpdate()
@@ -159,6 +159,23 @@ public class BaseRunner : MonoBehaviour
             isGrounded = Physics2D.OverlapBox(groundCheckPos.position, new Vector2(3.7f / 2.5f, groundCheckRadius), 0, groundLayer);
         }
     }
+
+/*    private void OnDrawGizmos()
+    {
+        // Kiểm tra để tránh lỗi khi chưa gán Transform trong Inspector
+        if (groundCheckPos != null)
+        {
+            // Thiết lập màu sắc cho khối debug
+            Gizmos.color = Color.red;
+
+            // Tính toán kích thước giống hệt trong hàm OverlapBox của bạn
+            Vector2 size = new Vector2(3.7f / 2.5f, groundCheckRadius);
+
+            // Vẽ hình hộp dây (Wire Cube) tại vị trí groundCheckPos
+            // Tham số thứ 3 (Vector3) trong DrawWireCube là độ dày/sâu, với 2D ta để 0 hoặc 1
+            Gizmos.DrawWireCube(groundCheckPos.position, new Vector3(size.x, size.y, 0));
+        }
+    }*/
 
     protected virtual void CheckStuck()
     {

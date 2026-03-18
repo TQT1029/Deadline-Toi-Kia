@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 using DG.Tweening; // Giữ lại chỉ để dùng cho Rotate (Xoay)
 
-public class MoveObstacleBoss : MonoBehaviour
+public class TargetProjectiesBoss : MonoBehaviour
 {
-    // --- KHÔNG CÒN moveTween ---
+
     private Tween rotateTween;
 
     // --- CÁC BIẾN MỚI CHO LOGIC VECTOR ---

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class ObstacleBossEffect : MonoBehaviour
+public class ProjectiesEffect : MonoBehaviour
 {
     [SerializeField] private float force = 15f;
     [SerializeField, Tooltip("Direction Knockback")] private Vector2 direction = new Vector2(-1, 1);

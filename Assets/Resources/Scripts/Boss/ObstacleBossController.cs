@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class ProjectiesBossController : MonoBehaviour
+public class ObstacleBossController : MonoBehaviour
 {
     [Header("Settings")]
     [SerializeField] private float baseObstacleSpeed = 8f;
@@ -448,10 +448,10 @@ public class ProjectiesBossController : MonoBehaviour
         return Mathf.Max(minSafeTimeGap, obstacleHitSize / obstacleSpeed);
     }
 
-    // Trong ProjectiesBossController.cs
+    // Trong ObstacleBossController.cs
     private void CreateObstacle(Vector2 startView, Vector2 endView, float speed, float delay)
     {
-        TargetProjectiesBoss obj = GetObstacleBoss();
+        MoveObstacleBoss obj = GetObstacleBoss();
         obj.transform.SetParent(transform);
 
         Camera cam = Camera.main;
@@ -465,11 +465,11 @@ public class ProjectiesBossController : MonoBehaviour
         startWorld.z = 0;
         endWorld.z = 0;
 
-        // Truyền tọa độ World vào script TargetProjectiesBoss mới
+        // Truyền tọa độ World vào script MoveObstacleBoss mới
         obj.Initialize(startWorld, endWorld, speed, baseRotateSpeed, delay);
     }
 
-    private TargetProjectiesBoss GetObstacleBoss()
+    private MoveObstacleBoss GetObstacleBoss()
     {
         return Instantiate(RandomUtils.RandomWithDistributedPercent(BossManager.currentBossData.projectiesObstacle, 80, 20));
     }

@@ -14,10 +14,10 @@ public class BossDataSO : ScriptableObject
 
     [Header("Combat Config")]
     // Mỗi Boss sẽ có danh sách các chiêu thức riêng mà nó được phép dùng
-    public List<ProjectiesBossController.AttackPattern> availablePatterns;
+    public List<ObstacleBossController.AttackPattern> availablePatterns;
 
     [Header("Projecties")]
-    public List<TargetProjectiesBoss> projectiesObstacle;
+    public List<MoveObstacleBoss> projectiesObstacle;
 
 
     [Tooltip("Thời gian nghỉ tối thiểu giữa các đòn đánh")]

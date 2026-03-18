@@ -10,7 +10,7 @@ public class BossManager : MonoBehaviour
     private void Awake() => Instance = this;
 
     [Header("References")]
-    public ObstacleBossController obstacleController;
+    public ProjectiesController obstacleController;
     public Transform bossVisualTransform;
     [SerializeField] private SpriteRenderer bossSpriteRenderer; // Sprite con để hiển thị ảnh
     [SerializeField] private Animator bossAnimator;
@@ -129,7 +129,7 @@ public class BossManager : MonoBehaviour
         while (isFighting)
         {
             // 1. Chọn random 1 chiêu trong list skill của boss
-            ObstacleBossController.AttackPattern selectedPattern = GetRandomPatternFromData();
+            ProjectiesController.AttackPattern selectedPattern = GetRandomPatternFromData();
 
             // 2. Tung chiêu
             obstacleController.ExecuteAttack(selectedPattern);
@@ -140,12 +140,12 @@ public class BossManager : MonoBehaviour
         }
     }
 
-    private ObstacleBossController.AttackPattern GetRandomPatternFromData()
+    private ProjectiesController.AttackPattern GetRandomPatternFromData()
     {
         if (currentBossData == null || currentBossData.availablePatterns.Count == 0)
         {
             // Fallback nếu quên config data
-            return ObstacleBossController.AttackPattern.RainDown_AllAtOnce;
+            return ProjectiesController.AttackPattern.RainDown_AllAtOnce;
         }
 
         int randIndex = Random.Range(0, currentBossData.availablePatterns.Count);

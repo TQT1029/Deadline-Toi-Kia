@@ -1,18 +1,23 @@
 ﻿using UnityEngine;
 using DG.Tweening; // Giữ lại chỉ để dùng cho Rotate (Xoay)
 
-public class MoveObstacleBoss : MonoBehaviour
+public class TargetProjecties : MonoBehaviour
 {
-    // --- KHÔNG CÒN moveTween ---
     private Tween rotateTween;
 
-    // --- CÁC BIẾN MỚI CHO LOGIC VECTOR ---
+    [SerializeField] private Transform targetPoint;
+
     private Vector3 moveDirection;
     private float moveSpeed;
     private bool isMoving = false;
 
     // Thời gian tối đa tồn tại (để tránh rác bộ nhớ nếu vật bay ra khỏi màn hình quá xa)
     private float maxLifetime = 3f;
+
+    private void Awake()
+    {
+        if (targetPoint == null) { targetPoint = ReferenceManager.Instance.PlayerTransform; }
+    }
 
     /// <summary>
     /// Khởi tạo vật thể với logic Vector.

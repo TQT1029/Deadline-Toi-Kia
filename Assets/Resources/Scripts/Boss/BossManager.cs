@@ -3,6 +3,13 @@ using System.Collections;
 using System.Collections.Generic; // List
 using Unity.Cinemachine;
 using UnityEngine;
+/// <summary>
+/// Manages boss encounters, state, and related visual and camera effects during boss fights.
+/// </summary>
+/// <remarks>This class provides a singleton instance for coordinating boss fight logic, including loading boss
+/// data, controlling boss visuals, and handling camera transitions. It should be attached to a GameObject in the scene.
+/// Access the current boss data using the static property, and use the provided methods to start or stop boss fights as
+/// needed.</remarks>
 
 public class BossManager : MonoBehaviour
 {
@@ -10,15 +17,15 @@ public class BossManager : MonoBehaviour
     private void Awake() => Instance = this;
 
     [Header("References")]
-    public ProjectiesController obstacleController;
+    public ProjectiesControl projectiesControl;
     public Transform bossVisualTransform;
     [SerializeField] private SpriteRenderer bossSpriteRenderer; // Sprite con để hiển thị ảnh
     [SerializeField] private Animator bossAnimator;
     [SerializeField] private CinemachineCamera vCam;
 
     [Header("Data")]
-    public List<BossDataSO> allBosses;
-    public static BossDataSO currentBossData { get; private set; } // Dữ liệu Boss hiện tại đang đánh
+    public List<BossData_SO> allBosses;
+    public static BossData_SO currentBossData { get; private set; } // Dữ liệu Boss hiện tại đang đánh
 
     [Header("Camera Settings")]
     [SerializeField] private float baseViewport = 7f;
@@ -42,7 +49,6 @@ public class BossManager : MonoBehaviour
     private void Start()
     {
         if (vCam != null) baseViewport = vCam.Lens.OrthographicSize;
-
     }
 
     private void LateUpdate()
@@ -129,10 +135,10 @@ public class BossManager : MonoBehaviour
         while (isFighting)
         {
             // 1. Chọn random 1 chiêu trong list skill của boss
-            ProjectiesController.AttackPattern selectedPattern = GetRandomPatternFromData();
+            ProjectiesControl.AttackPattern selectedPattern = GetRandomPatternFromData();
 
             // 2. Tung chiêu
-            obstacleController.ExecuteAttack(selectedPattern);
+            projectiesControl.ExecuteAttack(selectedPattern);
 
             // 3. Countdown skill
             float waitTime = Random.Range(currentBossData.minAttackInterval, currentBossData.maxAttackInterval);
@@ -140,12 +146,12 @@ public class BossManager : MonoBehaviour
         }
     }
 
-    private ProjectiesController.AttackPattern GetRandomPatternFromData()
+    private ProjectiesControl.AttackPattern GetRandomPatternFromData()
     {
         if (currentBossData == null || currentBossData.availablePatterns.Count == 0)
         {
             // Fallback nếu quên config data
-            return ProjectiesController.AttackPattern.RainDown_AllAtOnce;
+            return ProjectiesControl.AttackPattern.RainDown_AllAtOnce;
         }
 
         int randIndex = Random.Range(0, currentBossData.availablePatterns.Count);

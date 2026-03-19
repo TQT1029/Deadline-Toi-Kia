@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5123867106028829481}
   - component: {fileID: 4656220640919301514}
   - component: {fileID: 5465225959028554028}
-  - component: {fileID: 6851801325544815183}
+  - component: {fileID: 8390594876844412552}
   - component: {fileID: 1741608529721398097}
   m_Layer: 0
   m_Name: Block-Word
@@ -164,7 +164,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &6851801325544815183
+--- !u!114 &8390594876844412552
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -173,9 +173,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 4364660034732778763}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 94c9d9a01625d0f44a1ad72ae5cf4dba, type: 3}
+  m_Script: {fileID: 11500000, guid: ce6ec9e3aa55d4a479357ba9658d5b9a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  targetPoint: {fileID: 0}
 --- !u!114 &1741608529721398097
 MonoBehaviour:
   m_ObjectHideFlags: 0

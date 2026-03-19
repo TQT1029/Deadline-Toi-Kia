@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEditor.Animations;
 
 [CreateAssetMenu(fileName = "NewBossData", menuName = "Boss System/Boss Data")]
-public class BossDataSO : ScriptableObject
+public class BossData_SO : ScriptableObject
 {
     [Header("Visuals")]
     public string bossName;
@@ -14,10 +14,10 @@ public class BossDataSO : ScriptableObject
 
     [Header("Combat Config")]
     // Mỗi Boss sẽ có danh sách các chiêu thức riêng mà nó được phép dùng
-    public List<ProjectiesController.AttackPattern> availablePatterns;
+    public List<ProjectiesControl.AttackPattern> availablePatterns;
 
     [Header("Projecties")]
-    public List<TargetProjecties> projectiesObstacle;
+    public List<MoveProjecties> projectiesObstacle;
 
 
     [Tooltip("Thời gian nghỉ tối thiểu giữa các đòn đánh")]

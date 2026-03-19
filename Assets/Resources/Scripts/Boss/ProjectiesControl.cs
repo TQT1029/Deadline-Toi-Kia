@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class ProjectiesController : MonoBehaviour
+public class ProjectiesControl : MonoBehaviour
 {
     [Header("Settings")]
     [SerializeField] private float baseObstacleSpeed = 8f;
@@ -127,14 +127,14 @@ public class ProjectiesController : MonoBehaviour
         // Hàng 1: Spawn ở các làn CHẴN
         for (int i = 0; i < currentLaneCount; i += 2)
         {
-            CreateObstacle(new Vector2(GetLaneCenterViewport(i), startY), new Vector2(GetLaneCenterViewport(i), endY), currentSpeed, 0f);
+            CreateProjecties(new Vector2(GetLaneCenterViewport(i), startY), new Vector2(GetLaneCenterViewport(i), endY), currentSpeed, 0f);
         }
 
         // Hàng 2: Spawn ở các làn LẺ (Delay để tạo kẽ hở chéo)
         float rowDelay = 0.6f;
         for (int i = 1; i < currentLaneCount; i += 2)
         {
-            CreateObstacle(new Vector2(GetLaneCenterViewport(i), startY), new Vector2(GetLaneCenterViewport(i), endY), currentSpeed, rowDelay);
+            CreateProjecties(new Vector2(GetLaneCenterViewport(i), startY), new Vector2(GetLaneCenterViewport(i), endY), currentSpeed, rowDelay);
         }
     }
 
@@ -169,7 +169,7 @@ public class ProjectiesController : MonoBehaviour
             // Nếu là Wave, delay tỏa ra từ khe hở đầu tiên
             float delay = isWave ? Mathf.Abs(i - safeLanes[0]) * safeDelay * 0.5f : 0f;
 
-            CreateObstacle(new Vector2(x, startY), new Vector2(x, endY), currentSpeed, delay);
+            CreateProjecties(new Vector2(x, startY), new Vector2(x, endY), currentSpeed, delay);
         }
     }
 
@@ -193,14 +193,14 @@ public class ProjectiesController : MonoBehaviour
             // Bên trái
             int leftIndex = centerIndex - offset;
             if (leftIndex >= 0)
-                CreateObstacle(new Vector2(GetLaneCenterViewport(leftIndex), startY), new Vector2(GetLaneCenterViewport(leftIndex), endY), speed, delay);
+                CreateProjecties(new Vector2(GetLaneCenterViewport(leftIndex), startY), new Vector2(GetLaneCenterViewport(leftIndex), endY), speed, delay);
 
             // Bên phải (chỉ spawn nếu không trùng với bên trái - tức là khác 0)
             if (offset != 0)
             {
                 int rightIndex = centerIndex + offset;
                 if (rightIndex < currentLaneCount)
-                    CreateObstacle(new Vector2(GetLaneCenterViewport(rightIndex), startY), new Vector2(GetLaneCenterViewport(rightIndex), endY), speed, delay);
+                    CreateProjecties(new Vector2(GetLaneCenterViewport(rightIndex), startY), new Vector2(GetLaneCenterViewport(rightIndex), endY), speed, delay);
             }
         }
     }
@@ -227,7 +227,7 @@ public class ProjectiesController : MonoBehaviour
             availableLanes.RemoveAt(rIndex);
 
             float delay = i * 0.15f;
-            CreateObstacle(new Vector2(GetLaneCenterViewport(lane), startY), new Vector2(GetLaneCenterViewport(lane), endY), speed, delay);
+            CreateProjecties(new Vector2(GetLaneCenterViewport(lane), startY), new Vector2(GetLaneCenterViewport(lane), endY), speed, delay);
         }
     }
 
@@ -245,7 +245,7 @@ public class ProjectiesController : MonoBehaviour
             // Nếu i là lane giữa hoặc sát giữa thì bỏ qua
             if (Mathf.Abs(i - (currentLaneCount / 2f)) < 0.6f) continue;
 
-            CreateObstacle(startPoint, new Vector2(targetX, -0.2f), speed, i * 0.1f);
+            CreateProjecties(startPoint, new Vector2(targetX, -0.2f), speed, i * 0.1f);
         }
     }
 
@@ -264,17 +264,17 @@ public class ProjectiesController : MonoBehaviour
         switch (patternType)
         {
             case 0: // Thấp + Cao
-                CreateObstacle(new Vector2(startX, fixedY[0]), new Vector2(endX, fixedY[0]), speed, 0);
-                CreateObstacle(new Vector2(startX, fixedY[2]), new Vector2(endX, fixedY[2]), speed, 0);
+                CreateProjecties(new Vector2(startX, fixedY[0]), new Vector2(endX, fixedY[0]), speed, 0);
+                CreateProjecties(new Vector2(startX, fixedY[2]), new Vector2(endX, fixedY[2]), speed, 0);
                 break;
             case 1: // Cầu thang
-                CreateObstacle(new Vector2(startX, fixedY[0]), new Vector2(endX, fixedY[0]), speed, 0);
-                CreateObstacle(new Vector2(startX, fixedY[1]), new Vector2(endX, fixedY[1]), speed, 0.4f);
-                CreateObstacle(new Vector2(startX, fixedY[2]), new Vector2(endX, fixedY[2]), speed, 0.8f);
+                CreateProjecties(new Vector2(startX, fixedY[0]), new Vector2(endX, fixedY[0]), speed, 0);
+                CreateProjecties(new Vector2(startX, fixedY[1]), new Vector2(endX, fixedY[1]), speed, 0.4f);
+                CreateProjecties(new Vector2(startX, fixedY[2]), new Vector2(endX, fixedY[2]), speed, 0.8f);
                 break;
             case 2: // So le
-                CreateObstacle(new Vector2(startX, fixedY[1]), new Vector2(endX, fixedY[1]), speed, 0);
-                CreateObstacle(new Vector2(startX, fixedY[0]), new Vector2(endX, fixedY[0]), speed, 0.5f);
+                CreateProjecties(new Vector2(startX, fixedY[1]), new Vector2(endX, fixedY[1]), speed, 0);
+                CreateProjecties(new Vector2(startX, fixedY[0]), new Vector2(endX, fixedY[0]), speed, 0.5f);
                 break;
         }
     }
@@ -298,7 +298,7 @@ public class ProjectiesController : MonoBehaviour
             // Spawn liên tiếp 3 object để tạo thành bức tường dài
             for (int j = 0; j < 3; j++)
             {
-                CreateObstacle(
+                CreateProjecties(
                     new Vector2(GetLaneCenterViewport(i), startY + (j * 0.25f)), // Spawn chồng lên nhau theo trục Y
                     new Vector2(GetLaneCenterViewport(i), endY),
                     speed,
@@ -318,19 +318,19 @@ public class ProjectiesController : MonoBehaviour
         // Lớp 1: Các làn Chẵn (0, 2, 4...)
         for (int i = 0; i < currentLaneCount; i += 2)
         {
-            CreateObstacle(new Vector2(GetLaneCenterViewport(i), startY), new Vector2(GetLaneCenterViewport(i), endY), speed, 0f);
+            CreateProjecties(new Vector2(GetLaneCenterViewport(i), startY), new Vector2(GetLaneCenterViewport(i), endY), speed, 0f);
         }
 
         // Lớp 2: Các làn Lẻ (1, 3, 5...) - Delay ngắn để người chơi phải lạng lách nhanh
         for (int i = 1; i < currentLaneCount; i += 2)
         {
-            CreateObstacle(new Vector2(GetLaneCenterViewport(i), startY), new Vector2(GetLaneCenterViewport(i), endY), speed, 0.35f);
+            CreateProjecties(new Vector2(GetLaneCenterViewport(i), startY), new Vector2(GetLaneCenterViewport(i), endY), speed, 0.35f);
         }
 
         // Lớp 3 (Optional): Lặp lại Chẵn để ép góc thêm lần nữa
         for (int i = 0; i < currentLaneCount; i += 2)
         {
-            CreateObstacle(new Vector2(GetLaneCenterViewport(i), startY), new Vector2(GetLaneCenterViewport(i), endY), speed, 0.7f);
+            CreateProjecties(new Vector2(GetLaneCenterViewport(i), startY), new Vector2(GetLaneCenterViewport(i), endY), speed, 0.7f);
         }
     }
 
@@ -346,10 +346,10 @@ public class ProjectiesController : MonoBehaviour
             float delay = i * 0.2f;
 
             // Luồng bên Trái: Từ (0, 1.2) -> Giữa đáy
-            CreateObstacle(new Vector2(0f, 1.2f), targetBottom, speed, delay);
+            CreateProjecties(new Vector2(0f, 1.2f), targetBottom, speed, delay);
 
             // Luồng bên Phải: Từ (1, 1.2) -> Giữa đáy
-            CreateObstacle(new Vector2(1f, 1.2f), targetBottom, speed, delay);
+            CreateProjecties(new Vector2(1f, 1.2f), targetBottom, speed, delay);
         }
     }
 
@@ -372,7 +372,7 @@ public class ProjectiesController : MonoBehaviour
             // Kẹp vào trong màn hình cho an toàn
             sinX = Mathf.Clamp(sinX, screenEdgeMargin, 1f - screenEdgeMargin);
 
-            CreateObstacle(new Vector2(sinX, startY), new Vector2(sinX, endY), speed, i * 0.15f);
+            CreateProjecties(new Vector2(sinX, startY), new Vector2(sinX, endY), speed, i * 0.15f);
         }
     }
 
@@ -383,24 +383,24 @@ public class ProjectiesController : MonoBehaviour
         float delayStep = 0.25f;
 
         // Góc trên trái -> Góc dưới phải
-        CreateObstacle(new Vector2(0f, 1.2f), new Vector2(1f, -0.2f), speed, 0f);
+        CreateProjecties(new Vector2(0f, 1.2f), new Vector2(1f, -0.2f), speed, 0f);
 
         // Góc trên phải -> Góc dưới trái
-        CreateObstacle(new Vector2(1f, 1.2f), new Vector2(0f, -0.2f), speed, delayStep);
+        CreateProjecties(new Vector2(1f, 1.2f), new Vector2(0f, -0.2f), speed, delayStep);
 
         // (Khó hơn) Góc dưới trái -> Góc trên phải (Bay ngược lên)
-        CreateObstacle(new Vector2(0f, -0.2f), new Vector2(1f, 1.2f), speed, delayStep * 2);
+        CreateProjecties(new Vector2(0f, -0.2f), new Vector2(1f, 1.2f), speed, delayStep * 2);
 
         // (Khó hơn) Góc dưới phải -> Góc trên trái
-        CreateObstacle(new Vector2(1f, -0.2f), new Vector2(0f, 1.2f), speed, delayStep * 3);
+        CreateProjecties(new Vector2(1f, -0.2f), new Vector2(0f, 1.2f), speed, delayStep * 3);
     }
 
     // 12.
     private void SpawnCrossPattern()
     {
         float speed = CalculateOptimalSpeed(Vector2.up) * 1.3f;
-        CreateObstacle(new Vector2(0f, 1.2f), new Vector2(1f, -0.2f), speed, 0f);
-        CreateObstacle(new Vector2(1f, 1.2f), new Vector2(0f, -0.2f), speed, 0.5f);
+        CreateProjecties(new Vector2(0f, 1.2f), new Vector2(1f, -0.2f), speed, 0f);
+        CreateProjecties(new Vector2(1f, 1.2f), new Vector2(0f, -0.2f), speed, 0.5f);
     }
 
     // 13.
@@ -411,27 +411,27 @@ public class ProjectiesController : MonoBehaviour
         float speed = CalculateSpeed(Vector2.up) * 1.5f;
 
         for (int i = 0; i < 3; i++)
-            CreateObstacle(new Vector2(targetX, 1.2f), new Vector2(targetX, -0.2f), speed, i * 0.4f);
+            CreateProjecties(new Vector2(targetX, 1.2f), new Vector2(targetX, -0.2f), speed, i * 0.4f);
     }
 
     // 14.
     private void SpawnBigCenter()
     {
-        CreateObstacle(new Vector2(0.5f, 1.2f), new Vector2(0.5f, -0.2f), CalculateSpeed(Vector2.up) * 0.8f, 0f);
+        CreateProjecties(new Vector2(0.5f, 1.2f), new Vector2(0.5f, -0.2f), CalculateSpeed(Vector2.up) * 0.8f, 0f);
     }
 
     // 15.
     private void SpawnDoubleCrossFast()
     {
-        CreateObstacle(new Vector2(0f, 1.2f), new Vector2(1f, -0.2f), CalculateSpeed(Vector2.up) * 1.8f, 0f);
-        CreateObstacle(new Vector2(1f, 1.2f), new Vector2(0f, -0.2f), CalculateSpeed(Vector2.up) * 1.8f, 0f);
+        CreateProjecties(new Vector2(0f, 1.2f), new Vector2(1f, -0.2f), CalculateSpeed(Vector2.up) * 1.8f, 0f);
+        CreateProjecties(new Vector2(1f, 1.2f), new Vector2(0f, -0.2f), CalculateSpeed(Vector2.up) * 1.8f, 0f);
     }
 
     // 16.
     private void SpawnHorizontalStream()
     {
         for (int i = 0; i < 3; i++)
-            CreateObstacle(new Vector2(1.2f, 0.2f + i * 0.25f), new Vector2(-0.2f, 0.2f + i * 0.25f), CalculateSpeed(Vector2.right) * 1.2f, i * 0.2f);
+            CreateProjecties(new Vector2(1.2f, 0.2f + i * 0.25f), new Vector2(-0.2f, 0.2f + i * 0.25f), CalculateSpeed(Vector2.right) * 1.2f, i * 0.2f);
     }
 
     // --- HELPERS ---
@@ -448,28 +448,27 @@ public class ProjectiesController : MonoBehaviour
         return Mathf.Max(minSafeTimeGap, obstacleHitSize / obstacleSpeed);
     }
 
-    // Trong ProjectiesController.cs
-    private void CreateObstacle(Vector2 startView, Vector2 endView, float speed, float delay)
+    // Trong ProjectiesControl.cs
+    private void CreateProjecties(Vector2 startView, Vector2 endView, float speed, float delay)
     {
-        TargetProjecties obj = GetObstacleBoss();
+        MoveProjecties obj = GetProjecties();
         obj.transform.SetParent(transform);
 
         Camera cam = Camera.main;
-        float zDepth = 10f; // Hoặc -cam.transform.position.z
+        float zDepth = 10f;
 
         // Controller chịu trách nhiệm chuyển đổi tọa độ
         Vector3 startWorld = cam.ViewportToWorldPoint(new Vector3(startView.x, startView.y, zDepth));
         Vector3 endWorld = cam.ViewportToWorldPoint(new Vector3(endView.x, endView.y, zDepth));
 
-        // Đảm bảo Z = 0
         startWorld.z = 0;
         endWorld.z = 0;
 
-        // Truyền tọa độ World vào script TargetProjecties mới
+        // Truyền tọa độ World vào script MoveProjecties mới
         obj.Initialize(startWorld, endWorld, speed, baseRotateSpeed, delay);
     }
 
-    private TargetProjecties GetObstacleBoss()
+    private MoveProjecties GetProjecties()
     {
         return Instantiate(RandomUtils.RandomWithDistributedPercent(BossManager.currentBossData.projectiesObstacle, 80, 20));
     }

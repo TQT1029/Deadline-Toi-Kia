@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
-using DG.Tweening; // Giữ lại chỉ để dùng cho Rotate (Xoay)
+using DG.Tweening; 
 
-public class TargetProjecties : MonoBehaviour
+public class MoveProjecties : MonoBehaviour
 {
     private Tween rotateTween;
 

@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75ce6927d6330534bac7251d13397391, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  obstacleController: {fileID: 5494532552304183894}
+  projectiesControl: {fileID: 2879222240217996346}
   bossVisualTransform: {fileID: 1884405085493526601}
   bossSpriteRenderer: {fileID: 6346785049893544867}
   bossAnimator: {fileID: 4549971991487660846}
@@ -183,7 +183,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4856066546895308336}
-  - component: {fileID: 5494532552304183894}
+  - component: {fileID: 2879222240217996346}
   m_Layer: 0
   m_Name: AttackController
   m_TagString: Untagged
@@ -206,7 +206,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 5945759347719127087}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5494532552304183894
+--- !u!114 &2879222240217996346
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -215,14 +215,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 6687186540907293833}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d7c38d8f2a8c39a4d875f5f836b279a6, type: 3}
+  m_Script: {fileID: 11500000, guid: d8bb0f4b01ded5b4c9f8fdd17373fcfb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   baseObstacleSpeed: 8
   playerVelocityInfluence: 0.5
   maxObstacleSpeed: 25
   baseRotateSpeed: 2
-  obstacleHitSize: 2.2
-  spacingDensity: 2
-  screenEdgeMargin: 0
-  minSafeTimeGap: 0.5
+  obstacleHitSize: 1.2
+  spacingDensity: 1.1
+  screenEdgeMargin: 0.05
+  minSafeTimeGap: 0.35

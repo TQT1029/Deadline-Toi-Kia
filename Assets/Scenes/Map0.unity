@@ -5680,6 +5680,10 @@ PrefabInstance:
       value: 80
       objectReference: {fileID: 0}
     - target: {fileID: 3936636314198989629, guid: c96d787ff3b412f4ab1a6092e688cb77, type: 3}
+      propertyPath: hasAerialPlatform
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3936636314198989629, guid: c96d787ff3b412f4ab1a6092e688cb77, type: 3}
       propertyPath: obstacleLayer.m_Bits
       value: 384
       objectReference: {fileID: 0}

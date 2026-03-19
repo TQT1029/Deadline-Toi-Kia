@@ -46,7 +46,7 @@ public class ObstacleGenerator : MonoBehaviour
         if (miniPlatformLibrary != null && miniPlatformLibrary.Count > 0)
             miniPlatformBag = new RandomUtils.ShuffleBag<MiniPlatformData>(miniPlatformLibrary);
 
-        noiseOffsetX = Random.Range(-100000f,100000f);
+        noiseOffsetX = Random.Range(-100000f, 100000f);
 
         if (obstacleLibrary != null)
             foreach (var obs in obstacleLibrary) obs.Initialize();
@@ -54,6 +54,7 @@ public class ObstacleGenerator : MonoBehaviour
 
     public void GenerateObstaclesOnGround(float startX, float endX)
     {
+
         // 1. Kiểm tra xem đã cần chuyển Zone chưa (hết độ dài zone hoặc bị ngắt bởi hố)
         if (currentZone == ZoneType.None || startX >= zoneEndX)
         {

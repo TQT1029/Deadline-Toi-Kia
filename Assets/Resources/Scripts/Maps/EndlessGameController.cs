@@ -19,6 +19,7 @@ public class EndlessGameController : MonoBehaviour
     [SerializeField] private float distanceToBoss = 250;
     [SerializeField] private float winPointOffset = 250;
     [SerializeField] private float timeToDefeat = 90f;
+    [SerializeField] private float distanceToGenerateObstacle = 50f; // Khoảng cách trước khi spawn vật thể
 
     private float distanceRan;
     private float bossDefeatedDistance;
@@ -40,6 +41,8 @@ public class EndlessGameController : MonoBehaviour
 
     private float cleanUpTime = 0f;
 
+    private bool isStartGenerateObstacle = false;
+
     private void Start()
     {
         if (player == null) player = ReferenceManager.Instance.PlayerTransform;
@@ -52,9 +55,9 @@ public class EndlessGameController : MonoBehaviour
         try
         {
             MapGlobalConfig.Instance.pitChance = 0; // Tắt hố
-            for (int i = 0; i < 3; i++)
+            while (!isStartGenerateObstacle)
             {
-                StartGenerate();
+                BaseGenerate();
             }
         }
         finally
@@ -110,10 +113,14 @@ public class EndlessGameController : MonoBehaviour
         itemGenerator.GenerateItems(result.startX, result.endX);
     }
 
-    private void StartGenerate()
+    private void BaseGenerate()
     {
+        if (lastEdgeX > distanceToGenerateObstacle)
+        {
+            isStartGenerateObstacle = true;
+            return;
+        }
         // BƯỚC 1: Tạo Đất/Hố
-
         var result = groundGenerator.SpawnNextSegment(lastEdgeX);
 
         lastEdgeX = result.endX;

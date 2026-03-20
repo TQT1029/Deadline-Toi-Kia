@@ -56,6 +56,7 @@ public class ProjectiesControl : MonoBehaviour
 
     private void Start()
     {
+        AcquireRandomTarget();
         RecalculateScreenParams();
     }
 
@@ -100,8 +101,8 @@ public class ProjectiesControl : MonoBehaviour
         int calculatedLanes = Mathf.FloorToInt(availableWidth / singleLaneWidth);
 
         // Kẹp giá trị để không bị quá ít (dễ quá) hoặc quá nhiều (lag/khó quá)
-        // Ví dụ: Tablet có thể lên tới 8 làn, điện thoại dọc có thể là 4-5 làn
-        currentLaneCount = Mathf.Clamp(calculatedLanes, 3, 15);
+        // Ví dụ: Tablet có thể lên tới 12 làn, điện thoại dọc có thể là 4-5 làn
+        currentLaneCount = Mathf.Clamp(calculatedLanes, 3, 12);
     }
 
     // Helper: Lấy vị trí X (Viewport 0-1) của làn thứ i
@@ -114,6 +115,7 @@ public class ProjectiesControl : MonoBehaviour
 
     public void ExecuteAttack(AttackPattern pattern)
     {
+        AcquireRandomTarget();
         RecalculateScreenParams(); // Luôn tính lại trước khi đánh để khớp với Zoom
 
         switch (pattern)

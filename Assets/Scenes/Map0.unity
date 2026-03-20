@@ -3567,6 +3567,10 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2879222240217996346, guid: 4717c92b81432dd42bcfce374ce863c9, type: 3}
+      propertyPath: baseObstacleSpeed
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 5945759347719127087, guid: 4717c92b81432dd42bcfce374ce863c9, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -5797,11 +5801,11 @@ PrefabInstance:
       objectReference: {fileID: 335606032}
     - target: {fileID: 7330591790280183347, guid: c96d787ff3b412f4ab1a6092e688cb77, type: 3}
       propertyPath: timeToDefeat
-      value: 5
+      value: 60
       objectReference: {fileID: 0}
     - target: {fileID: 7330591790280183347, guid: c96d787ff3b412f4ab1a6092e688cb77, type: 3}
       propertyPath: distanceToBoss
-      value: 250
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 8046278486622249382, guid: c96d787ff3b412f4ab1a6092e688cb77, type: 3}
       propertyPath: hasPit

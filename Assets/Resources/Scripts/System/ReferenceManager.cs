@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 /// <summary>
@@ -14,6 +15,8 @@ public class ReferenceManager : Singleton<ReferenceManager>
     public Rigidbody2D PlayerRigidbody { get; private set; }
 
     public Transform SpawnTrans { get; private set; }
+
+    public BaseRunner[] Racers { get; private set; }
 
     [Header("Data Library")]
     [Tooltip("Kéo tất cả CharacterProfile vào đây")]
@@ -38,7 +41,7 @@ public class ReferenceManager : Singleton<ReferenceManager>
     }
 
     /// <summary>
-    /// Tìm lại Camera và Player mỗi khi sang màn chơi mới
+    /// Tìm lại các tham chiếu runtime sau khi load scene mới, đảm bảo luôn có tham chiếu chính xác đến Player và MainCamera.
     /// </summary>
     public void RefreshRuntimeReferences()
     {
@@ -47,8 +50,11 @@ public class ReferenceManager : Singleton<ReferenceManager>
         GameObject playerObj = GameObject.FindGameObjectWithTag(GameConstants.TAG_PLAYER);
         PlayerTransform = (playerObj != null) ? playerObj.transform : null;
         PlayerRigidbody = (PlayerTransform != null) ? PlayerTransform.GetComponent<Rigidbody2D>() : null;
+        Racers = Object.FindObjectsByType<BaseRunner>(FindObjectsSortMode.None);
+        
 
         Debug.Log($"[ReferenceManager] Refreshed. Player found: {PlayerTransform != null}");
+        Debug.Log($"[ReferenceManager] Refreshed. Runner found: {Racers.Length}");
     }
 
 }

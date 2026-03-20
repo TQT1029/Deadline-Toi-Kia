@@ -6,7 +6,7 @@ public class ProjectiesControl : MonoBehaviour
 {
     [Header("Settings")]
     [SerializeField] private float baseObstacleSpeed = 8f;
-    [Range(0f, 2f)] public float playerVelocityInfluence = 0.5f;
+    [Range(0f, 2f)] public float targetVelocityInfluence = 0.5f;
     [SerializeField] private float maxObstacleSpeed = 25f;
     [SerializeField] private float baseRotateSpeed = 2;
 
@@ -15,7 +15,7 @@ public class ProjectiesControl : MonoBehaviour
     [SerializeField] private float obstacleHitSize = 1.2f;
 
     [Tooltip("Khoảng cách đệm giữa các vật thể (1.0 = sát nhau, 1.2 = hở 20%)")]
-    [SerializeField] private float spacingDensity = 1.1f;
+    [SerializeField] private float spacingDensity = 1.2f;
 
     [Tooltip("Lề màn hình nhỏ (0.05 = 5%)")]
     [SerializeField] private float screenEdgeMargin = 0.05f;
@@ -27,7 +27,11 @@ public class ProjectiesControl : MonoBehaviour
     private float verticalMargin;
     private float horizontalMargin;
 
-    private float playerForwardSpeed => ReferenceManager.Instance.PlayerRigidbody.linearVelocityX;
+    private Rigidbody2D currentTargetRB;
+
+    // Lấy vận tốc của mục tiêu thay vì luôn lấy của Player
+    private float targetForwardSpeed => currentTargetRB != null ? currentTargetRB.linearVelocityX : 0f;
+
 
     public enum AttackPattern
     {
@@ -55,6 +59,22 @@ public class ProjectiesControl : MonoBehaviour
         RecalculateScreenParams();
     }
 
+    // Hàm Target mục tiêu
+    private void AcquireRandomTarget()
+    {
+        BaseRunner[] allRacers = ReferenceManager.Instance.Racers;
+        if (allRacers.Length > 0)
+        {
+            int randomIndex = Random.Range(0, allRacers.Length);
+            currentTargetRB = allRacers[randomIndex].GetComponent<Rigidbody2D>();
+        }
+        else
+        {
+            // Fallback an toàn nếu không tìm thấy ai
+            currentTargetRB = ReferenceManager.Instance.PlayerRigidbody;
+        }
+    }
+
     // ---  TÍNH TOÁN SỐ LÀN DỰA TRÊN MÀN HÌNH ---
     private void RecalculateScreenParams()
     {
@@ -65,8 +85,11 @@ public class ProjectiesControl : MonoBehaviour
         float worldHeight = cam.orthographicSize * 2.5f;
         float worldWidth = worldHeight * cam.aspect;
 
+        Debug.Log($"[ProjectiesControl] World Height: {worldHeight}");
+        Debug.Log($"[ProjectiesControl] World Width: {worldWidth}");
+
         // 2. Tính lề an toàn để spawn object ngoài màn hình
-        verticalMargin = (obstacleHitSize / worldHeight) + 0.1f;
+        verticalMargin = (obstacleHitSize / worldHeight) + 0.1f;    
         horizontalMargin = (obstacleHitSize / worldWidth) + 0.1f;
 
         // 3. Tính số lượng làn (Lane) tối đa có thể nhét vào chiều ngang
@@ -78,7 +101,7 @@ public class ProjectiesControl : MonoBehaviour
 
         // Kẹp giá trị để không bị quá ít (dễ quá) hoặc quá nhiều (lag/khó quá)
         // Ví dụ: Tablet có thể lên tới 8 làn, điện thoại dọc có thể là 4-5 làn
-        currentLaneCount = Mathf.Clamp(calculatedLanes, 3, 8);
+        currentLaneCount = Mathf.Clamp(calculatedLanes, 3, 15);
     }
 
     // Helper: Lấy vị trí X (Viewport 0-1) của làn thứ i
@@ -406,9 +429,11 @@ public class ProjectiesControl : MonoBehaviour
     // 13.
     private void SpawnSniperShot()
     {
-        Vector3 playerViewport = Camera.main.WorldToViewportPoint(ReferenceManager.Instance.PlayerRigidbody.position);
-        float targetX = Mathf.Clamp(playerViewport.x + 0.1f, 0.1f, 0.9f);
-        float speed = CalculateSpeed(Vector2.up) * 1.5f;
+        if (currentTargetRB == null) return;
+
+        Vector3 targetViewport = Camera.main.WorldToViewportPoint(currentTargetRB.position);
+        float targetX = Mathf.Clamp(targetViewport.x + 0.1f, 0.1f, 0.9f);
+        float speed = CalculateSpeed(Vector2.up) * 1.1f;
 
         for (int i = 0; i < 3; i++)
             CreateProjecties(new Vector2(targetX, 1.2f), new Vector2(targetX, -0.2f), speed, i * 0.4f);
@@ -439,7 +464,7 @@ public class ProjectiesControl : MonoBehaviour
 
     private float CalculateOptimalSpeed(Vector2 viewDistanceVector)
     {
-        float dynamicSpeed = baseObstacleSpeed + (playerForwardSpeed * playerVelocityInfluence);
+        float dynamicSpeed = baseObstacleSpeed + (targetForwardSpeed * targetVelocityInfluence);
         return Mathf.Clamp(dynamicSpeed, baseObstacleSpeed, maxObstacleSpeed);
     }
 

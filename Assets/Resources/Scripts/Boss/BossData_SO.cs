@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
-using UnityEditor.Animations;
 
 [CreateAssetMenu(fileName = "NewBossData", menuName = "Boss System/Boss Data")]
 public class BossData_SO : ScriptableObject
@@ -8,7 +7,7 @@ public class BossData_SO : ScriptableObject
     [Header("Visuals")]
     public string bossName;
     public Sprite bossSprite; // Hình ảnh Boss (để hiện lên BossVisual)
-    public AnimatorController bossAnimation;
+    public RuntimeAnimatorController bossAnimation;
     public bool flipXAnimator = false;
     // public RuntimeAnimatorController bossAnimator; // Nếu bạn dùng Animation thay vì Sprite tĩnh
 

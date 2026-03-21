@@ -171,6 +171,10 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 06d7c87ea35ee9c44a2f878589a0764a, type: 3}
     volume: 0.25
     pitch: 1
+  - id: BGM_Map4
+    clip: {fileID: 8300000, guid: 6fa6b3ab7ffaafe4db35631882aecb9d, type: 3}
+    volume: 0.25
+    pitch: 1
   - id: BGM_Default
     clip: {fileID: 8300000, guid: c32651c4d74325242b80b4f409901182, type: 3}
     volume: 0.25

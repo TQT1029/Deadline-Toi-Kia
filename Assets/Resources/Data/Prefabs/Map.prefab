@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6294833894622500064}
   - component: {fileID: 1618569639096847101}
   - component: {fileID: 7330591790280183347}
-  - component: {fileID: 8046278486622249382}
+  - component: {fileID: 3055513440188071968}
   - component: {fileID: 3497808461788994679}
   - component: {fileID: 3936636314198989629}
   - component: {fileID: 1116954769656626785}
@@ -75,19 +75,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mapConfig: {fileID: 1618569639096847101}
-  groundGenerator: {fileID: 8046278486622249382}
+  baseGenerator: {fileID: 3055513440188071968}
   pitObjectGenerator: {fileID: 3497808461788994679}
   obstacleGenerator: {fileID: 3936636314198989629}
   itemGenerator: {fileID: 1116954769656626785}
-  distanceToBoss: 250
+  distanceToBoss: 500
   winPointOffset: 250
   timeToDefeat: 90
   distanceToGenerateObstacle: 30
   winPoint: {fileID: 778920830125474598}
   player: {fileID: 0}
-  generationDistance: 100
+  generationDistance: 150
   destroyDistanceBehind: 75
---- !u!114 &8046278486622249382
+--- !u!114 &3055513440188071968
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -96,11 +96,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 405378871938366652}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7007c5efbc493784892768f2e55c0914, type: 3}
+  m_Script: {fileID: 11500000, guid: 3fb96d05599dc344189ceda88f8a4c1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   <basePlatformObjs>k__BackingField: {fileID: 45827736195786085}
-  <baseLibrary>k__BackingField: []
+  <baseLibrary>k__BackingField:
+  - id: B1
+    prefab: {fileID: 0}
+    spawnWeight: 100
+    manualLength: 0
   minGroundSegmentLength: 30
   maxGroundSegmentLength: 75
   <minPitWidth>k__BackingField: 3
@@ -121,12 +125,14 @@ MonoBehaviour:
   <miniPlatformObjs>k__BackingField: {fileID: 7158009974339555397}
   <obstacleLibrary>k__BackingField: []
   <miniPlatformLibrary>k__BackingField: []
-  obstacleInPit: 0
-  pitWidthNeedBridge: 15
-  minBridgeHeight: -1
-  maxBridgeHeight: 2
-  minGapBridge: 0.5
-  maxGapBridge: 1.5
+  isSpawnObjectInPit: 1
+  ratioBridgeToObstacle: 50
+  pitWidthNeedObjects: 15
+  pitEdgePadding: 2
+  minVerticalGap: -1
+  maxVerticalGap: 2
+  minHorizontalGap: 0.5
+  maxHorizontalGap: 1.5
 --- !u!114 &3936636314198989629
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -151,13 +157,15 @@ MonoBehaviour:
   obstacleEdgePadding: 4
   minObstacleGap: 7
   maxObstacleGap: 12
-  aerialHeight: 3
-  minAerialHeight: -1
-  maxAerialHeight: 3
-  minGapAerial: 1
-  maxGapAerial: 3
-  minZoneLength: 30
-  maxZoneLength: 70
+  minimumHeight: 3
+  minVerticalGap: -1
+  maxVerticalGap: 3
+  minHorizontalGap: 1
+  maxHorizontalGap: 3
+  minZoneObstacleLength: 30
+  maxZoneObstacleLength: 60
+  minZoneAerialLength: 30
+  maxZoneAerialLength: 60
 --- !u!114 &1116954769656626785
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -415,7 +423,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6712505201757990852, guid: 9d1732118a1f8374aae96942a875dfbf, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -50
+      value: -200
       objectReference: {fileID: 0}
     - target: {fileID: 6712505201757990852, guid: 9d1732118a1f8374aae96942a875dfbf, type: 3}
       propertyPath: m_LocalPosition.y

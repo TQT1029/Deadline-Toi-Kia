@@ -1,10 +1,10 @@
 using UnityEngine;
 
-[RequireComponent (typeof(EndlessGameController))]
+[RequireComponent(typeof(EndlessGameController))]
 public class MapGlobalConfig : MonoBehaviour
 {
     public static MapGlobalConfig Instance;
-    private void Awake() => Instance = this; 
+    private void Awake() => Instance = this;
 
     [Header("Coordinate Settings (Dùng chung)")]
     public float groundY = -5f;      // Độ cao mặt đất
@@ -16,6 +16,6 @@ public class MapGlobalConfig : MonoBehaviour
     public bool hasPit = false;                 // Có cho phép tạo hố không
 
     [Header("Global Noise Settings")]
-    // Tần số sóng dùng chung cho cả Cầu (Pit) và Sàn bay (Aerial) để map nhìn đồng bộ
+    [Tooltip("Càng nhỏ càng thoải, càng lớn càng dóc.")]
     public float waveFrequency = 0.4f;
 }

@@ -3780,13 +3780,77 @@ PrefabInstance:
       propertyPath: obstacleChanceItems
       value: 70
       objectReference: {fileID: 0}
+    - target: {fileID: 1378484960670327889, guid: c96d787ff3b412f4ab1a6092e688cb77, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 3483051163104056539, guid: 93220d5644a35d443bfca05b3a2d588d, type: 3}
     - target: {fileID: 1618569639096847101, guid: c96d787ff3b412f4ab1a6092e688cb77, type: 3}
       propertyPath: hasPit
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3055513440188071968, guid: c96d787ff3b412f4ab1a6092e688cb77, type: 3}
+      propertyPath: maxGroundSegmentLength
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 3055513440188071968, guid: c96d787ff3b412f4ab1a6092e688cb77, type: 3}
+      propertyPath: <maxPitWidth>k__BackingField
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 3055513440188071968, guid: c96d787ff3b412f4ab1a6092e688cb77, type: 3}
+      propertyPath: <minPitWidth>k__BackingField
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3055513440188071968, guid: c96d787ff3b412f4ab1a6092e688cb77, type: 3}
+      propertyPath: <baseLibrary>k__BackingField.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3055513440188071968, guid: c96d787ff3b412f4ab1a6092e688cb77, type: 3}
+      propertyPath: <baseLibrary>k__BackingField.Array.data[1].id
+      value: B2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3055513440188071968, guid: c96d787ff3b412f4ab1a6092e688cb77, type: 3}
+      propertyPath: <baseLibrary>k__BackingField.Array.data[2].id
+      value: B3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3055513440188071968, guid: c96d787ff3b412f4ab1a6092e688cb77, type: 3}
+      propertyPath: <baseLibrary>k__BackingField.Array.data[0].prefab
+      value: 
+      objectReference: {fileID: 2997676687723301785, guid: 8c2038f57ed0fce4388d9bed28cde993, type: 3}
+    - target: {fileID: 3055513440188071968, guid: c96d787ff3b412f4ab1a6092e688cb77, type: 3}
+      propertyPath: <baseLibrary>k__BackingField.Array.data[1].prefab
+      value: 
+      objectReference: {fileID: 7650719088838195618, guid: 73657ede4291ee540af91143299d6c8a, type: 3}
+    - target: {fileID: 3055513440188071968, guid: c96d787ff3b412f4ab1a6092e688cb77, type: 3}
+      propertyPath: <baseLibrary>k__BackingField.Array.data[2].prefab
+      value: 
+      objectReference: {fileID: 6899700398074020138, guid: 028b9c5edaee5fc4aa2d01bac166f9b5, type: 3}
+    - target: {fileID: 3055513440188071968, guid: c96d787ff3b412f4ab1a6092e688cb77, type: 3}
+      propertyPath: <baseLibrary>k__BackingField.Array.data[1].spawnWeight
+      value: 70
+      objectReference: {fileID: 0}
+    - target: {fileID: 3055513440188071968, guid: c96d787ff3b412f4ab1a6092e688cb77, type: 3}
+      propertyPath: <baseLibrary>k__BackingField.Array.data[2].spawnWeight
+      value: 30
+      objectReference: {fileID: 0}
     - target: {fileID: 3497808461788994679, guid: c96d787ff3b412f4ab1a6092e688cb77, type: 3}
       propertyPath: obstacleInPit
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3497808461788994679, guid: c96d787ff3b412f4ab1a6092e688cb77, type: 3}
+      propertyPath: maxVerticalGap
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3497808461788994679, guid: c96d787ff3b412f4ab1a6092e688cb77, type: 3}
+      propertyPath: minVerticalGap
+      value: -2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3497808461788994679, guid: c96d787ff3b412f4ab1a6092e688cb77, type: 3}
+      propertyPath: minHorizontalGap
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3497808461788994679, guid: c96d787ff3b412f4ab1a6092e688cb77, type: 3}
+      propertyPath: pitWidthNeedObjects
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 3497808461788994679, guid: c96d787ff3b412f4ab1a6092e688cb77, type: 3}
       propertyPath: <obstacleLibrary>k__BackingField.Array.size
@@ -3861,12 +3925,24 @@ PrefabInstance:
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 3936636314198989629, guid: c96d787ff3b412f4ab1a6092e688cb77, type: 3}
+      propertyPath: maxVerticalGap
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3936636314198989629, guid: c96d787ff3b412f4ab1a6092e688cb77, type: 3}
       propertyPath: minObstacleGap
       value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 3936636314198989629, guid: c96d787ff3b412f4ab1a6092e688cb77, type: 3}
+      propertyPath: minVerticalGap
+      value: -2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3936636314198989629, guid: c96d787ff3b412f4ab1a6092e688cb77, type: 3}
       propertyPath: obstacleChance
       value: 70
+      objectReference: {fileID: 0}
+    - target: {fileID: 3936636314198989629, guid: c96d787ff3b412f4ab1a6092e688cb77, type: 3}
+      propertyPath: minHorizontalGap
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3936636314198989629, guid: c96d787ff3b412f4ab1a6092e688cb77, type: 3}
       propertyPath: obstacleEdgePadding
@@ -4006,7 +4082,7 @@ PrefabInstance:
       objectReference: {fileID: 1065457516}
     - target: {fileID: 7330591790280183347, guid: c96d787ff3b412f4ab1a6092e688cb77, type: 3}
       propertyPath: distanceToBoss
-      value: 1000
+      value: 500
       objectReference: {fileID: 0}
     - target: {fileID: 7330591790280183347, guid: c96d787ff3b412f4ab1a6092e688cb77, type: 3}
       propertyPath: generationDistance

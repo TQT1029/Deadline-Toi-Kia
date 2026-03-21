@@ -1,9 +1,9 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public class GroundGenerator : MonoBehaviour
+public class BaseGenerator : MonoBehaviour
 {
-    public static GroundGenerator Instance;
+    public static BaseGenerator Instance;
     private void Awake() => Instance = this;
 
     [Header("References")]

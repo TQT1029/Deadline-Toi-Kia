@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-[RequireComponent(typeof(GroundGenerator), typeof(PitObjectGenerator))]
+[RequireComponent(typeof(BaseGenerator), typeof(PitObjectGenerator))]
 [RequireComponent(typeof(ObstacleGenerator), typeof(ItemGenerator))]
 public class EndlessGameController : MonoBehaviour
 {
@@ -10,7 +10,7 @@ public class EndlessGameController : MonoBehaviour
     [Header("Managers")]
 
     public MapGlobalConfig mapConfig;
-    public GroundGenerator groundGenerator;
+    public BaseGenerator baseGenerator;
     public PitObjectGenerator pitObjectGenerator;
     public ObstacleGenerator obstacleGenerator;
     public ItemGenerator itemGenerator;
@@ -41,7 +41,6 @@ public class EndlessGameController : MonoBehaviour
 
     private float cleanUpTime = 0f;
 
-    private bool isStartGenerateObstacle = false;
 
     private void Start()
     {
@@ -55,10 +54,13 @@ public class EndlessGameController : MonoBehaviour
         try
         {
             MapGlobalConfig.Instance.pitChance = 0; // Tắt hố
-            while (!isStartGenerateObstacle)
+            while (lastEdgeX < distanceToGenerateObstacle)
             {
-                BaseGenerate();
+                SpawnNextPiece();
             }
+
+            ClearSafeZone(player.position.x, player.position.x + distanceToGenerateObstacle);
+
         }
         finally
         {
@@ -89,16 +91,15 @@ public class EndlessGameController : MonoBehaviour
 
     //============================ Map Generation Core ============================//
 
-    private void SpawnNextPiece()
+    private void SpawnNextPiece(float safeDistance = 0f)
     {
-        // BƯỚC 1: Tạo Đất/Hố
-
-        var result = groundGenerator.SpawnNextSegment(lastEdgeX);
-
+        var result = baseGenerator.SpawnNextSegment(lastEdgeX);
         lastEdgeX = result.endX;
 
-        // BƯỚC 2: Tạo vật thể trên segment đó
-        if (result.type == GroundGenerator.SegmentType.Pit)
+        // Bỏ qua bước sinh vật cản và item nếu đoạn map vừa tạo nằm trong vùng safe zone
+        if (result.startX < safeDistance) return;
+
+        if (result.type == BaseGenerator.SegmentType.Pit)
         {
             pitObjectGenerator.GenerateObjectsInPit(result.startX, result.endX);
         }
@@ -107,28 +108,58 @@ public class EndlessGameController : MonoBehaviour
             obstacleGenerator.GenerateObstaclesOnGround(result.startX, result.endX);
         }
 
-        // BƯỚC 3: Đồng bộ vật lý và tạo Item
-        // Bắt buộc phải sync để Collider cập nhật vị trí mới nhất cho Raycast của ItemGenerator
         Physics2D.SyncTransforms();
         itemGenerator.GenerateItems(result.startX, result.endX);
     }
 
-    private void BaseGenerate()
+    private void ClearSafeZone(float startX, float endX)
     {
-        if (lastEdgeX > distanceToGenerateObstacle)
-        {
-            isStartGenerateObstacle = true;
-            return;
-        }
-        // BƯỚC 1: Tạo Đất/Hố
-        var result = groundGenerator.SpawnNextSegment(lastEdgeX);
-
-        lastEdgeX = result.endX;
-
-        // BƯỚC 2: Đồng bộ vật lý và tạo Item
-        // Bắt buộc phải sync để Collider cập nhật vị trí mới nhất cho Raycast của ItemGenerator
+        // Ép Unity cập nhật Collider cho các vật thể vừa Instantiate xong
         Physics2D.SyncTransforms();
-        itemGenerator.GenerateItems(result.startX, result.endX);
+
+        float width = endX - startX;
+        float height = 40f; // Chiều cao box đủ để bao phủ từ đáy hố lên tận sàn bay cao nhất
+
+        Vector2 center = new Vector2(startX + width / 2f, MapGlobalConfig.Instance.groundY + 10f);
+        Vector2 size = new Vector2(width, height);
+
+        // Quét toàn bộ collider nằm trong vùng an toàn
+        Collider2D[] hits = Physics2D.OverlapBoxAll(center, size, 0f);
+
+        foreach (Collider2D hit in hits)
+        {
+            // Kiểm tra xem collider này có thuộc về Obstacle, Item, hay MiniPlatform không
+            // Hàm GetRootInContainer giúp lấy ra chính xác Prefab Root (tránh xóa nhầm part con)
+            Transform targetToDestroy = GetRootInContainer(hit.transform);
+
+            if (targetToDestroy != null)
+            {
+                Destroy(targetToDestroy.gameObject);
+            }
+        }
+    }
+
+    private Transform GetRootInContainer(Transform child)
+    {
+        Transform current = child;
+
+        // Truy ngược lên cây gia phả để tìm xem nó có nằm trong các Container rác không
+        while (current.parent != null)
+        {
+            if (current.parent == pitObjectGenerator.obstacleObjs ||
+                current.parent == pitObjectGenerator.miniPlatformObjs ||
+                current.parent == obstacleGenerator.obstacleObjs ||
+                current.parent == obstacleGenerator.miniPlatformObjs ||
+                current.parent == itemGenerator.itemContainer)
+            {
+                // Nếu cha của nó là Container, thì chính nó là Prefab gốc cần xóa
+                return current;
+            }
+            current = current.parent;
+        }
+
+        // Nếu không thuộc các container trên (ví dụ như Ground, Player, Background), trả về null để tha mạng
+        return null;
     }
     //============================ Boss Logic ============================//
 
@@ -198,7 +229,7 @@ public class EndlessGameController : MonoBehaviour
     {
         // Gom mảng vào local để loop cho gọn
         Transform[] containers = {
-            groundGenerator.basePlatformObjs,
+            baseGenerator.basePlatformObjs,
             pitObjectGenerator.obstacleObjs,
             pitObjectGenerator.miniPlatformObjs,
             obstacleGenerator.obstacleObjs,

@@ -26,15 +26,17 @@ public class ObstacleGenerator : MonoBehaviour
     [SerializeField] private float maxObstacleGap = 12f;
 
     [Header("Aerial Logic ")]
-    [SerializeField] private float aerialHeight = 3f;
-    [SerializeField] private float minAerialHeight = -1f;
-    [SerializeField] private float maxAerialHeight = 3f;
-    [SerializeField] private float minGapAerial = 1f;
-    [SerializeField] private float maxGapAerial = 3f;
+    [SerializeField] private float minimumHeight = 3f;
+    [SerializeField] private float minVerticalGap = -1f;
+    [SerializeField] private float maxVerticalGap = 3f;
+    [SerializeField] private float minHorizontalGap = 1f;
+    [SerializeField] private float maxHorizontalGap = 3f;
 
     [Header("Zone Config")]
-    [SerializeField] private float minZoneLength = 30f; // Độ dài tối thiểu của 1 khu vực (để tránh bị đổi qua lại liên tục)
-    [SerializeField] private float maxZoneLength = 60f;
+    [SerializeField] private float minZoneObstacleLength = 30f; // Độ dài tối thiểu của 1 khu vực (để tránh bị đổi qua lại liên tục)
+    [SerializeField] private float maxZoneObstacleLength = 60f;
+    [SerializeField] private float minZoneAerialLength = 30f; // Độ dài tối thiểu của 1 khu vực (để tránh bị đổi qua lại liên tục)
+    [SerializeField] private float maxZoneAerialLength = 60f;
     private float noiseOffsetX = 0;
     private enum ZoneType { None, GroundObstacles, AerialPlatforms }
     private ZoneType currentZone = ZoneType.None;
@@ -62,8 +64,14 @@ public class ObstacleGenerator : MonoBehaviour
             currentZone = RandomUtils.ChancePercent(ratioObstacleToAerial) ? ZoneType.GroundObstacles : ZoneType.AerialPlatforms;
 
             // Đặt giới hạn cho Zone này (Zone này sẽ kéo dài qua nhiều mảnh đất)
-            zoneEndX = startX + RandomUtils.RandomWithSteps(minZoneLength, maxZoneLength, 1f);
-
+            if (currentZone == ZoneType.GroundObstacles)
+            {
+                zoneEndX = startX + RandomUtils.RandomWithSteps(minZoneObstacleLength, maxZoneObstacleLength, 1f);
+            }
+            else
+            {
+                zoneEndX = startX + RandomUtils.RandomWithSteps(minZoneAerialLength, maxZoneAerialLength, 1f);
+            }
             // Chỉ thêm Padding ở ĐẦU của một Zone mới
             nextSpawnX = startX + obstacleEdgePadding;
         }
@@ -159,12 +167,12 @@ public class ObstacleGenerator : MonoBehaviour
             float waveHeight = RandomUtils.GetPerlinHeight(
                 nextSpawnX + noiseOffsetX, // xPosition: dùng tọa độ thực tế + khoảng dịch ngẫu nhiên ban đầu
                 noiseScale,                // scale: độ gắt của địa hình
-                minAerialHeight,           // minHeight
-                maxAerialHeight,           // maxHeight
+                minVerticalGap,           // minHeight
+                maxVerticalGap,           // maxHeight
                 1.0f                       // step: làm tròn từng 1 mét để dễ nhảy
             );
 
-            float targetY = groundY + aerialHeight + waveHeight;
+            float targetY = groundY + minimumHeight + waveHeight;
             targetY = Mathf.Clamp(targetY, groundY + 2f, maxH);
             Vector3 pos = new Vector3(nextSpawnX + len / 2f, targetY, 0);
 
@@ -187,7 +195,7 @@ public class ObstacleGenerator : MonoBehaviour
             }
 
             // Cộng dồn X cho bệ đỡ tiếp theo
-            nextSpawnX += len + RandomUtils.RandomWithSteps(minGapAerial, maxGapAerial, 1.5f);
+            nextSpawnX += len + RandomUtils.RandomWithSteps(minHorizontalGap, maxHorizontalGap, 1.5f);
         }
     }
 

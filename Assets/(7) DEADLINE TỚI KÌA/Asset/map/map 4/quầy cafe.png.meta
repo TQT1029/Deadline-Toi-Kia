@@ -154,10 +154,10 @@ TextureImporter:
       name: "qu\u1EA7y cafe_1"
       rect:
         serializedVersion: 2
-        x: 907
+        x: 0
         y: 0
-        width: 127
-        height: 401
+        width: 1034
+        height: 454
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -188,6 +188,7 @@ TextureImporter:
     nameFileIdTable:
       "qu\u1EA7y cafe_0": -4269149100964880440
       "qu\u1EA7y cafe_1": 4975328671806880281
+      "qu\u1EA7y cafe_2": 440635625
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

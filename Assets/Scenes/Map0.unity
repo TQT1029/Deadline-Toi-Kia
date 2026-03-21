@@ -4208,7 +4208,7 @@ Transform:
   m_GameObject: {fileID: 1789372410}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 13.630373, y: 3, z: -10}
+  m_LocalPosition: {x: 13.3, y: 3, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5296,7 +5296,7 @@ Transform:
   m_GameObject: {fileID: 2037063331}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 13.630373, y: 3, z: -10}
+  m_LocalPosition: {x: 13.3, y: 3, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -5801,11 +5801,11 @@ PrefabInstance:
       objectReference: {fileID: 335606032}
     - target: {fileID: 7330591790280183347, guid: c96d787ff3b412f4ab1a6092e688cb77, type: 3}
       propertyPath: timeToDefeat
-      value: 60
+      value: 90
       objectReference: {fileID: 0}
     - target: {fileID: 7330591790280183347, guid: c96d787ff3b412f4ab1a6092e688cb77, type: 3}
       propertyPath: distanceToBoss
-      value: 50
+      value: 500
       objectReference: {fileID: 0}
     - target: {fileID: 8046278486622249382, guid: c96d787ff3b412f4ab1a6092e688cb77, type: 3}
       propertyPath: hasPit

@@ -49,9 +49,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   motionType: 1
-  groupPattern: 2
+  groupPattern: 1
   moveDistance: 1
-  customMoveOffset: {x: 0, y: 1, z: 0}
+  customMoveOffset: {x: 0, y: -1, z: 0}
   scaleMultiplier: 1.2
   duration: 1
   easeType: 4

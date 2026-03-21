@@ -1179,6 +1179,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Map
       objectReference: {fileID: 0}
+    - target: {fileID: 1378484960670327889, guid: c96d787ff3b412f4ab1a6092e688cb77, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 1731157655, guid: 6a03fc7c2d5ac794e8f5dd518b899460, type: 3}
+    - target: {fileID: 3055513440188071968, guid: c96d787ff3b412f4ab1a6092e688cb77, type: 3}
+      propertyPath: <baseLibrary>k__BackingField.Array.data[0].prefab
+      value: 
+      objectReference: {fileID: 7079737918172317107, guid: 4411ba1220e151e4dbcb7f330974d2e9, type: 3}
     - target: {fileID: 3497808461788994679, guid: c96d787ff3b412f4ab1a6092e688cb77, type: 3}
       propertyPath: <obstacleLibrary>k__BackingField.Array.size
       value: 0
@@ -1275,6 +1283,14 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 1987776500}
+    - target: {fileID: 7330591790280183347, guid: c96d787ff3b412f4ab1a6092e688cb77, type: 3}
+      propertyPath: distanceToBoss
+      value: 500
+      objectReference: {fileID: 0}
+    - target: {fileID: 7330591790280183347, guid: c96d787ff3b412f4ab1a6092e688cb77, type: 3}
+      propertyPath: generationDistance
+      value: 150
+      objectReference: {fileID: 0}
     - target: {fileID: 8046278486622249382, guid: c96d787ff3b412f4ab1a6092e688cb77, type: 3}
       propertyPath: <baseLibrary>k__BackingField.Array.size
       value: 1
@@ -5188,7 +5204,7 @@ Transform:
   m_GameObject: {fileID: 1773432070}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 13.630373, y: 3, z: -10}
+  m_LocalPosition: {x: 13.3, y: 3, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5358,7 +5374,7 @@ Transform:
   m_GameObject: {fileID: 1773911319}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 13.630373, y: 3, z: -10}
+  m_LocalPosition: {x: 13.3, y: 3, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

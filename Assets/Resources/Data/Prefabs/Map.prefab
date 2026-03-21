@@ -82,6 +82,7 @@ MonoBehaviour:
   distanceToBoss: 250
   winPointOffset: 250
   timeToDefeat: 90
+  distanceToGenerateObstacle: 30
   winPoint: {fileID: 778920830125474598}
   player: {fileID: 0}
   generationDistance: 100
@@ -146,6 +147,7 @@ MonoBehaviour:
   <obstacleLibrary>k__BackingField: []
   <miniPlatformLibrary>k__BackingField: []
   ratioObstacleToAerial: 70
+  changeSpawnObstacle: 80
   obstacleEdgePadding: 4
   minObstacleGap: 7
   maxObstacleGap: 12

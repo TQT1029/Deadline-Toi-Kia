@@ -19,6 +19,6 @@ MonoBehaviour:
   availablePatterns: 00000000020000000400000006000000
   projectiesObstacle:
   - {fileID: 3181273921167081314, guid: 5d2c5bf465e7e30468d02ff5e3499277, type: 3}
-  - {fileID: 6476163989220366068, guid: 95c0fd7567d0ee244ac62f5530291020, type: 3}
+  - {fileID: 5385194909932931197, guid: 4b54c79bc6a7af9439a8c20c973bf20a, type: 3}
   minAttackInterval: 3
   maxAttackInterval: 4.5

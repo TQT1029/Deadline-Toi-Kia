@@ -3806,6 +3806,10 @@ PrefabInstance:
       value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 3497808461788994679, guid: c96d787ff3b412f4ab1a6092e688cb77, type: 3}
+      propertyPath: stepGap
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3497808461788994679, guid: c96d787ff3b412f4ab1a6092e688cb77, type: 3}
       propertyPath: obstacleInPit
       value: 1
       objectReference: {fileID: 0}
@@ -3815,15 +3819,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3497808461788994679, guid: c96d787ff3b412f4ab1a6092e688cb77, type: 3}
       propertyPath: pitEdgePadding
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3497808461788994679, guid: c96d787ff3b412f4ab1a6092e688cb77, type: 3}
       propertyPath: maxHorizontalGap
-      value: 1.5
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 3497808461788994679, guid: c96d787ff3b412f4ab1a6092e688cb77, type: 3}
       propertyPath: minHorizontalGap
-      value: 0
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3497808461788994679, guid: c96d787ff3b412f4ab1a6092e688cb77, type: 3}
       propertyPath: pitWidthNeedBridge

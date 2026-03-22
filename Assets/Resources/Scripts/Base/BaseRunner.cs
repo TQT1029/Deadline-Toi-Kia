@@ -28,6 +28,9 @@ public class BaseRunner : MonoBehaviour
     [SerializeField] protected float respawnDelay = 1f; // Thời gian delay trước khi respawn sau khi rơi 
     [SerializeField] protected Vector2 respawnPosition = Vector2.zero;
 
+    [Tooltip("Số lần rớt tối đa trước khi bị ép dịch chuyển tới trước")]
+    [SerializeField] protected int maxConsecutiveFalls = 3;
+    protected int fallCount = 0;
 
 
     // Components
@@ -70,6 +73,7 @@ public class BaseRunner : MonoBehaviour
         if (isGrounded && !isControlLocked && !isRespawning && transform.position.y >= MapGlobalConfig.Instance.groundY)
         {
             respawnPosition = new Vector2(transform.position.x - 3f, transform.position.y + 3f);
+            fallCount = 0;
         }
     }
     protected virtual void FixedUpdate()
@@ -160,22 +164,6 @@ public class BaseRunner : MonoBehaviour
         }
     }
 
-/*    private void OnDrawGizmos()
-    {
-        // Kiểm tra để tránh lỗi khi chưa gán Transform trong Inspector
-        if (groundCheckPos != null)
-        {
-            // Thiết lập màu sắc cho khối debug
-            Gizmos.color = Color.red;
-
-            // Tính toán kích thước giống hệt trong hàm OverlapBox của bạn
-            Vector2 size = new Vector2(3.7f / 2.5f, groundCheckRadius);
-
-            // Vẽ hình hộp dây (Wire Cube) tại vị trí groundCheckPos
-            // Tham số thứ 3 (Vector3) trong DrawWireCube là độ dày/sâu, với 2D ta để 0 hoặc 1
-            Gizmos.DrawWireCube(groundCheckPos.position, new Vector3(size.x, size.y, 0));
-        }
-    }*/
 
     protected virtual void CheckStuck()
     {
@@ -204,6 +192,8 @@ public class BaseRunner : MonoBehaviour
     {
         isControlLocked = true; // Khóa điều khiển ngay khi rớt
         isRespawning = true;
+
+        fallCount++;
         // Ngừng gia tốc rơi trước khi dịch chuyển
         _rb.linearVelocity = Vector2.zero;
 
@@ -239,7 +229,19 @@ public class BaseRunner : MonoBehaviour
 
     protected virtual void RespawnFromPit()
     {
-        transform.position = respawnPosition;
+        // Kiểm tra nếu rớt liên tục quá số lần cho phép
+        if (fallCount >= maxConsecutiveFalls)
+        {
+            // Ép vị trí respawn tiến về phía trước 10 đơn vị, cao lên 5 đơn vị
+            // Cập nhật thẳng vào respawnPosition để nếu rớt tiếp, nó sẽ lại tính mốc từ vị trí mới này mà cộng thêm 10
+            respawnPosition = new Vector2(respawnPosition.x + 10f, respawnPosition.y + 5f);
+            transform.position = respawnPosition;
+        }
+        else
+        {
+            // Dịch chuyển về vị trí lưu mặc định
+            transform.position = respawnPosition;
+        }
     }
 
     protected virtual void RespawnFromStuck()

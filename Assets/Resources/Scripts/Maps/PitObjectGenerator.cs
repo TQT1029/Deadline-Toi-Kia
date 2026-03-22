@@ -21,11 +21,12 @@ public class PitObjectGenerator : MonoBehaviour
     [Tooltip("Khoảng trống (đệm) tính từ mép hố trở vào, dùng để check xem có đủ chỗ rải không")]
     [SerializeField] private float pitEdgePadding = 2f;
 
-    [Header("Bridge Settings ")]
-    [SerializeField] private float minVerticalGap = -1f;
-    [SerializeField] private float maxVerticalGap = 2f;
-    [SerializeField] private float minHorizontalGap = 0.5f;
-    [SerializeField] private float maxHorizontalGap = 1.5f;
+    [Header("Objects Settings ")]
+    [SerializeField, Min(-2f)] private float minVerticalGap = -1f;
+    [SerializeField, Min(0f)] private float maxVerticalGap = 2f;
+    [SerializeField, Min(0.5f)] private float minHorizontalGap = 0.5f;
+    [SerializeField, Min(1.5f)] private float maxHorizontalGap = 1.5f;
+    [SerializeField, Min(0.5f)] private float stepGap = 0.5f;
 
     private float noiseOffsetX;
 
@@ -105,7 +106,7 @@ public class PitObjectGenerator : MonoBehaviour
                 Instantiate(obs.prefab, pos, Quaternion.identity, obstacleObjs);
 
                 // Dùng chung Horizontal Gap với cầu cho nhất quán (hoặc bạn có thể tạo gap riêng)
-                currentX += size.x + RandomUtils.RandomWithSteps(minHorizontalGap, maxHorizontalGap, 0.5f);
+                currentX += size.x + RandomUtils.RandomWithSteps(minHorizontalGap, maxHorizontalGap, stepGap);
             }
             else
             {
@@ -162,7 +163,7 @@ public class PitObjectGenerator : MonoBehaviour
             Vector3 pos = new Vector3(currentX + len / 2f, groundY + waveHeight, 0);
             Instantiate(selectedData.prefab, pos, Quaternion.identity, miniPlatformObjs);
 
-            currentX += len + RandomUtils.RandomWithSteps(minHorizontalGap, maxHorizontalGap, 0.5f);
+            currentX += len + RandomUtils.RandomWithSteps(minHorizontalGap, maxHorizontalGap, stepGap);
         }
 
 

@@ -17,7 +17,6 @@ public class PitObjectGenerator : MonoBehaviour
     [Header("Pit Logic ")]
     [SerializeField] private bool isSpawnObjectInPit = true;
     [SerializeField, Range(0, 100)] private float ratioBridgeToObstacle = 50f;
-    [SerializeField] private float pitWidthNeedObjects = 15;
     [Tooltip("Khoảng trống (đệm) tính từ mép hố trở vào, dùng để check xem có đủ chỗ rải không")]
     [SerializeField] private float pitEdgePadding = 2f;
 
@@ -28,6 +27,7 @@ public class PitObjectGenerator : MonoBehaviour
     [SerializeField, Min(1.5f)] private float maxHorizontalGap = 1.5f;
     [SerializeField, Min(0.5f)] private float stepGap = 0.5f;
 
+    private float pitWidthNeedObjects = 7;
     private float noiseOffsetX;
 
     private void Start()
@@ -43,7 +43,7 @@ public class PitObjectGenerator : MonoBehaviour
 
         float pitWidth = endX - startX;
 
-        if (pitWidth > pitWidthNeedObjects)
+        if (pitWidth >= pitWidthNeedObjects)
         {
             bool spawnBridge = RandomUtils.ChancePercent(ratioBridgeToObstacle);
 

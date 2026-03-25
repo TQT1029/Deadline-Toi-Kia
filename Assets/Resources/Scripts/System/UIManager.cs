@@ -44,7 +44,7 @@ public class UIManager : Singleton<UIManager>
     public Animator AnimatorObj2;
     public TMP_Text ResultDistanceText;
     public TMP_Text ResultCoinText;
-    public TMP_Text ResultXPScoreText;
+    public TMP_Text ResultRankText;
 
     private void OnEnable()
     {
@@ -111,8 +111,8 @@ public class UIManager : Singleton<UIManager>
             AnimatorObj2 = FindObj("BGObj2")?.GetComponent<Animator>();
 
             ResultDistanceText = ResultPanel.transform.Find("ResultZone/ResultDistance")?.GetComponent<TMP_Text>();
-            ResultCoinText = ResultPanel.transform.Find("ResultZone/ResultDocuments")?.GetComponent<TMP_Text>();
-            ResultXPScoreText = ResultPanel.transform.Find("ResultZone/ResultXP")?.GetComponent<TMP_Text>();
+            ResultCoinText = ResultPanel.transform.Find("ResultZone/ResultCoins")?.GetComponent<TMP_Text>();
+            ResultRankText = ResultPanel.transform.Find("ResultZone/ResultRank")?.GetComponent<TMP_Text>();
 
             GameManager.Instance.ChangeState(GameState.Playing);
         }

@@ -32,7 +32,7 @@ public class HUDController : MonoBehaviour
 
     [SerializeField] private TMP_Text resultDistanceText => UIManager.Instance.ResultDistanceText;
     [SerializeField] private TMP_Text resultCoinText => UIManager.Instance.ResultCoinText;
-    [SerializeField] private TMP_Text resultXPScoreText => UIManager.Instance.ResultXPScoreText;
+    [SerializeField] private TMP_Text resultRankText => UIManager.Instance.ResultRankText;
 
     private int lastRank = -1; // Lưu currentRank frame trước để so sánh
     private Color originalRankColor; // Lưu màu gốc để trả về
@@ -65,11 +65,11 @@ public class HUDController : MonoBehaviour
         if (RankingManager.Instance == null) return;
 
         int currentRank = RankingManager.Instance.CurrentRank;
-        int total = RankingManager.Instance.TotalRacers;
+        int totalRunner = RankingManager.Instance.TotalRacers;
 
         // 1. Cập nhật Text
         if (rankTitleText != null) rankTitleText.text = $"TOP {currentRank}";
-        if (rankDetailText != null) rankDetailText.text = $"{currentRank:00}/{total:00}";
+        if (rankDetailText != null) rankDetailText.text = $"{currentRank:00}/{totalRunner:00}";
 
         // 2. XỬ LÝ HIỆU ỨNG THAY ĐỔI RANK
         // Chỉ chạy nếu currentRank thay đổi và không phải lần đầu tiên (lastRank != -1)
@@ -110,15 +110,14 @@ public class HUDController : MonoBehaviour
         rankColorTween = rankTitleText.DOColor(originalRankColor, blinkDuration)
             .SetDelay(0.2f); // Delay một chút để giữ màu xanh/đỏ lâu hơn xíu
     }
-    public void UpdateHUD(float distance, int learnScore, int xpScore)
+    public void UpdateHUD(float distance, int learnScore)
     {
         if (distanceText) distanceText.text = $"{distance:F1}m";
         if (coinText) coinText.text = $"{learnScore}";
-        if (xpScoreText) xpScoreText.text = $"{xpScore}";
     }
 
     // --- SỬA HÀM NÀY ĐỂ NHẬN ĐỦ THAM SỐ VÀ CHẠY ANIMATION ---
-    public void ShowResult(int starCount, float distance, int docScore, int xpScore)
+    public void ShowResult(int starCount, float distance, int xpScore, int resultRankText)
     {
         if (resultPanel == null) return;
 
@@ -126,8 +125,8 @@ public class HUDController : MonoBehaviour
 
         // 1. Hiển thị thông số kết quả
         if (resultDistanceText) resultDistanceText.text = $"{distance:F1}m";
-        if (resultCoinText) resultCoinText.text = $"{docScore}";
-        if (resultXPScoreText) resultXPScoreText.text = $"{xpScore}";
+        if (resultCoinText) resultCoinText.text = $"{xpScore}";
+        if (this.resultRankText) this.resultRankText.text = $"{resultRankText}";
 
         // 2. Setup hình ảnh nhân vật (nếu có logic chọn skin)
         if (ReferenceManager.Instance.CurrentSelectedProfile != null)

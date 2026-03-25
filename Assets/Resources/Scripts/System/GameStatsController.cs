@@ -16,7 +16,7 @@ public class GameStatsController : MonoBehaviour
 
     public float resultDistance { get; private set; }
     public int resultCoin { get; private set; }
-    public int resultXPScore { get; private set; }
+    public int resultRank { get; private set; }
     private bool isGameActive = true;
 
     private void Awake()
@@ -38,13 +38,13 @@ public class GameStatsController : MonoBehaviour
             // Dùng linearVelocityX (Unity 6) hoặc velocity.x tùy phiên bản
             resultDistance += ReferenceManager.Instance.PlayerRigidbody.linearVelocity.x * Time.deltaTime;
         }
-        HUDController.Instance.UpdateHUD(resultDistance, resultCoin, resultXPScore);
+        HUDController.Instance.UpdateHUD(resultDistance, resultCoin);
     }
 
     public void CollectCoinItem(int amount = 1)
     {
         resultCoin += amount;
-        resultXPScore += amount;
+        resultRank += amount;
     }
 
     public void HitObstacleBoss(int minAmount, int maxAmount)
@@ -54,14 +54,14 @@ public class GameStatsController : MonoBehaviour
 
     public void CollectDoubleXPItem()
     {
-        resultXPScore *= 2;
+        resultRank *= 2;
     }
 
     public void StartMap()
     {
         resultDistance = 0f;
         resultCoin = 0;
-        resultXPScore = 0;
+        resultRank = 0;
         isGameActive = true;
     }
 
@@ -72,16 +72,16 @@ public class GameStatsController : MonoBehaviour
 
         // Tính số sao
         int starsEarned = 0;
-        if (resultXPScore >= fiveStarScore) starsEarned = 5;
-        else if (resultXPScore >= fourStarScore) starsEarned = 4;
-        else if (resultXPScore >= threeStarScore) starsEarned = 3;
-        else if (resultXPScore >= twoStarScore) starsEarned = 2;
-        else if (resultXPScore >= oneStarScore) starsEarned = 1;
+        if (resultRank >= fiveStarScore) starsEarned = 5;
+        else if (resultRank >= fourStarScore) starsEarned = 4;
+        else if (resultRank >= threeStarScore) starsEarned = 3;
+        else if (resultRank >= twoStarScore) starsEarned = 2;
+        else if (resultRank >= oneStarScore) starsEarned = 1;
 
-        Debug.Log($"Kết thúc! XP: {resultXPScore} - Sao: {starsEarned}");
+        Debug.Log($"Kết thúc! XP: {resultRank} - Sao: {starsEarned}");
 
         // GỌI HUD VỚI ĐẦY ĐỦ THAM SỐ
-        HUDController.Instance.ShowResult(starsEarned, resultDistance, resultCoin, resultXPScore);
+        HUDController.Instance.ShowResult(starsEarned, resultDistance, resultCoin, resultRank);
 
         // Dừng game
         Time.timeScale = 0f;

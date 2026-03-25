@@ -86,9 +86,6 @@ public class ProjectiesControl : MonoBehaviour
         float worldHeight = cam.orthographicSize * 2.5f;
         float worldWidth = worldHeight * cam.aspect;
 
-        Debug.Log($"[ProjectiesControl] World Height: {worldHeight}");
-        Debug.Log($"[ProjectiesControl] World Width: {worldWidth}");
-
         // 2. Tính lề an toàn để spawn object ngoài màn hình
         verticalMargin = (obstacleHitSize / worldHeight) + 0.1f;    
         horizontalMargin = (obstacleHitSize / worldWidth) + 0.1f;

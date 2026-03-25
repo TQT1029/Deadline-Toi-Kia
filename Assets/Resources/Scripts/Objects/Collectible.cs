@@ -40,9 +40,6 @@ public class Collectible : MonoBehaviour
                 case ItemType.CoinItem: // Hoặc Coin
                     GameStatsController.Instance.CollectCoinItem(scoreValue);
                     break;
-                case ItemType.DoubleXPItem:
-                    GameStatsController.Instance.CollectDoubleXPItem();
-                    break;
             }
 
 

@@ -927,9 +927,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 941845865}
-  - component: {fileID: 941845867}
   - component: {fileID: 941845866}
-  - component: {fileID: 941845868}
   m_Layer: 0
   m_Name: BG
   m_TagString: Untagged
@@ -962,50 +960,30 @@ MonoBehaviour:
   m_GameObject: {fileID: 941845864}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ddc84da513aeb6243815e1f062076ba9, type: 3}
+  m_Script: {fileID: 11500000, guid: a654f10cb7f1e18479b40fc59934b02d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  globalMode: 0
   targetSubject: {fileID: 335606032}
   mainCamera: {fileID: 2037063333}
+  numberOfBackgroundLayers: 1
+  defaultBackgroundMaterial: {fileID: 0}
   enableParallaxX: 1
-  enableParallaxY: 1
-  baseScrollSpeedX: 0.2
+  baseScrollSpeedX: 0
   velocityMultiplierX: 0.5
-  smoothTimeX: 0.5
-  smoothingY: 10
-  verticalParallaxStrength: 0
---- !u!114 &941845867
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 941845864}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5b5b29950c623c94998f83320c8ddb69, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  smoothTimeX: 0.25
+  parallaxStrengthX: 1
+  enableParallaxY: 1
+  baseScrollSpeedY: 0
+  velocityMultiplierY: 0.5
+  smoothTimeY: 0.25
+  parallaxStrengthY: 1
   bgFarthestZ: 100
   bgNearestZ: 10
   foregroundLayerCount: 0
   fgStartZ: -5
   fgSpacing: -5
   autoSortOnValidate: 1
---- !u!114 &941845868
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 941845864}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 637b4376f1d4ffc45b4bcbd79a9cd2ed, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  vCam: {fileID: 1789372412}
-  maintainAspectRatio: 1
 --- !u!1 &1003491298
 GameObject:
   m_ObjectHideFlags: 0
@@ -2958,12 +2936,20 @@ PrefabInstance:
       value: Map
       objectReference: {fileID: 0}
     - target: {fileID: 1378484960670327889, guid: c96d787ff3b412f4ab1a6092e688cb77, type: 3}
+      propertyPath: m_Size.x
+      value: 2.99
+      objectReference: {fileID: 0}
+    - target: {fileID: 1378484960670327889, guid: c96d787ff3b412f4ab1a6092e688cb77, type: 3}
+      propertyPath: m_Size.y
+      value: 5.71
+      objectReference: {fileID: 0}
+    - target: {fileID: 1378484960670327889, guid: c96d787ff3b412f4ab1a6092e688cb77, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: -6856045383788176096, guid: 15fa773b13a0cd54c999eb81f5c7947c, type: 3}
+      objectReference: {fileID: -2310990113682193829, guid: 009685a425653f544b74a6ec912f3cc1, type: 3}
     - target: {fileID: 1378484960670327889, guid: c96d787ff3b412f4ab1a6092e688cb77, type: 3}
       propertyPath: m_WasSpriteAssigned
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1618569639096847101, guid: c96d787ff3b412f4ab1a6092e688cb77, type: 3}
       propertyPath: hasPit
@@ -3034,8 +3020,20 @@ PrefabInstance:
       value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 3936636314198989629, guid: c96d787ff3b412f4ab1a6092e688cb77, type: 3}
+      propertyPath: minVerticalGap
+      value: -3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3936636314198989629, guid: c96d787ff3b412f4ab1a6092e688cb77, type: 3}
       propertyPath: obstacleChance
       value: 80
+      objectReference: {fileID: 0}
+    - target: {fileID: 3936636314198989629, guid: c96d787ff3b412f4ab1a6092e688cb77, type: 3}
+      propertyPath: maxHorizontalGap
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 3936636314198989629, guid: c96d787ff3b412f4ab1a6092e688cb77, type: 3}
+      propertyPath: minHorizontalGap
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3936636314198989629, guid: c96d787ff3b412f4ab1a6092e688cb77, type: 3}
       propertyPath: hasAerialPlatform
@@ -3047,7 +3045,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3936636314198989629, guid: c96d787ff3b412f4ab1a6092e688cb77, type: 3}
       propertyPath: ratioObstacleToAerial
-      value: 100
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 3936636314198989629, guid: c96d787ff3b412f4ab1a6092e688cb77, type: 3}
       propertyPath: obstacleLibrary.Array.size
@@ -3249,6 +3247,30 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6328792742991618389, guid: c96d787ff3b412f4ab1a6092e688cb77, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -200
+      objectReference: {fileID: 0}
+    - target: {fileID: 6635478660685333660, guid: c96d787ff3b412f4ab1a6092e688cb77, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6635478660685333660, guid: c96d787ff3b412f4ab1a6092e688cb77, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6635478660685333660, guid: c96d787ff3b412f4ab1a6092e688cb77, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6635478660685333660, guid: c96d787ff3b412f4ab1a6092e688cb77, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -2.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 6635478660685333660, guid: c96d787ff3b412f4ab1a6092e688cb77, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7330591790280183347, guid: c96d787ff3b412f4ab1a6092e688cb77, type: 3}
       propertyPath: player
       value: 
@@ -3260,6 +3282,10 @@ PrefabInstance:
     - target: {fileID: 7330591790280183347, guid: c96d787ff3b412f4ab1a6092e688cb77, type: 3}
       propertyPath: distanceToBoss
       value: 500
+      objectReference: {fileID: 0}
+    - target: {fileID: 7330591790280183347, guid: c96d787ff3b412f4ab1a6092e688cb77, type: 3}
+      propertyPath: winPointOffset
+      value: 250
       objectReference: {fileID: 0}
     - target: {fileID: 8046278486622249382, guid: c96d787ff3b412f4ab1a6092e688cb77, type: 3}
       propertyPath: hasPit

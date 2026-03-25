@@ -52,16 +52,11 @@ public class GameStatsController : MonoBehaviour
         resultCoin = Mathf.Max(0, resultCoin - Random.Range(minAmount, maxAmount + 1));
     }
 
-    public void CollectDoubleXPItem()
-    {
-        resultRank *= 2;
-    }
-
     public void StartMap()
     {
         resultDistance = 0f;
         resultCoin = 0;
-        resultRank = 0;
+        resultRank = RankingManager.Instance.CurrentRank;
         isGameActive = true;
     }
 
@@ -72,13 +67,15 @@ public class GameStatsController : MonoBehaviour
 
         // Tính số sao
         int starsEarned = 0;
-        if (resultRank >= fiveStarScore) starsEarned = 5;
-        else if (resultRank >= fourStarScore) starsEarned = 4;
-        else if (resultRank >= threeStarScore) starsEarned = 3;
-        else if (resultRank >= twoStarScore) starsEarned = 2;
-        else if (resultRank >= oneStarScore) starsEarned = 1;
+        if (resultCoin >= fiveStarScore) starsEarned = 5;
+        else if (resultCoin >= fourStarScore) starsEarned = 4;
+        else if (resultCoin >= threeStarScore) starsEarned = 3;
+        else if (resultCoin >= twoStarScore) starsEarned = 2;
+        else if (resultCoin >= oneStarScore) starsEarned = 1;
 
-        Debug.Log($"Kết thúc! XP: {resultRank} - Sao: {starsEarned}");
+        Debug.Log($"Kết thúc! Rank: {resultRank} - Sao: {starsEarned}");
+
+        resultRank = RankingManager.Instance.CurrentRank;
 
         // GỌI HUD VỚI ĐẦY ĐỦ THAM SỐ
         HUDController.Instance.ShowResult(starsEarned, resultDistance, resultCoin, resultRank);

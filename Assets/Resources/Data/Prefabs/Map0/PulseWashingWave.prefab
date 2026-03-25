@@ -49,14 +49,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0b8078bcd4963f47a52165951798dc3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  motionType: 3
   groupPattern: 1
-  moveDistance: 1
-  customMoveOffset: {x: 0, y: 1, z: 0}
-  scaleMultiplier: 1.5
   duration: 1
   easeType: 4
   waveDelayStep: 0.2
+  enableMove: 0
+  moveOffset: {x: 0, y: 1, z: 0}
+  enableRotate: 0
+  rotateAngles: {x: 0, y: 0, z: 90}
+  continuousSpin: 0
+  enableScale: 1
+  scaleMultiplier: {x: 1.2, y: 1.2, z: 1.2}
 --- !u!1001 &3030620679607569962
 PrefabInstance:
   m_ObjectHideFlags: 0

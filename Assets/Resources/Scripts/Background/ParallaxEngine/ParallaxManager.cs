@@ -63,20 +63,9 @@ namespace ParallaxEngine
         public float parallaxStrengthY = 1f;
 
         [Header("Z-Depth Config (Editor)")]
-        [Tooltip("Khoảng cách Z xa nhất của Background (Nền di chuyển chậm nhất).")]
-        [SerializeField] private float bgFarthestZ = 100f;
-
-        [Tooltip("Khoảng cách Z gần nhất của Background.")]
-        [SerializeField] private float bgNearestZ = 10f;
-
         [Tooltip("Số lượng layer thuộc về Foreground (Nằm trước Camera/Player).")]
         [SerializeField] private int foregroundLayerCount = 0;
 
-        [Tooltip("Vị trí Z bắt đầu cho lớp Foreground đầu tiên.")]
-        [SerializeField] private float fgStartZ = -5f;
-
-        [Tooltip("Khoảng cách Z giữa các lớp Foreground với nhau.")]
-        [SerializeField] private float fgSpacing = -5f;
 
         [Tooltip("Tự động sắp xếp lại độ sâu Z mỗi khi có thay đổi trong Editor.")]
         [SerializeField] private bool autoSortOnValidate = false;
@@ -188,6 +177,33 @@ namespace ParallaxEngine
             int safeFgCount = Mathf.Clamp(foregroundLayerCount, 0, totalCount);
             int bgCount = totalCount - safeFgCount;
 
+            // Tìm Camera và Player để làm mốc tính toán
+            Camera cam = mainCamera != null ? mainCamera : Camera.main;
+            Transform target = targetSubject;
+
+            if (target == null)
+            {
+                GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
+                if (playerObj != null) target = playerObj.transform;
+            }
+
+            // Lấy tọa độ Z làm mốc (Mặc định -10 cho Cam và 0 cho Player nếu không tìm thấy)
+            float cameraZ = cam != null ? cam.transform.position.z : -10f;
+            float playerZ = target != null ? target.position.z : 0f;
+
+            // Kiểm tra và cảnh báo nếu khoảng cách Camera và Player quá hẹp
+            if (cameraZ + 1f >= playerZ - 1f && safeFgCount > 0)
+            {
+                Debug.LogWarning("ParallaxManager: Khoảng cách giữa Camera và Player quá hẹp để xếp Foreground! Hãy lùi Camera ra xa hơn so với Player.");
+            }
+
+            // Thiết lập giới hạn
+            float bgStartZ = playerZ + 5f;
+            float bgEndZ = 100f;
+
+            float fgStartZ = cameraZ + 1f;
+            float fgEndZ = playerZ - 1f;
+
             for (int i = 0; i < totalCount; i++)
             {
                 Transform layer = children[i];
@@ -195,55 +211,98 @@ namespace ParallaxEngine
 
                 if (i < bgCount)
                 {
+                    // --- BACKGROUND ---
+                    // Đánh số tăng dần từ 00, tính từ Player ra xa
                     layer.name = $"Layer_BG_{i:00}";
+
+                    // Nếu chỉ có 1 layer BG, đặt ngay tại bgStartZ
                     float t = (bgCount <= 1) ? 0f : (float)i / (bgCount - 1);
-                    zPos = Mathf.Lerp(bgFarthestZ, bgNearestZ, t);
+                    zPos = Mathf.Lerp(bgStartZ, bgEndZ, t);
                 }
                 else
                 {
+                    // --- FOREGROUND ---
+                    // Đánh số tăng dần từ 00, tính từ Camera hướng về Player
                     int fgIndex = i - bgCount;
                     layer.name = $"Layer_FG_{fgIndex:00}";
-                    zPos = fgStartZ + (fgIndex * fgSpacing);
+
+                    // Nếu chỉ có 1 layer FG, đặt ở giữa (0.5). Nếu nhiều hơn thì trải đều.
+                    float t = (safeFgCount <= 1) ? 0.5f : (float)fgIndex / (safeFgCount - 1);
+                    zPos = Mathf.Lerp(fgStartZ, fgEndZ, t);
                 }
 
-                Vector3 newPos = layer.localPosition;
+                // Áp dụng Z mới vào vị trí
+                Vector3 newPos = layer.position;
                 newPos.z = zPos;
-                layer.localPosition = newPos;
+                layer.position = newPos;
             }
 
+#if UNITY_EDITOR
+            if (!Application.isPlaying)
+            {
+                UnityEditor.EditorUtility.SetDirty(this);
+            }
+#endif
             if (Application.isPlaying) InitializeLayers();
         }
 
 
-
-        [ContextMenu("Generate Background Layers")]
+        [ContextMenu("Generate Layers")]
         public void GenerateBackgroundLayers()
         {
-            for (int i = 0; i < numberOfBackgroundLayers; i++)
+            int currentCount = transform.childCount;
+            // Tổng số layer cần thiết để hệ thống hoạt động đúng cấu hình
+            int targetTotalCount = numberOfBackgroundLayers + foregroundLayerCount;
+
+            if (currentCount < targetTotalCount)
             {
-
-                GameObject bgObject = GameObject.CreatePrimitive(PrimitiveType.Quad);
-                bgObject.name = $"Temp_Layer_{i}"; 
-
-                bgObject.transform.SetParent(this.transform);
-
-                bgObject.transform.localScale = new Vector3(2f, 2f, 2f);
-                bgObject.transform.localPosition = Vector3.zero;
-                bgObject.transform.localRotation = Quaternion.identity;
-                Collider col = bgObject.GetComponent<Collider>();
-                if (col != null) DestroyImmediate(col);
-
-                MeshRenderer meshRenderer = bgObject.GetComponent<MeshRenderer>();
-                if (defaultBackgroundMaterial != null)
+                // THIẾU: Chỉ tạo thêm phần bị thiếu
+                int amountToCreate = targetTotalCount - currentCount;
+                for (int i = 0; i < amountToCreate; i++)
                 {
-                    meshRenderer.sharedMaterial = defaultBackgroundMaterial;
+                    GameObject bgObject = GameObject.CreatePrimitive(PrimitiveType.Quad);
+                    bgObject.name = $"Temp_Layer_{currentCount + i}";
+
+                    bgObject.transform.SetParent(this.transform);
+
+                    bgObject.transform.localScale = new Vector3(2f, 2f, 2f);
+                    bgObject.transform.localPosition = Vector3.zero;
+                    bgObject.transform.localRotation = Quaternion.identity;
+
+                    Collider col = bgObject.GetComponent<Collider>();
+                    if (col != null) DestroyImmediate(col);
+
+                    MeshRenderer meshRenderer = bgObject.GetComponent<MeshRenderer>();
+                    if (defaultBackgroundMaterial != null)
+                    {
+                        meshRenderer.sharedMaterial = defaultBackgroundMaterial;
+                    }
+                    meshRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
                 }
-                meshRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
+                Debug.Log($"[ParallaxManager] Đã tạo THÊM {amountToCreate} layer. Các layer cũ được giữ nguyên!");
+            }
+            else if (currentCount > targetTotalCount)
+            {
+                Debug.Log("[ParallaxManager] Số lượng layer đã dư.");
+
+                // THỪA: Xóa bớt các object nằm ở cuối danh sách
+                /*
+                                int amountToRemove = currentCount - targetTotalCount;
+                                for (int i = 0; i < amountToRemove; i++)
+                                {
+                                    Transform lastChild = transform.GetChild(transform.childCount - 1);
+                                    DestroyImmediate(lastChild.gameObject);
+                                }
+                                Debug.Log($"[ParallaxManager] Đã XÓA BỚT {amountToRemove} layer thừa ở cuối danh sách.");*/
+            }
+            else
+            {
+                // ĐÃ ĐỦ
+                Debug.Log("[ParallaxManager] Số lượng layer đã đủ theo cấu hình, bỏ qua bước tạo mới.");
             }
 
+            // Gọi hàm sắp xếp để phân bổ lại Z-Depth và đổi tên cho cả layer cũ lẫn mới
             SortLayersDepth();
-
-            Debug.Log($"Đã tạo thành công {numberOfBackgroundLayers} layer Background!");
         }
 #endif
 

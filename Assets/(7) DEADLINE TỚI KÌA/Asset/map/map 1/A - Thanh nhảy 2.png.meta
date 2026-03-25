@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 845ebfaeedd8a0f46859981c5e3460d5
+guid: bd26efc2fb15e14489095c46fa1b4142
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -2535332779455934419
-    second: "C - \u0111\xE8n_0"
+      213: -1836726387476802043
+    second: "A - Thanh nh\u1EA3y 2_0"
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -126,23 +126,23 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: "C - \u0111\xE8n_0"
+      name: "A - Thanh nh\u1EA3y 2_0"
       rect:
         serializedVersion: 2
-        x: 159
-        y: 0
-        width: 1575
-        height: 3000
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 39
+        y: 29
+        width: 2342
+        height: 169
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: d2010251540b0dcd0800000000000000
-      internalID: -2535332779455934419
+      spriteID: 506dbdcf413a286e0800000000000000
+      internalID: -1836726387476802043
       vertices: []
       indices: 
       edges: []
@@ -151,7 +151,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: ad559a77f6088964895f8b1effe617ea
     internalID: 0
     vertices: []
     indices: 
@@ -161,7 +161,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      "C - \u0111\xE8n_0": -2535332779455934419
+      "A - Thanh nh\u1EA3y 2_0": -1836726387476802043
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

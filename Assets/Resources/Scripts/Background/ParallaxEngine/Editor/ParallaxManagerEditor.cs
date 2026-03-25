@@ -12,7 +12,10 @@ namespace ParallaxEngine.Editor
         private SerializedProperty globalMode;
         private SerializedProperty enableParallaxX, baseScrollSpeedX, velocityMultiplierX, smoothTimeX, parallaxStrengthX;
         private SerializedProperty enableParallaxY, baseScrollSpeedY, velocityMultiplierY, smoothTimeY, parallaxStrengthY;
-        private SerializedProperty bgFarthestZ, bgNearestZ, foregroundLayerCount, fgStartZ, fgSpacing, autoSortOnValidate;
+
+        // Các property cấu hình Z đã được tinh giản
+        private SerializedProperty foregroundLayerCount, autoSortOnValidate;
+
         private SerializedProperty numberOfBackgroundLayers;
         private SerializedProperty defaultBackgroundMaterial;
         private GUIStyle headerStyle;
@@ -36,11 +39,8 @@ namespace ParallaxEngine.Editor
             smoothTimeY = serializedObject.FindProperty("smoothTimeY");
             parallaxStrengthY = serializedObject.FindProperty("parallaxStrengthY");
 
-            bgFarthestZ = serializedObject.FindProperty("bgFarthestZ");
-            bgNearestZ = serializedObject.FindProperty("bgNearestZ");
+            // Chỉ còn giữ lại 2 property này
             foregroundLayerCount = serializedObject.FindProperty("foregroundLayerCount");
-            fgStartZ = serializedObject.FindProperty("fgStartZ");
-            fgSpacing = serializedObject.FindProperty("fgSpacing");
             autoSortOnValidate = serializedObject.FindProperty("autoSortOnValidate");
 
             numberOfBackgroundLayers = serializedObject.FindProperty("numberOfBackgroundLayers");
@@ -103,20 +103,18 @@ namespace ParallaxEngine.Editor
             }
             EditorGUILayout.EndVertical();
 
-            DrawSectionHeader("4. Z-Depth Sorting");
+            // --- GIAO DIỆN Z-DEPTH MỚI ---
+            DrawSectionHeader("4. Auto Z-Depth Sorting");
             EditorGUILayout.BeginVertical(EditorStyles.helpBox);
-            EditorGUILayout.PropertyField(bgFarthestZ, new GUIContent("Farthest Z (BG)", bgFarthestZ.tooltip));
-            EditorGUILayout.PropertyField(bgNearestZ, new GUIContent("Nearest Z (BG)", bgNearestZ.tooltip));
+
+            EditorGUILayout.HelpBox(
+                "Độ sâu Z được tính toán hoàn toàn tự động dựa theo Camera và Player:\n" +
+                "• Foreground: Từ [Z Cam + 1] đến [Z Player - 1]\n" +
+                "• Background: Từ [Z Player + 5] đến [Z = 100]",
+                MessageType.None);
+
             EditorGUILayout.Space(5);
             EditorGUILayout.PropertyField(foregroundLayerCount, new GUIContent("Foreground Layers", foregroundLayerCount.tooltip));
-            if (foregroundLayerCount.intValue > 0)
-            {
-                EditorGUI.indentLevel++;
-                EditorGUILayout.PropertyField(fgStartZ, new GUIContent("Start Z", fgStartZ.tooltip));
-                EditorGUILayout.PropertyField(fgSpacing, new GUIContent("Spacing Z", fgSpacing.tooltip));
-                EditorGUI.indentLevel--;
-            }
-            EditorGUILayout.Space(5);
             EditorGUILayout.PropertyField(autoSortOnValidate, new GUIContent("Auto Sort On Change", autoSortOnValidate.tooltip));
 
             EditorGUILayout.Space(5);
@@ -137,7 +135,7 @@ namespace ParallaxEngine.Editor
             EditorGUILayout.PropertyField(defaultBackgroundMaterial, new GUIContent("Default Material", "Material mặc định gán cho các layer vừa tạo."));
 
             EditorGUILayout.Space(5);
-            GUI.backgroundColor = new Color(0.2f, 0.8f, 0.2f); // Nút màu xanh lá
+            GUI.backgroundColor = new Color(0.2f, 0.8f, 0.2f);
             if (GUILayout.Button("Generate Background Layers", GUILayout.Height(30)))
             {
                 ParallaxManager manager = (ParallaxManager)target;

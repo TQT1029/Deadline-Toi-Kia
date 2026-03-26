@@ -10,7 +10,7 @@ namespace ProObstacleEngine.Editor
     {
         private SerializedProperty groupPattern, loopType, duration, easeType, waveDelayStep;
         private SerializedProperty enableMove, moveOffset;
-        private SerializedProperty enableRotate, rotateAngles, continuousSpin;
+        private SerializedProperty enableRotate, rotateAngles, continuousSpin, symmetricRotation;
         private SerializedProperty enableScale, scaleMultiplier;
         private SerializedProperty enableColor, targetColor;
         private SerializedProperty enableShake, shakeStrength;
@@ -31,6 +31,7 @@ namespace ProObstacleEngine.Editor
             enableRotate = serializedObject.FindProperty("enableRotate");
             rotateAngles = serializedObject.FindProperty("rotateAngles");
             continuousSpin = serializedObject.FindProperty("continuousSpin");
+            symmetricRotation = serializedObject.FindProperty("symmetricRotation");
 
             enableScale = serializedObject.FindProperty("enableScale");
             scaleMultiplier = serializedObject.FindProperty("scaleMultiplier");
@@ -90,6 +91,7 @@ namespace ProObstacleEngine.Editor
                 EditorGUI.indentLevel++;
                 EditorGUILayout.PropertyField(continuousSpin, new GUIContent("Continuous Spin (360)"));
                 EditorGUILayout.PropertyField(rotateAngles, new GUIContent(continuousSpin.boolValue ? "Spin Speed (Angles/Cycle)" : "Target Angles"));
+                EditorGUILayout.PropertyField(symmetricRotation, new GUIContent(symmetricRotation.boolValue?"Symmetric Rotation is on": "Symmetric Rotation is off"));
                 EditorGUI.indentLevel--;
             }
             EditorGUILayout.EndVertical();

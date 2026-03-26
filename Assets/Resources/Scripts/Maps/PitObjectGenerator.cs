@@ -43,54 +43,104 @@ public class PitObjectGenerator : MonoBehaviour
 
         float pitWidth = endX - startX;
 
+        // Nếu hố đủ rộng để cần vật thể lót chân
         if (pitWidth >= pitWidthNeedObjects)
         {
-            bool spawnBridge = RandomUtils.ChancePercent(ratioBridgeToObstacle);
+            // Bốc thăm xem ưu tiên rải Cầu hay rải Vật Cản
+            bool wantBridge = RandomUtils.ChancePercent(ratioBridgeToObstacle);
 
-            if (spawnBridge)
+            // Thử spawn loại đã chọn
+            bool success = TrySpawn(wantBridge, startX, endX, pitWidth);
+
+            // Nếu loại kia không phù hợp (ví dụ: hố 8m nhưng chọn trúng Cầu mà thư viện Cầu toàn 10m)
+            // Thì thử đổi sang loại còn lại
+            if (!success)
             {
-                if (miniPlatformLibrary == null || miniPlatformLibrary.Count == 0) return;
-
-                // Random 1 tấm platform để lấy mẫu kích thước
-                MiniPlatformData data = miniPlatformLibrary[Random.Range(0, miniPlatformLibrary.Count)];
-                float len = data.GetLength();
-
-                // Nếu chiều rộng hố nhỏ hơn [chiều dài 1 tấm sàn + padding 2 bên] -> Dùng Center
-                if (pitWidth <= len + (pitEdgePadding * 2f))
-                {
-                    SpawnBridgeCenter(startX, endX, data);
-                }
-                else // Nếu hố đủ rộng -> Dạng rải
-                {
-                    SpawnBridges(startX, endX);
-                }
+                success = TrySpawn(!wantBridge, startX, endX, pitWidth);
             }
-            else
+
+            // [FAIL-SAFE]: Kích hoạt nếu CẢ 2 LOẠI đều thất bại (Trường hợp cực hiếm)
+            // Đảm bảo tối thiểu người chơi có một điểm đặt chân để nhảy qua hố
+            if (!success)
             {
-                if (obstacleLibrary == null || obstacleLibrary.Count == 0) return;
-
-                // Random 1 vật cản để lấy mẫu kích thước
-                ObstacleData obs = obstacleLibrary[Random.Range(0, obstacleLibrary.Count)];
-                float len = obs.GetSize().x;
-
-                // Nếu chiều rộng hố nhỏ hơn [chiều dài 1 vật cản + padding 2 bên] -> Dùng Center
-                if (pitWidth <= len + (pitEdgePadding * 2f))
-                {
-                    SpawnObstacleCenter(startX, endX, obs);
-                }
-                else // Nếu hố đủ rộng -> Dạng rải
-                {
-                    SpawnObstacles(startX, endX);
-                }
+                ForceSpawnSafePlatform(startX, endX);
             }
         }
     }
 
+    // --- HÀM HỖ TRỢ KIỂM TRA & SPAWN ---
+    private bool TrySpawn(bool isBridge, float startX, float endX, float pitWidth)
+    {
+        if (isBridge)
+        {
+            if (miniPlatformLibrary == null || miniPlatformLibrary.Count == 0) return false;
+
+            // 1. Lọc ra những tấm Cầu có chiều dài nhét LỌT VỪA vô hố
+            List<MiniPlatformData> validCandidates = new List<MiniPlatformData>();
+            foreach (var p in miniPlatformLibrary)
+            {
+                if (p.GetLength() <= pitWidth) validCandidates.Add(p);
+            }
+
+            if (validCandidates.Count == 0) return false; // Thất bại: Không có cầu nào lọt vừa
+
+            // 2. Random 1 tấm hợp lệ trong danh sách đã lọc
+            MiniPlatformData data = validCandidates[Random.Range(0, validCandidates.Count)];
+            float len = data.GetLength();
+
+            // 3. Phân loại rải
+            if (pitWidth <= len + (pitEdgePadding * 2f))
+                SpawnBridgeCenter(startX, endX, data);
+            else
+                SpawnBridges(startX, endX);
+
+            return true;
+        }
+        else
+        {
+            if (obstacleLibrary == null || obstacleLibrary.Count == 0) return false;
+
+            // 1. Lọc ra những Vật Cản có chiều dài nhét LỌT VỪA vô hố
+            List<ObstacleData> validCandidates = new List<ObstacleData>();
+            foreach (var obs in obstacleLibrary)
+            {
+                if (obs.GetSize().x <= pitWidth) validCandidates.Add(obs);
+            }
+
+            if (validCandidates.Count == 0) return false; // Thất bại: Không có vật cản nào lọt vừa
+
+            // 2. Random 1 vật cản hợp lệ trong danh sách đã lọc
+            ObstacleData data = validCandidates[Random.Range(0, validCandidates.Count)];
+            float len = data.GetSize().x;
+
+            // 3. Phân loại rải
+            if (pitWidth <= len + (pitEdgePadding * 2f))
+                SpawnObstacleCenter(startX, endX, data);
+            else
+                SpawnObstacles(startX, endX);
+
+            return true;
+        }
+    }
+
+    // --- HÀM BẢO HIỂM ---
+    private void ForceSpawnSafePlatform(float startX, float endX)
+    {
+        // Nhặt tấm nhỏ nhất trong game và ép đặt vào giữa hố để cứu người chơi
+        if (miniPlatformLibrary != null && miniPlatformLibrary.Count > 0)
+        {
+            MiniPlatformData smallest = miniPlatformLibrary[0];
+            foreach (var p in miniPlatformLibrary)
+            {
+                if (p.GetLength() < smallest.GetLength()) smallest = p;
+            }
+            SpawnBridgeCenter(startX, endX, smallest);
+        }
+    }
     //----- Obstacle -----
 
     private void SpawnObstacles(float startX, float endX)
     {
-        float pitY = MapGlobalConfig.Instance.groundY;
 
         float currentX = startX + pitEdgePadding;
         float limitX = endX - pitEdgePadding;
@@ -98,6 +148,7 @@ public class PitObjectGenerator : MonoBehaviour
         while (currentX < limitX)
         {
             ObstacleData obs = obstacleLibrary[Random.Range(0, obstacleLibrary.Count)];
+            float pitY = obs.useGroundY ? MapGlobalConfig.Instance.groundY : MapGlobalConfig.Instance.pitY;
             Vector2 size = obs.GetSize();
 
             if (currentX + size.x <= limitX)
@@ -117,7 +168,7 @@ public class PitObjectGenerator : MonoBehaviour
 
     private void SpawnObstacleCenter(float startX, float endX, ObstacleData obs)
     {
-        float pitY = MapGlobalConfig.Instance.groundY;
+        float pitY = obs.useGroundY ? MapGlobalConfig.Instance.groundY : MapGlobalConfig.Instance.pitY;
 
         // Kiểm tra an toàn: Đảm bảo hố lọt nổi vật cản này
         if (obs.GetSize().x <= (endX - startX))

@@ -46,6 +46,7 @@ public class ObstacleData
     public string id;
     public GameObject prefab;
     public Vector2 manualSize = Vector2.zero; // Đổi tên size cũ thành manualSize để tránh nhầm lẫn
+    [Tooltip("Chỉ cần bật khi dùng vật thể trong Pit Obj.")] public bool useGroundY = true;
 
     // BIẾN MỚI ĐỂ LƯU KẾT QUẢ
     private Vector2 _cachedSize;
@@ -65,7 +66,7 @@ public class ObstacleData
         {
             // 2. Nếu không nhập tay -> Tính toán chính xác bằng cách tạo vật thể tạm
             // Vì chỉ chạy 1 lần lúc Loading nên Instantiate thoải mái
-            GameObject temp = GameObject.Instantiate(prefab,  Vector3.zero, Quaternion.identity);
+            GameObject temp = GameObject.Instantiate(prefab, Vector3.zero, Quaternion.identity);
 
             temp.SetActive(true);
 

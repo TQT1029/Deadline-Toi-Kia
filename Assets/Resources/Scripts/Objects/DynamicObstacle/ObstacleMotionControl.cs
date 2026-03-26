@@ -46,6 +46,8 @@ namespace ProObstacleEngine
         public Vector3 rotateAngles = new Vector3(0, 0, 90f);
         [Tooltip("Nếu bật, vật thể sẽ xoay vòng tròn 360 độ liên tục thay vì lắc lư.")]
         public bool continuousSpin = false;
+        [Tooltip("Lắc lư đối xứng qua lại (Vd Z=90 sẽ đi từ 0 -> 90 -> -90 -> 0).")]
+        public bool symmetricRotation = true; 
 
         [Header("--- SCALE ---")]
         public bool enableScale = false;
@@ -109,7 +111,7 @@ namespace ProObstacleEngine
                     part.StartScale(scaleMultiplier, duration, easeType, delay, loopType);
 
                 if (enableRotate)
-                    part.StartRotate(rotateAngles, duration, easeType, delay, continuousSpin, loopType);
+                    part.StartRotate(rotateAngles, duration, easeType, delay, continuousSpin, loopType, symmetricRotation);
 
                 if (enableColor)
                     part.StartColorWait(targetColor, duration, easeType, delay, loopType);

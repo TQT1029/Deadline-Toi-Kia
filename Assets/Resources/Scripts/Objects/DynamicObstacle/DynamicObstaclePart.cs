@@ -5,6 +5,8 @@ namespace ProObstacleEngine
 {
     public class DynamicObstaclePart : MonoBehaviour
     {
+        private Vector3 initialRotation;
+
         private Tween _moveTween;
         private Tween _scaleTween;
         private Tween _rotateTween;
@@ -55,7 +57,7 @@ namespace ProObstacleEngine
                 .SetDelay(delay);
         }
 
-        public void StartRotate(Vector3 rotationAngles, float duration, Ease easeType, float delay, bool continuousSpin, LoopType loopType)
+        public void StartRotate(Vector3 rotationAngles, float duration, Ease easeType, float delay, bool continuousSpin, LoopType loopType, bool symmetricRotation = false)
         {
             transform.localEulerAngles = _startLocalEuler;
 
@@ -67,6 +69,29 @@ namespace ProObstacleEngine
                     .SetEase(Ease.Linear)
                     .SetLoops(-1, LoopType.Incremental)
                     .SetDelay(delay);
+            }
+            else if (symmetricRotation)
+            {
+                // Lắc lư đối xứng kiểu Con Lắc (Pendulum Swing)
+                // Phải dùng Sequence để kết hợp 3 nhịp: 
+                // 1. Đi từ giữa (0) ra góc (+)
+                // 2. Đi từ góc (+) sang hẳn góc (-)
+                // 3. Trở về giữa (0)
+                Sequence seq = DOTween.Sequence();
+
+                // Nhịp 1: Xoay ra biên dương (mất nửa thời gian)
+                seq.Append(transform.DOLocalRotate(initialRotation + rotationAngles, duration / 2f).SetEase(easeType));
+
+                // Nhịp 2: Xoay từ biên dương vút qua biên âm (mất nguyên thời gian)
+                seq.Append(transform.DOLocalRotate(initialRotation - rotationAngles, duration).SetEase(easeType));
+
+                // Nhịp 3: Trở lại điểm chính giữa (mất nửa thời gian)
+                seq.Append(transform.DOLocalRotate(initialRotation, duration / 2f).SetEase(easeType));
+
+                seq.SetDelay(delay);
+                seq.SetLoops(-1, LoopType.Restart); // Loop Restart vì Sequence đã tự đi thành 1 vòng tròn khép kín
+
+                _rotateTween = seq;
             }
             else
             {
@@ -104,6 +129,13 @@ namespace ProObstacleEngine
             _rotateTween?.Kill();
             _colorTween?.Kill();
             _shakeTween?.Kill();
+
+            transform.DOKill();
+
+            if (_renderer != null && _renderer.material != null)
+            {
+                _renderer.material.DOKill();
+            }
         }
 
         private void OnDisable() => StopAllMotions();

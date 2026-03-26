@@ -1,10 +1,13 @@
 fileFormatVersion: 2
-guid: 0db183c161033124eb698fad5e945b1f
+guid: f975d9b76cbd839468df3d256627bc7d
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 4524483270960987491
-    second: "A - Thanh nh\u1EA3y 1_0"
+      213: -3882104948656311878
+    second: "B - s\xE1ch to_0"
+  - first:
+      213: -6666641694363812338
+    second: "B - s\xE1ch to_1"
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -126,13 +129,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: "A - Thanh nh\u1EA3y 1_0"
+      name: "B - s\xE1ch to_0"
       rect:
         serializedVersion: 2
-        x: 87
-        y: 37
-        width: 3184
-        height: 295
+        x: 171
+        y: 100
+        width: 2421
+        height: 741
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -141,8 +144,52 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 36db3dd20913ace30800000000000000
-      internalID: 4524483270960987491
+      spriteID: ab1fd821e1eff1ac0800000000000000
+      internalID: -3882104948656311878
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "B - s\xE1ch to_1"
+      rect:
+        serializedVersion: 2
+        x: 3167
+        y: 100
+        width: 785
+        height: 741
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e0ef2aa43b45b73a0800000000000000
+      internalID: -6666641694363812338
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "B - s\xE1ch to_2"
+      rect:
+        serializedVersion: 2
+        x: 171
+        y: 101
+        width: 3781
+        height: 739
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 489653e0c0ffe424bb725f52a487779f
+      internalID: -1619448755
       vertices: []
       indices: 
       edges: []
@@ -151,7 +198,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 80cb340199c68074689cdc91c4c8a214
+    spriteID: b230253de4142884aa0838112ecd54de
     internalID: 0
     vertices: []
     indices: 
@@ -161,7 +208,9 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      "A - Thanh nh\u1EA3y 1_0": 4524483270960987491
+      "B - s\xE1ch to_0": -3882104948656311878
+      "B - s\xE1ch to_1": -6666641694363812338
+      "B - s\xE1ch to_2": -1619448755
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

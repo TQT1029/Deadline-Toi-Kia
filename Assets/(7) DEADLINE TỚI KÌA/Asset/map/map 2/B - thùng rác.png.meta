@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: ff1603c87898c0e49b0c087de406950d
+guid: f61173eff5052e24da3d18e67239cd9f
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -5776985812004433516
-    second: "B - th\xF9ng x\u1ED1p 2 t\u1EA7ng_0"
+      213: 960265860447376913
+    second: "B - th\xF9ng r\xE1c_0"
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -126,13 +126,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: "B - th\xF9ng x\u1ED1p 2 t\u1EA7ng_0"
+      name: "B - th\xF9ng r\xE1c_0"
       rect:
         serializedVersion: 2
-        x: 12
-        y: 13
-        width: 823
-        height: 877
+        x: 0
+        y: 0
+        width: 200
+        height: 236
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -141,30 +141,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 4911103030604dfa0800000000000000
-      internalID: -5776985812004433516
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: "B - th\xF9ng x\u1ED1p 2 t\u1EA7ng_1"
-      rect:
-        serializedVersion: 2
-        x: 11
-        y: 15
-        width: 821
-        height: 880
-      alignment: 2
-      pivot: {x: 0.5, y: 1}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 64163562447368d4ea5ea6450f166200
-      internalID: 2107534860
+      spriteID: 11696ed56bc835d00800000000000000
+      internalID: 960265860447376913
       vertices: []
       indices: 
       edges: []
@@ -173,7 +151,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 182482013b96aa64595ee56421b4a828
+    spriteID: 854eee9fdd1482f42aefba6a3bc67e85
     internalID: 0
     vertices: []
     indices: 
@@ -183,8 +161,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      "B - th\xF9ng x\u1ED1p 2 t\u1EA7ng_0": -5776985812004433516
-      "B - th\xF9ng x\u1ED1p 2 t\u1EA7ng_1": 2107534860
+      "B - th\xF9ng r\xE1c_0": 960265860447376913
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

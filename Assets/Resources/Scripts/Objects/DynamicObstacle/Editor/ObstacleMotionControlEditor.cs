@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEditor;
+using DG.Tweening;
 
 namespace ProObstacleEngine.Editor
 {
@@ -7,16 +8,19 @@ namespace ProObstacleEngine.Editor
     [CanEditMultipleObjects]
     public class ObstacleMotionControlEditor : UnityEditor.Editor
     {
-        private SerializedProperty groupPattern, duration, easeType, waveDelayStep;
+        private SerializedProperty groupPattern, loopType, duration, easeType, waveDelayStep;
         private SerializedProperty enableMove, moveOffset;
         private SerializedProperty enableRotate, rotateAngles, continuousSpin;
         private SerializedProperty enableScale, scaleMultiplier;
+        private SerializedProperty enableColor, targetColor;
+        private SerializedProperty enableShake, shakeStrength;
 
         private GUIStyle headerStyle;
 
         private void OnEnable()
         {
             groupPattern = serializedObject.FindProperty("groupPattern");
+            loopType = serializedObject.FindProperty("loopType");
             duration = serializedObject.FindProperty("duration");
             easeType = serializedObject.FindProperty("easeType");
             waveDelayStep = serializedObject.FindProperty("waveDelayStep");
@@ -30,6 +34,12 @@ namespace ProObstacleEngine.Editor
 
             enableScale = serializedObject.FindProperty("enableScale");
             scaleMultiplier = serializedObject.FindProperty("scaleMultiplier");
+
+            enableColor = serializedObject.FindProperty("enableColor");
+            targetColor = serializedObject.FindProperty("targetColor");
+
+            enableShake = serializedObject.FindProperty("enableShake");
+            shakeStrength = serializedObject.FindProperty("shakeStrength");
         }
 
         public override void OnInspectorGUI()
@@ -42,7 +52,7 @@ namespace ProObstacleEngine.Editor
             }
 
             EditorGUILayout.Space(5);
-            EditorGUILayout.HelpBox("Bộ điều khiển đa năng cho Chướng ngại vật. Hỗ trợ kết hợp nhiều hiệu ứng cùng lúc.", MessageType.Info);
+            EditorGUILayout.HelpBox("⚙️ ENGINE CHƯỚNG NGẠI VẬT V2 \nHỗ trợ Nhấp nháy màu, Rung lắc bẫy và quản lý Toạ độ thông minh.", MessageType.Info);
             EditorGUILayout.Space(5);
 
             // --- GENERAL SETTINGS ---
@@ -51,10 +61,11 @@ namespace ProObstacleEngine.Editor
             EditorGUILayout.PropertyField(groupPattern);
             if (groupPattern.enumValueIndex != (int)GroupPattern.Sync && groupPattern.enumValueIndex != (int)GroupPattern.Alternating)
             {
-                EditorGUILayout.PropertyField(waveDelayStep, new GUIContent("Delay Step"));
+                EditorGUILayout.PropertyField(waveDelayStep, new GUIContent("Delay Step", "Thời gian chờ giữa các khối con"));
             }
             EditorGUILayout.Space(3);
             EditorGUILayout.PropertyField(duration, new GUIContent("Cycle Duration"));
+            EditorGUILayout.PropertyField(loopType, new GUIContent("Loop Type"));
             EditorGUILayout.PropertyField(easeType, new GUIContent("Motion Ease"));
             EditorGUILayout.EndVertical();
 
@@ -77,8 +88,8 @@ namespace ProObstacleEngine.Editor
             if (enableRotate.boolValue)
             {
                 EditorGUI.indentLevel++;
-                EditorGUILayout.PropertyField(rotateAngles, new GUIContent("Target Angles"));
                 EditorGUILayout.PropertyField(continuousSpin, new GUIContent("Continuous Spin (360)"));
+                EditorGUILayout.PropertyField(rotateAngles, new GUIContent(continuousSpin.boolValue ? "Spin Speed (Angles/Cycle)" : "Target Angles"));
                 EditorGUI.indentLevel--;
             }
             EditorGUILayout.EndVertical();
@@ -95,21 +106,49 @@ namespace ProObstacleEngine.Editor
             }
             EditorGUILayout.EndVertical();
 
+            // --- COLOR & SHAKE ---
+            DrawHeader("5. Special Effects");
+            EditorGUILayout.BeginVertical(EditorStyles.helpBox);
+
+            EditorGUILayout.PropertyField(enableColor, new GUIContent("Enable Color Pulse"));
+            if (enableColor.boolValue)
+            {
+                EditorGUI.indentLevel++;
+                EditorGUILayout.PropertyField(targetColor, new GUIContent("Target Color"));
+                EditorGUI.indentLevel--;
+            }
+
+            EditorGUILayout.Space(3);
+
+            EditorGUILayout.PropertyField(enableShake, new GUIContent("Enable Trap Shake"));
+            if (enableShake.boolValue)
+            {
+                EditorGUI.indentLevel++;
+                EditorGUILayout.PropertyField(shakeStrength, new GUIContent("Shake Strength"));
+                EditorGUI.indentLevel--;
+            }
+            EditorGUILayout.EndVertical();
+
             // --- ACTIONS ---
             EditorGUILayout.Space(10);
-            if (GUILayout.Button("Fetch Children Parts", GUILayout.Height(30)))
+            if (GUILayout.Button("🔧 Fetch Children Parts", GUILayout.Height(30)))
             {
                 ((ObstacleMotionControl)target).SetupParts();
+                Debug.Log("Obstacle Engine: Đã cập nhật lại các bộ phận con!");
             }
 
             if (Application.isPlaying)
             {
                 GUI.backgroundColor = new Color(0.3f, 0.8f, 0.3f);
-                if (GUILayout.Button("Update Motion Live", GUILayout.Height(30)))
+                if (GUILayout.Button("▶ Update Motion Live", GUILayout.Height(35)))
                 {
                     ((ObstacleMotionControl)target).ApplyMotion();
                 }
                 GUI.backgroundColor = Color.white;
+            }
+            else
+            {
+                EditorGUILayout.HelpBox("Hãy vào Play Mode để có thể Preview chuyển động.", MessageType.Warning);
             }
 
             serializedObject.ApplyModifiedProperties();

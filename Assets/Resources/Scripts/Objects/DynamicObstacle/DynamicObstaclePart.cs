@@ -8,45 +8,93 @@ namespace ProObstacleEngine
         private Tween _moveTween;
         private Tween _scaleTween;
         private Tween _rotateTween;
+        private Tween _colorTween;
+        private Tween _shakeTween;
 
-        public void StartMove(Vector3 offset, float duration, Ease easeType, float delay)
+        private Vector3 _startLocalPos;
+        private Vector3 _startLocalScale;
+        private Vector3 _startLocalEuler;
+        private bool _isCached = false;
+
+        private Renderer _renderer;
+
+        private void Awake()
         {
-            _moveTween?.Kill();
-            _moveTween = transform.DOLocalMove(transform.localPosition + offset, duration)
+            CacheInitialTransform();
+            _renderer = GetComponent<Renderer>();
+        }
+
+        /// <summary>
+        /// Ghi nhớ trạng thái ban đầu để khi tính toán toạ độ mới không bị sai lệch (drift).
+        /// </summary>
+        public void CacheInitialTransform()
+        {
+            if (_isCached) return;
+            _startLocalPos = transform.localPosition;
+            _startLocalScale = transform.localScale;
+            _startLocalEuler = transform.localEulerAngles;
+            _isCached = true;
+        }
+
+        public void StartMove(Vector3 offset, float duration, Ease easeType, float delay, LoopType loopType)
+        {
+            transform.localPosition = _startLocalPos; // Reset về gốc trước khi chạy
+            _moveTween = transform.DOLocalMove(_startLocalPos + offset, duration)
                 .SetEase(easeType)
-                .SetLoops(-1, LoopType.Yoyo)
+                .SetLoops(-1, loopType)
                 .SetDelay(delay);
         }
 
-        public void StartScale(Vector3 targetScale, float duration, Ease easeType, float delay)
+        public void StartScale(Vector3 scaleMultiplier, float duration, Ease easeType, float delay, LoopType loopType)
         {
-            _scaleTween?.Kill();
+            transform.localScale = _startLocalScale;
+            Vector3 targetScale = Vector3.Scale(_startLocalScale, scaleMultiplier);
             _scaleTween = transform.DOScale(targetScale, duration)
                 .SetEase(easeType)
-                .SetLoops(-1, LoopType.Yoyo)
+                .SetLoops(-1, loopType)
                 .SetDelay(delay);
         }
 
-        public void StartRotate(Vector3 rotationAngles, float duration, Ease easeType, float delay, bool continuousSpin)
+        public void StartRotate(Vector3 rotationAngles, float duration, Ease easeType, float delay, bool continuousSpin, LoopType loopType)
         {
-            _rotateTween?.Kill();
+            transform.localEulerAngles = _startLocalEuler;
 
             if (continuousSpin)
             {
-                // Xoay tròn liên tục 360 độ (bỏ qua Ease để xoay đều)
+                // SetRelative(true) giúp nó cứ thế cộng dồn góc xoay mượt mà mãi mãi
                 _rotateTween = transform.DOLocalRotate(rotationAngles, duration, RotateMode.FastBeyond360)
+                    .SetRelative(true)
                     .SetEase(Ease.Linear)
-                    .SetLoops(-1, LoopType.Restart)
+                    .SetLoops(-1, LoopType.Incremental)
                     .SetDelay(delay);
             }
             else
             {
-                // Xoay lắc lư qua lại (YoYo)
-                _rotateTween = transform.DOLocalRotate(rotationAngles, duration)
+                _rotateTween = transform.DOLocalRotate(_startLocalEuler + rotationAngles, duration)
                     .SetEase(easeType)
-                    .SetLoops(-1, LoopType.Yoyo)
+                    .SetLoops(-1, loopType)
                     .SetDelay(delay);
             }
+        }
+
+        public void StartColorWait(Color targetColor, float duration, Ease easeType, float delay, LoopType loopType)
+        {
+            if (_renderer == null) _renderer = GetComponent<Renderer>();
+            if (_renderer == null) return; // Không có Renderer thì bỏ qua
+
+            _colorTween = _renderer.material.DOColor(targetColor, duration)
+                .SetEase(easeType)
+                .SetLoops(-1, loopType)
+                .SetDelay(delay);
+        }
+
+        public void StartShake(Vector3 strength, float duration, float delay)
+        {
+            transform.localPosition = _startLocalPos;
+            // Dùng DOShakePosition chuyên dụng của DOTween
+            _shakeTween = transform.DOShakePosition(duration, strength, vibrato: 10, randomness: 90)
+                .SetLoops(-1, LoopType.Restart)
+                .SetDelay(delay);
         }
 
         public void StopAllMotions()
@@ -54,6 +102,8 @@ namespace ProObstacleEngine
             _moveTween?.Kill();
             _scaleTween?.Kill();
             _rotateTween?.Kill();
+            _colorTween?.Kill();
+            _shakeTween?.Kill();
         }
 
         private void OnDisable() => StopAllMotions();

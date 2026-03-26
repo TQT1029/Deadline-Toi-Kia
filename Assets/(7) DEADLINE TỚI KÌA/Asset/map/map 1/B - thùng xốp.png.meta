@@ -147,6 +147,28 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: "B - th\xF9ng x\u1ED1p_1"
+      rect:
+        serializedVersion: 2
+        x: 11
+        y: 13
+        width: 822
+        height: 440
+      alignment: 2
+      pivot: {x: 0.5, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ccf6cfe33d4065644925e79341c92c2b
+      internalID: -1861828353
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     customData: 
     physicsShape: []
@@ -162,6 +184,7 @@ TextureImporter:
       entries: []
     nameFileIdTable:
       "B - th\xF9ng x\u1ED1p_0": 3396736119474445151
+      "B - th\xF9ng x\u1ED1p_1": -1861828353
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 8746b935a59d5f046a652f276d8e8966
+guid: 254801a93571e95458399a921448dcea
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -3902955397470671259
-    second: UI end_0
+      213: -8696154717444512882
+    second: "C - c\u1EEDa s\u1ED5_0"
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -37,7 +37,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 0
+    filterMode: 1
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -139,13 +139,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: UI end_0
+      name: "C - c\u1EEDa s\u1ED5_0"
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 839
-        height: 836
+        width: 583
+        height: 351
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -154,8 +154,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 56e2197aebae5d9c0800000000000000
-      internalID: -3902955397470671259
+      spriteID: e83e1e2db5d015780800000000000000
+      internalID: -8696154717444512882
       vertices: []
       indices: 
       edges: []
@@ -174,7 +174,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      UI end_0: -3902955397470671259
+      "C - c\u1EEDa s\u1ED5_0": -8696154717444512882
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

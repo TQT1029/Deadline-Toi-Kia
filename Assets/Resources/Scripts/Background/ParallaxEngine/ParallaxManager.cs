@@ -5,8 +5,11 @@ namespace ParallaxEngine
 {
     public enum ParallaxMode
     {
+        [Tooltip("Cuộn UV của Material. Dành cho ảnh lặp (Wrap Mode = Repeat).")]
         UV_Scroll,
+        [Tooltip("Dịch chuyển Transform thực tế. Chuyển động có quán tính mượt mà.")]
         Transform_Move,
+        [Tooltip("Dịch chuyển Transform & tự động Loop (vòng lại) khi ra khỏi Camera.")]
         Infinite_Reposition
     }
 
@@ -139,6 +142,7 @@ namespace ParallaxEngine
             }
         }
 
+        [ContextMenu("Initialize Layers")]
         public void InitializeLayers()
         {
             _layers.Clear();
@@ -146,10 +150,13 @@ namespace ParallaxEngine
             {
                 if (!child.gameObject.activeSelf) continue;
 
+
                 if (!child.TryGetComponent(out ParallaxLayer layerScript))
                 {
                     layerScript = child.gameObject.AddComponent<ParallaxLayer>();
                 }
+
+                if (!Application.isPlaying) continue;
 
                 float zPos = child.localPosition.z;
                 float baseSpeedFactor = (zPos > 0) ? 1f / (zPos * 0.1f + 1f) : 1f + Mathf.Abs(zPos) * 0.5f;
@@ -243,7 +250,7 @@ namespace ParallaxEngine
                 UnityEditor.EditorUtility.SetDirty(this);
             }
 #endif
-            if (Application.isPlaying) InitializeLayers();
+            InitializeLayers();
         }
 
 

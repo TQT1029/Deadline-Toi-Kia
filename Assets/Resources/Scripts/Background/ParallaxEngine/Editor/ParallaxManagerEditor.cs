@@ -67,12 +67,34 @@ namespace ParallaxEngine.Editor
             DrawSectionHeader("0. Global Settings");
             EditorGUILayout.BeginVertical(EditorStyles.helpBox);
             EditorGUILayout.PropertyField(globalMode, new GUIContent("Global Parallax Mode", "Chế độ di chuyển chung cho tất cả các layer"));
+
+            ParallaxMode mode = (ParallaxMode)globalMode.enumValueIndex;
+            string tooltip = mode switch
+            {
+                ParallaxMode.UV_Scroll => "💡 UV_Scroll: Cuộn offset của Material. Nhẹ và mượt, yêu cầu Texture phải cài Wrap Mode là Repeat.",
+                ParallaxMode.Transform_Move => "💡 Transform_Move: Di chuyển trực tiếp GameObject theo người chơi. Hiệu ứng quán tính khi dừng lại được kiểm soát bởi 'Movement Smoothing'.",
+                ParallaxMode.Infinite_Reposition => "💡 Infinite_Reposition: Dịch chuyển GameObject và tự động dịch chuyển vòng lại (Loop) khi vượt quá giới hạn khung hình.",
+                _ => ""
+            };
+            EditorGUILayout.HelpBox(tooltip, MessageType.Info);
             EditorGUILayout.EndVertical();
 
             DrawSectionHeader("1. System References");
             EditorGUILayout.BeginVertical(EditorStyles.helpBox);
             EditorGUILayout.PropertyField(targetSubject, new GUIContent("Target (Player)", targetSubject.tooltip));
             EditorGUILayout.PropertyField(mainCamera, new GUIContent("Main Camera", mainCamera.tooltip));
+
+
+            EditorGUILayout.Space(5);
+            GUI.backgroundColor = new Color(0.5f, 0.3f, 1f);
+            if (GUILayout.Button("Initialize Layers", GUILayout.Height(30)))
+            {
+                ParallaxManager manager = (ParallaxManager)target;
+                manager.InitializeLayers();
+                UnityEditor.SceneManagement.EditorSceneManager.MarkSceneDirty(manager.gameObject.scene);
+            }
+            GUI.backgroundColor = Color.white;
+
             EditorGUILayout.EndVertical();
 
             DrawSectionHeader("2. X-Axis Behaviors");

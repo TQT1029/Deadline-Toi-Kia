@@ -138,12 +138,9 @@ MonoBehaviour:
   globalMode: 0
   targetSubject: {fileID: 0}
   mainCamera: {fileID: 0}
-  bgQuadCount: 1
-  bgSpriteCount: 3
+  backgroundLayers: []
+  foregroundLayers: []
   defaultBackgroundMaterial: {fileID: 0}
-  enableForeground: 0
-  fgQuadCount: 0
-  fgSpriteCount: 0
   enableParallaxX: 1
   baseScrollSpeedX: 0
   velocityMultiplierX: 0.25

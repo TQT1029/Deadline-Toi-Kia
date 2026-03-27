@@ -13,8 +13,7 @@ namespace ParallaxEngine.Editor
         private SerializedProperty enableParallaxY, baseScrollSpeedY, velocityMultiplierY, smoothTimeY, parallaxStrengthY;
 
         // --- CÁC BIẾN MỚI ---
-        private SerializedProperty bgQuadCount, bgSpriteCount, defaultBackgroundMaterial;
-        private SerializedProperty enableForeground, fgQuadCount, fgSpriteCount;
+        private SerializedProperty backgroundLayers, foregroundLayers;
         private SerializedProperty autoSortOnValidate;
 
         private GUIStyle headerStyle;
@@ -37,15 +36,9 @@ namespace ParallaxEngine.Editor
             smoothTimeY = serializedObject.FindProperty("smoothTimeY");
             parallaxStrengthY = serializedObject.FindProperty("parallaxStrengthY");
 
-            // Map các biến mới
-            bgQuadCount = serializedObject.FindProperty("bgQuadCount");
-            bgSpriteCount = serializedObject.FindProperty("bgSpriteCount");
-            defaultBackgroundMaterial = serializedObject.FindProperty("defaultBackgroundMaterial");
-
-            enableForeground = serializedObject.FindProperty("enableForeground");
-            fgQuadCount = serializedObject.FindProperty("fgQuadCount");
-            fgSpriteCount = serializedObject.FindProperty("fgSpriteCount");
-
+            // Ánh xạ biến List mới
+            backgroundLayers = serializedObject.FindProperty("backgroundLayers");
+            foregroundLayers = serializedObject.FindProperty("foregroundLayers");
             autoSortOnValidate = serializedObject.FindProperty("autoSortOnValidate");
         }
 
@@ -55,11 +48,7 @@ namespace ParallaxEngine.Editor
 
             if (headerStyle == null)
             {
-                headerStyle = new GUIStyle(EditorStyles.boldLabel)
-                {
-                    fontSize = 13,
-                    margin = new RectOffset(0, 0, 10, 5)
-                };
+                headerStyle = new GUIStyle(EditorStyles.boldLabel) { fontSize = 13, margin = new RectOffset(0, 0, 10, 5) };
             }
 
             EditorGUILayout.Space(5);
@@ -67,27 +56,13 @@ namespace ParallaxEngine.Editor
             EditorGUILayout.Space(10);
 
             DrawSectionHeader("0. Global Settings");
-            EditorGUILayout.BeginVertical(EditorStyles.helpBox);
             EditorGUILayout.PropertyField(globalMode, new GUIContent("Global Parallax Mode"));
-            EditorGUILayout.EndVertical();
 
             DrawSectionHeader("1. System References");
-            EditorGUILayout.BeginVertical(EditorStyles.helpBox);
             EditorGUILayout.PropertyField(targetSubject);
             EditorGUILayout.PropertyField(mainCamera);
 
-            EditorGUILayout.Space(5);
-            GUI.backgroundColor = new Color(0.5f, 0.3f, 1f);
-            if (GUILayout.Button("Initialize Layers (Play Mode)", GUILayout.Height(30)))
-            {
-                ParallaxManager manager = (ParallaxManager)target;
-                manager.InitializeLayers();
-            }
-            GUI.backgroundColor = Color.white;
-            EditorGUILayout.EndVertical();
-
             DrawSectionHeader("2. X-Axis Behaviors");
-            EditorGUILayout.BeginVertical(EditorStyles.helpBox);
             EditorGUILayout.PropertyField(enableParallaxX);
             if (enableParallaxX.boolValue)
             {
@@ -98,10 +73,8 @@ namespace ParallaxEngine.Editor
                 EditorGUILayout.PropertyField(parallaxStrengthX);
                 EditorGUI.indentLevel--;
             }
-            EditorGUILayout.EndVertical();
 
             DrawSectionHeader("3. Y-Axis Behaviors");
-            EditorGUILayout.BeginVertical(EditorStyles.helpBox);
             EditorGUILayout.PropertyField(enableParallaxY);
             if (enableParallaxY.boolValue)
             {
@@ -112,59 +85,21 @@ namespace ParallaxEngine.Editor
                 EditorGUILayout.PropertyField(parallaxStrengthY);
                 EditorGUI.indentLevel--;
             }
-            EditorGUILayout.EndVertical();
 
             // ==========================================
-            // VÙNG GIAO DIỆN LAYER GENERATION MỚI
+            // VÙNG GIAO DIỆN LAYER MANAGEMENT MỚI (LIST)
             // ==========================================
-            DrawSectionHeader("4. Layer Generation & Z-Depth Sorting");
+            DrawSectionHeader("4. Layer Management & Z-Depth");
             EditorGUILayout.BeginVertical(EditorStyles.helpBox);
 
-            // --- BACKGROUND ---
-            EditorGUILayout.LabelField("Background Layers (Tối thiểu tổng cộng 1)", EditorStyles.boldLabel);
-            EditorGUI.indentLevel++;
-            EditorGUILayout.PropertyField(bgQuadCount, new GUIContent("Quad Count (Mesh)"));
-            EditorGUILayout.PropertyField(bgSpriteCount, new GUIContent("Sprite Count"));
-            EditorGUI.indentLevel--;
-
-            // Bắt lỗi: Nếu người dùng nhập 0 cho cả 2, ép mặc định bgQuadCount = 1
-            if (bgQuadCount.intValue + bgSpriteCount.intValue < 1)
-            {
-                bgQuadCount.intValue = 1;
-            }
-
+            // Cho phép vẽ List trực tiếp, tham số 'true' để hiện mở rộng các phần tử con
+            EditorGUILayout.PropertyField(backgroundLayers, new GUIContent("Background Layers"), true);
             EditorGUILayout.Space(5);
-
-            // --- FOREGROUND ---
-            EditorGUILayout.PropertyField(enableForeground, new GUIContent("Enable Foreground Layers"));
-            if (enableForeground.boolValue)
-            {
-                EditorGUI.indentLevel++;
-                EditorGUILayout.PropertyField(fgQuadCount, new GUIContent("Quad Count (Mesh)"));
-                EditorGUILayout.PropertyField(fgSpriteCount, new GUIContent("Sprite Count"));
-                EditorGUI.indentLevel--;
-            }
-            else
-            {
-                // Nếu tắt Foreground, reset giá trị về 0 ngầm định
-                fgQuadCount.intValue = 0;
-                fgSpriteCount.intValue = 0;
-            }
-
-            EditorGUILayout.Space(5);
-            EditorGUILayout.PropertyField(defaultBackgroundMaterial, new GUIContent("Default Material"));
-            EditorGUILayout.PropertyField(autoSortOnValidate, new GUIContent("Auto Sort On Z-Depth Change"));
+            EditorGUILayout.PropertyField(foregroundLayers, new GUIContent("Foreground Layers"), true);
 
             EditorGUILayout.Space(10);
-
-            GUILayout.BeginHorizontal();
-            GUI.backgroundColor = new Color(0.2f, 0.8f, 0.2f);
-            if (GUILayout.Button("Generate Layers", GUILayout.Height(30)))
-            {
-                ParallaxManager manager = (ParallaxManager)target;
-                manager.GenerateBackgroundLayers();
-                UnityEditor.SceneManagement.EditorSceneManager.MarkSceneDirty(manager.gameObject.scene);
-            }
+            EditorGUILayout.PropertyField(autoSortOnValidate, new GUIContent("Auto Sort On Z-Depth Change"));
+            EditorGUILayout.Space(5);
 
             GUI.backgroundColor = new Color(0.2f, 0.7f, 1f);
             if (GUILayout.Button("Apply Auto Z-Depth", GUILayout.Height(30)))
@@ -173,7 +108,46 @@ namespace ParallaxEngine.Editor
                 manager.SortLayersDepth();
                 UnityEditor.SceneManagement.EditorSceneManager.MarkSceneDirty(manager.gameObject.scene);
             }
+            GUI.backgroundColor = Color.white;
+
+            EditorGUILayout.Space(10);
+            EditorGUILayout.LabelField("Quick Generators", EditorStyles.boldLabel);
+
+            GUILayout.BeginHorizontal();
+            GUI.backgroundColor = new Color(0.2f, 0.8f, 0.2f);
+            if (GUILayout.Button("+ BG Quad", GUILayout.Height(25)))
+            {
+                ((ParallaxManager)target).AddBackgroundLayer(true);
+                UnityEditor.SceneManagement.EditorSceneManager.MarkSceneDirty(((ParallaxManager)target).gameObject.scene);
+            }
+            if (GUILayout.Button("+ BG Sprite", GUILayout.Height(25)))
+            {
+                ((ParallaxManager)target).AddBackgroundLayer(false);
+                UnityEditor.SceneManagement.EditorSceneManager.MarkSceneDirty(((ParallaxManager)target).gameObject.scene);
+            }
             GUILayout.EndHorizontal();
+
+            GUILayout.BeginHorizontal();
+            GUI.backgroundColor = new Color(0.8f, 0.5f, 0.2f);
+            if (GUILayout.Button("+ FG Quad", GUILayout.Height(25)))
+            {
+                ((ParallaxManager)target).AddForegroundLayer(true);
+                UnityEditor.SceneManagement.EditorSceneManager.MarkSceneDirty(((ParallaxManager)target).gameObject.scene);
+            }
+            if (GUILayout.Button("+ FG Sprite", GUILayout.Height(25)))
+            {
+                ((ParallaxManager)target).AddForegroundLayer(false);
+                UnityEditor.SceneManagement.EditorSceneManager.MarkSceneDirty(((ParallaxManager)target).gameObject.scene);
+            }
+            GUILayout.EndHorizontal();
+
+            EditorGUILayout.Space(5);
+            GUI.backgroundColor = new Color(0.2f, 0.7f, 1f);
+            if (GUILayout.Button("Apply Auto Z-Depth", GUILayout.Height(35)))
+            {
+                ((ParallaxManager)target).SortLayersDepth();
+                UnityEditor.SceneManagement.EditorSceneManager.MarkSceneDirty(((ParallaxManager)target).gameObject.scene);
+            }
             GUI.backgroundColor = Color.white;
 
             EditorGUILayout.EndVertical();

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1613397634221929978}
   - component: {fileID: 2733645396129355240}
   m_Layer: 7
-  m_Name: ChairGroup_Sync
+  m_Name: ChairGroup-1
   m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -48,14 +48,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0b8078bcd4963f47a52165951798dc3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  motionType: 1
-  groupPattern: 0
-  moveDistance: 1
-  customMoveOffset: {x: 0, y: -1, z: 0}
-  scaleMultiplier: 1.2
+  groupPattern: 2
+  loopType: 1
   duration: 1
   easeType: 4
   waveDelayStep: 0.2
+  enableMove: 1
+  moveOffset: {x: 0, y: 1, z: 0}
+  enableRotate: 0
+  rotateAngles: {x: 0, y: 0, z: 90}
+  continuousSpin: 0
+  symmetricRotation: 1
+  enableScale: 0
+  scaleMultiplier: {x: 1.2, y: 1.2, z: 1.2}
+  enableColor: 0
+  targetColor: {r: 1, g: 0, b: 0, a: 1}
+  enableShake: 0
+  shakeStrength: {x: 0.2, y: 0.2, z: 0}
 --- !u!1001 &1999173030467089211
 PrefabInstance:
   m_ObjectHideFlags: 0

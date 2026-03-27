@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using NUnit.Framework;
+using System.Collections.Generic;
+using UnityEngine;
 
 public static class GameUtils
 {
@@ -73,15 +75,17 @@ public static class GameUtils
     /// </summary>
     public static RaycastHit2D GetSurfaceHit(float xPos, LayerMask layerMask)
     {
+        List<RaycastHit2D> validObjHits = new List<RaycastHit2D>();
         RaycastHit2D[] hits = Physics2D.RaycastAll(new Vector2(xPos, 20f), Vector2.down, 50f, layerMask);
 
         foreach (var h in hits)
         {
-            if (h.collider.CompareTag("Obstacle") || h.collider.CompareTag("MiniPlatform"))
-                return h;
+            if (h.collider.CompareTag("Obstacle") || h.collider.CompareTag("MiniPlatform")|| h.collider.CompareTag("Platform"))
+                validObjHits.Add(h);
         }
 
-        if (hits.Length > 0) return hits[Random.Range(0,hits.Length)];
+        if (validObjHits.Count > 0) return validObjHits[Random.Range(0,validObjHits.Count)];
+
         return default;
     }
 }

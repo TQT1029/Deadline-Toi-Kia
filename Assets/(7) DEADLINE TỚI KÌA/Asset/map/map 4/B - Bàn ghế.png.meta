@@ -1,10 +1,16 @@
 fileFormatVersion: 2
-guid: 0503da000ed3d3a44a3a600001a42fc5
+guid: 90f76036ccb4d3149a43b63286568887
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -6189938765974097680
-    second: D - background_0
+      213: -2468603093209325235
+    second: "B - B\xE0n gh\u1EBF_0"
+  - first:
+      213: -7333980296686145967
+    second: "B - B\xE0n gh\u1EBF_1"
+  - first:
+      213: -1408930909447632877
+    second: "B - B\xE0n gh\u1EBF_2"
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -40,9 +46,9 @@ TextureImporter:
     filterMode: 0
     aniso: 1
     mipBias: 0
-    wrapU: 2
-    wrapV: 2
-    wrapW: 2
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
@@ -139,23 +145,23 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: D - background_0
+      name: "B - B\xE0n gh\u1EBF_0"
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 7527
-        height: 2331
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
+        width: 546
+        height: 235
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 64}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 0f0b1b0fc7be81aa0800000000000000
-      internalID: -6189938765974097680
+      spriteID: d41e3d1e092cdbdd0800000000000000
+      internalID: -2468603093209325235
       vertices: []
       indices: 
       edges: []
@@ -164,7 +170,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 742ef0891c351704e975d5c31541d625
     internalID: 0
     vertices: []
     indices: 
@@ -174,7 +180,9 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      D - background_0: -6189938765974097680
+      "B - B\xE0n gh\u1EBF_0": -2468603093209325235
+      "B - B\xE0n gh\u1EBF_1": -7333980296686145967
+      "B - B\xE0n gh\u1EBF_2": -1408930909447632877
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

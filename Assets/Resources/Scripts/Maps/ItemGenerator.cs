@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using ProObstacleEngine;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions.Must;
 
@@ -100,10 +101,19 @@ public class ItemGenerator : MonoBehaviour
                 {
                     Bounds obsBounds = GameUtils.GetBounds(obj);
 
+                    ObstacleMotionControl dynamicObsController = obj.GetComponent<ObstacleMotionControl>();
+
                     // Thử spawn pattern đơn giản trên đỉnh vật cản (nếu muốn)
                     if (RandomUtils.ChancePercent(obstacleChanceItems))
                     {
-                        currentX = SpawnOnTop(obsBounds);
+                        // Kiểm tra nếu vật cản có di chuyển lên trên đáng kể thì mới spawn pattern ở dưới, tránh trường hợp spawn lên trên rồi bị vật cản di chuyển đè lên
+                        if (dynamicObsController == null)
+                            currentX = SpawnOnTop(obsBounds);
+                        else
+                        {
+                            if (dynamicObsController.enableMove && dynamicObsController.moveOffset.y >= 5)
+                                currentX = SpawnOnBottom(obsBounds);
+                        }
                     }
                     else
                     {
@@ -174,6 +184,19 @@ public class ItemGenerator : MonoBehaviour
 
         // Tính vị trí dự kiến (Pivot là Center)
         float spawnY = hitBounds.max.y + groundPadding + (template.size.y / 2f);
+        Vector2 centerPos = new Vector2(hitBounds.center.x, spawnY);
+
+        SpawnPattern(template, centerPos);
+
+        return hitBounds.max.x + patternPadding + RandomUtils.RandomWithSteps(minGap, maxGap);
+    }
+    private float SpawnOnBottom(Bounds hitBounds)
+    {
+        // Lấy ngẫu nhiên 1 pattern mẫu
+        PatternTemplate template = GetRandomTemplate();
+
+        // Tính vị trí dự kiến (Pivot là Center)
+        float spawnY = hitBounds.min.y + groundPadding + (template.size.y / 2f);
         Vector2 centerPos = new Vector2(hitBounds.center.x, spawnY);
 
         SpawnPattern(template, centerPos);

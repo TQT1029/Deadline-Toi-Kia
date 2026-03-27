@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 816010117905392969, guid: 360f8ac1c9ef43244bd5f52baa7dbfa3, type: 3}
       propertyPath: m_Name
-      value: BlockMachine426-3 Variant
+      value: BlockMachineHammer-3 Variant
       objectReference: {fileID: 0}
     - target: {fileID: 3635354553092207356, guid: 360f8ac1c9ef43244bd5f52baa7dbfa3, type: 3}
       propertyPath: m_LocalPosition.x

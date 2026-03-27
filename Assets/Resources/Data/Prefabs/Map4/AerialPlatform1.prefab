@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4679328663537141075}
   - component: {fileID: 7412459235293311301}
   m_Layer: 8
-  m_Name: AerialPlatform
+  m_Name: AerialPlatform1
   m_TagString: MiniPlatform
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -77,13 +77,13 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 10
-  m_Sprite: {fileID: 4380202028132108189, guid: 2e62e841074989f44af087f8f5833bd6, type: 3}
+  m_SortingOrder: 1
+  m_Sprite: {fileID: 4524483270960987491, guid: 7c4bb23c3d42d2b42a74f4fff93cd05f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 121.57278, y: 2.7900002}
+  m_Size: {x: 4.51, y: 1.56}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -99,7 +99,7 @@ BoxCollider2D:
   m_Enabled: 1
   serializedVersion: 3
   m_Density: 1
-  m_Material: {fileID: 6200000, guid: cf7101f67ca4a2a43bb14d5748885aab, type: 2}
+  m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -123,17 +123,17 @@ BoxCollider2D:
   m_UsedByEffector: 1
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: -0.13}
+  m_Offset: {x: 0, y: 0.12866233}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 1}
-    oldSize: {x: 4.51, y: 0.26}
-    newSize: {x: 121.57278, y: 2.7900002}
+    pivot: {x: 0.5, y: 0}
+    oldSize: {x: 4.51, y: 1.56}
+    newSize: {x: 4.51, y: 1.56}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 4.51, y: 0.26}
+  m_Size: {x: 4.51, y: 0.25732467}
   m_EdgeRadius: 0
 --- !u!251 &7412459235293311301
 PlatformEffector2D:

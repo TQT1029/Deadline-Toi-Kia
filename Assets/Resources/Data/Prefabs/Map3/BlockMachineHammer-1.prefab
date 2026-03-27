@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1139818570852755980}
   - component: {fileID: 1254624662184764337}
   m_Layer: 7
-  m_Name: BlockMachine426-1
+  m_Name: BlockMachineHammer-1
   m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

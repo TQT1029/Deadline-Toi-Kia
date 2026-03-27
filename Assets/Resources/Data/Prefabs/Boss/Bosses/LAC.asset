@@ -16,7 +16,7 @@ MonoBehaviour:
   bossSprite: {fileID: 7261323403473509586, guid: fad86d05279d2b34eabf0723fb8e4d50, type: 3}
   bossAnimation: {fileID: 9100000, guid: 92fd3f68d70436543bbbe0315f487445, type: 2}
   flipXAnimator: 0
-  availablePatterns: 00000000010000000200000003000000
+  availablePatterns: 000000000100000002000000030000000e000000
   projectiesObstacle:
   - {fileID: 8483897452231941222, guid: 0d9f76baadc3fc64ea1dab9f8c275a42, type: 3}
   - {fileID: 214275338392476906, guid: 63a85929b126d524c9e7ef5272ee8d84, type: 3}

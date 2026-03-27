@@ -49,7 +49,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   groupPattern: 1
   loopType: 1
-  duration: 0.75
+  durationMove: 1
+  durationScale: 1
+  durationRotation: 1
+  durationColor: 1
+  durationShake: 1
   easeType: 27
   waveDelayStep: 0.2
   enableMove: 1
@@ -119,8 +123,33 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6007465224004728451, guid: ffaf90db78ac2134cba25466947cb761, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8703186117864253971}
   m_SourcePrefab: {fileID: 100100000, guid: ffaf90db78ac2134cba25466947cb761, type: 3}
+--- !u!1 &471133192524057944 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6007465224004728451, guid: ffaf90db78ac2134cba25466947cb761, type: 3}
+  m_PrefabInstance: {fileID: 6185413638155320283}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &8703186117864253971
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 471133192524057944}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15e7b5999ca621b44850cf90f88994de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  force: 15
+  direction: {x: -1, y: 0}
+  stunDuration: 0.3
+  minAmountCoin: 0
+  maxAmountCoin: 0
 --- !u!4 &8944960287481437611 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3023570199024772720, guid: ffaf90db78ac2134cba25466947cb761, type: 3}
@@ -181,8 +210,33 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5357453151025752192, guid: 71a8b93393601f143a6d88681bfe5c97, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 464491936695768788}
   m_SourcePrefab: {fileID: 100100000, guid: 71a8b93393601f143a6d88681bfe5c97, type: 3}
+--- !u!1 &2052449809875682712 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5357453151025752192, guid: 71a8b93393601f143a6d88681bfe5c97, type: 3}
+  m_PrefabInstance: {fileID: 6206729374286916888}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &464491936695768788
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2052449809875682712}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15e7b5999ca621b44850cf90f88994de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  force: 15
+  direction: {x: -1, y: 0}
+  stunDuration: 0.3
+  minAmountCoin: 0
+  maxAmountCoin: 0
 --- !u!4 &8952059855084143779 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3035039641067186619, guid: 71a8b93393601f143a6d88681bfe5c97, type: 3}
@@ -243,8 +297,33 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5357453151025752192, guid: 50a651c7ba2ddfb489c486329baa211c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 767463973519208761}
   m_SourcePrefab: {fileID: 100100000, guid: 50a651c7ba2ddfb489c486329baa211c, type: 3}
+--- !u!1 &1719379293567441190 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5357453151025752192, guid: 50a651c7ba2ddfb489c486329baa211c, type: 3}
+  m_PrefabInstance: {fileID: 6738802428538270118}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &767463973519208761
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1719379293567441190}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15e7b5999ca621b44850cf90f88994de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  force: 15
+  direction: {x: -1, y: 0}
+  stunDuration: 0.3
+  minAmountCoin: 0
+  maxAmountCoin: 0
 --- !u!4 &8618668557818517533 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3035039641067186619, guid: 50a651c7ba2ddfb489c486329baa211c, type: 3}

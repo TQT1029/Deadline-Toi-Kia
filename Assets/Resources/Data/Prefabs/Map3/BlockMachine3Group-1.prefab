@@ -31,8 +31,8 @@ Transform:
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 977913468141752133}
-  - {fileID: 2483370149429343502}
   - {fileID: 2173236394392878480}
+  - {fileID: 2483370149429343502}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1340789776169875664
@@ -47,23 +47,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0b8078bcd4963f47a52165951798dc3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  groupPattern: 0
+  groupPattern: 1
   loopType: 1
-  duration: 1
-  easeType: 22
-  waveDelayStep: 0.2
-  enableMove: 0
+  durationMove: 0.375
+  durationScale: 0.75
+  durationRotation: 0.5625
+  durationColor: 1
+  durationShake: 0.5
+  easeType: 18
+  waveDelayStep: 0.3
+  enableMove: 1
   moveOffset: {x: 0, y: 1, z: 0}
-  enableRotate: 0
-  rotateAngles: {x: 0, y: 0, z: 90}
+  enableRotate: 1
+  rotateAngles: {x: 0, y: 0, z: 10}
   continuousSpin: 0
   symmetricRotation: 1
   enableScale: 1
-  scaleMultiplier: {x: 0.8, y: 1.2, z: 1.2}
+  scaleMultiplier: {x: 0.9, y: 0.9, z: 1.2}
   enableColor: 0
   targetColor: {r: 1, g: 0, b: 0, a: 1}
-  enableShake: 1
-  shakeStrength: {x: 0, y: 0.3, z: 0}
+  enableShake: 0
+  shakeStrength: {x: 0.1, y: 0.3, z: 0}
 --- !u!1001 &605755622427892917
 PrefabInstance:
   m_ObjectHideFlags: 0

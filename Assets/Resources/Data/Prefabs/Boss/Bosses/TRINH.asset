@@ -21,5 +21,5 @@ MonoBehaviour:
   - {fileID: 6846811146651937666, guid: fec43299ef7ea414cb025793b7d0ea5b, type: 3}
   - {fileID: 5056554922104985873, guid: 3654737c1f8902d498134c0cceb98e58, type: 3}
   - {fileID: 4654876152694155937, guid: 20c3dd7e0af8bd34c9a3647215908d45, type: 3}
-  minAttackInterval: 3.5
+  minAttackInterval: 4
   maxAttackInterval: 5

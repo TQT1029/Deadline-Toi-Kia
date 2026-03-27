@@ -156,7 +156,7 @@ public class BossManager : MonoBehaviour
 
         int randIndex = Random.Range(0, currentBossData.availablePatterns.Count);
 
-        //Debug.Log("Skill: " + currentBossData.availablePatterns[randIndex]);
+        //Debug.Log("Skill: " + currentBossData.availablePatterns[randIndex]);  
         return currentBossData.availablePatterns[randIndex];
     }
 

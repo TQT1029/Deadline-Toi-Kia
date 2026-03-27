@@ -8,7 +8,7 @@ namespace ProObstacleEngine.Editor
     [CanEditMultipleObjects]
     public class ObstacleMotionControlEditor : UnityEditor.Editor
     {
-        private SerializedProperty groupPattern, loopType, duration, easeType, waveDelayStep;
+        private SerializedProperty groupPattern, loopType, durationMove, durationScale, durationRotation, durationColor, durationShake, easeType, waveDelayStep;
         private SerializedProperty enableMove, moveOffset;
         private SerializedProperty enableRotate, rotateAngles, continuousSpin, symmetricRotation;
         private SerializedProperty enableScale, scaleMultiplier;
@@ -21,7 +21,13 @@ namespace ProObstacleEngine.Editor
         {
             groupPattern = serializedObject.FindProperty("groupPattern");
             loopType = serializedObject.FindProperty("loopType");
-            duration = serializedObject.FindProperty("duration");
+
+            durationMove = serializedObject.FindProperty("durationMove");
+            durationScale = serializedObject.FindProperty("durationScale");
+            durationRotation = serializedObject.FindProperty("durationRotation");
+            durationColor = serializedObject.FindProperty("durationColor");
+            durationShake = serializedObject.FindProperty("durationShake");
+
             easeType = serializedObject.FindProperty("easeType");
             waveDelayStep = serializedObject.FindProperty("waveDelayStep");
 
@@ -57,7 +63,7 @@ namespace ProObstacleEngine.Editor
             EditorGUILayout.Space(5);
 
             // --- GENERAL SETTINGS ---
-            DrawHeader("1. Timing & Pattern");
+            DrawHeader("1. Type dynamic & Pattern");
             EditorGUILayout.BeginVertical(EditorStyles.helpBox);
             EditorGUILayout.PropertyField(groupPattern);
             if (groupPattern.enumValueIndex != (int)GroupPattern.Sync && groupPattern.enumValueIndex != (int)GroupPattern.Alternating)
@@ -65,7 +71,6 @@ namespace ProObstacleEngine.Editor
                 EditorGUILayout.PropertyField(waveDelayStep, new GUIContent("Delay Step", "Thời gian chờ giữa các khối con"));
             }
             EditorGUILayout.Space(3);
-            EditorGUILayout.PropertyField(duration, new GUIContent("Cycle Duration"));
             EditorGUILayout.PropertyField(loopType, new GUIContent("Loop Type"));
             EditorGUILayout.PropertyField(easeType, new GUIContent("Motion Ease"));
             EditorGUILayout.EndVertical();
@@ -78,6 +83,7 @@ namespace ProObstacleEngine.Editor
             {
                 EditorGUI.indentLevel++;
                 EditorGUILayout.PropertyField(moveOffset, new GUIContent("Target Offset"));
+                EditorGUILayout.PropertyField(durationMove, new GUIContent("Cycle Duration"));
                 EditorGUI.indentLevel--;
             }
             EditorGUILayout.EndVertical();
@@ -91,7 +97,8 @@ namespace ProObstacleEngine.Editor
                 EditorGUI.indentLevel++;
                 EditorGUILayout.PropertyField(continuousSpin, new GUIContent("Continuous Spin (360)"));
                 EditorGUILayout.PropertyField(rotateAngles, new GUIContent(continuousSpin.boolValue ? "Spin Speed (Angles/Cycle)" : "Target Angles"));
-                EditorGUILayout.PropertyField(symmetricRotation, new GUIContent(symmetricRotation.boolValue?"Symmetric Rotation is on": "Symmetric Rotation is off"));
+                EditorGUILayout.PropertyField(symmetricRotation, new GUIContent(symmetricRotation.boolValue ? "Symmetric Rotation is on" : "Symmetric Rotation is off"));
+                EditorGUILayout.PropertyField(durationRotation, new GUIContent("Cycle Duration"));
                 EditorGUI.indentLevel--;
             }
             EditorGUILayout.EndVertical();
@@ -104,6 +111,7 @@ namespace ProObstacleEngine.Editor
             {
                 EditorGUI.indentLevel++;
                 EditorGUILayout.PropertyField(scaleMultiplier, new GUIContent("Scale Multiplier"));
+                EditorGUILayout.PropertyField(durationScale, new GUIContent("Cycle Duration"));
                 EditorGUI.indentLevel--;
             }
             EditorGUILayout.EndVertical();
@@ -117,6 +125,8 @@ namespace ProObstacleEngine.Editor
             {
                 EditorGUI.indentLevel++;
                 EditorGUILayout.PropertyField(targetColor, new GUIContent("Target Color"));
+                EditorGUILayout.PropertyField(durationColor, new GUIContent("Cycle Duration"));
+
                 EditorGUI.indentLevel--;
             }
 
@@ -127,6 +137,7 @@ namespace ProObstacleEngine.Editor
             {
                 EditorGUI.indentLevel++;
                 EditorGUILayout.PropertyField(shakeStrength, new GUIContent("Shake Strength"));
+                EditorGUILayout.PropertyField(durationShake, new GUIContent("Cycle Duration"));
                 EditorGUI.indentLevel--;
             }
             EditorGUILayout.EndVertical();

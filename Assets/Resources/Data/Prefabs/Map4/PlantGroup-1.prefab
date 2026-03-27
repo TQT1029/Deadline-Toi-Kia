@@ -50,10 +50,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   groupPattern: 0
   loopType: 1
-  duration: 0.25
-  easeType: 4
+  durationMove: 0.5
+  durationScale: 1
+  durationRotation: 0.5
+  durationColor: 1
+  durationShake: 1
+  easeType: 18
   waveDelayStep: 0.2
-  enableMove: 0
+  enableMove: 1
   moveOffset: {x: 0, y: 1, z: 0}
   enableRotate: 1
   rotateAngles: {x: 0, y: 0, z: 10}

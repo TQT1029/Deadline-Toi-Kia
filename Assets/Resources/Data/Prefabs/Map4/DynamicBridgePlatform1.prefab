@@ -48,11 +48,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   groupPattern: 0
   loopType: 1
-  duration: 1
+  durationMove: 1
+  durationScale: 1
+  durationRotation: 1
+  durationColor: 1
+  durationShake: 1
   easeType: 4
   waveDelayStep: 0.2
   enableMove: 1
-  moveOffset: {x: 0, y: 1, z: 0}
+  moveOffset: {x: 0, y: 3, z: 0}
   enableRotate: 0
   rotateAngles: {x: 0, y: 0, z: 90}
   continuousSpin: 0

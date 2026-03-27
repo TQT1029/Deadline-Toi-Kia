@@ -27,7 +27,11 @@ namespace ProObstacleEngine
         public LoopType loopType = LoopType.Yoyo;
 
         [Tooltip("Thời gian hoàn thành một chu kỳ chuyển động (giây).")]
-        public float duration = 1.0f;
+        public float durationMove = 1.0f;
+        public float durationScale = 1.0f;
+        public float durationRotation = 1.0f;
+        public float durationColor = 1.0f;
+        public float durationShake = 1.0f;
 
         [Tooltip("Đường cong gia tốc chuyển động (Vd: InOutSine làm mượt ở 2 đầu).")]
         public Ease easeType = Ease.InOutSine;
@@ -105,19 +109,19 @@ namespace ProObstacleEngine
                 part.StopAllMotions();
 
                 if (enableMove)
-                    part.StartMove(moveOffset, duration, easeType, delay, loopType);
+                    part.StartMove(moveOffset, durationMove, easeType, delay, loopType);
 
                 if (enableScale)
-                    part.StartScale(scaleMultiplier, duration, easeType, delay, loopType);
+                    part.StartScale(scaleMultiplier, durationScale, easeType, delay, loopType);
 
                 if (enableRotate)
-                    part.StartRotate(rotateAngles, duration, easeType, delay, continuousSpin, loopType, symmetricRotation);
+                    part.StartRotate(rotateAngles, durationRotation, easeType, delay, continuousSpin, loopType, symmetricRotation);
 
                 if (enableColor)
-                    part.StartColorWait(targetColor, duration, easeType, delay, loopType);
+                    part.StartColorWait(targetColor, durationColor, easeType, delay, loopType);
 
                 if (enableShake)
-                    part.StartShake(shakeStrength, duration, delay);
+                    part.StartShake(shakeStrength, durationShake, delay);
             }
         }
 
@@ -127,7 +131,7 @@ namespace ProObstacleEngine
             {
                 case GroupPattern.Sync: return 0f;
                 case GroupPattern.Wave: return index * waveDelayStep;
-                case GroupPattern.Alternating: return (index % 2 == 0) ? 0f : duration;
+                case GroupPattern.Alternating: return (index % 2 == 0) ? 0f : waveDelayStep;
                 case GroupPattern.CenterOut:
                     float centerIndex = (totalCount - 1) / 2f;
                     return Mathf.Abs(index - centerIndex) * waveDelayStep;

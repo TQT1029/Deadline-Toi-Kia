@@ -1,13 +1,12 @@
 ﻿using UnityEngine;
-using DG.Tweening; 
 
 public class MoveProjecties : MonoBehaviour
 {
-    private Tween rotateTween;
-
     private Vector3 moveDirection;
     private float moveSpeed;
-    private bool isMoving = false;
+
+    private Rigidbody2D rb;
+    private float currentRotateSpeed;
 
     // Thời gian tối đa tồn tại (để tránh rác bộ nhớ nếu vật bay ra khỏi màn hình quá xa)
     private float maxLifetime = 3f;
@@ -18,57 +17,28 @@ public class MoveProjecties : MonoBehaviour
     /// </summary>
     public void Initialize(Vector3 startWorldPos, Vector3 targetWorldPos, float speed, float rotateSpeed, float delayTime)
     {
-        // 1. Đặt vị trí xuất phát ngay lập tức
+        rb = GetComponent<Rigidbody2D>(); // Nên cache ở Awake nếu pool object
         transform.position = startWorldPos;
 
-        // 2. Tính toán Hướng di chuyển (Normalized để chỉ lấy hướng, độ dài = 1)
-        // Công thức: Đích - Đầu
         moveDirection = (targetWorldPos - startWorldPos).normalized;
         moveSpeed = speed;
+        currentRotateSpeed = rotateSpeed;
 
-        // 3. Bắt đầu quy trình (Delay -> Hiện -> Bay & Xoay)
-        StartCoroutine(StartMovingProcess(delayTime, rotateSpeed));
+        StartCoroutine(StartMovingProcess(delayTime));
     }
 
-    private System.Collections.IEnumerator StartMovingProcess(float delay, float rotateSpeed)
+    private System.Collections.IEnumerator StartMovingProcess(float delay)
     {
-        // Chờ delay
         if (delay > 0) yield return new WaitForSeconds(delay);
 
-        // Kích hoạt vật thể
         gameObject.SetActive(true);
-        isMoving = true;
 
-        // Bắt đầu xoay (Dùng Dotween cho việc này rất tốt vì nó mượt)
-        StartRotation(rotateSpeed);
+        // Dùng linearVelocity và angularVelocity của Unity Physics
+        rb.linearVelocity = moveDirection * moveSpeed;
 
-        // Tự hủy sau 10s (Cơ chế dọn rác an toàn)
+        // Code cũ: xoay 360 độ trong (1/rotateSpeed) giây -> Tương đương rotateSpeed vòng/giây
+        rb.angularVelocity = currentRotateSpeed * 360f;
+
         Destroy(gameObject, maxLifetime);
-    }
-
-    // --- LOGIC DI CHUYỂN MỚI ---
-    private void Update()
-    {
-        // Chỉ di chuyển khi đã hết thời gian delay
-        if (!isMoving) return;
-
-        // Công thức Vector: Vị trí mới = Vị trí cũ + (Hướng * Tốc độ * Thời gian)
-        transform.position += moveDirection * moveSpeed * Time.deltaTime;
-    }
-
-    private void StartRotation(float rotateSpeed)
-    {
-        if (rotateSpeed <= 0) return;
-
-        // Logic xoay giữ nguyên, nhưng thêm SetEase(Ease.Linear) để xoay đều
-        rotateTween = transform.DORotate(new Vector3(0, 0, 360), 1f / rotateSpeed, RotateMode.FastBeyond360)
-            .SetLoops(-1, LoopType.Incremental)
-            .SetEase(Ease.Linear);
-    }
-
-    private void OnDisable()
-    {
-        // Khi object bị tắt hoặc hủy, phải giết tween xoay để tránh lỗi
-        rotateTween?.Kill();
     }
 }

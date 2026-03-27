@@ -18,7 +18,8 @@ MonoBehaviour:
   flipXAnimator: 1
   availablePatterns: 08000000090000000a0000000b000000
   projectiesObstacle:
-  - {fileID: 3181273921167081314, guid: 5d2c5bf465e7e30468d02ff5e3499277, type: 3}
-  - {fileID: 1983612376558732589, guid: b7234fcfad265e142a177c9661ce69a7, type: 3}
+  - {fileID: 4796457217755346772, guid: 0a67b21d77cac96469a909b6962a7a05, type: 3}
+  - {fileID: 1791811874142238640, guid: 4d5be5b0b918afd448ff36b0a248d9ed, type: 3}
+  - {fileID: 3921767294016110641, guid: 3d8caaa94753a9142916654e365f07d4, type: 3}
   minAttackInterval: 3
   maxAttackInterval: 4

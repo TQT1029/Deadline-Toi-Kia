@@ -11,7 +11,8 @@ GameObject:
   - component: {fileID: 5513098376193642235}
   - component: {fileID: 2788495730047073703}
   - component: {fileID: 8670952028931365066}
-  - component: {fileID: 3658630588790471660}
+  - component: {fileID: 8800746645436362556}
+  - component: {fileID: 4713925675556426481}
   m_Layer: 7
   m_Name: Table
   m_TagString: Obstacle
@@ -116,8 +117,8 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!68 &3658630588790471660
-EdgeCollider2D:
+--- !u!61 &8800746645436362556
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -150,18 +151,61 @@ EdgeCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: 1.5351005}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0}
+    oldSize: {x: 7.07, y: 4.84}
+    newSize: {x: 7.07, y: 4.84}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 7.07, y: 3.070201}
   m_EdgeRadius: 0
-  m_Points:
-  - {x: 3.3938053, y: 0.09118366}
-  - {x: -3.1287234, y: 0.043501467}
-  - {x: -3.57894, y: 3.054502}
-  - {x: 2.4261563, y: 2.9533207}
-  - {x: 2.473741, y: 4.898065}
-  - {x: 3.5255713, y: 4.864475}
-  - {x: 3.5023112, y: 3.0433333}
-  - {x: 3.4197123, y: 0.06812644}
-  m_AdjacentStartPoint: {x: 0, y: 0}
-  m_AdjacentEndPoint: {x: 0, y: 0}
-  m_UseAdjacentStartPoint: 0
-  m_UseAdjacentEndPoint: 0
+--- !u!61 &4713925675556426481
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4201045231176910432}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 2.9635231, y: 3.9641204}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0}
+    oldSize: {x: 7.07, y: 4.84}
+    newSize: {x: 7.07, y: 4.84}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 1.1429534, y: 1.7517598}
+  m_EdgeRadius: 0

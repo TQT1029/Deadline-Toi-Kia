@@ -211,8 +211,9 @@ MonoBehaviour:
   fallThresholdY: -10
   respawnDelay: 1
   respawnPosition: {x: 0, y: 0}
+  maxConsecutiveFalls: 3
   startPoint: {fileID: 0}
-  adjustDist: 10
+  adjustDist: 7
   targetPlayer: {fileID: 0}
   sensorPoint: {fileID: 2782050469338715646}
   viewDistance: 4

@@ -143,9 +143,9 @@ namespace ParallaxEngine.Editor
 
             EditorGUILayout.Space(5);
             GUI.backgroundColor = new Color(0.2f, 0.7f, 1f);
-            if (GUILayout.Button("Apply Auto Z-Depth", GUILayout.Height(35)))
+            if (GUILayout.Button("Initialize Layers", GUILayout.Height(35)))
             {
-                ((ParallaxManager)target).SortLayersDepth();
+                ((ParallaxManager)target).InitializeLayers();
                 UnityEditor.SceneManagement.EditorSceneManager.MarkSceneDirty(((ParallaxManager)target).gameObject.scene);
             }
             GUI.backgroundColor = Color.white;

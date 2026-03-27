@@ -5,7 +5,7 @@ namespace ProObstacleEngine
 {
     public class DynamicObstaclePart : MonoBehaviour
     {
-        private Vector3 initialRotation;
+        private Vector3 initialRotation = Vector3.zero;
 
         private Tween _moveTween;
         private Tween _scaleTween;

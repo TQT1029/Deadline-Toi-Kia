@@ -1776,7 +1776,7 @@ GameObject:
   - component: {fileID: 660016559}
   - component: {fileID: 660016562}
   m_Layer: 5
-  m_Name: GoBtn
+  m_Name: NextBtn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1845,9 +1845,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 845113862}
-        m_TargetAssemblyTypeName: SceneLoader, Assembly-CSharp
-        m_MethodName: EnterMap
+      - m_Target: {fileID: 845113863}
+        m_TargetAssemblyTypeName: PanelController, Assembly-CSharp
+        m_MethodName: ShowMapsPage
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1877,7 +1877,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 5750898682064538550, guid: 10de6dac8d8942c4781c05281d616ce9, type: 3}
+  m_Sprite: {fileID: -2932513457500294362, guid: 9cf156b6a9c17cc49a54cf30793185e9, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -3656,6 +3656,10 @@ PrefabInstance:
     - target: {fileID: 9165420502268736482, guid: 1fc6d75e748bc9d4b87803c3b182b589, type: 3}
       propertyPath: m_Name
       value: SettingPanel
+      objectReference: {fileID: 0}
+    - target: {fileID: 9165420502268736482, guid: 1fc6d75e748bc9d4b87803c3b182b589, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

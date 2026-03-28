@@ -117,18 +117,18 @@ public class BossManager : MonoBehaviour
             });
     }
 
-    private void StartBossIdleMotion()
-    {
-        // Loop bay qua bay lại
-        idleTween = DOTween.To(() => currentViewportPos.x, x => currentViewportPos.x = x, 0.7f, 2f)
-            .SetEase(Ease.InOutSine)
-            .OnComplete(() =>
-            {
-                idleTween = DOTween.To(() => currentViewportPos.x, x => currentViewportPos.x = x, 0.3f, 4f)
-                    .SetEase(Ease.InOutSine)
-                    .SetLoops(-1, LoopType.Yoyo);
-            });
-    }
+    //private void StartBossIdleMotion()
+    //{
+    //    // Loop bay qua bay lại
+    //    idleTween = DOTween.To(() => currentViewportPos.x, x => currentViewportPos.x = x, 0.7f, 2f)
+    //        .SetEase(Ease.InOutSine)
+    //        .OnComplete(() =>
+    //        {
+    //            idleTween = DOTween.To(() => currentViewportPos.x, x => currentViewportPos.x = x, 0.3f, 4f)
+    //                .SetEase(Ease.InOutSine)
+    //                .SetLoops(-1, LoopType.Yoyo);
+    //        });
+    //}
 
     private IEnumerator CombatLoop()
     {

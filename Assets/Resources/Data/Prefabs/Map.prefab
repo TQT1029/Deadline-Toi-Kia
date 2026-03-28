@@ -57,7 +57,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   groundY: -5
-  pitY: -7
+  pitY: -10
   maxHeightMap: 15
   pitChance: 30
   hasPit: 0
@@ -133,6 +133,7 @@ MonoBehaviour:
   maxVerticalGap: 2
   minHorizontalGap: 0.5
   maxHorizontalGap: 1.5
+  stepGap: 0.5
 --- !u!114 &3936636314198989629
 MonoBehaviour:
   m_ObjectHideFlags: 0

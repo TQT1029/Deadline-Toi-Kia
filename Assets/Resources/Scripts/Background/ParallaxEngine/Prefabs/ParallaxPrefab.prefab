@@ -56,7 +56,7 @@ MonoBehaviour:
   defaultBackgroundMaterial: {fileID: 0}
   enableParallaxX: 1
   baseScrollSpeedX: 0
-  velocityMultiplierX: 0.25
+  velocityMultiplierX: 0.2
   smoothTimeX: 0.1
   parallaxStrengthX: 1
   enableParallaxY: 1

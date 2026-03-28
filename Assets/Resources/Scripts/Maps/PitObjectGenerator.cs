@@ -12,12 +12,11 @@ public class PitObjectGenerator : MonoBehaviour
     [field: SerializeField] public List<ObstacleData> obstacleLibrary { get; private set; }
     [field: SerializeField] public List<MiniPlatformData> miniPlatformLibrary { get; private set; }
 
-    // [REMOVED] groundY, pitY, waveFrequency đã chuyển sang MapGlobalConfig
-
     [Header("Pit Logic ")]
     [SerializeField] private bool isSpawnObjectInPit = true;
     [SerializeField, Range(0, 100)] private float ratioBridgeToObstacle = 50f;
     [Tooltip("Khoảng trống (đệm) tính từ mép hố trở vào, dùng để check xem có đủ chỗ rải không")]
+    [SerializeField] private float pitWidthNeedObjects = 7;
     [SerializeField] private float pitEdgePadding = 2f;
 
     [Header("Objects Settings ")]
@@ -27,7 +26,6 @@ public class PitObjectGenerator : MonoBehaviour
     [SerializeField, Min(1.5f)] private float maxHorizontalGap = 1.5f;
     [SerializeField, Min(0.5f)] private float stepGap = 0.5f;
 
-    private float pitWidthNeedObjects = 7;
     private float noiseOffsetX;
 
     private void Start()
@@ -43,17 +41,12 @@ public class PitObjectGenerator : MonoBehaviour
 
         float pitWidth = endX - startX;
 
-        // Nếu hố đủ rộng để cần vật thể lót chân
         if (pitWidth >= pitWidthNeedObjects)
         {
-            // Bốc thăm xem ưu tiên rải Cầu hay rải Vật Cản
             bool wantBridge = RandomUtils.ChancePercent(ratioBridgeToObstacle);
 
-            // Thử spawn loại đã chọn
             bool success = TrySpawn(wantBridge, startX, endX, pitWidth);
 
-            // Nếu loại kia không phù hợp (ví dụ: hố 8m nhưng chọn trúng Cầu mà thư viện Cầu toàn 10m)
-            // Thì thử đổi sang loại còn lại
             if (!success)
             {
                 success = TrySpawn(!wantBridge, startX, endX, pitWidth);
@@ -63,175 +56,174 @@ public class PitObjectGenerator : MonoBehaviour
             // Đảm bảo tối thiểu người chơi có một điểm đặt chân để nhảy qua hố
             if (!success)
             {
-                ForceSpawnSafePlatform(startX, endX);
+                ForceSpawnAbsoluteSmallest(startX, endX);
             }
         }
     }
 
-    // --- HÀM HỖ TRỢ KIỂM TRA & SPAWN ---
     private bool TrySpawn(bool isBridge, float startX, float endX, float pitWidth)
     {
+        float centerX = (startX + endX) / 2f;
+        float usableSpace = pitWidth - (pitEdgePadding * 2);
+
         if (isBridge)
         {
             if (miniPlatformLibrary == null || miniPlatformLibrary.Count == 0) return false;
 
-            // 1. Lọc ra những tấm Cầu có chiều dài nhét LỌT VỪA vô hố
-            List<MiniPlatformData> validCandidates = new List<MiniPlatformData>();
-            foreach (var p in miniPlatformLibrary)
+            // 1. CHỌN VÀ SPAWN VẬT THỂ Ở TÂM (Đảm bảo 100% rải ít nhất 1 cái)
+            MiniPlatformData centerBridge = GetRandomBridge(usableSpace);
+            if (centerBridge == null) centerBridge = GetSmallestBridge(); // Fallback nếu hố nhỏ hơn cả vật nhỏ nhất
+
+            float centerLen = centerBridge.GetLength();
+            SpawnSingleBridge(centerX, centerBridge);
+
+            // 2. TỎA RA BÊN TRÁI
+            float currentRightEdge = centerX - (centerLen / 2f) - GetRandomGap();
+            while (currentRightEdge > startX + pitEdgePadding)
             {
-                if (p.GetLength() <= pitWidth) validCandidates.Add(p);
+                float availableSpace = currentRightEdge - (startX + pitEdgePadding);
+                MiniPlatformData leftBridge = GetRandomBridge(availableSpace);
+
+                if (leftBridge == null) break; // Hết chỗ nhét
+
+                float len = leftBridge.GetLength();
+                float spawnX = currentRightEdge - (len / 2f);
+                SpawnSingleBridge(spawnX, leftBridge);
+
+                currentRightEdge = spawnX - (len / 2f) - GetRandomGap();
             }
 
-            if (validCandidates.Count == 0) return false; // Thất bại: Không có cầu nào lọt vừa
+            // 3. TỎA RA BÊN PHẢI
+            float currentLeftEdge = centerX + (centerLen / 2f) + GetRandomGap();
+            while (currentLeftEdge < endX - pitEdgePadding)
+            {
+                float availableSpace = (endX - pitEdgePadding) - currentLeftEdge;
+                MiniPlatformData rightBridge = GetRandomBridge(availableSpace);
 
-            // 2. Random 1 tấm hợp lệ trong danh sách đã lọc
-            MiniPlatformData data = validCandidates[Random.Range(0, validCandidates.Count)];
-            float len = data.GetLength();
+                if (rightBridge == null) break; // Hết chỗ nhét
 
-            // 3. Phân loại rải
-            if (pitWidth <= len + (pitEdgePadding*2))
-                SpawnBridgeCenter(startX, endX, data);
-            else
-                SpawnBridges(startX, endX);
+                float len = rightBridge.GetLength();
+                float spawnX = currentLeftEdge + (len / 2f);
+                SpawnSingleBridge(spawnX, rightBridge);
 
+                currentLeftEdge = spawnX + (len / 2f) + GetRandomGap();
+            }
             return true;
         }
-        else
+        else // isObstacle
         {
             if (obstacleLibrary == null || obstacleLibrary.Count == 0) return false;
 
-            // 1. Lọc ra những Vật Cản có chiều dài nhét LỌT VỪA vô hố
-            List<ObstacleData> validCandidates = new List<ObstacleData>();
-            foreach (var obs in obstacleLibrary)
+            // 1. CHỌN VÀ SPAWN VẬT CẢN Ở TÂM
+            ObstacleData centerObs = GetRandomObstacle(usableSpace);
+            if (centerObs == null) centerObs = GetSmallestObstacle();
+
+            float centerLen = centerObs.GetSize().x;
+            SpawnSingleObstacle(centerX, centerObs);
+
+            // 2. TỎA RA BÊN TRÁI
+            float currentRightEdge = centerX - (centerLen / 2f) - GetRandomGap();
+            while (currentRightEdge > startX + pitEdgePadding)
             {
-                if (obs.GetSize().x <= pitWidth) validCandidates.Add(obs);
+                float availableSpace = currentRightEdge - (startX + pitEdgePadding);
+                ObstacleData leftObs = GetRandomObstacle(availableSpace);
+
+                if (leftObs == null) break;
+
+                float len = leftObs.GetSize().x;
+                float spawnX = currentRightEdge - (len / 2f);
+                SpawnSingleObstacle(spawnX, leftObs);
+
+                currentRightEdge = spawnX - (len / 2f) - GetRandomGap();
             }
 
-            if (validCandidates.Count == 0) return false; // Thất bại: Không có vật cản nào lọt vừa
+            // 3. TỎA RA BÊN PHẢI
+            float currentLeftEdge = centerX + (centerLen / 2f) + GetRandomGap();
+            while (currentLeftEdge < endX - pitEdgePadding)
+            {
+                float availableSpace = (endX - pitEdgePadding) - currentLeftEdge;
+                ObstacleData rightObs = GetRandomObstacle(availableSpace);
 
-            // 2. Random 1 vật cản hợp lệ trong danh sách đã lọc
-            ObstacleData data = validCandidates[Random.Range(0, validCandidates.Count)];
-            float len = data.GetSize().x;
+                if (rightObs == null) break;
 
-            // 3. Phân loại rải
-            if (pitWidth <= len + (pitEdgePadding*2))
-                SpawnObstacleCenter(startX, endX, data);
-            else
-                SpawnObstacles(startX, endX);
+                float len = rightObs.GetSize().x;
+                float spawnX = currentLeftEdge + (len / 2f);
+                SpawnSingleObstacle(spawnX, rightObs);
 
+                currentLeftEdge = spawnX + (len / 2f) + GetRandomGap();
+            }
             return true;
         }
     }
-
-    // --- HÀM BẢO HIỂM ---
-    private void ForceSpawnSafePlatform(float startX, float endX)
-    {
-        // Nhặt tấm nhỏ nhất trong game và ép đặt vào giữa hố để cứu người chơi
-        if (miniPlatformLibrary != null && miniPlatformLibrary.Count > 0)
-        {
-            MiniPlatformData smallest = miniPlatformLibrary[0];
-            foreach (var p in miniPlatformLibrary)
-            {
-                if (p.GetLength() < smallest.GetLength()) smallest = p;
-            }
-            SpawnBridgeCenter(startX, endX, smallest);
-        }
-    }
-    //----- Obstacle -----
-
-    private void SpawnObstacles(float startX, float endX)
-    {
-
-        float currentX = startX + pitEdgePadding;
-        float limitX = endX - pitEdgePadding;
-
-        while (currentX < limitX)
-        {
-            ObstacleData obs = obstacleLibrary[Random.Range(0, obstacleLibrary.Count)];
-            float pitY = obs.useGroundY ? MapGlobalConfig.Instance.groundY : MapGlobalConfig.Instance.pitY;
-            Vector2 size = obs.GetSize();
-
-            if (currentX + size.x <= limitX)
-            {
-                Vector3 pos = new Vector3(currentX + size.x / 2f, pitY, 0);
-                Instantiate(obs.prefab, pos, Quaternion.identity, obstacleObjs);
-
-                // Dùng chung Horizontal Gap với cầu cho nhất quán (hoặc bạn có thể tạo gap riêng)
-                currentX += size.x + RandomUtils.RandomWithSteps(minHorizontalGap, maxHorizontalGap, stepGap);
-            }
-            else
-            {
-                break; // Hết chỗ cho vật cản này
-            }
-        }
-    }
-
-    private void SpawnObstacleCenter(float startX, float endX, ObstacleData obs)
-    {
-        float pitY = obs.useGroundY ? MapGlobalConfig.Instance.groundY : MapGlobalConfig.Instance.pitY;
-
-        // Kiểm tra an toàn: Đảm bảo hố lọt nổi vật cản này
-        if (obs.GetSize().x <= (endX - startX))
-        {
-            Vector3 pos = new Vector3((startX + endX) / 2f, pitY, 0);
-            Instantiate(obs.prefab, pos, Quaternion.identity, obstacleObjs);
-        }
-    }
-
-    //----- Bridge -----
-
-    private void SpawnBridges(float startX, float endX)
+    private void SpawnSingleBridge(float xPos, MiniPlatformData data)
     {
         float groundY = MapGlobalConfig.Instance.groundY;
         float waveFreq = MapGlobalConfig.Instance.waveFrequency;
 
-        float currentX = startX + 0.5f;
-        float limit = endX - 0.5f;
+        // Dùng Perlin Noise dựa theo tọa độ X để cầu nhấp nhô mượt mà
+        float waveHeight = RandomUtils.GetPerlinHeight(xPos + noiseOffsetX, waveFreq, minVerticalGap, maxVerticalGap, 1.5f);
 
-        while (currentX < limit)
-        {
-            float remainingSpace = limit - currentX;
-            List<MiniPlatformData> validCandidates = new List<MiniPlatformData>();
-            foreach (var p in miniPlatformLibrary)
-            {
-                if (p.GetLength() <= remainingSpace) validCandidates.Add(p);
-            }
-
-            if (validCandidates.Count == 0) break;
-
-            MiniPlatformData selectedData = validCandidates[Random.Range(0, validCandidates.Count)];
-            float len = selectedData.GetLength();
-
-            // Sử dụng Wave Frequency chung
-            float waveHeight = RandomUtils.GetPerlinHeight(
-                currentX + noiseOffsetX,
-                waveFreq,
-                minVerticalGap,
-                maxVerticalGap,
-                1.5f
-            );
-
-            Vector3 pos = new Vector3(currentX + len / 2f, groundY + waveHeight, 0);
-            Instantiate(selectedData.prefab, pos, Quaternion.identity, miniPlatformObjs);
-
-            currentX += len + RandomUtils.RandomWithSteps(minHorizontalGap, maxHorizontalGap, stepGap);
-        }
-
-
+        Vector3 pos = new Vector3(xPos, groundY + waveHeight, 0);
+        Instantiate(data.prefab, pos, Quaternion.identity, miniPlatformObjs);
     }
 
-    private void SpawnBridgeCenter(float startX, float endX, MiniPlatformData data)
+    private void SpawnSingleObstacle(float xPos, ObstacleData obs)
     {
-        float groundY = MapGlobalConfig.Instance.groundY;
+        float pitY = obs.useGroundY ? MapGlobalConfig.Instance.groundY : MapGlobalConfig.Instance.pitY;
+        Vector3 pos = new Vector3(xPos, pitY, 0);
+        Instantiate(obs.prefab, pos, Quaternion.identity, obstacleObjs);
+    }
 
-        // Kiểm tra an toàn: Đảm bảo hố lọt nổi cái cầu này
-        if (data.GetLength() <= (endX - startX))
+    private void ForceSpawnAbsoluteSmallest(float startX, float endX)
+    {
+        float centerX = (startX + endX) / 2f;
+        MiniPlatformData smallest = GetSmallestBridge();
+        if (smallest != null) SpawnSingleBridge(centerX, smallest);
+    }    //----- Obstacle -----
+
+    private float GetRandomGap() => RandomUtils.RandomWithSteps(minHorizontalGap, maxHorizontalGap, stepGap);
+
+    private MiniPlatformData GetRandomBridge(float maxWidth)
+    {
+        List<MiniPlatformData> valid = new List<MiniPlatformData>();
+        foreach (var p in miniPlatformLibrary)
         {
-            // Độ cao ngẫu nhiên trong mức cho phép để tự nhiên hơn
-            float targetY = groundY + Random.Range(minVerticalGap, maxVerticalGap);
-            Vector3 pos = new Vector3((startX + endX) / 2f, targetY, 0);
-
-            Instantiate(data.prefab, pos, Quaternion.identity, miniPlatformObjs);
+            if (p.GetLength() <= maxWidth) valid.Add(p);
         }
+        if (valid.Count == 0) return null;
+        return valid[Random.Range(0, valid.Count)];
+    }
+
+    private ObstacleData GetRandomObstacle(float maxWidth)
+    {
+        List<ObstacleData> valid = new List<ObstacleData>();
+        foreach (var obs in obstacleLibrary)
+        {
+            if (obs.GetSize().x <= maxWidth) valid.Add(obs);
+        }
+        if (valid.Count == 0) return null;
+        return valid[Random.Range(0, valid.Count)];
+    }
+
+    private MiniPlatformData GetSmallestBridge()
+    {
+        if (miniPlatformLibrary == null || miniPlatformLibrary.Count == 0) return null;
+        MiniPlatformData smallest = miniPlatformLibrary[0];
+        foreach (var p in miniPlatformLibrary)
+        {
+            if (p.GetLength() < smallest.GetLength()) smallest = p;
+        }
+        return smallest;
+    }
+
+    private ObstacleData GetSmallestObstacle()
+    {
+        if (obstacleLibrary == null || obstacleLibrary.Count == 0) return null;
+        ObstacleData smallest = obstacleLibrary[0];
+        foreach (var obs in obstacleLibrary)
+        {
+            if (obs.GetSize().x < smallest.GetSize().x) smallest = obs;
+        }
+        return smallest;
     }
 }

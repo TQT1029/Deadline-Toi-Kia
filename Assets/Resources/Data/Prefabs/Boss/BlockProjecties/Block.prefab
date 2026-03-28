@@ -193,3 +193,4 @@ MonoBehaviour:
   stunDuration: 0.3
   minAmountCoin: 5
   maxAmountCoin: 30
+  hitEffectPrefab: {fileID: 4764120953401605807, guid: 816ae180f7ba99048aefed8ac5dc9c60, type: 3}

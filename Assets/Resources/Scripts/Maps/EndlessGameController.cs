@@ -192,6 +192,7 @@ public class EndlessGameController : MonoBehaviour
     {
         if (winPoint == null || winPointSpawned) return;
 
+        mapConfig.hasPit = false;
         Physics2D.SyncTransforms();
         SpawnNextPiece();
 

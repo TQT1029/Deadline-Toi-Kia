@@ -57,11 +57,11 @@ MonoBehaviour:
   enableParallaxX: 1
   baseScrollSpeedX: 0
   velocityMultiplierX: 0.25
-  smoothTimeX: 0.25
+  smoothTimeX: 0.1
   parallaxStrengthX: 1
   enableParallaxY: 1
   baseScrollSpeedY: 0
-  velocityMultiplierY: 0.25
+  velocityMultiplierY: 0
   smoothTimeY: 0.25
   parallaxStrengthY: 1
   autoSortOnValidate: 0

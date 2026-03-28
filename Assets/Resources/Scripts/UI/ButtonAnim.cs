@@ -1,4 +1,6 @@
 ﻿using DG.Tweening;
+using System.Linq.Expressions;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using static RandomUtils;
@@ -26,8 +28,8 @@ public class ButtonAnim : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     private void OnEnable() => transform.localScale = originalScale;
     private void OnDisable()
     {
-        transform.DOKill();
         transform.localScale = originalScale;
+        transform.DOKill();
     }
 
     public void OnPointerDown(PointerEventData eventData)

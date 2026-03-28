@@ -1,13 +1,10 @@
 fileFormatVersion: 2
-guid: b447d0259ac617b4e8668ef5a9ed5f3b
+guid: e6e6c944bbba5fa47a475ddbebaf62c4
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -5885102436550359081
-    second: "T\xE0i li\u1EC7u_0"
-  - first:
-      213: 7965320137234254115
-    second: "T\xE0i li\u1EC7u_1"
+      213: 4974228542359658689
+    second: Gemini_Generated_Image_gvkdj5gvkdj5gvkd-removebg-preview_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -40,7 +37,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 0
+    filterMode: 1
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -49,7 +46,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -100,33 +97,20 @@ TextureImporter:
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 4
-    buildTarget: WebGL
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: iOS
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
     buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -142,35 +126,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: "T\xE0i li\u1EC7u_0"
+      name: Gemini_Generated_Image_gvkdj5gvkdj5gvkd-removebg-preview_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 4
-        width: 117
-        height: 112
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 7d741aab38ae35ea0800000000000000
-      internalID: -5885102436550359081
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: "T\xE0i li\u1EC7u_1"
-      rect:
-        serializedVersion: 2
-        x: 130
+        x: 1
         y: 0
-        width: 145
-        height: 116
+        width: 770
+        height: 323
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -179,8 +141,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 3290d1676708a8e60800000000000000
-      internalID: 7965320137234254115
+      spriteID: 1c0e4f23182080540800000000000000
+      internalID: 4974228542359658689
       vertices: []
       indices: 
       edges: []
@@ -189,7 +151,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -199,8 +161,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      "T\xE0i li\u1EC7u_0": -5885102436550359081
-      "T\xE0i li\u1EC7u_1": 7965320137234254115
+      Gemini_Generated_Image_gvkdj5gvkdj5gvkd-removebg-preview_0: 4974228542359658689
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

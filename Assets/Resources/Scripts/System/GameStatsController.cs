@@ -8,11 +8,11 @@ public class GameStatsController : MonoBehaviour
     public float scoreMultiplier = 1f;
 
     [Header("Star Thresholds")]
-    [SerializeField] private int oneStarScore = 1000;
-    [SerializeField] private int twoStarScore = 2000;
-    [SerializeField] private int threeStarScore = 3000;
-    [SerializeField] private int fourStarScore = 5000;
-    [SerializeField] private int fiveStarScore = 7000;
+    [SerializeField] private int oneStarScore = 100;
+    [SerializeField] private int twoStarScore = 300;
+    [SerializeField] private int threeStarScore = 500;
+    [SerializeField] private int fourStarScore = 750;
+    [SerializeField] private int fiveStarScore = 1500;
 
     public float resultDistance { get; private set; }
     public int resultCoin { get; private set; }
@@ -64,18 +64,20 @@ public class GameStatsController : MonoBehaviour
     public void FinishLevel()
     {
         isGameActive = false;
+        resultRank = RankingManager.Instance.CurrentRank;
 
         // Tính số sao
         int starsEarned = 0;
-        if (resultCoin >= fiveStarScore) starsEarned = 5;
-        else if (resultCoin >= fourStarScore) starsEarned = 4;
-        else if (resultCoin >= threeStarScore) starsEarned = 3;
-        else if (resultCoin >= twoStarScore) starsEarned = 2;
-        else if (resultCoin >= oneStarScore) starsEarned = 1;
+        float resultScores = (resultDistance + (resultCoin * (Mathf.Max(0.8f, resultRank / 10))));
+
+        if (resultScores >= fiveStarScore) starsEarned = 5;
+        else if (resultScores >= fourStarScore) starsEarned = 4;
+        else if (resultScores >= threeStarScore) starsEarned = 3;
+        else if (resultScores >= twoStarScore) starsEarned = 2;
+        else if (resultScores >= oneStarScore) starsEarned = 1;
 
         Debug.Log($"Kết thúc! Rank: {resultRank} - Sao: {starsEarned}");
 
-        resultRank = RankingManager.Instance.CurrentRank;
 
         // GỌI HUD VỚI ĐẦY ĐỦ THAM SỐ
         HUDController.Instance.ShowResult(starsEarned, resultDistance, resultCoin, resultRank);

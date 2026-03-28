@@ -3645,13 +3645,25 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6297054264230242376, guid: 1fc6d75e748bc9d4b87803c3b182b589, type: 3}
+    - target: {fileID: 4932455407115739688, guid: 1fc6d75e748bc9d4b87803c3b182b589, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 845113863}
-    - target: {fileID: 6297054264230242376, guid: 1fc6d75e748bc9d4b87803c3b182b589, type: 3}
+    - target: {fileID: 4932455407115739688, guid: 1fc6d75e748bc9d4b87803c3b182b589, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: CloseSettings
+      objectReference: {fileID: 0}
+    - target: {fileID: 6297054264230242376, guid: 1fc6d75e748bc9d4b87803c3b182b589, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 845113862}
+    - target: {fileID: 6297054264230242376, guid: 1fc6d75e748bc9d4b87803c3b182b589, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ReturnToMainMenu
+      objectReference: {fileID: 0}
+    - target: {fileID: 6297054264230242376, guid: 1fc6d75e748bc9d4b87803c3b182b589, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: SceneLoader, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 9165420502268736482, guid: 1fc6d75e748bc9d4b87803c3b182b589, type: 3}
       propertyPath: m_Name

@@ -56,7 +56,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 475c9a1ec57f78443a692be4623d4702, type: 2}
   - {fileID: 11400000, guid: a4e2733d49b02b94f8a821fef9ef13eb, type: 2}
   - {fileID: 11400000, guid: 0f237601a7583cd4ab3451fc5ebb6e3c, type: 2}
-  - {fileID: 11400000, guid: 03b389101a007654fbc232ff93cce35a, type: 2}
   - {fileID: 11400000, guid: 0924827ca36e70f46a84bc3742770282, type: 2}
   - {fileID: 11400000, guid: 3a08ec0e7d72e844cae6e2e37d944c2b, type: 2}
   - {fileID: 11400000, guid: fd5bd523f9f69a04d9c34aa42d24547c, type: 2}
@@ -219,7 +218,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   baseObstacleSpeed: 8
-  playerVelocityInfluence: 0.5
+  targetVelocityInfluence: 0.5
   maxObstacleSpeed: 25
   baseRotateSpeed: 2
   obstacleHitSize: 1.2

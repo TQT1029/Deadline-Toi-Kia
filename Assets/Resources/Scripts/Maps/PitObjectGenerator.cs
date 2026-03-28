@@ -89,7 +89,7 @@ public class PitObjectGenerator : MonoBehaviour
             float len = data.GetLength();
 
             // 3. Phân loại rải
-            if (pitWidth <= len + (pitEdgePadding))
+            if (pitWidth <= len + (pitEdgePadding*2))
                 SpawnBridgeCenter(startX, endX, data);
             else
                 SpawnBridges(startX, endX);
@@ -114,7 +114,7 @@ public class PitObjectGenerator : MonoBehaviour
             float len = data.GetSize().x;
 
             // 3. Phân loại rải
-            if (pitWidth <= len + (pitEdgePadding))
+            if (pitWidth <= len + (pitEdgePadding*2))
                 SpawnObstacleCenter(startX, endX, data);
             else
                 SpawnObstacles(startX, endX);

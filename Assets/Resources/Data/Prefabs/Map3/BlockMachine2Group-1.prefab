@@ -49,7 +49,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   groupPattern: 3
   loopType: 1
-  duration: 1
+  durationMove: 1
+  durationScale: 0.5
+  durationRotation: 1
+  durationColor: 1
+  durationShake: 1
   easeType: 4
   waveDelayStep: 0.2
   enableMove: 0

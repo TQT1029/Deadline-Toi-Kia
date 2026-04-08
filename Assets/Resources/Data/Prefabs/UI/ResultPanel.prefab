@@ -1456,7 +1456,7 @@ GameObject:
   - component: {fileID: 1218768491371208772}
   - component: {fileID: 5395805157353788521}
   m_Layer: 5
-  m_Name: ResultCoins
+  m_Name: ResultXPScore
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

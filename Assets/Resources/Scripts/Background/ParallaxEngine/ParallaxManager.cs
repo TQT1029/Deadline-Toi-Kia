@@ -17,6 +17,13 @@ namespace ParallaxEngine
     public class ParallaxLayerGroup
     {
         public string groupName = "New Layer";
+        [Tooltip("Cường độ Parallax cụ thể của nhóm layer hiện tại (Trục X).")]
+        public bool useParallaxStrenghtX = false;
+        public float parallaxStrengthX = 1f;
+        [Tooltip("Cường độ Parallax cụ thể của nhóm layer hiện tại (Trục Y).")]
+        public bool useParallaxStrenghtY = false;
+        public float parallaxStrengthY = 1f;
+
         public List<Transform> elements = new List<Transform>();
     }
 
@@ -172,8 +179,11 @@ namespace ParallaxEngine
 
                         float zPos = child.localPosition.z;
                         float baseSpeedFactor = (zPos > 0) ? 1f / (zPos * 0.1f + 1f) : 1f + Mathf.Abs(zPos) * 0.5f;
+                        
+                        float finalParallaxStrengthX = group.useParallaxStrenghtX ? parallaxStrengthX * group.parallaxStrengthX : baseSpeedFactor * parallaxStrengthX;
+                        float finalParallaxStrengthY = group.useParallaxStrenghtY ? parallaxStrengthY * group.parallaxStrengthY : baseSpeedFactor * parallaxStrengthY;
 
-                        layerScript.Initialize(this, baseSpeedFactor * parallaxStrengthX, baseSpeedFactor * parallaxStrengthY);
+                        layerScript.Initialize(this, finalParallaxStrengthX, baseSpeedFactor * finalParallaxStrengthY);
                         _layers.Add(layerScript);
                     }
                 }

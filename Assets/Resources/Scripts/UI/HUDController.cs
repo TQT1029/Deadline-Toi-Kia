@@ -31,7 +31,7 @@ public class HUDController : MonoBehaviour
     [SerializeField] private Animator animatorObj2 => UIManager.Instance.AnimatorObj2;
 
     [SerializeField] private TMP_Text resultDistanceText => UIManager.Instance.ResultDistanceText;
-    [SerializeField] private TMP_Text resultCoinText => UIManager.Instance.ResultCoinText;
+    [SerializeField] private TMP_Text resultXPScoreText => UIManager.Instance.ResultXPScoreText;
     [SerializeField] private TMP_Text resultRankText => UIManager.Instance.ResultRankText;
 
     private int lastRank = -1; // Lưu currentRank frame trước để so sánh
@@ -125,7 +125,7 @@ public class HUDController : MonoBehaviour
 
         // 1. Hiển thị thông số kết quả
         if (resultDistanceText) resultDistanceText.text = $"{distance:F1}m";
-        if (resultCoinText) resultCoinText.text = $"{xpScore}";
+        if (resultXPScoreText) resultXPScoreText.text = $"{xpScore}";
         if (this.resultRankText) this.resultRankText.text = $"{resultRankText}";
 
         // 2. Setup hình ảnh nhân vật (nếu có logic chọn skin)

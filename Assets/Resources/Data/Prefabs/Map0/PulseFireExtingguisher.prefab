@@ -48,16 +48,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   groupPattern: 0
-  duration: 1
-  easeType: 4
-  waveDelayStep: 0.2
-  enableMove: 0
-  moveOffset: {x: 0, y: 1, z: 0}
-  enableRotate: 0
-  rotateAngles: {x: 0, y: 0, z: 90}
+  loopType: 1
+  durationMove: 1
+  durationScale: 1
+  durationRotation: 0.5
+  durationColor: 1
+  durationShake: 1
+  easeType: 33
+  waveDelayStep: 0.15
+  enableMove: 1
+  moveOffset: {x: 0, y: 5, z: 0}
+  enableRotate: 1
+  rotateAngles: {x: 0, y: 0, z: 15}
   continuousSpin: 0
-  enableScale: 1
+  symmetricRotation: 1
+  enableScale: 0
   scaleMultiplier: {x: 1.2, y: 1.2, z: 1.2}
+  enableColor: 0
+  targetColor: {r: 1, g: 0, b: 0, a: 1}
+  enableShake: 0
+  shakeStrength: {x: 0.2, y: 0.2, z: 0}
 --- !u!1001 &492000794305257667
 PrefabInstance:
   m_ObjectHideFlags: 0

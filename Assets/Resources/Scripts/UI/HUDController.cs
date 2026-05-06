@@ -8,15 +8,15 @@ public class HUDController : MonoBehaviour
     public static HUDController Instance;
 
     [Header("In-Game HUD")]
-    [SerializeField] private TMP_Text distanceText => UIManager.Instance.DistanceText;
-    [SerializeField] private TMP_Text coinText => UIManager.Instance.CoinText;
-    [SerializeField] private TMP_Text xpScoreText => UIManager.Instance.XPScoreText;
+    private TMP_Text distanceText => UIManager.Instance.DistanceText;
+    private TMP_Text coinText => UIManager.Instance.CoinText;
+    private TMP_Text xpScoreText => UIManager.Instance.XPScoreText;
 
     [Header("Ranking UI")]
     [Tooltip("Text hiển thị chữ 'TOP 1'")]
-    [SerializeField] private TMP_Text rankTitleText => UIManager.Instance.RankTitleText;
+    private TMP_Text rankTitleText => UIManager.Instance.RankTitleText;
     [Tooltip("Text hiển thị số '01/25'")]
-    [SerializeField] private TMP_Text rankDetailText => UIManager.Instance.RankDetailText;
+    private TMP_Text rankDetailText => UIManager.Instance.RankDetailText;
 
     [Header("Rank Effect Config")]
     [SerializeField] private Color rankUpColor = Color.green; // Màu khi lên hạng (Tốt)
@@ -24,16 +24,15 @@ public class HUDController : MonoBehaviour
     [SerializeField] private float blinkDuration = 0.5f; // Thời gian nháy
 
     [Header("End Game Animation")]
-    [SerializeField] private GameObject resultPanel => UIManager.Instance.ResultPanel;
-    [SerializeField] private GameObject[] stars => UIManager.Instance.Stars;
+     private GameObject resultPanel => UIManager.Instance.ResultPanel;
+    private GameObject[] stars => UIManager.Instance.Stars;
 
-    [SerializeField] private Animator animatorObj1 => UIManager.Instance.AnimatorObj1;
-    [SerializeField] private Animator animatorObj2 => UIManager.Instance.AnimatorObj2;
+    private Animator animatorObj1 => UIManager.Instance.AnimatorObj1;
+    private Animator animatorObj2 => UIManager.Instance.AnimatorObj2;
 
-    [SerializeField] private TMP_Text resultDistanceText => UIManager.Instance.ResultDistanceText;
-    [SerializeField] private TMP_Text resultXPScoreText => UIManager.Instance.ResultXPScoreText;
-    [SerializeField] private TMP_Text resultRankText => UIManager.Instance.ResultRankText;
-
+    private TMP_Text resultDistanceText => UIManager.Instance.ResultDistanceText;
+    private TMP_Text resultXPScoreText => UIManager.Instance.ResultXPScoreText;
+    private TMP_Text resultRankText => UIManager.Instance.ResultRankText;
     private int lastRank = -1; // Lưu currentRank frame trước để so sánh
     private Color originalRankColor; // Lưu màu gốc để trả về
     private Tween rankColorTween;

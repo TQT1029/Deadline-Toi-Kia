@@ -1,0 +1,372 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &8388107436417437576
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6826841921901615705}
+  - component: {fileID: -5643961511966456604}
+  m_Layer: 0
+  m_Name: Group-TableCafe-1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6826841921901615705
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8388107436417437576}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 4780774669937932106}
+  - {fileID: 126800236849435854}
+  - {fileID: 2039108197882439376}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &-5643961511966456604
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8388107436417437576}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f0b8078bcd4963f47a52165951798dc3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ProObstacleEngine.ObstacleMotionControl
+  groupPattern: 1
+  loopType: 1
+  durationMove: 1
+  durationScale: 1
+  durationRotation: 1
+  durationColor: 1
+  durationShake: 1
+  easeType: 4
+  waveDelayStep: 0.2
+  enableMove: 1
+  moveOffset: {x: 0, y: 1, z: 0}
+  enableRotate: 0
+  rotateAngles: {x: 0, y: 0, z: 90}
+  continuousSpin: 0
+  symmetricRotation: 1
+  enableScale: 0
+  scaleMultiplier: {x: 1.2, y: 1.2, z: 1.2}
+  enableColor: 0
+  targetColor: {r: 1, g: 0, b: 0, a: 1}
+  enableShake: 0
+  shakeStrength: {x: 0.2, y: 0.2, z: 0}
+--- !u!1001 &679725902893862832
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 6826841921901615705}
+    m_Modifications:
+    - target: {fileID: 1867685887287843716, guid: 84388c92b9a930747a56a62c0d45b2db, type: 3}
+      propertyPath: m_Name
+      value: TabletCafe
+      objectReference: {fileID: 0}
+    - target: {fileID: 5419631493142755578, guid: 84388c92b9a930747a56a62c0d45b2db, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5419631493142755578, guid: 84388c92b9a930747a56a62c0d45b2db, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5419631493142755578, guid: 84388c92b9a930747a56a62c0d45b2db, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5419631493142755578, guid: 84388c92b9a930747a56a62c0d45b2db, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5419631493142755578, guid: 84388c92b9a930747a56a62c0d45b2db, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5419631493142755578, guid: 84388c92b9a930747a56a62c0d45b2db, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5419631493142755578, guid: 84388c92b9a930747a56a62c0d45b2db, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5419631493142755578, guid: 84388c92b9a930747a56a62c0d45b2db, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5419631493142755578, guid: 84388c92b9a930747a56a62c0d45b2db, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5419631493142755578, guid: 84388c92b9a930747a56a62c0d45b2db, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8967530817866459736, guid: 84388c92b9a930747a56a62c0d45b2db, type: 3}
+      propertyPath: m_UsedByEffector
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1867685887287843716, guid: 84388c92b9a930747a56a62c0d45b2db, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2758570031409959116}
+    - targetCorrespondingSourceObject: {fileID: 1867685887287843716, guid: 84388c92b9a930747a56a62c0d45b2db, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5618734675039040414}
+  m_SourcePrefab: {fileID: 100100000, guid: 84388c92b9a930747a56a62c0d45b2db, type: 3}
+--- !u!1 &1190504393621083188 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1867685887287843716, guid: 84388c92b9a930747a56a62c0d45b2db, type: 3}
+  m_PrefabInstance: {fileID: 679725902893862832}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2758570031409959116
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1190504393621083188}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d1c6d1116aa31a48ad86a15b8c1f184, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ProObstacleEngine.DynamicObstaclePart
+--- !u!251 &5618734675039040414
+PlatformEffector2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1190504393621083188}
+  m_Enabled: 1
+  m_UseColliderMask: 1
+  m_ColliderMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RotationalOffset: 0
+  m_UseOneWay: 1
+  m_UseOneWayGrouping: 0
+  m_SurfaceArc: 175
+  m_UseSideFriction: 0
+  m_UseSideBounce: 0
+  m_SideArc: 1
+--- !u!4 &4780774669937932106 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5419631493142755578, guid: 84388c92b9a930747a56a62c0d45b2db, type: 3}
+  m_PrefabInstance: {fileID: 679725902893862832}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &5400970458287025204
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 6826841921901615705}
+    m_Modifications:
+    - target: {fileID: 1867685887287843716, guid: 84388c92b9a930747a56a62c0d45b2db, type: 3}
+      propertyPath: m_Name
+      value: TabletCafe (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5419631493142755578, guid: 84388c92b9a930747a56a62c0d45b2db, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5419631493142755578, guid: 84388c92b9a930747a56a62c0d45b2db, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 3.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 5419631493142755578, guid: 84388c92b9a930747a56a62c0d45b2db, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5419631493142755578, guid: 84388c92b9a930747a56a62c0d45b2db, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5419631493142755578, guid: 84388c92b9a930747a56a62c0d45b2db, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5419631493142755578, guid: 84388c92b9a930747a56a62c0d45b2db, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5419631493142755578, guid: 84388c92b9a930747a56a62c0d45b2db, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5419631493142755578, guid: 84388c92b9a930747a56a62c0d45b2db, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5419631493142755578, guid: 84388c92b9a930747a56a62c0d45b2db, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5419631493142755578, guid: 84388c92b9a930747a56a62c0d45b2db, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8967530817866459736, guid: 84388c92b9a930747a56a62c0d45b2db, type: 3}
+      propertyPath: m_UsedByEffector
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1867685887287843716, guid: 84388c92b9a930747a56a62c0d45b2db, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5788121975766605007}
+    - targetCorrespondingSourceObject: {fileID: 1867685887287843716, guid: 84388c92b9a930747a56a62c0d45b2db, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5068040812007446892}
+  m_SourcePrefab: {fileID: 100100000, guid: 84388c92b9a930747a56a62c0d45b2db, type: 3}
+--- !u!4 &126800236849435854 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5419631493142755578, guid: 84388c92b9a930747a56a62c0d45b2db, type: 3}
+  m_PrefabInstance: {fileID: 5400970458287025204}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &5989576876780091312 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1867685887287843716, guid: 84388c92b9a930747a56a62c0d45b2db, type: 3}
+  m_PrefabInstance: {fileID: 5400970458287025204}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &5788121975766605007
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5989576876780091312}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d1c6d1116aa31a48ad86a15b8c1f184, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ProObstacleEngine.DynamicObstaclePart
+--- !u!251 &5068040812007446892
+PlatformEffector2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5989576876780091312}
+  m_Enabled: 1
+  m_UseColliderMask: 1
+  m_ColliderMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RotationalOffset: 0
+  m_UseOneWay: 1
+  m_UseOneWayGrouping: 0
+  m_SurfaceArc: 175
+  m_UseSideFriction: 0
+  m_UseSideBounce: 0
+  m_SideArc: 1
+--- !u!1001 &6303412453893316138
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 6826841921901615705}
+    m_Modifications:
+    - target: {fileID: 1867685887287843716, guid: 84388c92b9a930747a56a62c0d45b2db, type: 3}
+      propertyPath: m_Name
+      value: TabletCafe (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5419631493142755578, guid: 84388c92b9a930747a56a62c0d45b2db, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5419631493142755578, guid: 84388c92b9a930747a56a62c0d45b2db, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5419631493142755578, guid: 84388c92b9a930747a56a62c0d45b2db, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5419631493142755578, guid: 84388c92b9a930747a56a62c0d45b2db, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5419631493142755578, guid: 84388c92b9a930747a56a62c0d45b2db, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5419631493142755578, guid: 84388c92b9a930747a56a62c0d45b2db, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5419631493142755578, guid: 84388c92b9a930747a56a62c0d45b2db, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5419631493142755578, guid: 84388c92b9a930747a56a62c0d45b2db, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5419631493142755578, guid: 84388c92b9a930747a56a62c0d45b2db, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5419631493142755578, guid: 84388c92b9a930747a56a62c0d45b2db, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8967530817866459736, guid: 84388c92b9a930747a56a62c0d45b2db, type: 3}
+      propertyPath: m_UsedByEffector
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1867685887287843716, guid: 84388c92b9a930747a56a62c0d45b2db, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1838656066434825703}
+  m_SourcePrefab: {fileID: 100100000, guid: 84388c92b9a930747a56a62c0d45b2db, type: 3}
+--- !u!4 &2039108197882439376 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5419631493142755578, guid: 84388c92b9a930747a56a62c0d45b2db, type: 3}
+  m_PrefabInstance: {fileID: 6303412453893316138}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &5661414309244749230 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1867685887287843716, guid: 84388c92b9a930747a56a62c0d45b2db, type: 3}
+  m_PrefabInstance: {fileID: 6303412453893316138}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1838656066434825703
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5661414309244749230}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d1c6d1116aa31a48ad86a15b8c1f184, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ProObstacleEngine.DynamicObstaclePart

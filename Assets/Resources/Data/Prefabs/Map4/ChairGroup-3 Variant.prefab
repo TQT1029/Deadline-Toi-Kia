@@ -54,7 +54,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2733645396129355240, guid: fc9b5cc04bf82a74ba34e12a3df966c2, type: 3}
       propertyPath: moveOffset.y
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7565231817796032869, guid: fc9b5cc04bf82a74ba34e12a3df966c2, type: 3}
       propertyPath: m_Name

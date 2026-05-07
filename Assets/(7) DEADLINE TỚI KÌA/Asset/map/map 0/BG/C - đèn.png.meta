@@ -147,7 +147,7 @@ TextureImporter:
         width: 1575
         height: 3000
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -160,11 +160,33 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: "C - \u0111\xE8n_1"
+      rect:
+        serializedVersion: 2
+        x: 555
+        y: 2311
+        width: 743
+        height: 689
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 57880af847820dd47be73890e6b89f6e
+      internalID: 78008208
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 9d030e8a8dcb28a45b6457f24aaa661c
     internalID: 0
     vertices: []
     indices: 
@@ -175,6 +197,7 @@ TextureImporter:
       entries: []
     nameFileIdTable:
       "C - \u0111\xE8n_0": -2535332779455934419
+      "C - \u0111\xE8n_1": 78008208
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

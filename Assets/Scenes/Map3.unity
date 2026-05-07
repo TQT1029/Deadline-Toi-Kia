@@ -1517,15 +1517,15 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 27fe3a801f5f9d643bfe4320800c8907, type: 2}
     - target: {fileID: 1177596942847191086, guid: 042b33ddd7cbf0c4abe8fc045a9c5214, type: 3}
       propertyPath: m_LocalScale.x
-      value: 86.99
+      value: 92
       objectReference: {fileID: 0}
     - target: {fileID: 1177596942847191086, guid: 042b33ddd7cbf0c4abe8fc045a9c5214, type: 3}
       propertyPath: m_LocalScale.y
-      value: 25.372082
+      value: 26.833332
       objectReference: {fileID: 0}
     - target: {fileID: 1177596942847191086, guid: 042b33ddd7cbf0c4abe8fc045a9c5214, type: 3}
       propertyPath: m_LocalScale.z
-      value: 2.2653644
+      value: 2.3958333
       objectReference: {fileID: 0}
     - target: {fileID: 1177596942847191086, guid: 042b33ddd7cbf0c4abe8fc045a9c5214, type: 3}
       propertyPath: m_ConstrainProportionsScale
@@ -2555,7 +2555,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3055513440188071968, guid: c96d787ff3b412f4ab1a6092e688cb77, type: 3}
       propertyPath: <maxPitWidth>k__BackingField
-      value: 50
+      value: 45
       objectReference: {fileID: 0}
     - target: {fileID: 3055513440188071968, guid: c96d787ff3b412f4ab1a6092e688cb77, type: 3}
       propertyPath: <minPitWidth>k__BackingField

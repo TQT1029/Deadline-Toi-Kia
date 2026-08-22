@@ -56,17 +56,17 @@ MonoBehaviour:
   durationShake: 1
   easeType: 4
   waveDelayStep: 0.2
-  enableMove: 0
-  moveOffset: {x: 0, y: 1, z: 0}
+  enableMove: 1
+  moveOffset: {x: 5, y: 0, z: 0}
   enableRotate: 0
   rotateAngles: {x: 0, y: 0, z: 90}
   continuousSpin: 0
   symmetricRotation: 1
-  enableScale: 1
+  enableScale: 0
   scaleMultiplier: {x: 1.2, y: 1.2, z: 1.2}
   enableColor: 0
   targetColor: {r: 1, g: 0, b: 0, a: 1}
-  enableShake: 1
+  enableShake: 0
   shakeStrength: {x: 0.1, y: 0.1, z: 0}
 --- !u!1001 &3354705595233245689
 PrefabInstance:

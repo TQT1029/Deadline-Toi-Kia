@@ -146,8 +146,8 @@ TextureImporter:
         y: 0
         width: 1285
         height: 2500
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -160,11 +160,33 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: C - cafe tab_1
+      rect:
+        serializedVersion: 2
+        x: 124
+        y: 470
+        width: 992
+        height: 2030
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 35e6e888922c59842b30bfb149e5f923
+      internalID: -1134504016
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 23fc89e4e9132384391c538ec6f54c85
     internalID: 0
     vertices: []
     indices: 
@@ -175,6 +197,7 @@ TextureImporter:
       entries: []
     nameFileIdTable:
       C - cafe tab_0: -1344072795297528864
+      C - cafe tab_1: -1134504016
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -161,7 +161,7 @@ public class PitObjectGenerator : MonoBehaviour
         float waveFreq = MapGlobalConfig.Instance.waveFrequency;
 
         // Dùng Perlin Noise dựa theo tọa độ X để cầu nhấp nhô mượt mà
-        float waveHeight = RandomUtils.GetPerlinHeight(xPos + noiseOffsetX, waveFreq, minVerticalGap, maxVerticalGap, 1.5f);
+        float waveHeight = RandomUtils.GetPerlinHeight(xPos + noiseOffsetX, waveFreq, minVerticalGap, maxVerticalGap, 0.5f);
 
         Vector3 pos = new Vector3(xPos, groundY + waveHeight, 0);
         Instantiate(data.prefab, pos, Quaternion.identity, miniPlatformObjs);

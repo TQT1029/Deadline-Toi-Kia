@@ -8,11 +8,11 @@ public class GameStatsController : MonoBehaviour
     public float scoreMultiplier = 1f;
 
     [Header("Star Thresholds")]
-    [SerializeField] private int oneStarScore = 0;
-    [SerializeField] private int twoStarScore = 400;
-    [SerializeField] private int threeStarScore = 800;
-    [SerializeField] private int fourStarScore = 1500;
-    [SerializeField] private int fiveStarScore = 2700;
+    private int oneStarScore = 0;
+    private int twoStarScore = 400;
+    private int threeStarScore = 800;
+    private int fourStarScore = 1500;
+    private int fiveStarScore = 2700;
 
     public float resultDistance { get; private set; }
     public int resultCoin { get; private set; }
@@ -80,7 +80,7 @@ public class GameStatsController : MonoBehaviour
 
 
         // GỌI HUD VỚI ĐẦY ĐỦ THAM SỐ
-        HUDController.Instance.ShowResult(starsEarned, resultDistance, resultCoin, resultRank);
+        HUDController.Instance.ShowResult(starsEarned, resultDistance, (int)resultScores, resultRank);
 
         // Dừng game
         Time.timeScale = 0f;

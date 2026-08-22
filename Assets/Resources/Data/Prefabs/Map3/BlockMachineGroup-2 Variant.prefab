@@ -12,6 +12,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: BlockMachineGroup-2 Variant
       objectReference: {fileID: 0}
+    - target: {fileID: 4413253585363001447, guid: 58b9695c42c43c24f8bc2261543c17f7, type: 3}
+      propertyPath: groupPattern
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5107099769617604820, guid: 58b9695c42c43c24f8bc2261543c17f7, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

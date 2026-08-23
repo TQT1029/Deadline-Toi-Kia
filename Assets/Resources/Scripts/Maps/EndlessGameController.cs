@@ -1,25 +1,40 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 [RequireComponent(typeof(BaseGenerator), typeof(PitObjectGenerator))]
 [RequireComponent(typeof(ObstacleGenerator), typeof(ItemGenerator))]
 public class EndlessGameController : MonoBehaviour
 {
-    public static EndlessGameController Instance;
+    public static EndlessGameController Instance { get; private set; }
     private void Awake() => Instance = this;
 
-    [Header("Managers")]
+    public enum PacingPhase
+    {
+        SafeZone,        // 0m - 50m: Duong chay phang lang, khong ho, khong vat can, rai coin khoi dau
+        RhythmFlow,      // 50m - (distanceToBoss - 30m): Dan xen nhip nhang giua chuong ngai vat va san bay
+        PreBossWarmup,   // (distanceToBoss - 30m) - distanceToBoss: Giam dan vat can bao hieu Boss xuat hien
+        BossFight,       // Khi Boss xuat hien: Mat dat lien mach (khong ho sau), tap trung ne dan Boss
+        PostBossVictory  // Sau khi ha Boss: Duong chay quang dang dan thang toi WinPoint
+    }
 
+    [Header("Pacing Phase Monitor")]
+    [SerializeField] private PacingPhase currentPhase = PacingPhase.SafeZone;
+    public PacingPhase CurrentPhase => currentPhase;
+
+    [Header("Master Data Profile")]
+    [SerializeField] private MapProfile mapProfile;
+
+    [Header("Managers")]
     public MapGlobalConfig mapConfig;
     public BaseGenerator baseGenerator;
     public PitObjectGenerator pitObjectGenerator;
     public ObstacleGenerator obstacleGenerator;
     public ItemGenerator itemGenerator;
 
-    [Header("Boss Settings")]
-    [SerializeField] private float distanceToBoss = 250;
-    [SerializeField] private float winPointOffset = 250;
+    [Header("Pacing & Progression Settings")]
+    [SerializeField] private float safeZoneDistance = 50f;
+    [SerializeField] private float distanceToBoss = 250f;
+    [SerializeField] private float winPointOffset = 250f;
     [SerializeField] private float timeToDefeat = 90f;
-    [SerializeField] private float distanceToGenerateObstacle = 50f; // Khoảng cách trước khi spawn vật thể
 
     private float distanceRan;
     private float bossDefeatedDistance;
@@ -30,111 +45,339 @@ public class EndlessGameController : MonoBehaviour
     private bool winPointSpawned;
     [SerializeField] private GameObject winPoint;
 
-    [Header("Settings")]
+    [Header("Generation & Cleanup Settings")]
     public Transform player;
     public float generationDistance = 80f;
-
-    [Header("Cleanup Settings")]
     public float destroyDistanceBehind = 50f;
 
     private float lastEdgeX = 0f;
-
     private float cleanUpTime = 0f;
 
+    private readonly Collider2D[] _overlapResults = new Collider2D[64];
+    private Transform[] _containers;
 
     private void Start()
     {
-        if (player == null) player = ReferenceManager.Instance.PlayerTransform;
-        winPoint.SetActive(false);
-
-        // [OPTIMIZED] Logic an toàn để tắt hố ở đoạn đầu
-        // Sử dụng cờ tạm thời hoặc biến cục bộ để không ghi đè dữ liệu gốc nếu có lỗi
-        int originalPitChance = MapGlobalConfig.Instance.pitChance;
-
-        try
+        if (player == null && ReferenceManager.Instance != null)
         {
-            MapGlobalConfig.Instance.pitChance = 0; // Tắt hố
-            while (lastEdgeX < distanceToGenerateObstacle)
-            {
-                SpawnNextPiece();
-            }
-
-            ClearSafeZone(player.position.x, player.position.x + distanceToGenerateObstacle);
-
+            player = ReferenceManager.Instance.PlayerTransform;
         }
-        finally
-        {
-            // Luôn luôn trả lại giá trị gốc dù có lỗi xảy ra ở SpawnNextPiece
-            MapGlobalConfig.Instance.pitChance = originalPitChance;
-        }
-    }
-    private void Update()
-    {
-        if (winPointSpawned) return;
 
-        // Chỉ spawn khi cần thiết
-        if (player.position.x + generationDistance > lastEdgeX)
+        if (winPoint != null) winPoint.SetActive(false);
+
+        // 1. Khoi tao Data-Driven tu MapProfile neu co (co fallback an toan 100%)
+        InitializeDataProfile();
+
+        // 2. Prewarm cac Object Pools
+        PrewarmPools();
+
+        // 3. Khoi tao Containers de cleanup
+        InitializeContainers();
+
+        // 4. Sinh truoc doan dau an toan (Safe Zone)
+        SetPacingPhase(PacingPhase.SafeZone);
+        while (lastEdgeX < safeZoneDistance)
         {
             SpawnNextPiece();
         }
 
+        ClearSafeZone(player != null ? player.position.x : 0f, safeZoneDistance);
+    }
+
+    private void InitializeDataProfile()
+    {
+        // Uu tien lay MapProfile tu ReferenceManager (khi load scene tu Menu chon Map)
+        if (ReferenceManager.Instance != null && ReferenceManager.Instance.CurrentSelectedMap != null)
+        {
+            mapProfile = ReferenceManager.Instance.CurrentSelectedMap;
+        }
+
+        if (mapProfile != null)
+        {
+            // Chi ghi de neu gia tri trong ScriptableObject hop le (> 0 hoac khac 0)
+            if (mapProfile.safeZoneDistance > 0) safeZoneDistance = mapProfile.safeZoneDistance;
+            if (mapProfile.distanceToBoss > 0) distanceToBoss = mapProfile.distanceToBoss;
+            if (mapProfile.timeToDefeat > 0) timeToDefeat = mapProfile.timeToDefeat;
+            if (mapProfile.winPointOffset > 0) winPointOffset = mapProfile.winPointOffset;
+            if (mapProfile.generationDistance > 0) generationDistance = mapProfile.generationDistance;
+            if (mapProfile.destroyDistanceBehind > 0) destroyDistanceBehind = mapProfile.destroyDistanceBehind;
+
+            if (mapConfig != null)
+            {
+                if (mapProfile.groundY != 0) mapConfig.groundY = mapProfile.groundY;
+                if (mapProfile.pitY != 0) mapConfig.pitY = mapProfile.pitY;
+                if (mapProfile.maxHeightMap > 0) mapConfig.maxHeightMap = mapProfile.maxHeightMap;
+                if (mapProfile.waveFrequency > 0) mapConfig.waveFrequency = mapProfile.waveFrequency;
+                if (mapProfile.pitChance > 0) mapConfig.pitChance = mapProfile.pitChance;
+                mapConfig.hasPit = mapProfile.hasPit;
+            }
+
+            if (baseGenerator != null) baseGenerator.ApplyConfig(mapProfile);
+            if (obstacleGenerator != null) obstacleGenerator.ApplyConfig(mapProfile);
+            if (pitObjectGenerator != null) pitObjectGenerator.ApplyConfig(mapProfile);
+            if (itemGenerator != null) itemGenerator.ApplyConfig(mapProfile);
+
+            Debug.Log($"[EndlessGameController] Initialized with MapProfile: {mapProfile.mapName}, hasPit={mapProfile.hasPit}, pitChance={mapProfile.pitChance}");
+        }
+        else if (mapConfig != null)
+        {
+            // Fallback: đảm bảo hasPit được bật nếu mapConfig có hasPit = true
+            Debug.Log($"[EndlessGameController] Fallback to MapGlobalConfig: hasPit={mapConfig.hasPit}, pitChance={mapConfig.pitChance}");
+        }
+
+        // Dam bao destroyDistanceBehind luon du an toan (toi thieu 40m phia sau camera)
+        destroyDistanceBehind = Mathf.Max(40f, destroyDistanceBehind);
+        generationDistance = Mathf.Max(60f, generationDistance);
+    }
+
+    private void PrewarmPools()
+    {
+        if (baseGenerator != null) baseGenerator.Prewarm(3);
+        if (obstacleGenerator != null) obstacleGenerator.Prewarm(3);
+        if (pitObjectGenerator != null) pitObjectGenerator.Prewarm(3);
+        if (itemGenerator != null) itemGenerator.Prewarm(20);
+    }
+
+    private void InitializeContainers()
+    {
+        _containers = new Transform[] {
+            baseGenerator != null ? baseGenerator.basePlatformObjs : null,
+            pitObjectGenerator != null ? pitObjectGenerator.obstacleObjs : null,
+            pitObjectGenerator != null ? pitObjectGenerator.miniPlatformObjs : null,
+            obstacleGenerator != null ? obstacleGenerator.obstacleObjs : null,
+            obstacleGenerator != null ? obstacleGenerator.miniPlatformObjs : null,
+            itemGenerator != null ? itemGenerator.itemContainer : null
+        };
+    }
+
+    private void Update()
+    {
+        if (winPointSpawned) return;
+
+        if (player == null && ReferenceManager.Instance != null)
+        {
+            player = ReferenceManager.Instance.PlayerTransform;
+        }
+        if (player == null) return;
+
+        // 1. Cap nhat quang duong chay
+        if (GameStatsController.Instance != null)
+        {
+            distanceRan = GameStatsController.Instance.resultDistance;
+        }
+
+        // 2. Sinh map phia truoc theo generationDistance (Cap nhat Pacing theo toa do sinh thuc te lastEdgeX)
+        if (player.position.x + generationDistance > lastEdgeX)
+        {
+            EvaluatePacingPhaseForGeneration(lastEdgeX);
+            SpawnNextPiece();
+        }
+
+        // 3. Don dep vat the phia sau dinh ky (0.25s / lan)
         if (Time.time > cleanUpTime)
         {
             CleanupOldObjects();
             cleanUpTime = Time.time + 0.25f;
         }
 
-        distanceRan = GameStatsController.Instance.resultDistance;
+        // 4. Xu ly Boss Fight
         HandleBossSpawn();
         HandleBossFight();
     }
 
-    //============================ Map Generation Core ============================//
+    // ============================ Pacing State Machine ============================ //
+
+    private void EvaluatePacingPhaseForGeneration(float generationX)
+    {
+        if (bossDefeated)
+        {
+            if (currentPhase != PacingPhase.PostBossVictory)
+                SetPacingPhase(PacingPhase.PostBossVictory);
+        }
+        else if (bossSpawned)
+        {
+            if (currentPhase != PacingPhase.BossFight)
+                SetPacingPhase(PacingPhase.BossFight);
+        }
+        else if (generationX >= distanceToBoss - 50f)
+        {
+            if (currentPhase != PacingPhase.PreBossWarmup)
+                SetPacingPhase(PacingPhase.PreBossWarmup);
+        }
+        else if (generationX >= safeZoneDistance)
+        {
+            if (currentPhase != PacingPhase.RhythmFlow)
+                SetPacingPhase(PacingPhase.RhythmFlow);
+        }
+        else
+        {
+            if (currentPhase != PacingPhase.SafeZone)
+                SetPacingPhase(PacingPhase.SafeZone);
+        }
+    }
+
+    private void SetPacingPhase(PacingPhase newPhase)
+    {
+        currentPhase = newPhase;
+
+        bool mapHasPitConfig = (mapProfile != null) ? mapProfile.hasPit : (mapConfig != null && mapConfig.hasPit);
+
+        switch (newPhase)
+        {
+            case PacingPhase.SafeZone:
+                if (mapConfig != null) mapConfig.hasPit = false;
+                if (baseGenerator != null) baseGenerator.PitChanceMultiplier = 0f;
+                if (obstacleGenerator != null)
+                {
+                    obstacleGenerator.IsGenerationEnabled = false;
+                    obstacleGenerator.DensityMultiplier = 0f;
+                }
+                if (pitObjectGenerator != null)
+                {
+                    pitObjectGenerator.IsGenerationEnabled = false;
+                    pitObjectGenerator.DensityMultiplier = 0f;
+                }
+                if (itemGenerator != null)
+                {
+                    itemGenerator.IsGenerationEnabled = true;
+                    itemGenerator.DensityMultiplier = 1.0f;
+                }
+                break;
+
+            case PacingPhase.RhythmFlow:
+                if (mapConfig != null) mapConfig.hasPit = mapHasPitConfig;
+                if (baseGenerator != null) baseGenerator.PitChanceMultiplier = 1.0f;
+                if (obstacleGenerator != null)
+                {
+                    obstacleGenerator.IsGenerationEnabled = true;
+                    obstacleGenerator.DensityMultiplier = 1.0f;
+                }
+                if (pitObjectGenerator != null)
+                {
+                    pitObjectGenerator.IsGenerationEnabled = true;
+                    pitObjectGenerator.DensityMultiplier = 1.0f;
+                }
+                if (itemGenerator != null)
+                {
+                    itemGenerator.IsGenerationEnabled = true;
+                    itemGenerator.DensityMultiplier = 1.0f;
+                }
+                break;
+
+            case PacingPhase.PreBossWarmup:
+                if (mapConfig != null) mapConfig.hasPit = mapHasPitConfig;
+                if (baseGenerator != null) baseGenerator.PitChanceMultiplier = 0.5f;
+                if (obstacleGenerator != null)
+                {
+                    obstacleGenerator.IsGenerationEnabled = true;
+                    obstacleGenerator.DensityMultiplier = 0.5f;
+                }
+                if (pitObjectGenerator != null)
+                {
+                    pitObjectGenerator.IsGenerationEnabled = true;
+                    pitObjectGenerator.DensityMultiplier = 0.5f;
+                }
+                if (itemGenerator != null)
+                {
+                    itemGenerator.IsGenerationEnabled = true;
+                    itemGenerator.DensityMultiplier = 0.8f;
+                }
+                break;
+
+            case PacingPhase.BossFight:
+                // [USER REQUIREMENT]: Vẫn BẬT hố, bẫy và sàn bay nhưng giảm mật độ hợp lý (60%)
+                if (mapConfig != null) mapConfig.hasPit = mapHasPitConfig;
+                if (baseGenerator != null) baseGenerator.PitChanceMultiplier = 0.6f;
+                if (obstacleGenerator != null)
+                {
+                    obstacleGenerator.IsGenerationEnabled = true;
+                    obstacleGenerator.DensityMultiplier = 0.6f;
+                }
+                if (pitObjectGenerator != null)
+                {
+                    pitObjectGenerator.IsGenerationEnabled = true;
+                    pitObjectGenerator.DensityMultiplier = 0.6f;
+                }
+                if (itemGenerator != null)
+                {
+                    itemGenerator.IsGenerationEnabled = true;
+                    itemGenerator.DensityMultiplier = 0.4f;
+                }
+                break;
+
+            case PacingPhase.PostBossVictory:
+                if (mapConfig != null) mapConfig.hasPit = false;
+                if (baseGenerator != null) baseGenerator.PitChanceMultiplier = 0f;
+                if (obstacleGenerator != null)
+                {
+                    obstacleGenerator.IsGenerationEnabled = true;
+                    obstacleGenerator.DensityMultiplier = 0.2f;
+                }
+                if (pitObjectGenerator != null)
+                {
+                    pitObjectGenerator.IsGenerationEnabled = false;
+                    pitObjectGenerator.DensityMultiplier = 0f;
+                }
+                if (itemGenerator != null)
+                {
+                    itemGenerator.IsGenerationEnabled = true;
+                    itemGenerator.DensityMultiplier = 1.0f;
+                }
+                break;
+        }
+    }
+
+    // ============================ Map Generation Core ============================ //
 
     private void SpawnNextPiece(float safeDistance = 0f)
     {
+        if (baseGenerator == null) return;
+
         var result = baseGenerator.SpawnNextSegment(lastEdgeX);
         lastEdgeX = result.endX;
 
-        // Bỏ qua bước sinh vật cản và item nếu đoạn map vừa tạo nằm trong vùng safe zone
         if (result.startX < safeDistance) return;
 
         if (result.type == BaseGenerator.SegmentType.Pit)
         {
-            pitObjectGenerator.GenerateObjectsInPit(result.startX, result.endX);
+            if (pitObjectGenerator != null)
+                pitObjectGenerator.GenerateObjectsInPit(result.startX, result.endX);
         }
         else
         {
-            obstacleGenerator.GenerateObstaclesOnGround(result.startX, result.endX);
+            if (obstacleGenerator != null)
+                obstacleGenerator.GenerateObstaclesOnGround(result.startX, result.endX);
         }
 
         Physics2D.SyncTransforms();
-        itemGenerator.GenerateItems(result.startX, result.endX);
+
+        if (itemGenerator != null)
+        {
+            itemGenerator.GenerateItems(result.startX, result.endX);
+        }
     }
 
     private void ClearSafeZone(float startX, float endX)
     {
-        // Ép Unity cập nhật Collider cho các vật thể vừa Instantiate xong
         Physics2D.SyncTransforms();
 
         float width = endX - startX;
-        float height = 40f; // Chiều cao box đủ để bao phủ từ đáy hố lên tận sàn bay cao nhất
+        float height = 40f;
 
-        Vector2 center = new Vector2(startX + width / 2f, MapGlobalConfig.Instance.groundY + 10f);
+        Vector2 center = new Vector2(startX + width / 2f, (mapConfig != null ? mapConfig.groundY : -5f) + 10f);
         Vector2 size = new Vector2(width, height);
 
-        // Quét toàn bộ collider nằm trong vùng an toàn
-        Collider2D[] hits = Physics2D.OverlapBoxAll(center, size, 0f);
+        int hitCount = Physics2D.OverlapBoxNonAlloc(center, size, 0f, _overlapResults);
 
-        foreach (Collider2D hit in hits)
+        for (int i = 0; i < hitCount; i++)
         {
-            // Kiểm tra xem collider này có thuộc về Obstacle, Item, hay MiniPlatform không
-            // Hàm GetRootInContainer giúp lấy ra chính xác Prefab Root (tránh xóa nhầm part con)
-            Transform targetToDestroy = GetRootInContainer(hit.transform);
+            Collider2D hit = _overlapResults[i];
+            if (hit == null) continue;
 
-            if (targetToDestroy != null)
+            Transform targetToRecycle = GetRootInContainer(hit.transform);
+            if (targetToRecycle != null)
             {
-                Destroy(targetToDestroy.gameObject);
+                GameObjectPool.Return(targetToRecycle.gameObject);
             }
         }
     }
@@ -143,34 +386,31 @@ public class EndlessGameController : MonoBehaviour
     {
         Transform current = child;
 
-        // Truy ngược lên cây gia phả để tìm xem nó có nằm trong các Container rác không
-        while (current.parent != null)
+        while (current != null && current.parent != null)
         {
-            if (current.parent == pitObjectGenerator.obstacleObjs ||
-                current.parent == pitObjectGenerator.miniPlatformObjs ||
-                current.parent == obstacleGenerator.obstacleObjs ||
-                current.parent == obstacleGenerator.miniPlatformObjs ||
-                current.parent == itemGenerator.itemContainer)
+            if ((pitObjectGenerator != null && (current.parent == pitObjectGenerator.obstacleObjs || current.parent == pitObjectGenerator.miniPlatformObjs)) ||
+                (obstacleGenerator != null && (current.parent == obstacleGenerator.obstacleObjs || current.parent == obstacleGenerator.miniPlatformObjs)) ||
+                (itemGenerator != null && current.parent == itemGenerator.itemContainer))
             {
-                // Nếu cha của nó là Container, thì chính nó là Prefab gốc cần xóa
                 return current;
             }
             current = current.parent;
         }
 
-        // Nếu không thuộc các container trên (ví dụ như Ground, Player, Background), trả về null để tha mạng
         return null;
     }
-    //============================ Boss Logic ============================//
+
+    // ============================ Boss Logic ============================ //
 
     private void HandleBossSpawn()
     {
         if (bossSpawned || bossDefeated) return;
         if (distanceRan >= distanceToBoss)
         {
-            BossManager.Instance.StartBossFight();
+            if (BossManager.Instance != null) BossManager.Instance.StartBossFight();
             bossSpawned = true;
             startBossTime = Time.time;
+            SetPacingPhase(PacingPhase.BossFight);
         }
     }
 
@@ -180,10 +420,11 @@ public class EndlessGameController : MonoBehaviour
 
         if (Time.time - startBossTime >= timeToDefeat)
         {
-            BossManager.Instance.StopFight();
+            if (BossManager.Instance != null) BossManager.Instance.StopFight();
             bossDefeated = true;
             bossSpawned = false;
             bossDefeatedDistance = distanceRan;
+            SetPacingPhase(PacingPhase.PostBossVictory);
             SummonWinPoint();
         }
     }
@@ -192,7 +433,7 @@ public class EndlessGameController : MonoBehaviour
     {
         if (winPoint == null || winPointSpawned) return;
 
-        mapConfig.hasPit = false;
+        if (mapConfig != null) mapConfig.hasPit = false;
         Physics2D.SyncTransforms();
         SpawnNextPiece();
 
@@ -204,54 +445,65 @@ public class EndlessGameController : MonoBehaviour
             winXStart -= 10f;
         }
 
-
-
         winPoint.transform.position = new Vector2(winXStart, 0f);
         winPoint.SetActive(true);
         winPointSpawned = true;
     }
 
+    private static int _platformLayerMask = -1;
+    private static int PlatformLayerMask
+    {
+        get
+        {
+            if (_platformLayerMask == -1) _platformLayerMask = LayerMask.GetMask("Platform");
+            return _platformLayerMask;
+        }
+    }
 
-    //============================ Helper ============================//
     private bool CheckWinPointValid(float startX)
     {
-        float middleX = startX + 15;
-        float endX = startX + 30;
+        float middleX = startX + 15f;
+        float endX = startX + 30f;
         float distanceRays = 30f;
 
-        RaycastHit2D hit_Start = Physics2D.Raycast(new Vector2(startX, 10f), Vector2.down, distanceRays, LayerMask.GetMask("Platform"));
-        RaycastHit2D hit_Middle = Physics2D.Raycast(new Vector2(middleX, 10f), Vector2.down, distanceRays, LayerMask.GetMask("Platform"));
-        RaycastHit2D hit_End = Physics2D.Raycast(new Vector2(endX, 10f), Vector2.down, distanceRays, LayerMask.GetMask("Platform"));
+        RaycastHit2D hit_Start = Physics2D.Raycast(new Vector2(startX, 10f), Vector2.down, distanceRays, PlatformLayerMask);
+        RaycastHit2D hit_Middle = Physics2D.Raycast(new Vector2(middleX, 10f), Vector2.down, distanceRays, PlatformLayerMask);
+        RaycastHit2D hit_End = Physics2D.Raycast(new Vector2(endX, 10f), Vector2.down, distanceRays, PlatformLayerMask);
 
         return hit_Start && hit_Middle && hit_End;
     }
 
     private void CleanupOldObjects()
     {
-        // Gom mảng vào local để loop cho gọn
-        Transform[] containers = {
-            baseGenerator.basePlatformObjs,
-            pitObjectGenerator.obstacleObjs,
-            pitObjectGenerator.miniPlatformObjs,
-            obstacleGenerator.obstacleObjs,
-            obstacleGenerator.miniPlatformObjs,
-            itemGenerator.itemContainer
-        };
+        if (_containers == null) InitializeContainers();
+
+        if (player == null)
+        {
+            if (ReferenceManager.Instance != null) player = ReferenceManager.Instance.PlayerTransform;
+            if (player == null) return;
+        }
 
         float killX = player.position.x - destroyDistanceBehind;
 
-        foreach (Transform container in containers)
+        for (int c = 0; c < _containers.Length; c++)
         {
+            Transform container = _containers[c];
             if (container == null) continue;
-            // Loop ngược là đúng chuẩn khi Destroy
+
             for (int i = container.childCount - 1; i >= 0; i--)
             {
                 Transform child = container.GetChild(i);
-                if (child.position.x < killX)
+                // Chi recycle nhung object da thuc su nam sau killX (va dang active)
+                if (child != null && child.gameObject.activeSelf && child.position.x < killX)
                 {
-                    Destroy(child.gameObject);
+                    GameObjectPool.Return(child.gameObject);
                 }
             }
         }
+    }
+
+    private void OnDestroy()
+    {
+        GameObjectPool.Clear();
     }
 }

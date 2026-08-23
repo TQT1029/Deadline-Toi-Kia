@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using DG.Tweening; // Bắt buộc
@@ -7,34 +7,46 @@ public class HUDController : MonoBehaviour
 {
     public static HUDController Instance;
 
-    [Header("In-Game HUD")]
-    private TMP_Text distanceText => UIManager.Instance.DistanceText;
-    private TMP_Text coinText => UIManager.Instance.CoinText;
-    private TMP_Text xpScoreText => UIManager.Instance.XPScoreText;
+    [Header("In-Game HUD Direct References (Optional)")]
+    [SerializeField] private TMP_Text serializedDistanceText;
+    [SerializeField] private TMP_Text serializedCoinText;
+    [SerializeField] private TMP_Text serializedXpScoreText;
+    [SerializeField] private TMP_Text serializedRankTitleText;
+    [SerializeField] private TMP_Text serializedRankDetailText;
 
-    [Header("Ranking UI")]
-    [Tooltip("Text hiển thị chữ 'TOP 1'")]
-    private TMP_Text rankTitleText => UIManager.Instance.RankTitleText;
-    [Tooltip("Text hiển thị số '01/25'")]
-    private TMP_Text rankDetailText => UIManager.Instance.RankDetailText;
+    private TMP_Text distanceText => serializedDistanceText != null ? serializedDistanceText : (UIManager.Instance != null ? UIManager.Instance.DistanceText : null);
+    private TMP_Text coinText => serializedCoinText != null ? serializedCoinText : (UIManager.Instance != null ? UIManager.Instance.CoinText : null);
+    private TMP_Text xpScoreText => serializedXpScoreText != null ? serializedXpScoreText : (UIManager.Instance != null ? UIManager.Instance.XPScoreText : null);
+    private TMP_Text rankTitleText => serializedRankTitleText != null ? serializedRankTitleText : (UIManager.Instance != null ? UIManager.Instance.RankTitleText : null);
+    private TMP_Text rankDetailText => serializedRankDetailText != null ? serializedRankDetailText : (UIManager.Instance != null ? UIManager.Instance.RankDetailText : null);
 
     [Header("Rank Effect Config")]
-    [SerializeField] private Color rankUpColor = Color.green; // Màu khi lên hạng (Tốt)
-    [SerializeField] private Color rankDownColor = Color.red; // Màu khi tụt hạng (Tệ)
-    [SerializeField] private float blinkDuration = 0.5f; // Thời gian nháy
+    [SerializeField] private Color rankUpColor = Color.green;
+    [SerializeField] private Color rankDownColor = Color.red;
+    [SerializeField] private float blinkDuration = 0.5f;
 
-    [Header("End Game Animation")]
-     private GameObject resultPanel => UIManager.Instance.ResultPanel;
-    private GameObject[] stars => UIManager.Instance.Stars;
+    [Header("End Game Animation Direct References (Optional)")]
+    [SerializeField] private GameObject serializedResultPanel;
+    [SerializeField] private GameObject[] serializedStars;
+    [SerializeField] private Animator serializedAnimatorObj1;
+    [SerializeField] private Animator serializedAnimatorObj2;
+    [SerializeField] private TMP_Text serializedResultDistanceText;
+    [SerializeField] private TMP_Text serializedResultXPScoreText;
+    [SerializeField] private TMP_Text serializedResultRankText;
 
-    private Animator animatorObj1 => UIManager.Instance.AnimatorObj1;
-    private Animator animatorObj2 => UIManager.Instance.AnimatorObj2;
+    private GameObject resultPanel => serializedResultPanel != null ? serializedResultPanel : (UIManager.Instance != null ? UIManager.Instance.ResultPanel : null);
+    private GameObject[] stars => (serializedStars != null && serializedStars.Length > 0) ? serializedStars : (UIManager.Instance != null ? UIManager.Instance.Stars : null);
+    private Animator animatorObj1 => serializedAnimatorObj1 != null ? serializedAnimatorObj1 : (UIManager.Instance != null ? UIManager.Instance.AnimatorObj1 : null);
+    private Animator animatorObj2 => serializedAnimatorObj2 != null ? serializedAnimatorObj2 : (UIManager.Instance != null ? UIManager.Instance.AnimatorObj2 : null);
+    private TMP_Text resultDistanceText => serializedResultDistanceText != null ? serializedResultDistanceText : (UIManager.Instance != null ? UIManager.Instance.ResultDistanceText : null);
+    private TMP_Text resultXPScoreText => serializedResultXPScoreText != null ? serializedResultXPScoreText : (UIManager.Instance != null ? UIManager.Instance.ResultXPScoreText : null);
+    private TMP_Text resultRankText => serializedResultRankText != null ? serializedResultRankText : (UIManager.Instance != null ? UIManager.Instance.ResultRankText : null);
 
-    private TMP_Text resultDistanceText => UIManager.Instance.ResultDistanceText;
-    private TMP_Text resultXPScoreText => UIManager.Instance.ResultXPScoreText;
-    private TMP_Text resultRankText => UIManager.Instance.ResultRankText;
-    private int lastRank = -1; // Lưu currentRank frame trước để so sánh
-    private Color originalRankColor; // Lưu màu gốc để trả về
+    private int lastRank = -1;
+    private int lastTotalRacers = -1;
+    private float lastDistance = -1f;
+    private int lastCoin = -1;
+    private Color originalRankColor = Color.white;
     private Tween rankColorTween;
     private Tween rankScaleTween;
 
@@ -46,73 +58,117 @@ public class HUDController : MonoBehaviour
             return;
         }
         Instance = this;
+        AutoResolveLocalReferences();
     }
+
+    private void AutoResolveLocalReferences()
+    {
+        if (serializedDistanceText == null) serializedDistanceText = transform.Find("DistanceText")?.GetComponent<TMP_Text>();
+        if (serializedCoinText == null) serializedCoinText = transform.Find("CoinText")?.GetComponent<TMP_Text>();
+        if (serializedXpScoreText == null) serializedXpScoreText = transform.Find("XPScoreText")?.GetComponent<TMP_Text>();
+        if (serializedRankTitleText == null) serializedRankTitleText = transform.Find("RankingTitleText")?.GetComponent<TMP_Text>();
+        if (serializedRankDetailText == null) serializedRankDetailText = transform.Find("RankingDetailText")?.GetComponent<TMP_Text>();
+        if (serializedResultPanel == null) serializedResultPanel = transform.Find("ResultPanel")?.gameObject;
+    }
+
+    private void OnEnable()
+    {
+        GameEvents.OnStatsUpdated += HandleStatsUpdated;
+        GameEvents.OnRankingUpdated += HandleRankingUpdated;
+        GameEvents.OnLevelFinished += HandleLevelFinished;
+    }
+
+    private void OnDisable()
+    {
+        GameEvents.OnStatsUpdated -= HandleStatsUpdated;
+        GameEvents.OnRankingUpdated -= HandleRankingUpdated;
+        GameEvents.OnLevelFinished -= HandleLevelFinished;
+    }
+
     private void Start()
     {
-        // Lưu màu gốc ban đầu của Text Rank
         if (rankTitleText != null) originalRankColor = rankTitleText.color;
     }
+
+    private void HandleStatsUpdated(float distance, int coin)
+    {
+        UpdateHUD(distance, coin);
+    }
+
+    private void HandleRankingUpdated(int currentRank, int totalRunner)
+    {
+        ApplyRankingUI(currentRank, totalRunner);
+    }
+
+    private void HandleLevelFinished(int starCount, float distance, int xpScore, int resultRank)
+    {
+        ShowResult(starCount, distance, xpScore, resultRank);
+    }
+
     private void Update()
     {
-        // Cập nhật Rank liên tục mỗi khung hình
         UpdateRankingUI();
+    }
+
+    private void ApplyRankingUI(int currentRank, int totalRunner)
+    {
+        // Cập nhật Text chỉ khi có thay đổi (Dirty check để tránh string allocations)
+        if (currentRank != lastRank || totalRunner != lastTotalRacers)
+        {
+            if (rankTitleText != null) rankTitleText.text = $"TOP {currentRank}";
+            if (rankDetailText != null) rankDetailText.text = $"{currentRank:00}/{totalRunner:00}";
+
+            // Xử lý hiệu ứng Rank change
+            if (lastRank != -1 && currentRank != lastRank)
+            {
+                if (currentRank < lastRank)
+                {
+                    PlayRankChangeEffect(rankUpColor);
+                }
+                else
+                {
+                    PlayRankChangeEffect(rankDownColor);
+                }
+            }
+
+            lastRank = currentRank;
+            lastTotalRacers = totalRunner;
+        }
     }
 
     private void UpdateRankingUI()
     {
-        // Nếu không có RankingManager thì thôi
         if (RankingManager.Instance == null) return;
-
-        int currentRank = RankingManager.Instance.CurrentRank;
-        int totalRunner = RankingManager.Instance.TotalRacers;
-
-        // 1. Cập nhật Text
-        if (rankTitleText != null) rankTitleText.text = $"TOP {currentRank}";
-        if (rankDetailText != null) rankDetailText.text = $"{currentRank:00}/{totalRunner:00}";
-
-        // 2. XỬ LÝ HIỆU ỨNG THAY ĐỔI RANK
-        // Chỉ chạy nếu currentRank thay đổi và không phải lần đầu tiên (lastRank != -1)
-        if (lastRank != -1 && currentRank != lastRank)
-        {
-            if (currentRank < lastRank)
-            {
-                // Rank số nhỏ hơn nghĩa là thứ hạng cao hơn (VD: 2 -> 1) => RANK UP (Tốt)
-                PlayRankChangeEffect(rankUpColor);
-            }
-            else
-            {
-                // Rank số lớn hơn nghĩa là tụt hạng (VD: 1 -> 3) => RANK DOWN (Tệ)
-                PlayRankChangeEffect(rankDownColor);
-            }
-        }
-
-        // Cập nhật lại lastRank
-        lastRank = currentRank;
+        ApplyRankingUI(RankingManager.Instance.CurrentRank, RankingManager.Instance.TotalRacers);
     }
 
     private void PlayRankChangeEffect(Color targetColor)
     {
         if (rankTitleText == null) return;
 
-        // Kill các tween cũ đang chạy dở để tránh xung đột
         rankColorTween?.Kill();
         rankScaleTween?.Kill();
 
-        // Đảm bảo scale về gốc trước khi bump
         rankTitleText.transform.localScale = Vector3.one;
-        rankTitleText.color = targetColor; // Đổi màu ngay lập tức để người chơi thấy rõ
+        rankTitleText.color = targetColor;
 
-        // Hiệu ứng Scale: Phóng to lên 1.5 lần rồi thu về 1 (PunchScale)
         rankScaleTween = rankTitleText.transform.DOPunchScale(Vector3.one * 0.5f, blinkDuration, 10, 1);
-
-        // Hiệu ứng Màu: Từ từ chuyển lại về màu trắng gốc
-        rankColorTween = rankTitleText.DOColor(originalRankColor, blinkDuration)
-            .SetDelay(0.2f); // Delay một chút để giữ màu xanh/đỏ lâu hơn xíu
+        rankColorTween = rankTitleText.DOColor(originalRankColor, blinkDuration).SetDelay(0.2f);
     }
-    public void UpdateHUD(float distance, int learnScore)
+
+    public void UpdateHUD(float distance, int coin)
     {
-        if (distanceText) distanceText.text = $"{distance:F1}m";
-        if (coinText) coinText.text = $"{learnScore}";
+        if (Mathf.Abs(distance - lastDistance) >= 0.1f)
+        {
+            lastDistance = distance;
+            if (distanceText != null) distanceText.text = $"{distance:F1}m";
+        }
+
+        if (coin != lastCoin)
+        {
+            lastCoin = coin;
+            if (coinText != null) coinText.text = $"{coin}";
+        }
     }
 
     // --- SỬA HÀM NÀY ĐỂ NHẬN ĐỦ THAM SỐ VÀ CHẠY ANIMATION ---
@@ -128,7 +184,7 @@ public class HUDController : MonoBehaviour
         if (this.resultRankText) this.resultRankText.text = $"{resultRankText}";
 
         // 2. Setup hình ảnh nhân vật (nếu có logic chọn skin)
-        if (ReferenceManager.Instance.CurrentSelectedProfile != null)
+        if (ReferenceManager.Instance != null && ReferenceManager.Instance.CurrentSelectedProfile != null)
         {
             if (animatorObj1)
             {
@@ -146,11 +202,16 @@ public class HUDController : MonoBehaviour
 
     private void PlayStarAnimation(int starCount)
     {
+        if (stars == null || stars.Length == 0) return;
+
         // Reset trạng thái các sao trước khi chạy animation
         foreach (var star in stars)
         {
-            star.SetActive(false);
-            star.transform.localScale = Vector3.zero; // Thu nhỏ về 0
+            if (star != null)
+            {
+                star.SetActive(false);
+                star.transform.localScale = Vector3.zero; // Thu nhỏ về 0
+            }
         }
 
         // Tạo Sequence để chạy hiệu ứng tuần tự
@@ -181,5 +242,11 @@ public class HUDController : MonoBehaviour
             // Bước 3: Nghỉ một chút trước khi đập sao tiếp theo
             seq.AppendInterval(0.2f);
         }
+    }
+
+    private void OnDestroy()
+    {
+        rankColorTween?.Kill();
+        rankScaleTween?.Kill();
     }
 }

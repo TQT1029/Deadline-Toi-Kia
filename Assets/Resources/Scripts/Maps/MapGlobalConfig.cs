@@ -13,9 +13,20 @@ public class MapGlobalConfig : MonoBehaviour
 
     [Header("Global Logic Settings")]
     [Range(0, 100)] public int pitChance = 30; // Tỉ lệ xuất hiện hố
-    public bool hasPit = false;                 // Có cho phép tạo hố không
+    public bool hasPit = true;                  // Có cho phép tạo hố không
 
     [Header("Global Noise Settings")]
     [Tooltip("Càng nhỏ càng thoải, càng lớn càng dóc.")]
     public float waveFrequency = 0.4f;
+
+    public void ApplyConfig(MapProfile profile)
+    {
+        if (profile == null) return;
+        groundY = profile.groundY;
+        pitY = profile.pitY;
+        maxHeightMap = profile.maxHeightMap;
+        hasPit = profile.hasPit;
+        pitChance = profile.pitChance;
+        waveFrequency = profile.waveFrequency;
+    }
 }

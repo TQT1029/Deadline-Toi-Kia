@@ -60,7 +60,7 @@ MonoBehaviour:
   pitY: -10
   maxHeightMap: 15
   pitChance: 30
-  hasPit: 0
+  hasPit: 1
   waveFrequency: 0.4
 --- !u!114 &7330591790280183347
 MonoBehaviour:

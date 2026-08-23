@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 public class PlayerController : BaseRunner
 {
@@ -14,6 +14,18 @@ public class PlayerController : BaseRunner
     private bool isJumping;
     private float jumpTimeCounter;
 
+    private void OnEnable()
+    {
+        InputManager.OnJumpDown += HandleJumpDown;
+        InputManager.OnJumpUp += HandleJumpUp;
+    }
+
+    private void OnDisable()
+    {
+        InputManager.OnJumpDown -= HandleJumpDown;
+        InputManager.OnJumpUp -= HandleJumpUp;
+    }
+
     protected override void Start()
     {
         SetupCharacter();
@@ -28,13 +40,17 @@ public class PlayerController : BaseRunner
         var profile = ReferenceManager.Instance.CurrentSelectedProfile;
         if (_animator != null && profile.inGameAnimator != null)
             _animator.runtimeAnimatorController = profile.inGameAnimator;
+
+        GameEvents.TriggerCharacterSelected(profile);
+
+        // Fallback UI nếu có UIManager
         if (UIManager.Instance != null && UIManager.Instance.MainInfo != null)
             UIManager.Instance.MainInfo.sprite = profile.mainInfo;
     }
 
     protected override void Move()
     {
-        if (isControlLocked) return; // Nếu bị khóa thì không tính toán tốc độ chạy tới
+        if (isControlLocked) return;
 
         float distanceBonus = (GameStatsController.Instance != null) ? GameStatsController.Instance.resultDistance / 150f : 0f;
         targetRunSpeed = baseRunSpeed + distanceBonus;
@@ -48,53 +64,52 @@ public class PlayerController : BaseRunner
     {
         base.Update();
         if (isControlLocked) return;
-        HandleInput();
+
+        // Xử lý giữ phím nhảy (Variable Jump Height)
+        if (isJumping && InputManager.IsJumpHolding)
+        {
+            if (jumpTimeCounter > 0f)
+            {
+                _rb.AddForce(Vector2.up * jumpHoldForce, ForceMode2D.Force);
+                jumpTimeCounter -= Time.deltaTime;
+            }
+            else
+            {
+                isJumping = false;
+            }
+        }
     }
 
-    protected override void OnRespawn()
+    private void HandleJumpDown()
     {
-        // Reset trạng thái Input nhảy
-        isJumping = false;
-        jumpTimeCounter = 0;
+        if (isControlLocked) return;
 
-        // Gọi base để reset vận tốc và trừ tốc độ chạy
-        base.OnRespawn();
-    }
-
-    private void HandleInput()
-    {
-        // Input Nhảy (Click/Touch)
-        bool isPressDown = Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space);
-
-        if (isPressDown && isGrounded)
+        if (isGrounded)
         {
             Jump();
             isJumping = true;
             jumpTimeCounter = maxJumpHoldTime;
         }
+    }
 
-        bool isHolding = Input.GetMouseButton(0) || Input.GetKey(KeyCode.Space);
-        if (isHolding && isJumping)
-        {
-            if (jumpTimeCounter > 0)
-            {
-                _rb.AddForce(Vector2.up * jumpHoldForce, ForceMode2D.Force);
-                jumpTimeCounter -= Time.deltaTime;
-            }
-            else isJumping = false;
-        }
+    private void HandleJumpUp()
+    {
+        if (!isJumping) return;
 
-        bool isPressUp = Input.GetMouseButtonUp(0) || Input.GetKeyUp(KeyCode.Space);
-        if (isPressUp)
-        {
-            isJumping = false;
+        isJumping = false;
 #if UNITY_6000_0_OR_NEWER
-            if (_rb.linearVelocity.y > 0)
-                _rb.linearVelocity = new Vector2(_rb.linearVelocity.x, _rb.linearVelocity.y * jumpCutMultiplier);
+        if (_rb != null && _rb.linearVelocity.y > 0)
+            _rb.linearVelocity = new Vector2(_rb.linearVelocity.x, _rb.linearVelocity.y * jumpCutMultiplier);
 #else
-            if (_rb.velocity.y > 0)
-                _rb.velocity = new Vector2(_rb.velocity.x, _rb.velocity.y * jumpCutMultiplier);
+        if (_rb != null && _rb.velocity.y > 0)
+            _rb.velocity = new Vector2(_rb.velocity.x, _rb.velocity.y * jumpCutMultiplier);
 #endif
-        }
+    }
+
+    protected override void OnRespawn()
+    {
+        isJumping = false;
+        jumpTimeCounter = 0f;
+        base.OnRespawn();
     }
 }

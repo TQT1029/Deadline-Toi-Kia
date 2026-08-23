@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -54,7 +54,22 @@ public class ReferenceManager : Singleton<ReferenceManager>
         
 
         Debug.Log($"[ReferenceManager] Refreshed. Player found: {PlayerTransform != null}");
-        Debug.Log($"[ReferenceManager] Refreshed. Runner found: {Racers.Length}");
+        Debug.Log($"[ReferenceManager] Refreshed. Runner found: {Racers?.Length ?? 0}");
     }
 
+    public bool SelectCharacter(int index)
+    {
+        if (AllCharacters == null || index < 0 || index >= AllCharacters.Length) return false;
+        CurrentSelectedProfile = AllCharacters[index];
+        GameEvents.TriggerCharacterSelected(CurrentSelectedProfile);
+        return true;
+    }
+
+    public bool SelectMap(int index)
+    {
+        if (AllMaps == null || index < 0 || index >= AllMaps.Length) return false;
+        CurrentSelectedMap = AllMaps[index];
+        GameEvents.TriggerMapSelected(index);
+        return true;
+    }
 }

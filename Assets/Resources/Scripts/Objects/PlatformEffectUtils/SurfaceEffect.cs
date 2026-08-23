@@ -49,13 +49,13 @@ public class SurfaceEffect : MonoBehaviour
     private bool isAnimationPlaying = false;
     private HashSet<GameObject> activeEntities = new HashSet<GameObject>();
     private HashSet<GameObject> pendingBounceEntities = new HashSet<GameObject>();
+    private Dictionary<GameObject, Collider2D[]> cachedEntityColliders = new Dictionary<GameObject, Collider2D[]>();
+    private List<GameObject> entitiesToProcess = new List<GameObject>();
     private Collider2D[] myColliders;
 
     private void Start()
     {
         originalScale = transform.localScale;
-
-        // Lấy TẤT CẢ collider của bục nảy (kể cả ở các object con)
         myColliders = GetComponentsInChildren<Collider2D>();
     }
 
@@ -64,6 +64,10 @@ public class SurfaceEffect : MonoBehaviour
         if (IsValidEntity(collision.gameObject))
         {
             activeEntities.Add(collision.gameObject);
+            if (!cachedEntityColliders.ContainsKey(collision.gameObject))
+            {
+                cachedEntityColliders[collision.gameObject] = collision.gameObject.GetComponentsInChildren<Collider2D>();
+            }
 
             // Kích hoạt ngay lập tức nếu là AutoLaunchPad
             if (currentEffect == EffectType.AutoLaunchPad)
@@ -77,33 +81,52 @@ public class SurfaceEffect : MonoBehaviour
         }
     }
 
+    private void OnEnable()
+    {
+        InputManager.OnJumpDown += RecordJumpBuffer;
+    }
+
+    private void OnDisable()
+    {
+        InputManager.OnJumpDown -= RecordJumpBuffer;
+
+        if (isAnimationPlaying)
+        {
+            StopAllCoroutines();
+            transform.localScale = originalScale;
+            isAnimationPlaying = false;
+        }
+    }
+
+    private void RecordJumpBuffer()
+    {
+        lastJumpPressTime = Time.time;
+    }
+
     private void OnCollisionExit2D(Collision2D collision)
     {
         if (IsValidEntity(collision.gameObject))
         {
             activeEntities.Remove(collision.gameObject);
+            cachedEntityColliders.Remove(collision.gameObject);
         }
     }
 
     private void Update()
     {
-        // 1. LIÊN TỤC GHI NHẬN JUMP BUFFER (Bấm phím lúc nào cũng ghi nhớ lại)
-        // Lấy Input giống hệt với PlayerController của bạn (Space hoặc Chuột trái/Touch)
-        if (Input.GetButtonDown("Jump") || Input.GetMouseButtonDown(0))
-        {
-            lastJumpPressTime = Time.time;
-        }
-
-        // 2. NẾU KHÔNG CÓ AI TRÊN BỤC THÌ DỪNG XỬ LÝ
+        // 1. NẾU KHÔNG CÓ AI TRÊN BỤC THÌ DỪNG XỬ LÝ
         if (activeEntities.Count == 0) return;
 
-        List<GameObject> entitiesToProcess = new List<GameObject>(activeEntities);
+        entitiesToProcess.Clear();
+        entitiesToProcess.AddRange(activeEntities);
 
-        foreach (GameObject entity in entitiesToProcess)
+        for (int i = 0; i < entitiesToProcess.Count; i++)
         {
+            GameObject entity = entitiesToProcess[i];
             if (entity == null)
             {
                 activeEntities.Remove(entity);
+                cachedEntityColliders.Remove(entity);
                 continue;
             }
 
@@ -128,22 +151,22 @@ public class SurfaceEffect : MonoBehaviour
         bool shouldBounce = false;
         bool isBot = false;
 
-        if (entity.CompareTag("Player"))
+        if (entity.CompareTag(GameConstants.TAG_PLAYER))
         {
-            // ĐIỀU KIỆN 1: Người chơi đang giữ lỳ phím Nhảy lúc chạm bục (Rất dễ)
-            bool isHoldingJump = Input.GetButton("Jump") || Input.GetMouseButton(0);
+            // ĐIỀU KIỆN 1: Người chơi đang giữ phím Nhảy lúc chạm bục (InputManager / Touch / Mouse)
+            bool isHoldingJump = InputManager.IsJumpHolding;
 
-            // ĐIỀU KIỆN 2: Người chơi vừa bấm Nhảy đâu đó trong khoảng 0.2s trước khi chạm bục (Jump Buffer)
+            // ĐIỀU KIỆN 2: Người chơi vừa bấm Nhảy trong khoảng buffer time (Jump Buffer)
             bool isBufferedJump = (Time.time - lastJumpPressTime) <= jumpBufferTime;
 
             // Chỉ cần thỏa mãn 1 trong 2 điều kiện là được nảy
             if (isHoldingJump || isBufferedJump)
             {
                 shouldBounce = true;
-                lastJumpPressTime = -100f; // Reset buffer ngay lập tức để tránh nảy đúp 2 lần liên tục
+                lastJumpPressTime = -100f; // Reset buffer ngay lập tức để tránh nảy đúp
             }
         }
-        else if (entity.CompareTag("Bot"))
+        else if (entity.CompareTag(GameConstants.TAG_BOT))
         {
             Rigidbody2D rb = entity.GetComponent<Rigidbody2D>();
 #if UNITY_6000_0_OR_NEWER
@@ -230,25 +253,29 @@ public class SurfaceEffect : MonoBehaviour
     {
         if (myColliders == null || myColliders.Length == 0) return false;
 
-        // 1. TÍNH TOÁN TỔNG KHỐI CỦA NHÂN VẬT (Hỗ trợ Đa Collider cho Player/Bot)
-        Collider2D[] entityCols = entity.GetComponentsInChildren<Collider2D>();
-        if (entityCols.Length == 0) return false;
+        // 1. TÍNH TOÁN TỔNG KHỐI CỦA NHÂN VẬT TỪ CACHE
+        if (!cachedEntityColliders.TryGetValue(entity, out Collider2D[] entityCols) || entityCols == null || entityCols.Length == 0)
+        {
+            entityCols = entity.GetComponentsInChildren<Collider2D>();
+            cachedEntityColliders[entity] = entityCols;
+            if (entityCols.Length == 0) return false;
+        }
 
         Bounds entityBounds = entityCols[0].bounds;
         for (int i = 1; i < entityCols.Length; i++)
         {
-            if (!entityCols[i].isTrigger) entityBounds.Encapsulate(entityCols[i].bounds);
+            if (entityCols[i] != null && !entityCols[i].isTrigger) entityBounds.Encapsulate(entityCols[i].bounds);
         }
 
-        // 2. TÍNH TOÁN TỔNG KHỐI CỦA BỤC NẢY (Hỗ trợ Đa Collider cho Surface)
+        // 2. TÍNH TOÁN TỔNG KHỐI CỦA BỤC NẢY
         Bounds surfaceBounds = myColliders[0].bounds;
         for (int i = 1; i < myColliders.Length; i++)
         {
-            if (!myColliders[i].isTrigger) surfaceBounds.Encapsulate(myColliders[i].bounds);
+            if (myColliders[i] != null && !myColliders[i].isTrigger) surfaceBounds.Encapsulate(myColliders[i].bounds);
         }
 
         // 3. So sánh: Điểm thấp nhất của cụm nhân vật (gót chân) phải lớn hơn hoặc bằng 1/5 của cụm bục
-        float checkBoundY = surfaceBounds.min.y + (surfaceBounds.size.y) / 5;
+        float checkBoundY = surfaceBounds.min.y + (surfaceBounds.size.y) / 5f;
 
         return entityBounds.min.y >= checkBoundY;
     }
@@ -283,15 +310,5 @@ public class SurfaceEffect : MonoBehaviour
         }
         transform.localScale = originalScale;
         isAnimationPlaying = false;
-    }
-
-    private void OnDisable()
-    {
-        if (isAnimationPlaying)
-        {
-            StopAllCoroutines();
-            transform.localScale = originalScale;
-            isAnimationPlaying = false;
-        }
     }
 }

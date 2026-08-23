@@ -1,64 +1,57 @@
-﻿using UnityEngine;
-using UnityEngine.SceneManagement;
-using DG.Tweening; // Bắt buộc
+using UnityEngine;
+using DG.Tweening;
 
 public enum ItemType
 {
     CoinItem,
-    DoubleXPItem,
-    // Có thể thêm các loại vật phẩm khác ở đây
+    DoubleXPItem
 }
 
 public class Collectible : MonoBehaviour
 {
     [Header("Item Settings")]
     public ItemType type;
-    public int scoreValue = 10; // Giá trị mặc định
+    public int scoreValue = 10;
 
-    // --- HÀM MỚI: Dùng để nạp dữ liệu từ MapGenerator ---
+    private bool isCollected = false;
+
     public void Init(int value)
     {
         this.scoreValue = value;
     }
 
-    private bool isCollected = false;
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (isCollected) return;
 
-        if (collision.CompareTag("Player"))
+        if (collision.CompareTag(GameConstants.TAG_PLAYER))
         {
-            AudioManager.Instance.PlaySFX("CollectItem");
-
             isCollected = true;
-            GetComponent<Collider2D>().enabled = false;
+            Collider2D col = GetComponent<Collider2D>();
+            if (col != null) col.enabled = false;
 
-            // Xử lý cộng điểm
-            switch (type)
+            if (AudioManager.Instance != null)
             {
-                case ItemType.CoinItem: // Hoặc Coin
-                    GameStatsController.Instance.CollectCoinItem(scoreValue);
-                    break;
+                AudioManager.Instance.PlaySFX("CollectItem");
             }
 
+            if (type == ItemType.CoinItem && GameStatsController.Instance != null)
+            {
+                GameStatsController.Instance.CollectCoinItem(scoreValue);
+            }
 
-            // Hiệu ứng biến mất
-            transform.DOScale(Vector3.zero, 0.3f).SetEase(Ease.InBack).OnComplete(() => Destroy(gameObject));
+            transform.DOKill();
+            transform.DOScale(Vector3.zero, 0.25f).SetEase(Ease.InBack).OnComplete(() => Destroy(gameObject));
         }
-
-        if (collision.CompareTag("Bot")||collision.CompareTag("Obstacle")||collision.CompareTag("MiniPlatform"))
+        else if (collision.CompareTag(GameConstants.TAG_BOT) || collision.CompareTag("Obstacle") || collision.CompareTag("MiniPlatform"))
         {
-            AudioManager.Instance.PlaySFX("CollectItem");
+            isCollected = true;
+            Collider2D col = GetComponent<Collider2D>();
+            if (col != null) col.enabled = false;
 
-
-            transform.DOScale(Vector3.zero, 0.3f).SetEase(Ease.InBack).OnComplete(() => Destroy(gameObject));
+            transform.DOKill();
+            transform.DOScale(Vector3.zero, 0.2f).SetEase(Ease.InBack).OnComplete(() => Destroy(gameObject));
         }
-    }
-
-    private void OnTriggerStay2D(Collider2D collision)
-    {
-        Destroy(gameObject);
     }
 
     private void OnDisable()
@@ -70,5 +63,4 @@ public class Collectible : MonoBehaviour
     {
         transform.DOKill();
     }
-
 }

@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 public class GameStatsController : MonoBehaviour
 {
@@ -33,42 +33,59 @@ public class GameStatsController : MonoBehaviour
     {
         if (!isGameActive) return;
 
-        if (ReferenceManager.Instance.PlayerTransform != null)
+        if (ReferenceManager.Instance != null && ReferenceManager.Instance.PlayerRigidbody != null)
         {
-            // Dùng linearVelocityX (Unity 6) hoặc velocity.x tùy phiên bản
-            resultDistance += ReferenceManager.Instance.PlayerRigidbody.linearVelocity.x * Time.deltaTime;
+#if UNITY_6000_0_OR_NEWER
+            float velX = ReferenceManager.Instance.PlayerRigidbody.linearVelocity.x;
+#else
+            float velX = ReferenceManager.Instance.PlayerRigidbody.velocity.x;
+#endif
+            if (velX > 0f)
+            {
+                resultDistance += velX * Time.deltaTime;
+            }
         }
-        HUDController.Instance.UpdateHUD(resultDistance, resultCoin);
+
+        // Bắn event cập nhật số liệu
+        GameEvents.TriggerStatsUpdated(resultDistance, resultCoin);
+
+        // Fallback trực tiếp
+        if (HUDController.Instance != null)
+        {
+            HUDController.Instance.UpdateHUD(resultDistance, resultCoin);
+        }
     }
 
     public void CollectCoinItem(int amount = 1)
     {
         resultCoin += amount;
-        resultRank += amount;
+        GameEvents.TriggerStatsUpdated(resultDistance, resultCoin);
     }
 
     public void HitObstacleBoss(int minAmount, int maxAmount)
     {
         resultCoin = Mathf.Max(0, resultCoin - Random.Range(minAmount, maxAmount + 1));
+        GameEvents.TriggerStatsUpdated(resultDistance, resultCoin);
     }
 
     public void StartMap()
     {
         resultDistance = 0f;
         resultCoin = 0;
-        resultRank = RankingManager.Instance.CurrentRank;
+        resultRank = (RankingManager.Instance != null) ? RankingManager.Instance.CurrentRank : 1;
         isGameActive = true;
+        GameEvents.TriggerStatsUpdated(resultDistance, resultCoin);
     }
 
-    // --- SỬA HÀM NÀY ---
     public void FinishLevel()
     {
         isGameActive = false;
-        resultRank = RankingManager.Instance.CurrentRank;
+        resultRank = (RankingManager.Instance != null) ? RankingManager.Instance.CurrentRank : 1;
 
-        // Tính số sao
+        // Tính số sao (Float calculation)
         int starsEarned = 0;
-        float resultScores = (resultDistance + (resultCoin * (Mathf.Max(0.8f, resultRank / 10))));
+        float rankMultiplier = Mathf.Max(0.8f, (float)resultRank / 10f);
+        float resultScores = (resultDistance + (resultCoin * rankMultiplier)) * scoreMultiplier;
 
         if (resultScores >= fiveStarScore) starsEarned = 5;
         else if (resultScores >= fourStarScore) starsEarned = 4;
@@ -76,13 +93,16 @@ public class GameStatsController : MonoBehaviour
         else if (resultScores >= twoStarScore) starsEarned = 2;
         else if (resultScores >= oneStarScore) starsEarned = 1;
 
-        Debug.Log($"Kết thúc! Rank: {resultRank} - Sao: {starsEarned}");
+        Debug.Log($"[GameStatsController] Finish! Rank: {resultRank} - Score: {resultScores:F1} - Stars: {starsEarned}");
 
+        // Bắn event kết thúc màn
+        GameEvents.TriggerLevelFinished(starsEarned, resultDistance, (int)resultScores, resultRank);
 
-        // GỌI HUD VỚI ĐẦY ĐỦ THAM SỐ
-        HUDController.Instance.ShowResult(starsEarned, resultDistance, (int)resultScores, resultRank);
+        if (HUDController.Instance != null)
+        {
+            HUDController.Instance.ShowResult(starsEarned, resultDistance, (int)resultScores, resultRank);
+        }
 
-        // Dừng game
         Time.timeScale = 0f;
     }
 }

@@ -1,4 +1,4 @@
-﻿using DG.Tweening;
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic; // List
 using Unity.Cinemachine;
@@ -46,8 +46,11 @@ public class BossManager : MonoBehaviour
     private Tween idleTween;
     private Tween zoomTween;
 
+    private Camera _cachedCam;
+
     private void Start()
     {
+        _cachedCam = Camera.main;
         if (vCam != null) baseViewport = vCam.Lens.OrthographicSize;
     }
 
@@ -55,36 +58,45 @@ public class BossManager : MonoBehaviour
     {
         if (bossVisualTransform != null)
         {
-            Camera cam = Camera.main;
-            Vector3 targetWorldPos = cam.ViewportToWorldPoint(new Vector3(currentViewportPos.x, currentViewportPos.y, bossDepth));
+            if (_cachedCam == null) _cachedCam = Camera.main;
+            if (_cachedCam == null) return;
+
+            Vector3 targetWorldPos = _cachedCam.ViewportToWorldPoint(new Vector3(currentViewportPos.x, currentViewportPos.y, bossDepth));
 
             bossVisualTransform.position = Vector3.SmoothDamp(
                 bossVisualTransform.position,
                 targetWorldPos,
                 ref currentVelocity,
                 positionDamping
-                );
+            );
         }
     }
 
-    // Hàm gọi Boss (có thể truyền index hoặc loại Boss vào đây)
-    public void StartBossFight(int bossIndex = 0)
+    public void StartBossFight(int bossIndex = -1)
     {
         if (isFighting) return;
 
-        // 1. Load dữ liệu Boss
-        if (bossIndex < 0 || bossIndex >= allBosses.Count)
+        if (allBosses == null || allBosses.Count == 0)
         {
-            Debug.LogError("Boss Index không hợp lệ! Load boss mặc định 0");
-            currentBossData = allBosses[0];
+            Debug.LogError("[BossManager] allBosses list is empty! Cannot start boss fight.");
+            return;
+        }
+
+        // 1. Load dữ liệu Boss
+        if (bossIndex >= 0 && bossIndex < allBosses.Count)
+        {
+            currentBossData = allBosses[bossIndex];
         }
         else
         {
             currentBossData = allBosses[Random.Range(0, allBosses.Count)];
         }
 
-        // Nạp dữ liệu cho Class Controll
-
+        if (currentBossData == null)
+        {
+            Debug.LogError("[BossManager] Selected BossData is null!");
+            return;
+        }
 
         // 2. Setup Visual
         if (bossSpriteRenderer != null)
@@ -97,7 +109,10 @@ public class BossManager : MonoBehaviour
             bossAnimator.runtimeAnimatorController = currentBossData.bossAnimation;
         }
 
-        bossVisualTransform.gameObject.SetActive(true);
+        if (bossVisualTransform != null)
+        {
+            bossVisualTransform.gameObject.SetActive(true);
+        }
 
         // 3. Zoom & Enter Sequence
         HandleCameraZoom(zoomViewport);
@@ -112,51 +127,35 @@ public class BossManager : MonoBehaviour
             .OnComplete(() =>
             {
                 isFighting = true;
-                //StartBossIdleMotion();
                 StartCoroutine(CombatLoop());
             });
     }
-
-    //private void StartBossIdleMotion()
-    //{
-    //    // Loop bay qua bay lại
-    //    idleTween = DOTween.To(() => currentViewportPos.x, x => currentViewportPos.x = x, 0.7f, 2f)
-    //        .SetEase(Ease.InOutSine)
-    //        .OnComplete(() =>
-    //        {
-    //            idleTween = DOTween.To(() => currentViewportPos.x, x => currentViewportPos.x = x, 0.3f, 4f)
-    //                .SetEase(Ease.InOutSine)
-    //                .SetLoops(-1, LoopType.Yoyo);
-    //        });
-    //}
 
     private IEnumerator CombatLoop()
     {
         while (isFighting)
         {
-            // 1. Chọn random 1 chiêu trong list skill của boss
-            ProjectiesControl.AttackPattern selectedPattern = GetRandomPatternFromData();
+            if (projectiesControl != null)
+            {
+                ProjectiesControl.AttackPattern selectedPattern = GetRandomPatternFromData();
+                projectiesControl.ExecuteAttack(selectedPattern);
+            }
 
-            // 2. Tung chiêu
-            projectiesControl.ExecuteAttack(selectedPattern);
-
-            // 3. Countdown skill
-            float waitTime = Random.Range(currentBossData.minAttackInterval, currentBossData.maxAttackInterval);
+            float minInterval = (currentBossData != null) ? currentBossData.minAttackInterval : 1.5f;
+            float maxInterval = (currentBossData != null) ? currentBossData.maxAttackInterval : 3.0f;
+            float waitTime = Random.Range(minInterval, maxInterval);
             yield return new WaitForSeconds(waitTime);
         }
     }
 
     private ProjectiesControl.AttackPattern GetRandomPatternFromData()
     {
-        if (currentBossData == null || currentBossData.availablePatterns.Count == 0)
+        if (currentBossData == null || currentBossData.availablePatterns == null || currentBossData.availablePatterns.Count == 0)
         {
-            // Fallback nếu quên config data
             return ProjectiesControl.AttackPattern.RainDown_AllAtOnce;
         }
 
         int randIndex = Random.Range(0, currentBossData.availablePatterns.Count);
-
-        //Debug.Log("Skill: " + currentBossData.availablePatterns[randIndex]);  
         return currentBossData.availablePatterns[randIndex];
     }
 
@@ -177,6 +176,17 @@ public class BossManager : MonoBehaviour
 
         DOTween.To(() => currentViewportPos, x => currentViewportPos = x, new Vector3(0.5f, 3f, 0f), 2f)
             .SetEase(Ease.InBack)
-            .OnComplete(() => bossVisualTransform.gameObject.SetActive(false));
+            .OnComplete(() =>
+            {
+                if (bossVisualTransform != null)
+                    bossVisualTransform.gameObject.SetActive(false);
+            });
+    }
+
+    private void OnDestroy()
+    {
+        StopAllCoroutines();
+        idleTween?.Kill();
+        zoomTween?.Kill();
     }
 }

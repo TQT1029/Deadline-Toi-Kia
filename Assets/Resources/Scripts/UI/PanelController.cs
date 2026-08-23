@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.UI;
 
 /// <summary>
@@ -16,13 +16,23 @@ public class PanelController : MonoBehaviour
 
     private void Start()
     {
-        // Tự động tìm reference từ UIManager nếu chưa kéo thả
-        if (UIManager.Instance == null) return;
+        // 1. Tự tìm trong Canvas cục bộ trước (Decoupled local resolution)
+        if (settingPanel == null)
+            settingPanel = transform.Find("SettingPanel")?.gameObject ?? transform.parent?.Find("SettingPanel")?.gameObject;
 
-        if (settingPanel == null) settingPanel = UIManager.Instance.SettingPanel;
+        if (charactersPage == null)
+            charactersPage = transform.Find("CharactersPage")?.gameObject ?? transform.parent?.Find("CharactersPage")?.gameObject;
 
-        if (charactersPage == null) charactersPage = UIManager.Instance.CharactersPage;
-        if (mapsPage == null) mapsPage = UIManager.Instance.MapsPage;
+        if (mapsPage == null)
+            mapsPage = transform.Find("MapsPage")?.gameObject ?? transform.parent?.Find("MapsPage")?.gameObject;
+
+        // 2. Fallback sang UIManager nếu chưa tìm thấy
+        if (UIManager.Instance != null)
+        {
+            if (settingPanel == null) settingPanel = UIManager.Instance.SettingPanel;
+            if (charactersPage == null) charactersPage = UIManager.Instance.CharactersPage;
+            if (mapsPage == null) mapsPage = UIManager.Instance.MapsPage;
+        }
     }
 
     // --- Panel Logic ---
@@ -35,7 +45,7 @@ public class PanelController : MonoBehaviour
         panel.SetActive(isOpen);
 
         // Pause time khi mở panel popup (trừ khi đang ở main menu)
-        if (GameManager.Instance && GameManager.Instance.CurrentState != GameState.Menu)
+        if (GameManager.Instance != null && GameManager.Instance.CurrentState != GameState.Menu)
         {
             Time.timeScale = isOpen ? 0f : 1f;
         }

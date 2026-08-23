@@ -1481,9 +1481,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd3de125cbe61004a98c2dd0b3ae9bea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  serializedDistanceText: {fileID: 0}
+  serializedCoinText: {fileID: 0}
+  serializedXpScoreText: {fileID: 0}
+  serializedRankTitleText: {fileID: 0}
+  serializedRankDetailText: {fileID: 0}
   rankUpColor: {r: 0, g: 1, b: 0, a: 1}
   rankDownColor: {r: 1, g: 0, b: 0, a: 1}
   blinkDuration: 0.5
+  serializedResultPanel: {fileID: 0}
+  serializedStars: []
+  serializedAnimatorObj1: {fileID: 0}
+  serializedAnimatorObj2: {fileID: 0}
+  serializedResultDistanceText: {fileID: 0}
+  serializedResultXPScoreText: {fileID: 0}
+  serializedResultRankText: {fileID: 0}
 --- !u!4 &728820888
 Transform:
   m_ObjectHideFlags: 0

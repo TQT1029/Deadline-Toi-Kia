@@ -19,6 +19,8 @@ public class BaseGenerator : MonoBehaviour
 
     private float currentSegmentLength = 0f;
 
+    public float PitChanceMultiplier { get; set; } = 1.0f;
+
     public enum SegmentType { Ground, Pit }
 
     public struct GenerationResult
@@ -26,21 +28,49 @@ public class BaseGenerator : MonoBehaviour
         public SegmentType type;
         public float startX;
         public float endX;
-        public float segmentLenght;
+        public float segmentLength;
+    }
+
+    public void ApplyConfig(MapProfile profile)
+    {
+        if (profile == null) return;
+
+        if (profile.baseLibrary != null && profile.baseLibrary.Count > 0)
+        {
+            baseLibrary = profile.baseLibrary;
+        }
+
+        if (profile.minGroundSegmentLength > 0) minGroundSegmentLength = profile.minGroundSegmentLength;
+        if (profile.maxGroundSegmentLength > 0) maxGroundSegmentLength = profile.maxGroundSegmentLength;
+        if (profile.minPitWidth > 0) minPitWidth = profile.minPitWidth;
+        if (profile.maxPitWidth > 0) maxPitWidth = profile.maxPitWidth;
+    }
+
+    public void Prewarm(int countPerPrefab = 3)
+    {
+        if (baseLibrary == null) return;
+        foreach (var data in baseLibrary)
+        {
+            if (data != null && data.prefab != null)
+            {
+                GameObjectPool.Prewarm(data.prefab, countPerPrefab, basePlatformObjs);
+            }
+        }
     }
 
     public GenerationResult SpawnNextSegment(float currentX)
     {
-        bool configHasPit = MapGlobalConfig.Instance.hasPit;
-        int configPitChance = MapGlobalConfig.Instance.pitChance;
+        bool configHasPit = MapGlobalConfig.Instance != null && MapGlobalConfig.Instance.hasPit;
+        int rawPitChance = MapGlobalConfig.Instance != null ? MapGlobalConfig.Instance.pitChance : 0;
+        int effectivePitChance = Mathf.RoundToInt(rawPitChance * PitChanceMultiplier);
 
-        // Nếu config cấm hố, tạo đất luôn
-        if (!configHasPit) return GenerateGround(currentX);
+        // Nếu config cấm hố hoặc tỉ lệ hố = 0, tạo đất luôn
+        if (!configHasPit || effectivePitChance <= 0) return GenerateGround(currentX);
 
         bool forcePit = currentSegmentLength > maxGroundSegmentLength;
         bool canPit = currentSegmentLength > minGroundSegmentLength;
 
-        if (forcePit || (canPit && RandomUtils.ChancePercent(configPitChance)))
+        if (forcePit || (canPit && RandomUtils.ChancePercent(effectivePitChance)))
         {
             return GeneratePit(currentX);
         }
@@ -64,13 +94,25 @@ public class BaseGenerator : MonoBehaviour
             type = SegmentType.Pit,
             startX = currentX,
             endX = endX,
-            segmentLenght = currentSegmentLength,
+            segmentLength = pitWidth,
         };
     }
 
     private GenerationResult GenerateGround(float currentX)
     {
-        float groundY = MapGlobalConfig.Instance.groundY;
+        float groundY = (MapGlobalConfig.Instance != null) ? MapGlobalConfig.Instance.groundY : -5f;
+
+        if (baseLibrary == null || baseLibrary.Count == 0)
+        {
+            Debug.LogError("[BaseGenerator] baseLibrary is empty!");
+            return new GenerationResult
+            {
+                type = SegmentType.Ground,
+                startX = currentX,
+                endX = currentX + 20f,
+                segmentLength = 20f
+            };
+        }
 
         // Lấy data ngẫu nhiên
         BasePlatformData data = baseLibrary[Random.Range(0, baseLibrary.Count)];
@@ -78,35 +120,29 @@ public class BaseGenerator : MonoBehaviour
         // Lấy length dự kiến từ config/data
         float length = data.GetLength();
 
-        // [LOGIC CHÍNH XÁC]: Pivot thường ở tâm (Center), nên vị trí đặt = currentX + nửa chiều dài
+        // Pivot ở tâm (Center), nên vị trí đặt = currentX + nửa chiều dài
         Vector3 spawnPos = new Vector3(currentX + length / 2f, groundY, 0);
 
-        GameObject obj = Instantiate(data.prefab, spawnPos, Quaternion.identity, basePlatformObjs);
+        // [OPTIMIZED POOLING] Tái sử dụng GameObject từ Pool thay vì Instantiate
+        GameObject obj = GameObjectPool.Get(data.prefab, spawnPos, Quaternion.identity, basePlatformObjs);
 
-        // [AUTO CORRECTION]: Kiểm tra lại bằng Collider thực tế để đảm bảo không bị hở map
-        // Nếu file ảnh dài hơn collider hoặc ngược lại, ta tin vào Collider để tính va chạm
+        // Kiểm tra lại bằng Collider thực tế để đảm bảo không bị hở map
         float actualLen = length;
         var col = obj.GetComponent<BoxCollider2D>();
 
         if (col != null)
         {
-            // Tính length thực tế dựa trên scale
             actualLen = col.size.x * obj.transform.localScale.x;
 
-            // Nếu có sự chênh lệch lớn giữa config và thực tế, ta cần chỉnh lại vị trí obj
-            // để mép trái của nó trùng khít với currentX
             if (Mathf.Abs(actualLen - length) > 0.05f)
             {
-                // Dời vị trí sao cho mép trái (min X) = currentX
-                // CenterX = MinX + HalfLength
                 float correctedX = currentX + actualLen / 2f;
                 obj.transform.position = new Vector3(correctedX, groundY, 0);
             }
         }
 
-        // Điểm kết thúc của segment này (chính là điểm bắt đầu của segment sau)
+        // Điểm kết thúc của segment này
         float endX = currentX + actualLen;
-
         currentSegmentLength += actualLen;
 
         return new GenerationResult
@@ -114,7 +150,7 @@ public class BaseGenerator : MonoBehaviour
             type = SegmentType.Ground,
             startX = currentX,
             endX = endX,
-            segmentLenght = currentSegmentLength,
+            segmentLength = actualLen,
         };
     }
 }

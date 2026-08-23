@@ -107,7 +107,7 @@ namespace ParallaxEngine
 
             if (targetSubject == null)
             {
-                GameObject player = GameObject.FindGameObjectWithTag("Player");
+                GameObject player = GameObject.FindGameObjectWithTag(GameConstants.TAG_PLAYER);
                 if (player != null) targetSubject = player.transform;
             }
 
@@ -195,7 +195,16 @@ namespace ParallaxEngine
 #if UNITY_EDITOR
         private void OnValidate()
         {
-            if (autoSortOnValidate && !Application.isPlaying) SortLayersDepth();
+            if (autoSortOnValidate && !Application.isPlaying)
+            {
+                UnityEditor.EditorApplication.delayCall += () =>
+                {
+                    if (this != null && autoSortOnValidate && !Application.isPlaying)
+                    {
+                        SortLayersDepth();
+                    }
+                };
+            }
         }
 
         [ContextMenu("Auto Sort Z-Depth")]
@@ -205,7 +214,7 @@ namespace ParallaxEngine
             Transform target = targetSubject;
             if (target == null)
             {
-                GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
+                GameObject playerObj = GameObject.FindGameObjectWithTag(GameConstants.TAG_PLAYER);
                 if (playerObj != null) target = playerObj.transform;
             }
 

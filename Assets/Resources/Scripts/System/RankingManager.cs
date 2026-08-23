@@ -1,79 +1,121 @@
-﻿using UnityEngine;
 using System.Collections.Generic;
-using System.Linq;
+using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class RankingManager : Singleton<RankingManager>
 {
-    // Danh sách chứa Transform của tất cả vận động viên (Player + Bots)
-    private List<Transform> _racers = new List<Transform>();
+    private List<Transform> _botTransforms = new List<Transform>();
     private Transform _playerTransform;
 
-    // Cache giá trị để HUD đọc
     public int CurrentRank { get; private set; } = 1;
     public int TotalRacers { get; private set; } = 1;
 
-    // Cờ kiểm tra xem đã khởi tạo xong chưa
-    private bool _isInitialized = false;
+    private bool _isInGameplayScene = false;
 
-    private void Start()
+    private void OnEnable()
     {
-        InitializeRacers();
+        SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
-    // Hàm này public để các script khác (như Spawner) có thể gọi thủ công nếu cần
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        string sName = scene.name;
+        if (sName == GameConstants.SCENE_MAIN_MENU || sName == GameConstants.SCENE_SELECTION)
+        {
+            _isInGameplayScene = false;
+            _playerTransform = null;
+            _botTransforms.Clear();
+            CurrentRank = 1;
+            TotalRacers = 1;
+        }
+        else
+        {
+            _isInGameplayScene = true;
+            InitializeRacers();
+        }
+    }
+
     public void InitializeRacers()
     {
-        _racers.Clear();
+        _botTransforms.Clear();
+        _playerTransform = null;
 
         // 1. Tìm Player
         GameObject playerObj = GameObject.FindGameObjectWithTag(GameConstants.TAG_PLAYER);
         if (playerObj != null)
         {
             _playerTransform = playerObj.transform;
-            _racers.Add(_playerTransform);
         }
 
         // 2. Tìm tất cả Bots
         GameObject[] bots = GameObject.FindGameObjectsWithTag(GameConstants.TAG_BOT);
-        foreach (var bot in bots)
+        if (bots != null)
         {
-            _racers.Add(bot.transform);
+            for (int i = 0; i < bots.Length; i++)
+            {
+                if (bots[i] != null) _botTransforms.Add(bots[i].transform);
+            }
         }
 
-        // Chỉ coi là đã khởi tạo thành công nếu tìm thấy Player
-        if (_playerTransform != null)
-        {
-            _isInitialized = true;
-            TotalRacers = _racers.Count;
-            Debug.Log($"RankingManager: Đã tìm thấy {_racers.Count} racers (Có Player).");
-        }
+        TotalRacers = (_playerTransform != null ? 1 : 0) + _botTransforms.Count;
+        CurrentRank = 1;
     }
+
     private void Update()
     {
-        // CƠ CHẾ TỰ SỬA LỖI:
-        // Nếu chưa khởi tạo thành công (chưa thấy Player), hãy thử tìm lại liên tục
-        if (!_isInitialized || _playerTransform == null)
-        {
-            InitializeRacers();
+        if (!_isInGameplayScene) return;
 
-            // Nếu vẫn chưa tìm thấy sau khi thử lại -> Dừng update frame này
+        if (_playerTransform == null)
+        {
+            // Thử tìm lại 1 lần nếu chưa có
+            GameObject playerObj = GameObject.FindGameObjectWithTag(GameConstants.TAG_PLAYER);
+            if (playerObj != null) _playerTransform = playerObj.transform;
             if (_playerTransform == null) return;
         }
 
         CalculateRanking();
     }
+
+    private int _lastRank = -1;
+    private int _lastTotalRacers = -1;
+
     private void CalculateRanking()
     {
-        // Loại bỏ các object đã bị hủy (nếu Bot bị rơi xuống vực chết)
-        _racers.RemoveAll(item => item == null);
-        TotalRacers = _racers.Count;
+        if (_playerTransform == null) return;
 
-        // Sắp xếp danh sách: Ai có X lớn hơn thì đứng trước (Giảm dần)
-        _racers.Sort((a, b) => b.position.x.CompareTo(a.position.x));
+        float playerX = _playerTransform.position.x;
+        int rank = 1;
+        int activeRacers = 1;
 
-        // Tìm vị trí của Player trong danh sách đã sắp xếp
-        // Index bắt đầu từ 0 nên Rank phải +1
-        int playerIndex = _racers.IndexOf(_playerTransform);
-        CurrentRank = playerIndex + 1;
+        for (int i = _botTransforms.Count - 1; i >= 0; i--)
+        {
+            Transform bot = _botTransforms[i];
+            if (bot == null)
+            {
+                _botTransforms.RemoveAt(i);
+                continue;
+            }
+
+            activeRacers++;
+            if (bot.position.x > playerX)
+            {
+                rank++;
+            }
+        }
+
+        CurrentRank = rank;
+        TotalRacers = activeRacers;
+
+        if (CurrentRank != _lastRank || TotalRacers != _lastTotalRacers)
+        {
+            _lastRank = CurrentRank;
+            _lastTotalRacers = TotalRacers;
+            GameEvents.TriggerRankingUpdated(CurrentRank, TotalRacers);
+        }
     }
 }

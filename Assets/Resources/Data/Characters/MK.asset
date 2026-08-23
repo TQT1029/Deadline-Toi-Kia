@@ -15,7 +15,7 @@ MonoBehaviour:
   characterName: MK
   characterDescription: 
   skinVariants:
-  - {fileID: 8607950385922526889, guid: 26a503a1ce03ae149a1c5211bfd8c22c, type: 3}
+  - {fileID: 8607950385922526889, guid: a1b67cdcf5bcc704884655ac4a8d71c9, type: 3}
   previewAction: {fileID: 9100000, guid: 9ba12f2386864eb44b82ee07d960ba3b, type: 2}
   endAnimation: {fileID: 9100000, guid: 823d9c52d7460de42a6054cc72eb9c72, type: 2}
   checklistImage: {fileID: 5041133611706424559, guid: e8ac0a08e4f36184b986fcd53791c637, type: 3}

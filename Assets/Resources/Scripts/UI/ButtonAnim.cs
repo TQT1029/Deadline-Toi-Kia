@@ -1,9 +1,6 @@
-﻿using DG.Tweening;
-using System.Linq.Expressions;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using static RandomUtils;
+using DG.Tweening;
 
 public class ButtonAnim : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
@@ -13,17 +10,17 @@ public class ButtonAnim : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     [SerializeField] private Ease easeType = Ease.OutQuad;
 
     [Header("Audio Settings")]
-    [Tooltip("ID của âm thanh trong AudioManager (VD: 'UI_Click')")]
-    [SerializeField] private string clickDownSoundId = "ButtonClick_"; // ID mặc định
+    [Tooltip("ID của âm thanh trong AudioManager (VD: 'ButtonClick_')")]
+    [SerializeField] private string clickDownSoundId = "ButtonClick_";
+    [SerializeField] private bool randomizeButtonSound = true;
 
     private Vector3 originalScale;
+    private string resolvedSoundId;
 
     private void Awake()
     {
         originalScale = transform.localScale;
-        clickDownSoundId += Random.Range(0,6);
-
-
+        resolvedSoundId = randomizeButtonSound ? $"{clickDownSoundId}{Random.Range(0, 6)}" : clickDownSoundId;
     }
     private void OnEnable() => transform.localScale = originalScale;
     private void OnDisable()
@@ -39,9 +36,9 @@ public class ButtonAnim : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
                  .SetEase(easeType).SetUpdate(true);
 
         // --- THÊM SFX KHI NHẤN ---
-        if (AudioManager.Instance != null && !string.IsNullOrEmpty(clickDownSoundId))
+        if (AudioManager.Instance != null && !string.IsNullOrEmpty(resolvedSoundId))
         {
-            AudioManager.Instance.PlaySFX(clickDownSoundId);
+            AudioManager.Instance.PlaySFX(resolvedSoundId);
         }
     }
 

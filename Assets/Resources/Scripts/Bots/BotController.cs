@@ -1,4 +1,4 @@
-﻿using DG.Tweening;
+using DG.Tweening;
 using UnityEngine;
 
 public class BotController : BaseRunner
@@ -84,15 +84,18 @@ public class BotController : BaseRunner
     {
         base.Start();
 
-
-
         if (targetPlayer == null)
-            targetPlayer = GameObject.FindGameObjectWithTag("Player")?.transform;
+        {
+            if (ReferenceManager.Instance != null && ReferenceManager.Instance.PlayerTransform != null)
+                targetPlayer = ReferenceManager.Instance.PlayerTransform;
+            else
+                targetPlayer = GameObject.FindGameObjectWithTag(GameConstants.TAG_PLAYER)?.transform;
+        }
 
         if (animator == null)
             animator = GetComponent<Animator>();
 
-        if (animator != null)
+        if (animator != null && randomAnimations != null)
         {
             animator.runtimeAnimatorController = randomAnimations.Next();
         }

@@ -26,18 +26,81 @@ public class PitObjectGenerator : MonoBehaviour
     [SerializeField, Min(1.5f)] private float maxHorizontalGap = 1.5f;
     [SerializeField, Min(0.5f)] private float stepGap = 0.5f;
 
+    [Header("Runtime Pacing")]
+    public bool IsGenerationEnabled { get; set; } = true;
+    public float DensityMultiplier { get; set; } = 1.0f;
+
     private float noiseOffsetX;
 
     private void Start()
     {
         noiseOffsetX = Random.Range(0, 10000);
+        InitializeLibraries();
+    }
+
+    private void InitializeLibraries()
+    {
         if (obstacleLibrary != null)
+        {
             foreach (var obs in obstacleLibrary) obs.Initialize();
+        }
+    }
+
+    public void ApplyConfig(MapProfile profile)
+    {
+        if (profile == null) return;
+
+        if (profile.pitObstacleLibrary != null && profile.pitObstacleLibrary.Count > 0)
+        {
+            obstacleLibrary = profile.pitObstacleLibrary;
+        }
+
+        if (profile.pitMiniPlatformLibrary != null && profile.pitMiniPlatformLibrary.Count > 0)
+        {
+            miniPlatformLibrary = profile.pitMiniPlatformLibrary;
+        }
+
+        isSpawnObjectInPit = profile.isSpawnObjectInPit;
+        ratioBridgeToObstacle = profile.ratioBridgeToObstacle;
+        pitWidthNeedObjects = profile.pitWidthNeedObjects;
+        pitEdgePadding = profile.pitEdgePadding;
+        minVerticalGap = profile.minPitVerticalGap;
+        maxVerticalGap = profile.maxPitVerticalGap;
+        minHorizontalGap = profile.minPitHorizontalGap;
+        maxHorizontalGap = profile.maxPitHorizontalGap;
+        stepGap = profile.stepGap;
+
+        InitializeLibraries();
+    }
+
+    public void Prewarm(int countPerPrefab = 3)
+    {
+        if (obstacleLibrary != null)
+        {
+            foreach (var obs in obstacleLibrary)
+            {
+                if (obs != null && obs.prefab != null)
+                {
+                    GameObjectPool.Prewarm(obs.prefab, countPerPrefab, obstacleObjs);
+                }
+            }
+        }
+
+        if (miniPlatformLibrary != null)
+        {
+            foreach (var plat in miniPlatformLibrary)
+            {
+                if (plat != null && plat.prefab != null)
+                {
+                    GameObjectPool.Prewarm(plat.prefab, countPerPrefab, miniPlatformObjs);
+                }
+            }
+        }
     }
 
     public void GenerateObjectsInPit(float startX, float endX)
     {
-        if (!isSpawnObjectInPit) return;
+        if (!isSpawnObjectInPit || !IsGenerationEnabled || DensityMultiplier <= 0f) return;
 
         float pitWidth = endX - startX;
 
@@ -53,7 +116,6 @@ public class PitObjectGenerator : MonoBehaviour
             }
 
             // [FAIL-SAFE]: Kích hoạt nếu CẢ 2 LOẠI đều thất bại (Trường hợp cực hiếm)
-            // Đảm bảo tối thiểu người chơi có một điểm đặt chân để nhảy qua hố
             if (!success)
             {
                 ForceSpawnAbsoluteSmallest(startX, endX);
@@ -84,7 +146,7 @@ public class PitObjectGenerator : MonoBehaviour
                 float availableSpace = currentRightEdge - (startX + pitEdgePadding);
                 MiniPlatformData leftBridge = GetRandomBridge(availableSpace);
 
-                if (leftBridge == null) break; // Hết chỗ nhét
+                if (leftBridge == null) break;
 
                 float len = leftBridge.GetLength();
                 float spawnX = currentRightEdge - (len / 2f);
@@ -100,7 +162,7 @@ public class PitObjectGenerator : MonoBehaviour
                 float availableSpace = (endX - pitEdgePadding) - currentLeftEdge;
                 MiniPlatformData rightBridge = GetRandomBridge(availableSpace);
 
-                if (rightBridge == null) break; // Hết chỗ nhét
+                if (rightBridge == null) break;
 
                 float len = rightBridge.GetLength();
                 float spawnX = currentLeftEdge + (len / 2f);
@@ -157,21 +219,25 @@ public class PitObjectGenerator : MonoBehaviour
     }
     private void SpawnSingleBridge(float xPos, MiniPlatformData data)
     {
-        float groundY = MapGlobalConfig.Instance.groundY;
-        float waveFreq = MapGlobalConfig.Instance.waveFrequency;
+        float groundY = (MapGlobalConfig.Instance != null) ? MapGlobalConfig.Instance.groundY : -5f;
+        float waveFreq = (MapGlobalConfig.Instance != null) ? MapGlobalConfig.Instance.waveFrequency : 0.4f;
 
         // Dùng Perlin Noise dựa theo tọa độ X để cầu nhấp nhô mượt mà
         float waveHeight = RandomUtils.GetPerlinHeight(xPos + noiseOffsetX, waveFreq, minVerticalGap, maxVerticalGap, 0.5f);
 
         Vector3 pos = new Vector3(xPos, groundY + waveHeight, 0);
-        Instantiate(data.prefab, pos, Quaternion.identity, miniPlatformObjs);
+        // [OPTIMIZED POOLING] Lấy cầu từ Pool
+        GameObjectPool.Get(data.prefab, pos, Quaternion.identity, miniPlatformObjs);
     }
 
     private void SpawnSingleObstacle(float xPos, ObstacleData obs)
     {
-        float pitY = obs.useGroundY ? MapGlobalConfig.Instance.groundY : MapGlobalConfig.Instance.pitY;
+        float groundY = (MapGlobalConfig.Instance != null) ? MapGlobalConfig.Instance.groundY : -5f;
+        float pitYDef = (MapGlobalConfig.Instance != null) ? MapGlobalConfig.Instance.pitY : -10f;
+        float pitY = obs.useGroundY ? groundY : pitYDef;
         Vector3 pos = new Vector3(xPos, pitY, 0);
-        Instantiate(obs.prefab, pos, Quaternion.identity, obstacleObjs);
+        // [OPTIMIZED POOLING] Lấy vật cản từ Pool
+        GameObjectPool.Get(obs.prefab, pos, Quaternion.identity, obstacleObjs);
     }
 
     private void ForceSpawnAbsoluteSmallest(float startX, float endX)

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using UnityEngine;
 
 public enum GameState
@@ -34,18 +34,19 @@ public class GameManager : Singleton<GameManager>
         switch (newState)
         {
             case GameState.Menu:
-                AudioManager.Instance.PlayMusic("BGM_Default");
+                if (AudioManager.Instance != null) AudioManager.Instance.PlayMusic("BGM_Default");
                 Time.timeScale = 1f;
                 break;
             case GameState.Playing:
-                GameStatsController.Instance.StartMap();
+                if (GameStatsController.Instance != null) GameStatsController.Instance.StartMap();
+                GameEvents.TriggerLevelStarted();
                 Time.timeScale = 1f;
                 break;
             case GameState.Paused:
                 Time.timeScale = 0f;
                 break;
             case GameState.Victory:
-                GameStatsController.Instance.FinishLevel();
+                if (GameStatsController.Instance != null) GameStatsController.Instance.FinishLevel();
                 Time.timeScale = 0f;
                 break;
 
@@ -56,6 +57,7 @@ public class GameManager : Singleton<GameManager>
 
         Debug.Log($"[GameManager] State: {newState}");
         OnStateChanged?.Invoke(newState);
+        GameEvents.TriggerGameStateChanged(newState);
     }
 
     public void QuitGame()

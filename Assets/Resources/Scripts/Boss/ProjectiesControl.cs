@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -480,28 +480,41 @@ public class ProjectiesControl : MonoBehaviour
         return Mathf.Max(minSafeTimeGap, obstacleHitSize / obstacleSpeed);
     }
 
-    // Trong ProjectiesControl.cs
+    private Camera _cachedMainCam;
+
     private void CreateProjecties(Vector2 startView, Vector2 endView, float speed, float delay, MoveProjecties prefab)
     {
-        MoveProjecties obj = Instantiate(prefab);
-        obj.transform.SetParent(transform);
+        if (prefab == null) return;
 
-        Camera cam = Camera.main;
+        MoveProjecties obj = SimpleObjectPool<MoveProjecties>.Get(prefab, transform);
+        if (obj == null) return;
+
+        if (_cachedMainCam == null) _cachedMainCam = Camera.main;
+        if (_cachedMainCam == null) return;
+
         float zDepth = 10f;
 
-        // Controller chịu trách nhiệm chuyển đổi tọa độ
-        Vector3 startWorld = cam.ViewportToWorldPoint(new Vector3(startView.x, startView.y, zDepth));
-        Vector3 endWorld = cam.ViewportToWorldPoint(new Vector3(endView.x, endView.y, zDepth));
+        Vector3 startWorld = _cachedMainCam.ViewportToWorldPoint(new Vector3(startView.x, startView.y, zDepth));
+        Vector3 endWorld = _cachedMainCam.ViewportToWorldPoint(new Vector3(endView.x, endView.y, zDepth));
 
         startWorld.z = 0;
         endWorld.z = 0;
 
-        // Truyền tọa độ World vào script MoveProjecties mới
         obj.Initialize(startWorld, endWorld, speed, baseRotateSpeed, delay);
+    }
+
+    private void OnDestroy()
+    {
+        SimpleObjectPool<MoveProjecties>.Clear();
     }
         
     private MoveProjecties GetProjecties()
     {
+        if (BossManager.currentBossData == null || BossManager.currentBossData.projectiesObstacle == null || BossManager.currentBossData.projectiesObstacle.Count == 0)
+        {
+            return null;
+        }
+
         var projectilesList = BossManager.currentBossData.projectiesObstacle;
         int randomIndex = Random.Range(0, projectilesList.Count);
         return projectilesList[randomIndex];

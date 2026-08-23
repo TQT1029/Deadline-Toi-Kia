@@ -15,7 +15,7 @@ MonoBehaviour:
   characterName: HQ
   characterDescription: 
   skinVariants:
-  - {fileID: 1336200906323390844, guid: ebe7482c6b31e3142848f0b092ee1fd1, type: 3}
+  - {fileID: 1336200906323390844, guid: 35e4163abd06f874988a126a6c049dd0, type: 3}
   previewAction: {fileID: 9100000, guid: e7635c39179de8345b8462ab81974df0, type: 2}
   endAnimation: {fileID: 9100000, guid: 88cf5d960a1966c47ab6e9f365946d9a, type: 2}
   checklistImage: {fileID: -2673498809610610117, guid: 93fb1e64c963cb5408d2efcfcbce7881, type: 3}

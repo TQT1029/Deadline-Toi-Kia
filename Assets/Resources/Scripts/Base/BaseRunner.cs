@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D), typeof(CapsuleCollider2D), typeof(SpriteRenderer))]
@@ -49,33 +49,38 @@ public class BaseRunner : MonoBehaviour
 
     protected virtual void Awake()
     {
-        if (startPoint == null) startPoint = GameObject.FindGameObjectWithTag("SpawnPoint")?.transform;
+        if (startPoint == null)
+        {
+            var spawnObj = GameObject.FindGameObjectWithTag(GameConstants.TAG_SPAWNPOINT);
+            if (spawnObj != null) startPoint = spawnObj.transform;
+        }
         _rb = GetComponent<Rigidbody2D>();
         _collider = GetComponent<CapsuleCollider2D>();
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _animator = GetComponent<Animator>();
 
         lastKnockbackTime = -knockbackCooldown;
-
         currentSpeed = baseRunSpeed + floatShuffleBag.Next();
-
     }
 
     protected virtual void Start()
     {
-        //UpdateColliderSize();
-        transform.position = startPoint.position;
-
-
+        if (startPoint != null)
+        {
+            transform.position = startPoint.position;
+        }
     }
+
     protected virtual void Update()
     {
-        if (isGrounded && !isControlLocked && !isRespawning && transform.position.y >= MapGlobalConfig.Instance.groundY)
+        float minGroundY = (MapGlobalConfig.Instance != null) ? MapGlobalConfig.Instance.groundY : -5f;
+        if (isGrounded && !isControlLocked && !isRespawning && transform.position.y >= minGroundY)
         {
             respawnPosition = new Vector2(transform.position.x - 3f, transform.position.y + 3f);
             fallCount = 0;
         }
     }
+
     protected virtual void FixedUpdate()
     {
         CheckGround();
@@ -141,18 +146,21 @@ public class BaseRunner : MonoBehaviour
 #endif
         _rb.AddForce(dir * force, ForceMode2D.Impulse);
 
-        // if (_animator) _animator.SetTrigger("isHit"); 
-
-        // 3. Chờ hết thời gian choáng (Animation choáng)
+        // 3. Chờ hết thời gian choáng
         yield return new WaitForSeconds(duration);
 
-        // 4. MỚI: Chờ cho đến khi chạm đất
-        // WaitUntil sẽ check mỗi frame, nếu isGrounded == true thì mới chạy tiếp
-        yield return new WaitUntil(() => isGrounded);
+        // 4. Chờ chạm đất với timeout tối đa 1.5s để chống kẹt vĩnh viễn
+        float maxGroundedWait = 1.5f;
+        float waited = 0f;
+        while (!isGrounded && waited < maxGroundedWait)
+        {
+            waited += Time.deltaTime;
+            yield return null;
+        }
 
         // 5. Khôi phục di chuyển
         isControlLocked = false;
-        currentSpeed = baseRunSpeed * 0.8f;
+        currentSpeed = baseRunSpeed;
     }
 
     // --- LOGIC KIỂM TRA ---
@@ -164,17 +172,20 @@ public class BaseRunner : MonoBehaviour
         }
     }
 
-
     protected virtual void CheckStuck()
     {
-        // Không check kẹt khi đang bị knockback (vì lúc đó vận tốc có thể = 0 do va chạm)
+        // Không check kẹt khi đang bị knockback
         if (isControlLocked)
         {
             stuckTimer = 0f;
             return;
         }
 
+#if UNITY_6000_0_OR_NEWER
         float vX = _rb.linearVelocity.x;
+#else
+        float vX = _rb.velocity.x;
+#endif
 
         if (Mathf.Abs(vX) < 0.1f && currentSpeed > 1f)
         {
@@ -195,7 +206,11 @@ public class BaseRunner : MonoBehaviour
 
         fallCount++;
         // Ngừng gia tốc rơi trước khi dịch chuyển
+#if UNITY_6000_0_OR_NEWER
         _rb.linearVelocity = Vector2.zero;
+#else
+        _rb.velocity = Vector2.zero;
+#endif
 
         // Dịch chuyển nhân vật ngay lập tức về vị trí an toàn
         RespawnFromPit();
@@ -214,16 +229,16 @@ public class BaseRunner : MonoBehaviour
 
     protected virtual void OnRespawn()
     {
-        // để tránh việc nhân vật hồi sinh xong vẫn đứng đơ ra chờ chạm đất
-        StopAllCoroutines();
-
         // Reset trạng thái 
         isControlLocked = false;
         isRespawning = false;
 
-        _rb.linearVelocity = Vector2.zero; // Sửa lại thành zero cho an toàn
-
-        currentSpeed = baseRunSpeed * 0.75f;
+#if UNITY_6000_0_OR_NEWER
+        _rb.linearVelocity = Vector2.zero;
+#else
+        _rb.velocity = Vector2.zero;
+#endif
+        currentSpeed = baseRunSpeed;
         stuckTimer = 0f;
     }
 

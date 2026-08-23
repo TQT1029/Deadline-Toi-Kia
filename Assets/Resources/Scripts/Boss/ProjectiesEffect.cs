@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 public class ProjectiesEffect : MonoBehaviour
 {
@@ -25,9 +25,12 @@ public class ProjectiesEffect : MonoBehaviour
                 runner.ApplyKnockback(direction.normalized, force, stunDuration);
             }
 
-            if (collision.CompareTag("Player"))
+            if (collision.CompareTag(GameConstants.TAG_PLAYER))
             {
-                GameStatsController.Instance.HitObstacleBoss(minAmountCoin, maxAmountCoin);
+                if (GameStatsController.Instance != null)
+                {
+                    GameStatsController.Instance.HitObstacleBoss(minAmountCoin, maxAmountCoin);
+                }
                 if (hitEffectPrefab != null)
                 {
                     Instantiate(hitEffectPrefab, collision.transform.position, Quaternion.identity, collision.transform);

@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 public class MoveProjecties : MonoBehaviour
 {
@@ -11,34 +11,81 @@ public class MoveProjecties : MonoBehaviour
     // Thời gian tối đa tồn tại (để tránh rác bộ nhớ nếu vật bay ra khỏi màn hình quá xa)
     private float maxLifetime = 3f;
 
-    /// <summary>
-    /// Khởi tạo vật thể với logic Vector.
-    /// Lưu ý: Đầu vào nên là World Position (đã được convert ở Controller) để tối ưu.
-    /// </summary>
+    private void Awake()
+    {
+        rb = GetComponent<Rigidbody2D>();
+    }
+
+    private Coroutine moveCoroutine;
+
     public void Initialize(Vector3 startWorldPos, Vector3 targetWorldPos, float speed, float rotateSpeed, float delayTime)
     {
-        rb = GetComponent<Rigidbody2D>(); // Nên cache ở Awake nếu pool object
+        if (rb == null) rb = GetComponent<Rigidbody2D>();
         transform.position = startWorldPos;
 
         moveDirection = (targetWorldPos - startWorldPos).normalized;
         moveSpeed = speed;
         currentRotateSpeed = rotateSpeed;
 
-        StartCoroutine(StartMovingProcess(delayTime));
+        if (moveCoroutine != null) StopCoroutine(moveCoroutine);
+        moveCoroutine = StartCoroutine(StartMovingProcess(delayTime));
     }
 
     private System.Collections.IEnumerator StartMovingProcess(float delay)
     {
         if (delay > 0) yield return new WaitForSeconds(delay);
 
-        gameObject.SetActive(true);
+        if (rb != null)
+        {
+#if UNITY_6000_0_OR_NEWER
+            rb.linearVelocity = moveDirection * moveSpeed;
+#else
+            rb.velocity = moveDirection * moveSpeed;
+#endif
+            rb.angularVelocity = currentRotateSpeed * 360f;
+        }
 
-        // Dùng linearVelocity và angularVelocity của Unity Physics
-        rb.linearVelocity = moveDirection * moveSpeed;
+        yield return new WaitForSeconds(maxLifetime);
+        ReturnToPool();
+    }
 
-        // Code cũ: xoay 360 độ trong (1/rotateSpeed) giây -> Tương đương rotateSpeed vòng/giây
-        rb.angularVelocity = currentRotateSpeed * 360f;
+    public void ReturnToPool()
+    {
+        if (moveCoroutine != null)
+        {
+            StopCoroutine(moveCoroutine);
+            moveCoroutine = null;
+        }
 
-        Destroy(gameObject, maxLifetime);
+        if (rb != null)
+        {
+#if UNITY_6000_0_OR_NEWER
+            rb.linearVelocity = Vector2.zero;
+#else
+            rb.velocity = Vector2.zero;
+#endif
+            rb.angularVelocity = 0f;
+        }
+
+        SimpleObjectPool<MoveProjecties>.Return(this);
+    }
+
+    private void OnDisable()
+    {
+        if (moveCoroutine != null)
+        {
+            StopCoroutine(moveCoroutine);
+            moveCoroutine = null;
+        }
+
+        if (rb != null)
+        {
+#if UNITY_6000_0_OR_NEWER
+            rb.linearVelocity = Vector2.zero;
+#else
+            rb.velocity = Vector2.zero;
+#endif
+            rb.angularVelocity = 0f;
+        }
     }
 }

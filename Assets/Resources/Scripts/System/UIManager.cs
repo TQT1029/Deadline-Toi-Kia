@@ -1,4 +1,4 @@
-﻿using TMPro;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -62,12 +62,16 @@ public class UIManager : Singleton<UIManager>
     {
         string sName = scene.name;
 
-        // Reset references tùy theo Scene
+        // 1. Reset references tùy theo Scene
         if (sName == GameConstants.SCENE_MAIN_MENU)
         {
             MainMenuPanel = FindObj("MainMenuPanel");
             SettingPanel = FindObj("SettingPanel");
-            GameManager.Instance.ChangeState(GameState.Menu);
+
+            if (GameManager.Instance != null)
+                GameManager.Instance.ChangeState(GameState.Menu);
+            else
+                HandleStateChanged(GameState.Menu);
         }
         else if (sName == GameConstants.SCENE_SELECTION)
         {
@@ -75,52 +79,92 @@ public class UIManager : Singleton<UIManager>
             CharactersPage = FindObj("CharactersPage");
             MapsPage = FindObj("MapsPage");
 
-            GameObject prevObj = GameObject.Find("CharacterPreview");
+            GameObject prevObj = FindObj("CharacterPreview");
             if (prevObj) characterPreview = prevObj.GetComponent<Animator>();
 
-            var checkObj = GameObject.Find("Checklist");
+            var checkObj = FindObj("Checklist");
             if (checkObj) characterChecklist = checkObj.GetComponent<Image>();
 
             // Mặc định chọn nhân vật đầu tiên nếu chưa có
-            if (ReferenceManager.Instance.CurrentSelectedProfile == null)
+            if (ReferenceManager.Instance != null && ReferenceManager.Instance.CurrentSelectedProfile == null)
                 SelectCharacterByIndex(0);
+
+            HideAllPanels();
         }
         else
         {
             // Playing Scenes
             SettingPanel = FindObj("SettingPanel");
 
-            MainInfo = FindObj("MainInfo")?.GetComponent<Image>();
+            var mainInfoObj = FindObj("MainInfo");
+            if (mainInfoObj != null) MainInfo = mainInfoObj.GetComponent<Image>();
 
-            DistanceText = FindObj("DistanceText")?.GetComponent<TMP_Text>();
-            CoinText = FindObj("CoinText")?.GetComponent<TMP_Text>();
-            XPScoreText = FindObj("XPScoreText")?.GetComponent<TMP_Text>();
+            var distObj = FindObj("DistanceText");
+            if (distObj != null) DistanceText = distObj.GetComponent<TMP_Text>();
 
-            RankTitleText = FindObj("RankingTitleText")?.GetComponent<TMP_Text>();
-            RankDetailText = FindObj("RankingDetailText")?.GetComponent<TMP_Text>();
+            var coinObj = FindObj("CoinText");
+            if (coinObj != null) CoinText = coinObj.GetComponent<TMP_Text>();
+
+            var xpObj = FindObj("XPScoreText");
+            if (xpObj != null) XPScoreText = xpObj.GetComponent<TMP_Text>();
+
+            var rankTitleObj = FindObj("RankingTitleText");
+            if (rankTitleObj != null) RankTitleText = rankTitleObj.GetComponent<TMP_Text>();
+
+            var rankDetailObj = FindObj("RankingDetailText");
+            if (rankDetailObj != null) RankDetailText = rankDetailObj.GetComponent<TMP_Text>();
 
             ResultPanel = FindObj("ResultPanel");
 
-            Stars[0] = ResultPanel.transform.Find("ResultZone/Stars/1")?.gameObject;
-            Stars[1] = ResultPanel.transform.Find("ResultZone/Stars/2")?.gameObject;
-            Stars[2] = ResultPanel.transform.Find("ResultZone/Stars/3")?.gameObject;
-            Stars[3] = ResultPanel.transform.Find("ResultZone/Stars/4")?.gameObject;
-            Stars[4] = ResultPanel.transform.Find("ResultZone/Stars/5")?.gameObject;
+            if (ResultPanel != null)
+            {
+                Stars[0] = ResultPanel.transform.Find("ResultZone/Stars/1")?.gameObject;
+                Stars[1] = ResultPanel.transform.Find("ResultZone/Stars/2")?.gameObject;
+                Stars[2] = ResultPanel.transform.Find("ResultZone/Stars/3")?.gameObject;
+                Stars[3] = ResultPanel.transform.Find("ResultZone/Stars/4")?.gameObject;
+                Stars[4] = ResultPanel.transform.Find("ResultZone/Stars/5")?.gameObject;
 
-            AnimatorObj1 = FindObj("BGObj1")?.GetComponent<Animator>();
-            AnimatorObj2 = FindObj("BGObj2")?.GetComponent<Animator>();
+                ResultDistanceText = ResultPanel.transform.Find("ResultZone/ResultDistance")?.GetComponent<TMP_Text>();
+                ResultXPScoreText = ResultPanel.transform.Find("ResultZone/ResultXPScore")?.GetComponent<TMP_Text>();
+                ResultRankText = ResultPanel.transform.Find("ResultZone/ResultRank")?.GetComponent<TMP_Text>();
+            }
 
-            ResultDistanceText = ResultPanel.transform.Find("ResultZone/ResultDistance")?.GetComponent<TMP_Text>();
-            ResultXPScoreText = ResultPanel.transform.Find("ResultZone/ResultXPScore")?.GetComponent<TMP_Text>();
-            ResultRankText = ResultPanel.transform.Find("ResultZone/ResultRank")?.GetComponent<TMP_Text>();
+            var bg1 = FindObj("BGObj1");
+            if (bg1 != null) AnimatorObj1 = bg1.GetComponent<Animator>();
 
-            GameManager.Instance.ChangeState(GameState.Playing);
+            var bg2 = FindObj("BGObj2");
+            if (bg2 != null) AnimatorObj2 = bg2.GetComponent<Animator>();
+
+            if (GameManager.Instance != null)
+                GameManager.Instance.ChangeState(GameState.Playing);
+            else
+                HandleStateChanged(GameState.Playing);
         }
-
-        HideAllPanels();
     }
 
-    private GameObject FindObj(string name) => GameObject.Find(name);
+    private GameObject FindObj(string name)
+    {
+        // 1. Thử tìm nhanh object active
+        GameObject obj = GameObject.Find(name);
+        if (obj != null) return obj;
+
+        // 2. Tìm sâu trong tất cả Canvas (kể cả khi object đang bị inactive/tắt)
+        Canvas[] canvases = Object.FindObjectsByType<Canvas>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+        foreach (var canvas in canvases)
+        {
+            if (canvas == null) continue;
+            var allTransforms = canvas.GetComponentsInChildren<Transform>(true);
+            for (int i = 0; i < allTransforms.Length; i++)
+            {
+                if (allTransforms[i] != null && allTransforms[i].name == name)
+                {
+                    return allTransforms[i].gameObject;
+                }
+            }
+        }
+
+        return null;
+    }
 
     private void HandleStateChanged(GameState newState)
     {
@@ -145,9 +189,8 @@ public class UIManager : Singleton<UIManager>
     private void HideAllPanels()
     {
         // Ẩn tất cả an toàn (Null check)
-        if (MainMenuPanel) MainMenuPanel.SetActive(true);
+        if (MainMenuPanel) MainMenuPanel.SetActive(false);
         if (SettingPanel) SettingPanel.SetActive(false);
-
         if (ResultPanel) ResultPanel.SetActive(false);
 
         // Page Selection xử lý riêng
@@ -160,36 +203,46 @@ public class UIManager : Singleton<UIManager>
 
     public void SelectCharacterByIndex(int index)
     {
+        if (ReferenceManager.Instance == null) return;
         var lib = ReferenceManager.Instance.AllCharacters;
 
-        Debug.Log(lib);
         if (lib == null || index < 0 || index >= lib.Length) return;
 
         var profile = lib[index];
         ReferenceManager.Instance.CurrentSelectedProfile = profile;
         UpdatePreviewUI(profile);
+        GameEvents.TriggerCharacterSelected(profile);
 
         Debug.Log($"[UIManager] Update Preview: {profile.name}");
-
     }
 
     private void UpdatePreviewUI(CharacterProfile data)
     {
-        // 1. Xử lý ANIMATOR cho nhân vật chính
-        if (characterPreview != null && data.previewAction != null)
+        if (data == null) return;
+
+        // 1. Tự tìm lại nếu chưa có reference
+        if (characterPreview == null)
         {
-            // Gán Animator Controller mới
-            characterPreview.runtimeAnimatorController = data.previewAction;
-
-            // Reset lại Animator về trạng thái đầu (tránh bị kẹt ở animation cũ)
-            characterPreview.Rebind();
-            characterPreview.Update(0f);
-
-
+            var prevObj = FindObj("CharacterPreview");
+            if (prevObj != null) characterPreview = prevObj.GetComponent<Animator>();
         }
 
-        // 2. Xử lý check list (icon nhỏ)
-        if (characterChecklist && data.checklistImage)
+        if (characterChecklist == null)
+        {
+            var checkObj = FindObj("Checklist");
+            if (checkObj != null) characterChecklist = checkObj.GetComponent<Image>();
+        }
+
+        // 2. Xử lý ANIMATOR cho nhân vật chính
+        if (characterPreview != null && data.previewAction != null)
+        {
+            characterPreview.runtimeAnimatorController = data.previewAction;
+            characterPreview.Rebind();
+            characterPreview.Update(0f);
+        }
+
+        // 3. Xử lý check list (icon nhỏ)
+        if (characterChecklist != null && data.checklistImage != null)
         {
             characterChecklist.sprite = data.checklistImage;
             characterChecklist.SetNativeSize();
@@ -198,10 +251,12 @@ public class UIManager : Singleton<UIManager>
 
     public void SelectMapByIndex(int index)
     {
+        if (ReferenceManager.Instance == null) return;
         var lib = ReferenceManager.Instance.AllMaps;
         if (lib == null || index < 0 || index >= lib.Length) return;
 
         ReferenceManager.Instance.CurrentSelectedMap = lib[index];
+        GameEvents.TriggerMapSelected(index);
         Debug.Log($"[UIManager] Map Selected: {lib[index].mapName}");
     }
 }

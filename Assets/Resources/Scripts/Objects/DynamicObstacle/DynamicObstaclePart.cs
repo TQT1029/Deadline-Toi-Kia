@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using DG.Tweening;
 
 namespace ProObstacleEngine
@@ -19,11 +19,13 @@ namespace ProObstacleEngine
         private bool _isCached = false;
 
         private Renderer _renderer;
+        private SpriteRenderer _spriteRenderer;
 
         private void Awake()
         {
             CacheInitialTransform();
             _renderer = GetComponent<Renderer>();
+            _spriteRenderer = GetComponent<SpriteRenderer>();
         }
 
         /// <summary>
@@ -40,7 +42,7 @@ namespace ProObstacleEngine
 
         public void StartMove(Vector3 offset, float duration, Ease easeType, float delay, LoopType loopType)
         {
-            transform.localPosition = _startLocalPos; // Reset về gốc trước khi chạy
+            transform.localPosition = _startLocalPos;
             _moveTween = transform.DOLocalMove(_startLocalPos + offset, duration)
                 .SetEase(easeType)
                 .SetLoops(-1, loopType)
@@ -63,7 +65,6 @@ namespace ProObstacleEngine
 
             if (continuousSpin)
             {
-                // SetRelative(true) giúp nó cứ thế cộng dồn góc xoay mượt mà mãi mãi
                 _rotateTween = transform.DOLocalRotate(rotationAngles, duration, RotateMode.FastBeyond360)
                     .SetRelative(true)
                     .SetEase(Ease.Linear)
@@ -72,24 +73,12 @@ namespace ProObstacleEngine
             }
             else if (symmetricRotation)
             {
-                // Lắc lư đối xứng kiểu Con Lắc (Pendulum Swing)
-                // Phải dùng Sequence để kết hợp 3 nhịp: 
-                // 1. Đi từ giữa (0) ra góc (+)
-                // 2. Đi từ góc (+) sang hẳn góc (-)
-                // 3. Trở về giữa (0)
                 Sequence seq = DOTween.Sequence();
-
-                // Nhịp 1: Xoay ra biên dương (mất nửa thời gian)
                 seq.Append(transform.DOLocalRotate(initialRotation + rotationAngles, duration / 2f).SetEase(easeType));
-
-                // Nhịp 2: Xoay từ biên dương vút qua biên âm (mất nguyên thời gian)
                 seq.Append(transform.DOLocalRotate(initialRotation - rotationAngles, duration).SetEase(easeType));
-
-                // Nhịp 3: Trở lại điểm chính giữa (mất nửa thời gian)
                 seq.Append(transform.DOLocalRotate(initialRotation, duration / 2f).SetEase(easeType));
-
                 seq.SetDelay(delay);
-                seq.SetLoops(-1, LoopType.Restart); // Loop Restart vì Sequence đã tự đi thành 1 vòng tròn khép kín
+                seq.SetLoops(-1, LoopType.Restart);
 
                 _rotateTween = seq;
             }
@@ -104,19 +93,18 @@ namespace ProObstacleEngine
 
         public void StartColorWait(Color targetColor, float duration, Ease easeType, float delay, LoopType loopType)
         {
-            if (_renderer == null) _renderer = GetComponent<Renderer>();
-            if (_renderer == null) return; // Không có Renderer thì bỏ qua
-
-            _colorTween = _renderer.material.DOColor(targetColor, duration)
-                .SetEase(easeType)
-                .SetLoops(-1, loopType)
-                .SetDelay(delay);
+            if (_spriteRenderer != null)
+            {
+                _colorTween = _spriteRenderer.DOColor(targetColor, duration)
+                    .SetEase(easeType)
+                    .SetLoops(-1, loopType)
+                    .SetDelay(delay);
+            }
         }
 
         public void StartShake(Vector3 strength, float duration, float delay)
         {
             transform.localPosition = _startLocalPos;
-            // Dùng DOShakePosition chuyên dụng của DOTween
             _shakeTween = transform.DOShakePosition(duration, strength, vibrato: 10, randomness: 90)
                 .SetLoops(-1, LoopType.Restart)
                 .SetDelay(delay);
@@ -131,11 +119,7 @@ namespace ProObstacleEngine
             _shakeTween?.Kill();
 
             transform.DOKill();
-
-            if (_renderer != null && _renderer.material != null)
-            {
-                _renderer.material.DOKill();
-            }
+            if (_spriteRenderer != null) _spriteRenderer.DOKill();
         }
 
         private void OnDisable() => StopAllMotions();

@@ -1,9 +1,8 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
-using System.Collections.Generic;
 
-public class MapSelectionUI : MonoBehaviour
+public class MapSelectionController : MonoBehaviour
 {
     [Header("References")]
     public RectTransform mapsContent;
@@ -27,11 +26,10 @@ public class MapSelectionUI : MonoBehaviour
     private void Start()
     {
         InitMaps();
-        leftArrowBtn.onClick.AddListener(NavigateLeft);
-        rightArrowBtn.onClick.AddListener(NavigateRight);
+        if (leftArrowBtn != null) leftArrowBtn.onClick.AddListener(NavigateLeft);
+        if (rightArrowBtn != null) rightArrowBtn.onClick.AddListener(NavigateRight);
 
-        // Nếu có script SceneLoader trên nút GO, có thể không cần add listener ở đây
-        // Nhưng logic chọn map phải được cập nhật
+        // Logic chọn map ban đầu
         UpdateSelection(0, true);
     }
 
@@ -41,7 +39,25 @@ public class MapSelectionUI : MonoBehaviour
         if (totalMaps == 0) Debug.LogError("MapsContent is empty!");
     }
 
-    private void Update() => HandleSwipeInput();
+    private void Update()
+    {
+        HandleSwipeInput();
+        HandleKeyboardInput();
+    }
+
+    private void HandleKeyboardInput()
+    {
+        if (DOTween.IsTweening(mapsContent)) return;
+
+        if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A))
+        {
+            NavigateLeft();
+        }
+        else if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D))
+        {
+            NavigateRight();
+        }
+    }
 
     private void HandleSwipeInput()
     {
@@ -80,20 +96,30 @@ public class MapSelectionUI : MonoBehaviour
         currentIndex = newIndex;
 
         // UI Arrows
-        leftArrowBtn.gameObject.SetActive(currentIndex > 0);
-        rightArrowBtn.gameObject.SetActive(currentIndex < totalMaps - 1);
+        if (leftArrowBtn != null) leftArrowBtn.gameObject.SetActive(currentIndex > 0);
+        if (rightArrowBtn != null) rightArrowBtn.gameObject.SetActive(currentIndex < totalMaps - 1);
 
         // Movement
         float targetX = -(currentIndex * mapSpacing);
-        mapsContent.DOKill();
+        if (mapsContent != null)
+        {
+            mapsContent.DOKill();
+            if (immediate) mapsContent.anchoredPosition = new Vector2(targetX, mapsContent.anchoredPosition.y);
+            else mapsContent.DOAnchorPosX(targetX, moveDuration).SetEase(moveEase);
+        }
 
-        if (immediate) mapsContent.anchoredPosition = new Vector2(targetX, mapsContent.anchoredPosition.y);
-        else mapsContent.DOAnchorPosX(targetX, moveDuration).SetEase(moveEase);
-
-        // Thông báo UIManager
-        if (UIManager.Instance)
+        // Thông báo qua GameEvents & UIManager
+        GameEvents.TriggerMapSelected(currentIndex);
+        if (UIManager.Instance != null)
         {
             UIManager.Instance.SelectMapByIndex(currentIndex);
         }
+    }
+
+    private void OnDestroy()
+    {
+        if (mapsContent != null) mapsContent.DOKill();
+        if (leftArrowBtn != null) leftArrowBtn.onClick.RemoveListener(NavigateLeft);
+        if (rightArrowBtn != null) rightArrowBtn.onClick.RemoveListener(NavigateRight);
     }
 }

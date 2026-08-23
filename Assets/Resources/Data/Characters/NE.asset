@@ -15,7 +15,7 @@ MonoBehaviour:
   characterName: NE
   characterDescription: 
   skinVariants:
-  - {fileID: 1638458196620539021, guid: 75a74a27143bb984083be343c9488be8, type: 3}
+  - {fileID: 1638458196620539021, guid: 20308a63d02873e4db9d36206893754b, type: 3}
   previewAction: {fileID: 9100000, guid: eb909f22bc05e9745ad404c726e4c7f0, type: 2}
   endAnimation: {fileID: 9100000, guid: 15865fbbd3afa484991f65a2774f3fd8, type: 2}
   checklistImage: {fileID: 3589084789329954834, guid: 51684e50abf4c8a4fb8d40ad3826ce7d, type: 3}

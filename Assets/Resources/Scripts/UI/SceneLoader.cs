@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -8,21 +8,34 @@ public class SceneLoader : MonoBehaviour
     {
         // Vào màn chọn tướng
         Time.timeScale = 1f;
-        GameManager.Instance.ChangeState(GameState.Menu);
+        if (GameManager.Instance != null)
+            GameManager.Instance.ChangeState(GameState.Menu);
         SceneManager.LoadScene(GameConstants.SCENE_SELECTION);
     }
 
     public void EnterMap()
     {
         // Vào Playing từ màn chọn map
-        if (ReferenceManager.Instance.CurrentSelectedMap == null)
+        if (ReferenceManager.Instance == null || ReferenceManager.Instance.CurrentSelectedMap == null)
         {
-            Debug.LogError("[SceneLoader] Chưa chọn Map nào!");
-            return;
+            Debug.LogWarning("[SceneLoader] Chưa chọn Map nào, mặc định chọn Map 0!");
+            if (ReferenceManager.Instance != null && ReferenceManager.Instance.AllMaps != null && ReferenceManager.Instance.AllMaps.Length > 0)
+            {
+                ReferenceManager.Instance.SelectMap(0);
+            }
+            else
+            {
+                SceneManager.LoadScene("Map0");
+                return;
+            }
         }
 
         Time.timeScale = 1f;
-        AudioManager.Instance.PlayMusic($"BGM_Map{ReferenceManager.Instance.CurrentSelectedMap.mapIndex}");
+        if (AudioManager.Instance != null && ReferenceManager.Instance.CurrentSelectedMap != null)
+        {
+            AudioManager.Instance.PlayMusic($"BGM_Map{ReferenceManager.Instance.CurrentSelectedMap.mapIndex}");
+        }
+
         string mapScene = ReferenceManager.Instance.CurrentSelectedMap.mapName;
         SceneManager.LoadScene(mapScene);
     }
@@ -30,6 +43,8 @@ public class SceneLoader : MonoBehaviour
     public void ReturnToMainMenu()
     {
         Time.timeScale = 1f;
+        if (GameManager.Instance != null)
+            GameManager.Instance.ChangeState(GameState.Menu);
         SceneManager.LoadScene(GameConstants.SCENE_MAIN_MENU);
     }
 

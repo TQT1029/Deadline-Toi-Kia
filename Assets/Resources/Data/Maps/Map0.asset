@@ -29,8 +29,8 @@ MonoBehaviour:
   waveFrequency: 0.4
   minGroundSegmentLength: 30
   maxGroundSegmentLength: 75
-  minPitWidth: 3
-  maxPitWidth: 6
+  minPitWidth: 6
+  maxPitWidth: 10
   ratioObstacleToAerial: 70
   changeSpawnObstacle: 80
   obstacleEdgePadding: 4
@@ -61,9 +61,69 @@ MonoBehaviour:
   maxGap: 7
   obstacleChanceItems: 70
   platformChanceItems: 70
-  baseLibrary: []
-  obstacleLibrary: []
-  miniPlatformLibrary: []
+  baseLibrary:
+  - id: m0_base_01
+    prefab: {fileID: 2637207856109847199, guid: 40933cece314efa4aad9b9d19957a811, type: 3}
+    spawnWeight: 100
+    manualLength: 0
+  obstacleLibrary:
+  - id: m0_obs_01
+    prefab: {fileID: 355270023171834898, guid: caa7e9f4be0fbe446ad1dc9144001b47, type: 3}
+    manualSize: {x: 0, y: 0}
+    useGroundY: 0
+  - id: m0_obs_02
+    prefab: {fileID: 9042857802708180136, guid: ab274a8ccc9712946a99eeb696f1ca37, type: 3}
+    manualSize: {x: 0, y: 0}
+    useGroundY: 0
+  - id: m0_obs_03
+    prefab: {fileID: 2554239590043448735, guid: 5fe54466db105164dbb8feb7e8513460, type: 3}
+    manualSize: {x: 0, y: 0}
+    useGroundY: 0
+  - id: m0_obs_04
+    prefab: {fileID: 4385737444832534158, guid: 94d2a7b3fb9c48048ba8227c1a2553f3, type: 3}
+    manualSize: {x: 0, y: 0}
+    useGroundY: 0
+  - id: m0_obs_05
+    prefab: {fileID: 3897467062838213673, guid: eaa2738296cf5e8409bfbfc5ee9f05b1, type: 3}
+    manualSize: {x: 0, y: 0}
+    useGroundY: 0
+  - id: m0_obs_06
+    prefab: {fileID: 2040405069819599909, guid: 04c7d33b3d61a974c9cc5de2327223cc, type: 3}
+    manualSize: {x: 0, y: 0}
+    useGroundY: 0
+  - id: m0_obs_07
+    prefab: {fileID: 5562776162181789298, guid: ed0cab811135228419b764f03de08812, type: 3}
+    manualSize: {x: 0, y: 0}
+    useGroundY: 0
+  - id: m0_obs_08
+    prefab: {fileID: 5471999918775353290, guid: 88f7160fff957304e85454e30bfc1387, type: 3}
+    manualSize: {x: 0, y: 0}
+    useGroundY: 0
+  - id: m0_obs_09
+    prefab: {fileID: 5743586752344136981, guid: a0fb8607651507647abab4c672c6219b, type: 3}
+    manualSize: {x: 0, y: 0}
+    useGroundY: 0
+  miniPlatformLibrary:
+  - id: m0_aerial_01
+    prefab: {fileID: 7285385565357996750, guid: fa11e290fb85a114d86f0ae067533772, type: 3}
+    spawnWeight: 0
+    manualLength: 0
+  - id: m0_aerial_01
+    prefab: {fileID: 6740489231906822291, guid: e7492a3c02357a640a4c46e44e1f61d1, type: 3}
+    spawnWeight: 0
+    manualLength: 0
   pitObstacleLibrary: []
   pitMiniPlatformLibrary: []
-  commonItems: []
+  commonItems:
+  - id: item_01
+    prefab: {fileID: 3501825626615947439, guid: 14bb9858d06c3e04c9a47f46ea37fb09, type: 3}
+    scoreValue: 10
+    spawnChance: 100
+  - id: item_02
+    prefab: {fileID: 3501825626615947439, guid: 938ac3824944f37468e6cb0d21478921, type: 3}
+    scoreValue: 100
+    spawnChance: 10
+  - id: item_03
+    prefab: {fileID: 3501825626615947439, guid: af0e73e5ae7b79440929644bd7bd0792, type: 3}
+    scoreValue: 1000
+    spawnChance: 1

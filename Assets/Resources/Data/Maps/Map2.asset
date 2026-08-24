@@ -29,8 +29,8 @@ MonoBehaviour:
   waveFrequency: 0.4
   minGroundSegmentLength: 30
   maxGroundSegmentLength: 75
-  minPitWidth: 3
-  maxPitWidth: 6
+  minPitWidth: 12
+  maxPitWidth: 18
   ratioObstacleToAerial: 70
   changeSpawnObstacle: 80
   obstacleEdgePadding: 4
@@ -66,4 +66,16 @@ MonoBehaviour:
   miniPlatformLibrary: []
   pitObstacleLibrary: []
   pitMiniPlatformLibrary: []
-  commonItems: []
+  commonItems:
+  - id: item_01
+    prefab: {fileID: 3501825626615947439, guid: 14bb9858d06c3e04c9a47f46ea37fb09, type: 3}
+    scoreValue: 10
+    spawnChance: 100
+  - id: item_02
+    prefab: {fileID: 3501825626615947439, guid: 938ac3824944f37468e6cb0d21478921, type: 3}
+    scoreValue: 100
+    spawnChance: 10
+  - id: item_03
+    prefab: {fileID: 3501825626615947439, guid: af0e73e5ae7b79440929644bd7bd0792, type: 3}
+    scoreValue: 1000
+    spawnChance: 1
